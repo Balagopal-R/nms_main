@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../employee_details/employee_details_screen.dart';
+import '../leave_balance/leave_balance.dart';
 
 class NmsDashboardScreen extends StatelessWidget {
   const NmsDashboardScreen({super.key});
@@ -12,7 +11,7 @@ class NmsDashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: InkWell(
             onTap: () {
-              Get.to(const EmployeeDetailsScreen());
+              Get.to(const LeaveBalanceScreen());
             },
             child: const Text('dashBoard')),
       ),
