@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nms/features/basic_details/basic_details.dart';
+
+import '../team_listing/team_listing.dart';
 
 class NmsDashboardScreen extends StatelessWidget {
   const NmsDashboardScreen({super.key});
@@ -11,7 +12,7 @@ class NmsDashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: InkWell(
             onTap: () {
-              Get.to(const BasicDetailsScreen());
+              Get.to(const TeamListingScreen());
             },
             child: const Text('dashBoard')),
       ),

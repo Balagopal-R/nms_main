@@ -4,6 +4,7 @@ import 'package:nms/features/basic_details/basic_details.dart';
 import 'package:nms/features/basic_details/widgets/work_details.dart';
 import 'package:nms/utils/theme/theme.dart';
 
+import '../../widgets/appbar_main_widget.dart';
 import 'widgets/basic_info_card.dart';
 import 'widgets/work_status.dart';
 
@@ -17,12 +18,7 @@ class BasicDetailsScreen extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
             child: Scaffold(
-              appBar: AppBar(
-                surfaceTintColor: Colors.white,
-                title: SizedBox(
-                    width: MediaQuery.of(context).size.width - 140,
-                    child: const Center(child: Text('Basic Detais'))),
-              ),
+              appBar: appbarMain(context,'Basic Details'),
               body: controller.getEmployData != null
                   ? Padding(
                       padding: const EdgeInsets.only(left: 32, right: 32),
