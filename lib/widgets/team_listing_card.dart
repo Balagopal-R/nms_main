@@ -5,9 +5,13 @@ class TeamListingCard extends StatelessWidget {
   const TeamListingCard({
     super.key,
     required this.name,
+    required this.designation,
+    required this.team,
   });
 
   final String name;
+  final String designation;
+  final String team;
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +41,19 @@ class TeamListingCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    subtitle: const Row(
+                    subtitle: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Full Stack Developer',
-                          style: TextStyle(
+                          designation,
+                          style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
                               color: hintColor),
                         ),
                         Text(
-                          'Tech Team',
-                          style: TextStyle(
+                          team,
+                          style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
                               color: hintColor),

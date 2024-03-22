@@ -42,6 +42,8 @@ class TeamListingScreen extends StatelessWidget {
                           itemBuilder: (builder, index) {
                             return const TeamListingCard(
                               name: 'codey Lane',
+                              designation: 'Full Stack Developer',
+                              team:'Tech Team',
                             );
                           }),
                     ),
