@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nms/features/team_listing/team_listing.dart';
+import 'package:nms/features/nms_main_layout/team_listing/team_listing.dart';
 import 'package:nms/widgets/appbar_main_widget.dart';
 import 'package:nms/widgets/search_text_field.dart';
 
-import '../../widgets/team_listing_card.dart';
+import '../../../widgets/team_listing_card.dart';
 
 class TeamListingScreen extends StatelessWidget {
   const TeamListingScreen({super.key});

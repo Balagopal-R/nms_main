@@ -2,6 +2,7 @@ const String appName = 'NMS Chat';
 // const String signUpTitle = 'Let’s get started.';
 // const String logInTitle = 'Welcome!';
 // const String details = 'Details';
+const String resetPassword = 'Reset Password';
 
 //button Text
 

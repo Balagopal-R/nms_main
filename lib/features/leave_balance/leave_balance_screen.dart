@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/widgets/appbar_main_widget.dart';
-
 import '../../utils/utils.dart';
 import 'balances_screen/balances.dart';
 import 'leave_balance.dart';
