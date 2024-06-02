@@ -6,7 +6,7 @@ class PunchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("PunchScreen"),
+      body: Center(child: Text("PunchScreen")),
     );
 
 

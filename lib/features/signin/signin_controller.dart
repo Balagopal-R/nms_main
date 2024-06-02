@@ -185,7 +185,7 @@ class SignInController extends GetxController with SnackbarMixin {
               } else if (retryCount == 0) {
                 showErrorSnackbar(
                   message:
-                      "You have exceeded the total number of attempts. Please Change your password",
+                      "Please visit NxtHR website to reset your password",
                 );
               }
             }
@@ -212,6 +212,7 @@ class SignInController extends GetxController with SnackbarMixin {
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
         final userId = decodedToken["userId"];
+        print("-----------manu,,,$userId");
         final request = GetEmpoyRequest(userId: userId);
         final response =
             await ApiRepository.to.getEmployDetails(request: request);

@@ -22,7 +22,7 @@ class AppTheme {
         headlineMedium: TextStyle(
             fontWeight: FontWeight.w500, fontSize: 20, color: secondaryColor),
         headlineSmall: TextStyle(
-            fontWeight: FontWeight.w500, fontSize: 18, color: secondaryColor),
+            fontWeight: FontWeight.w700, fontSize: 18, color: secondaryColor),
         titleLarge: TextStyle(
             fontWeight: FontWeight.w700, fontSize: 16, color: secondaryColor),
         titleMedium: TextStyle(

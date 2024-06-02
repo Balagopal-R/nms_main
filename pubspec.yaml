@@ -44,6 +44,10 @@ dependencies:
   http: ^1.2.0
   webview_flutter_plus: 0.4.5
   flutter_speed_dial: 7.0.0
+  syncfusion_flutter_charts: 25.2.5
+  popup_menu: 2.0.0
+  carousel_slider: 4.2.1
+  percent_indicator: 4.2.3
   
 
 dev_dependencies:

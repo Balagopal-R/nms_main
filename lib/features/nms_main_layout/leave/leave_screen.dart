@@ -6,7 +6,7 @@ class LeaveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("LeaveScreen"),
+      body: Center(child: Text("LeaveScreen")),
     );
 
 

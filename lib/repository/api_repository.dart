@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nms/dtos/nms_dtos/get_attendance/get_attendance_response.dart';
+import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
+import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_response.dart';
+import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
+import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status_response.dart';
 
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
@@ -16,6 +21,23 @@ abstract class ApiRepository extends GetxController {
   // signin_employ_details
   Future<GetEmployResponse> getEmployDetails(
       {required GetEmpoyRequest request});
+     
+    //  employee_details_average_punch_time
+   Future<GetEmployePunchTimeResponse> getEmployePunchTime(
+      {required GetEmployePunchTimeRequest request});
+      
+      // employe_punch_board
+      Future<PunchStatusResponse> getPunchStatus(
+      {required PunchStatusRequest request});
+
+      //       // employe_attendance
+      // Future<GetEmployeAttendanceResponse> getAttendance(
+      // {required GetEmployeAttendanceRequest request});
+
+  
+}
+
+class GetEmployeAttendanceRequest {
 }
 
 class ApiRepositoryImpl extends GetxController implements ApiRepository {
@@ -52,4 +74,44 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     debugPrint("response $response");
     return GetEmployResponse.fromJson(response);
   }
+
+  @override
+  Future<GetEmployePunchTimeResponse> getEmployePunchTime(
+      {required GetEmployePunchTimeRequest request}) async {
+    final response = await _helper.postWithBody(
+      headers: _headersWithoutToken,
+      endpoint: ApiEndPoints.getEmployeeDashboard,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return GetEmployePunchTimeResponse.fromJson(response);
+  }
+
+  //edit_profile_screen -get user data
+  @override
+  Future<PunchStatusResponse> getPunchStatus(
+      {required PunchStatusRequest request}) async {
+    final response = await _helper.get(
+        endpoint: ApiEndPoints.getPunchStatus, params: request.toMap(),);
+    debugPrint("response $response");
+    return PunchStatusResponse.fromJson(response);
+  }
+
+//  @override
+//   Future<GetEmployeAttendanceResponse> getAttendance(
+//       {required GetEmployeAttendanceRequest request}) async {
+//     final response = await _helper.postWithBody(
+//       headers: _headersWithoutToken,
+//       endpoint: ApiEndPoints.getAttendance,
+//       body: request.toMap(),
+//       params: {},
+//     );
+//     print(response);
+//     return GetEmployeAttendanceResponse.fromJson(response);
+//   }
+
+
+
+  
 }

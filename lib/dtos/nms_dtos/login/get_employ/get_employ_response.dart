@@ -4,7 +4,7 @@ import '../../../../models/login_screen/get_employee_model.dart';
 import '../../../api_response.dart';
 
 class GetEmployResponse extends ApiResponse {
-  GetEmployResponse({message, status, data, errors})
+  GetEmployResponse({message, status, data,errors})
       : super(message: message, status: status, data: data, errors: errors);
 
   factory GetEmployResponse.fromJson(Map<String, dynamic> json) {
