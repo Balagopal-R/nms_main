@@ -29,9 +29,7 @@ class ApiBaseHelper {
       var url = Uri.parse('$_baseUrl$endpoint?$params');
 
       var response = await http.post(url,
-          headers: headers,
-
-          // ?? await JBAuthTokenHeader.to.getAuthTokenHeader(),
+          headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader(),
           body: jsonEncode(body));
 
       responseJson = _returnResponse(response);
@@ -67,7 +65,6 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-
   Future<dynamic> getWithId(
       {required String endpoint,
       required dynamic id,
@@ -77,9 +74,7 @@ class ApiBaseHelper {
       String completeUrl = "";
       completeUrl = '$_baseUrl$endpoint/$id';
       var response = await http.get(Uri.parse(completeUrl),
-          headers: headers 
-          ?? await NMSAuthTokenHeader.to.getAuthTokenHeader()
-          );
+          headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader());
       responseJson = _returnResponse(response);
     } on SocketException {
       throw NoNetworkException();

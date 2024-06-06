@@ -2,60 +2,60 @@
 //
 //     final getBirthdayModel = getBirthdayModelFromJson(jsonString);
 
-import 'dart:convert';
+// import 'dart:convert';
 
-GetBirthdayModel getBirthdayModelFromJson(String str) => GetBirthdayModel.fromJson(json.decode(str));
+// GetBirthdayModel getBirthdayModelFromJson(String str) => GetBirthdayModel.fromJson(json.decode(str));
 
-String getBirthdayModelToJson(GetBirthdayModel data) => json.encode(data.toJson());
+// String getBirthdayModelToJson(GetBirthdayModel data) => json.encode(data.toJson());
+
+// class GetBirthdayModel {
+//     String timestamp;
+//     String requestId;
+//     int status;
+//     String message;
+//     List<Datum> data;
+//     List<dynamic> warnings;
+
+//     GetBirthdayModel({
+//         required this.timestamp,
+//         required this.requestId,
+//         required this.status,
+//         required this.message,
+//         required this.data,
+//         required this.warnings,
+//     });
+
+//     factory GetBirthdayModel.fromJson(Map<String, dynamic> json) => GetBirthdayModel(
+//         timestamp: json["timestamp"],
+//         requestId: json["requestId"],
+//         status: json["status"],
+//         message: json["message"],
+//         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+//         warnings: List<dynamic>.from(json["warnings"].map((x) => x)),
+//     );
+
+//     Map<String, dynamic> toJson() => {
+//         "timestamp": timestamp,
+//         "requestId": requestId,
+//         "status": status,
+//         "message": message,
+//         "data": List<dynamic>.from(data.map((x) => x.toJson())),
+//         "warnings": List<dynamic>.from(warnings.map((x) => x)),
+//     };
+// }
 
 class GetBirthdayModel {
-    String timestamp;
-    String requestId;
-    int status;
-    String message;
-    List<Datum> data;
-    List<dynamic> warnings;
-
-    GetBirthdayModel({
-        required this.timestamp,
-        required this.requestId,
-        required this.status,
-        required this.message,
-        required this.data,
-        required this.warnings,
-    });
-
-    factory GetBirthdayModel.fromJson(Map<String, dynamic> json) => GetBirthdayModel(
-        timestamp: json["timestamp"],
-        requestId: json["requestId"],
-        status: json["status"],
-        message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        warnings: List<dynamic>.from(json["warnings"].map((x) => x)),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "timestamp": timestamp,
-        "requestId": requestId,
-        "status": status,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "warnings": List<dynamic>.from(warnings.map((x) => x)),
-    };
-}
-
-class Datum {
     Employee employee;
     int birthDay;
     int daysToBirthday;
 
-    Datum({
+    GetBirthdayModel({
         required this.employee,
         required this.birthDay,
         required this.daysToBirthday,
     });
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory GetBirthdayModel.fromJson(Map<String, dynamic> json) => GetBirthdayModel(
         employee: Employee.fromJson(json["employee"]),
         birthDay: json["birthDay"],
         daysToBirthday: json["daysToBirthday"],

@@ -1,83 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nms/utils/utils.dart';
 import 'package:nms/widgets/appbar_main_widget.dart';
+
+import 'profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: appbarMain(context, "Profile"),
-
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F1F1),
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              padding: const EdgeInsets.all(16.0),
-              child: const Column(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage('assets/png/person.jpg'),
+    return GetBuilder<ProfileController>(
+      init: ProfileController(),
+      builder: (controller) {
+        return Scaffold(
+          backgroundColor: backgroundColor,
+          appBar: appbarMain(context, "Profile"),
+          body:  controller.getEmployData != null ?
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F1F1),
+                    borderRadius: BorderRadius.circular(4.0),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Ryan Lewis',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),
-                  ),
-                  SizedBox(height: 4),
-                  Text('NE044',
-                  style: TextStyle(color: Color(0xff7A7A7A)),),
-                  SizedBox(height: 4),
-                  Text('ryanlewis@nintrivia.com',
-                  style: TextStyle(color: Color(0xff7A7A7A)),),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
                     children: [
-                      Text('Tech Team',style: TextStyle(color: Color(0xff7A7A7A)),),
-                      SizedBox(width: 4),
-                      Icon(Icons.circle, size: 5, color: Colors.green),
-                      SizedBox(width: 4),
-                      Text('Developer',style: TextStyle(color: Color(0xff7A7A7A)),),
-                      SizedBox(width: 4),
-                      Icon(Icons.circle, size: 5, color: Colors.green),
-                      SizedBox(width: 4),
-                      Text('Joined 2022',style: TextStyle(color: Color(0xff7A7A7A)),),
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage('assets/png/person.jpg'),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),
+                      ),
+                      SizedBox(height: 4),
+                      Text(controller.getEmployData!.employeeCode,
+                      style: TextStyle(color: Color(0xff7A7A7A)),),
+                      SizedBox(height: 4),
+                      Text(controller
+                                  .getEmployData!.personalDetails.personalEmail,
+                      style: TextStyle(color: Color(0xff7A7A7A)),),
+                      SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(controller.getEmployData!.corporateDetails.department.departmentName,style: TextStyle(color: Color(0xff7A7A7A)),),
+                          SizedBox(width: 4),
+                          Icon(Icons.circle, size: 5, color: Colors.green),
+                          SizedBox(width: 4),
+                          Text(controller.getEmployData!.corporateDetails.designation.designationName,style: TextStyle(color: Color(0xff7A7A7A)),),
+                          SizedBox(width: 4),
+                          Icon(Icons.circle, size: 5, color: Colors.green),
+                          SizedBox(width: 4),
+                          Text(controller.getEmployData!.corporateDetails.dateOfFirstJoining.toString(),style: TextStyle(color: Color(0xff7A7A7A)),),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                ProfileButton(
+                  title: 'Basic Details',
+                  onTap: () {
+                   Get.toNamed('/basic_details_screen');
+                  },
+                ),
+                ProfileButton(
+                  title: 'My Documents',
+                  onTap: () {
+                    // Navigate to My Documents page
+                  },
+                ),
+                LogoutButton(
+                  onTap: () {
+                    _showLogoutDialog(context);
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            ProfileButton(
-              title: 'Basic Details',
-              onTap: () {
-                // Navigate to Basic Details page
-              },
-            ),
-            ProfileButton(
-              title: 'My Documents',
-              onTap: () {
-                // Navigate to My Documents page
-              },
-            ),
-            LogoutButton(
-              onTap: () {
-                _showLogoutDialog(context);
-              },
-            ),
-          ],
-        ),
-
-    )
+        
+        ) 
+         : const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    ),
+        );
+      }
     );
   }
 

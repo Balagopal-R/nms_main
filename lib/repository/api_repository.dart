@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nms/dtos/nms_dtos/get_attendance/get_attendance_response.dart';
+import 'package:nms/dtos/nms_dtos/get_attendance/get_attendance_request.dart';
+import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_response.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_response.dart';
+import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
+import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_response.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
-import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status_response.dart';
-
+import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
+import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
 import '../managers/api/api.dart';
@@ -31,13 +34,18 @@ abstract class ApiRepository extends GetxController {
       {required PunchStatusRequest request});
 
       //       // employe_attendance
-      // Future<GetEmployeAttendanceResponse> getAttendance(
-      // {required GetEmployeAttendanceRequest request});
+      Future<GetEmployeAttendanceResponse> getAttendance(
+      {required GetEmployeAttendanceRequest request});
+
+          //  upcoming birthdays
+   Future<GetBirthdayResponse> getEmployeBirthdays(
+      {required GetBirthdayRequest request});
+
+                //  get remaining Leaves
+   Future<GetLeavesResponse> getLeaves(
+      {required GetLeavesRequest request});
 
   
-}
-
-class GetEmployeAttendanceRequest {
 }
 
 class ApiRepositoryImpl extends GetxController implements ApiRepository {
@@ -63,6 +71,8 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return SubmitLoginResponse.fromJson(response);
   }
 
+
+//  full details of the employe
   @override
   Future<GetEmployResponse> getEmployDetails(
       {required GetEmpoyRequest request}) async {
@@ -75,11 +85,12 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return GetEmployResponse.fromJson(response);
   }
 
+
+  //  employe punch time and average time
   @override
   Future<GetEmployePunchTimeResponse> getEmployePunchTime(
       {required GetEmployePunchTimeRequest request}) async {
     final response = await _helper.postWithBody(
-      headers: _headersWithoutToken,
       endpoint: ApiEndPoints.getEmployeeDashboard,
       body: request.toBody(),
       params: {},
@@ -88,29 +99,50 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return GetEmployePunchTimeResponse.fromJson(response);
   }
 
-  //edit_profile_screen -get user data
+  //employe punch status (leave , in , out)
   @override
   Future<PunchStatusResponse> getPunchStatus(
       {required PunchStatusRequest request}) async {
     final response = await _helper.get(
-        endpoint: ApiEndPoints.getPunchStatus, params: request.toMap(),);
+    endpoint: ApiEndPoints.getPunchStatus, 
+    params: request.toMap(),);
     debugPrint("response $response");
     return PunchStatusResponse.fromJson(response);
   }
 
-//  @override
-//   Future<GetEmployeAttendanceResponse> getAttendance(
-//       {required GetEmployeAttendanceRequest request}) async {
-//     final response = await _helper.postWithBody(
-//       headers: _headersWithoutToken,
-//       endpoint: ApiEndPoints.getAttendance,
-//       body: request.toMap(),
-//       params: {},
-//     );
-//     print(response);
-//     return GetEmployeAttendanceResponse.fromJson(response);
-//   }
+    // get employe attendance
+ @override
+  Future<GetEmployeAttendanceResponse> getAttendance(
+      {required GetEmployeAttendanceRequest request}) async {
+    final response = await _helper.get(
+      endpoint: ApiEndPoints.getAttendance,
+      params: request.toMap(),);
+   debugPrint("response $response");
+    return GetEmployeAttendanceResponse.fromJson(response);
+  }
 
+// get employee upcoming birthdays
+  @override
+  Future<GetBirthdayResponse> getEmployeBirthdays(
+      {required GetBirthdayRequest request}) async {
+    final response = await _helper.get(
+        endpoint: ApiEndPoints.getBirthdays, params:{});
+    debugPrint("response $response");
+    return GetBirthdayResponse.fromJson(response);
+  }
+
+   //  remaining employe leave
+  @override
+  Future<GetLeavesResponse> getLeaves(
+      {required GetLeavesRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.getRemainingLeaves,
+      body: request.toBody(),
+      params: request.toMap(),
+    );
+    print(response);
+    return GetLeavesResponse.fromJson(response);
+  }
 
 
   

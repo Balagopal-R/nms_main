@@ -11,9 +11,9 @@ class GetBirthdayResponse extends ApiResponse {
       GetBirthdayResponse(
         message: json["message"],
       status: json["status"],
-        // data: List<PunchStatusModel>.from(
-        //     json["data"].map((x) => PunchStatusModel.fromJson(x))),
+        data: List<GetBirthdayModel>.from(
+            json["data"].map((x) => GetBirthdayModel.fromJson(x))),
 
-            data:json["data"] == null ? null : GetBirthdayModel.fromJson(json["data"]),
+            // data:json["data"] == null ? null : GetBirthdayModel.fromJson(json["data"]),
       );
 }

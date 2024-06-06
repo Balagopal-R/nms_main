@@ -18,6 +18,7 @@ class NMSAuthTokenHeader extends GetxController {
       'Content-Type': 'application/json',
       'org-id': 'nintriva',
       'Authorization': 'Bearer $authToken',
+      'unit-id' : 'default'
     };
 
     return header;

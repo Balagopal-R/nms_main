@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:nms/features/basic_details/basic_details.dart';
 import 'package:nms/features/basic_details/widgets/work_details.dart';
 import 'package:nms/utils/theme/theme.dart';
-
 import '../../widgets/appbar_main_widget.dart';
 import 'widgets/basic_info_card.dart';
 import 'widgets/work_status.dart';
@@ -97,20 +96,14 @@ class BasicDetailsScreen extends StatelessWidget {
                             ),
                             WorkDetailsCard(
                                 salary: controller
-                                    .getEmployData!.corporateDetails.salary
-                                    .toString(),
+                                    .getEmployData!.corporateDetails.ctc.toString(),
                                 project: controller.getEmployData!
                                     .corporateDetails.projects[0].projectName,
-                                buddy: controller
-                                    .getEmployData!
-                                    .corporateDetails
-                                    .buddy
-                                    .personalDetailsBuddy
-                                    .firstname,
+                                buddy: "",
                                 manager: controller
                                     .getEmployData!
                                     .corporateDetails
-                                    .managers[0]
+                                    .managers![0]
                                     .personalDetailsBuddy
                                     .firstname),
                             const SizedBox(
@@ -144,6 +137,8 @@ class BasicDetailsScreen extends StatelessWidget {
                               workMode: controller.getEmployData!
                                       .corporateDetails.workMode ??
                                   'Not Updated',
+                                  shiftTime: "",
+                                  // shiftTime: controller.getEmployData!.corporateDetails.shiftTime,
                             ),
                             const SizedBox(
                               height: 16,

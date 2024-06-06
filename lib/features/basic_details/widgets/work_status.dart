@@ -10,6 +10,7 @@ class WorkStatusCard extends StatelessWidget {
     required this.department,
     required this.officeLocation,
     required this.employmentStatus,
+    required this.shiftTime
   });
 
   final String workMode;
@@ -17,6 +18,7 @@ class WorkStatusCard extends StatelessWidget {
   final String department;
   final String officeLocation;
   final String employmentStatus;
+  final String shiftTime;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,14 @@ class WorkStatusCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [const Text('Employment Status'), Text(employmentStatus)],
+            ),
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 16, top: 16, right: 16,bottom: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [const Text('Shift Time'), Text(shiftTime)],
             ),
           )
         ],

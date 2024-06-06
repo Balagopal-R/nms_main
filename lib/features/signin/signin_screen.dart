@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../constants/app_texts.dart';
@@ -125,8 +126,28 @@ class SignInScreen extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(
-                                height: 16,
+                                height: 2,
                               ),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                   onTap: () {
+                                      Get.offAndToNamed('/reset_password_screen');
+                                    },
+                                    child: const Text('Forgot Password ?',
+                                    style: TextStyle(color: Color(0xff3BBCA0),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(
+                                height: 8,
+                              ),
+
                               CorneredButton(
                                 height: 40,
                                 color: primaryColor,

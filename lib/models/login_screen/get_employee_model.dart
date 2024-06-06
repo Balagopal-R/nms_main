@@ -1,4 +1,5 @@
 class EmployeeData {
+  int id;
   String employeeCode;
   String userId;
   String unitId;
@@ -14,6 +15,7 @@ class EmployeeData {
   dynamic archiveReason;
 
   EmployeeData({
+    required this.id,
     required this.employeeCode,
     required this.userId,
     required this.unitId,
@@ -31,6 +33,7 @@ class EmployeeData {
 
   factory EmployeeData.fromJson(Map<String, dynamic> json) {
     return EmployeeData(
+      id: json["id"],
       employeeCode: json['employeeCode'],
       userId: json['userId'],
       unitId: json['unitId'],
@@ -51,15 +54,15 @@ class EmployeeData {
 class PersonalDetails {
   String firstname;
   String lastname;
-  int dateOfBirth;
-  String gender;
+  int? dateOfBirth;
+  String? gender;
   String personalMobileNumber;
   String personalEmail;
-  String residentialAddress;
-  String bloodGroup;
+  String? residentialAddress;
+  String? bloodGroup;
   String emergencyContact;
-  String bankAccountNumber;
-  String bankName;
+  String? bankAccountNumber;
+  String? bankName;
   dynamic ifscCode;
   dynamic panNumber;
   dynamic aadhaarNumber;
@@ -70,15 +73,15 @@ class PersonalDetails {
   PersonalDetails({
     required this.firstname,
     required this.lastname,
-    required this.dateOfBirth,
-    required this.gender,
+    this.dateOfBirth,
+    this.gender,
     required this.personalMobileNumber,
     required this.personalEmail,
-    required this.residentialAddress,
-    required this.bloodGroup,
+    this.residentialAddress,
+    this.bloodGroup,
     required this.emergencyContact,
-    required this.bankAccountNumber,
-    required this.bankName,
+    this.bankAccountNumber,
+    this.bankName,
     this.ifscCode,
     this.panNumber,
     this.aadhaarNumber,
@@ -177,42 +180,42 @@ class CorporateDetails {
   String workMobileNumber;
   String workEmail;
   int dateOfFirstJoining;
-  int joiningDate;
+  int? joiningDate;
   dynamic employmentType;
   Designation designation;
   Department department;
   dynamic officeLocation;
   dynamic employmentStatus;
   int probationPeriod;
-  int salary;
+  int? ctc;
   List<Project> projects;
-  Buddy buddy;
-  List<Buddy> managers;
+  // Buddy? buddy;
+  List<Buddy>? managers;
   dynamic workMode;
-  int dailyWorkHours;
-  int weeklyWorkHours;
-  String shiftTime;
+  int? dailyWorkHours;
+  int? weeklyWorkHours;
+  //String? shiftTime;
 
   CorporateDetails({
     required this.employeeCode,
     required this.workMobileNumber,
     required this.workEmail,
     required this.dateOfFirstJoining,
-    required this.joiningDate,
+     this.joiningDate,
     this.employmentType,
     required this.designation,
     required this.department,
     this.officeLocation,
     this.employmentStatus,
     required this.probationPeriod,
-    required this.salary,
+    this.ctc,
     required this.projects,
-    required this.buddy,
-    required this.managers,
+    //  this.buddy,
+    this.managers,
     this.workMode,
-    required this.dailyWorkHours,
-    required this.weeklyWorkHours,
-    required this.shiftTime,
+    this.dailyWorkHours,
+    this.weeklyWorkHours,
+//     this.shiftTime,
   });
 
   factory CorporateDetails.fromJson(Map<String, dynamic> json) {
@@ -228,22 +231,22 @@ class CorporateDetails {
       officeLocation: json['officeLocation'],
       employmentStatus: json['employmentStatus'],
       probationPeriod: json['probationPeriod'],
-      salary: json['salary'],
+      ctc: json['ctc'],
       projects:
           List<Project>.from(json['projects'].map((x) => Project.fromJson(x))),
-      buddy: Buddy.fromJson(json['buddy']),
+      // buddy: Buddy.fromJson(json['buddy']),
       managers:
           List<Buddy>.from(json['managers'].map((x) => Buddy.fromJson(x))),
       workMode: json['workMode'],
       dailyWorkHours: json['dailyWorkHours'],
       weeklyWorkHours: json['weeklyWorkHours'],
-      shiftTime: json['shiftTime'],
+      //śshiftTime: json['shiftTime'],
     );
   }
 }
 
 class Buddy {
-  String employeeCode;
+  String? employeeCode;
   String userId;
   String? unitId;
   String? orgId;
@@ -258,7 +261,7 @@ class Buddy {
   dynamic archiveReason;
 
   Buddy({
-    required this.employeeCode,
+     this.employeeCode,
     required this.userId,
      this.unitId,
      this.orgId,

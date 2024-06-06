@@ -9,4 +9,5 @@ class ApiEndPoints {
   static const String getPunchStatus = 'punch/punchStatus';
   static const String getAttendance = 'punch/getAttendance';
   static const String getBirthdays = 'employee/getUpcomingBirthdays';
+  static const String getRemainingLeaves = 'leaveAllocation/getLeaves';
 }

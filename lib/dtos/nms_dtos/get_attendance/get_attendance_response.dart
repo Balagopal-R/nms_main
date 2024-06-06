@@ -9,10 +9,11 @@ class GetEmployeAttendanceResponse extends ApiResponse {
     return GetEmployeAttendanceResponse(
       message: json["message"],
       status: json["status"],
+      data: json["data"]
       // data: List<CorporateDetails>.from(
       //     json["data"].map((x) => CorporateDetails.fromJson(x))),
       // data: GetEmployModel.fromJson(json["data"]),
-      data:json["data"] == null ? null : GetAttendanceModel.fromJson(json["data"]),
+      // data:json["data"] == null ? null : GetAttendanceModel.fromJson(json["data"]),
     );
   }
 }

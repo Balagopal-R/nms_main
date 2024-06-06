@@ -31,6 +31,62 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
     });
   }
 
+//  void _showPopupMenu() {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return Dialog(
+//           backgroundColor: Colors.transparent,
+//           child: Container(
+//             width: MediaQuery.of(context).size.width * 0.9,
+//             decoration: BoxDecoration(
+//               color: Colors.white,
+//               borderRadius: BorderRadius.circular(20),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+//               child: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: [
+//                       _buildMenuItem(Icons.access_time, 'Timesheet', () {
+//                         // Navigator.pushNamed(context, '/timesheet');
+//                         Navigator.of(context).pop();
+//                       }),
+//                       _buildMenuItem(Icons.person, 'Profile', () {
+//                         print('Baluuuuu');
+//                         Get.toNamed('/profile_screen');
+//                         Navigator.of(context).pop();
+//                       }),
+//                       _buildMenuItem(Icons.settings, 'Settings', () {
+//                         // Navigator.pushNamed(context, '/settings');
+//                         Navigator.of(context).pop();
+//                       }),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
+//     return Column(
+//       mainAxisSize: MainAxisSize.min,
+//       children: [
+//         IconButton(
+//           icon: Icon(icon, color: Colors.teal),
+//           onPressed: onTap,
+//         ),
+//         Text(title, style: TextStyle(color: Colors.black)),
+//       ],
+//     );
+//   }
   void _showPopupMenu() {
   PopupMenu menu = PopupMenu(
     context: context,
@@ -54,7 +110,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
           // Navigator.pushNamed(context, '/timesheet');
           break;
         case 'Profile':
-          Get.to(ProfileScreen());
+          Get.toNamed('/profile_screen');
           break;
         case 'Settings':
           // Navigator.pushNamed(context, '/settings');
@@ -111,7 +167,11 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz, key: _moreIconKey),
+            icon: SvgPicture.asset(
+              'assets/svg/more.svg',
+              height: 24,
+              width: 24,key: _moreIconKey ,
+            ),
             label: '',
           ),
         ],

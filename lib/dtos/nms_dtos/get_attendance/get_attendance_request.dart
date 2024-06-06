@@ -1,23 +1,9 @@
-class GetEmployeAttendance {
+class GetEmployeAttendanceRequest {
   String userId;
 
-  GetEmployeAttendance({required this.userId});
+  GetEmployeAttendanceRequest({required this.userId});
 
-  dynamic toMap() {
-    return userId;
-  }
+  Map<String, String> toMap() {
+    return {"userId": userId,};
+   }
 }
-
-
-//    Map<String, dynamic> toBody() {
-//     final map = {
-//     "data": {
-//         "userId": userId,
-//         "startDate": startDate,
-//         "endDate": endDate
-//     }
-
-// };
-//     return map;
-//   }
-

@@ -13,8 +13,8 @@ class BasicDetailsController extends GetxController with SnackbarMixin {
   EmployeeData? get getEmployData => _getEmployData.value;
   
   @override
-  void onInit() {
-    getEmployDetails();
+  void onInit() async{
+    await getEmployDetails();
     super.onInit();
   }
 
@@ -32,10 +32,6 @@ class BasicDetailsController extends GetxController with SnackbarMixin {
             await ApiRepository.to.getEmployDetails(request: request);
         if (response.status == 200) {
           _getEmployData.value = response.data;
-
-          debugPrint(
-              "Employ-- length  ${_getEmployData.value!.corporateDetails.buddy.personalDetailsBuddy.firstname}");
-
           update();
         }
       }
