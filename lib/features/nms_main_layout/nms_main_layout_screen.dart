@@ -31,95 +31,92 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
     });
   }
 
-//  void _showPopupMenu() {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//           backgroundColor: Colors.transparent,
-//           child: Container(
-//             width: MediaQuery.of(context).size.width * 0.9,
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               borderRadius: BorderRadius.circular(20),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-//               child: Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                     children: [
-//                       _buildMenuItem(Icons.access_time, 'Timesheet', () {
-//                         // Navigator.pushNamed(context, '/timesheet');
-//                         Navigator.of(context).pop();
-//                       }),
-//                       _buildMenuItem(Icons.person, 'Profile', () {
-//                         print('Baluuuuu');
-//                         Get.toNamed('/profile_screen');
-//                         Navigator.of(context).pop();
-//                       }),
-//                       _buildMenuItem(Icons.settings, 'Settings', () {
-//                         // Navigator.pushNamed(context, '/settings');
-//                         Navigator.of(context).pop();
-//                       }),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
+ void _showPopupMenu() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildMenuItem(Icons.access_time, 'Timesheet', () {
 
-//   Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
-//     return Column(
-//       mainAxisSize: MainAxisSize.min,
-//       children: [
-//         IconButton(
-//           icon: Icon(icon, color: Colors.teal),
-//           onPressed: onTap,
-//         ),
-//         Text(title, style: TextStyle(color: Colors.black)),
-//       ],
-//     );
-//   }
-  void _showPopupMenu() {
-  PopupMenu menu = PopupMenu(
-    context: context,
-    items: [
-      MenuItem(
-        title: 'Timesheet',
-        image: Icon(Icons.access_time, color: Colors.white),
-      ),
-      MenuItem(
-        title: 'Profile',
-        image: Icon(Icons.person, color: Colors.white),
-      ),
-      MenuItem(
-        title: 'Settings',
-        image: Icon(Icons.settings, color: Colors.white),
-      ),
-    ],
-    onClickMenu: (MenuItemProvider item) {
-      switch (item.menuTitle) {
-        case 'Timesheet':
-          // Navigator.pushNamed(context, '/timesheet');
-          break;
-        case 'Profile':
-          Get.toNamed('/profile_screen');
-          break;
-        case 'Settings':
-          // Navigator.pushNamed(context, '/settings');
-          break;
-      }
-    },
-  );
-  menu.show(widgetKey: _moreIconKey);
-}
+                      }),
+                      _buildMenuItem(Icons.person, 'Profile', () {
+                        print('Baluuuuu');
+                       Get.toNamed('/profile_screen');
+                      }),
+                      _buildMenuItem(Icons.settings, 'Settings', () {
+                      
+                      }),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: Icon(icon, color: Colors.teal),
+          onPressed: onTap,
+        ),
+        Text(title, style: TextStyle(color: Colors.black)),
+      ],
+    );
+  }
+//   void _showPopupMenu() {
+//   PopupMenu menu = PopupMenu(
+//     context: context,
+//     items: [
+//       MenuItem(
+//         title: 'Timesheet',
+//         image: Icon(Icons.access_time, color: Colors.white),
+//       ),
+//       MenuItem(
+//         title: 'Profile',
+//         image: Icon(Icons.person, color: Colors.white),
+//       ),
+//       MenuItem(
+//         title: 'Settings',
+//         image: Icon(Icons.settings, color: Colors.white),
+//       ),
+//     ],
+//     onClickMenu: (MenuItemProvider item) {
+//       switch (item.menuTitle) {
+//         case 'Timesheet':
+//           // Navigator.pushNamed(context, '/timesheet');
+//           break;
+//         case 'Profile':
+//           Get.toNamed('/profile_screen');
+//           break;
+//         case 'Settings':
+//           // Navigator.pushNamed(context, '/settings');
+//           break;
+//       }
+//     },
+//   );
+//   menu.show(widgetKey: _moreIconKey);
+// }
 
 
   final GlobalKey _moreIconKey = GlobalKey();

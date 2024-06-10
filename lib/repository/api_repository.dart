@@ -140,7 +140,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: request.toMap(),
     );
-    print(response);
+    // print(response);
     return GetLeavesResponse.fromJson(response);
   }
 

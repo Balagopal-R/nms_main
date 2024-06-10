@@ -9,10 +9,10 @@ class GetEmployePunchTimeResponse extends ApiResponse {
     return GetEmployePunchTimeResponse(
       message: json["message"],
       status: json["status"],
-      // data: List<CorporateDetails>.from(
-      //     json["data"].map((x) => CorporateDetails.fromJson(x))),
+      data: List<GetEmployeePunchTimeModel>.from(
+          json["data"].map((x) => GetEmployeePunchTimeModel.fromJson(x))),
       // data: GetEmployModel.fromJson(json["data"]),
-      data:json["data"] == null ? null : GetEmployeePunchTimeModel.fromJson(json["data"]),
+      // data:json["data"] == null ? null : GetEmployeePunchTimeModel.fromJson(json["data"]),
     );
   }
 }

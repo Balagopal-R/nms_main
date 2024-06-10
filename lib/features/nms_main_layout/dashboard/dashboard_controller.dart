@@ -7,6 +7,8 @@ import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status_request.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/get_birthdays/get_birthdays_model.dart';
+import 'package:nms/models/get_employe_punch_time_model/get_employee_punch_time_model.dart';
+import 'package:nms/models/get_remaining_leaves/get_remaining_leaves_model.dart';
 import 'package:nms/models/login_screen/get_employee_model.dart';
 import '../../../dtos/nms_dtos/get_attendance/get_attendance_request.dart';
 import '../../../dtos/nms_dtos/login/get_employ/get_employ_request.dart';
@@ -15,18 +17,18 @@ import '../../../repository/api_repository.dart';
 import '../../../utils/utils.dart';
 
 class DashboardController extends GetxController with SnackbarMixin {
-  
   // late List<String> birthdayName;
   // late List<String> daysToBirthday;
 
   @override
   void onInit() async {
+    
     await getEmployePunchTime();
-    await getEmployDetails();
     await getEmployePunchStatus();
     await getEmployeUpcomingBirthdays();
     await getEmployeeLeaves();
-
+    await getEmployeAttendance();
+    await getEmployDetails();
     super.onInit();
   }
 
@@ -46,6 +48,12 @@ class DashboardController extends GetxController with SnackbarMixin {
   final _getEmployeBirthday = (List<GetBirthdayModel>.empty()).obs;
   List<GetBirthdayModel> get getEmployeBirthday => _getEmployeBirthday;
 
+  final _getEmployeAveragePunchTime = (List<GetEmployeePunchTimeModel>.empty()).obs;
+  List<GetEmployeePunchTimeModel> get getEmployeAveragePunchTime => _getEmployeAveragePunchTime;
+
+  final _getEmployeRemainingLeaves = (List<GetRemainingLeavesModel>.empty()).obs;
+  List<GetRemainingLeavesModel> get getEmployeRemainingLeaves => _getEmployeRemainingLeaves;
+
   final _getEmployData = Rx<EmployeeData?>(null);
   EmployeeData? get getEmployData => _getEmployData.value;
 
@@ -61,6 +69,7 @@ class DashboardController extends GetxController with SnackbarMixin {
   final _getAttendance = 0.obs;
   int get getAttendance => _getAttendance.value;
 
+
 // employee punch time , average punch time, clocked working minutes
 
   Future<void> getEmployePunchTime() async {
@@ -71,13 +80,15 @@ class DashboardController extends GetxController with SnackbarMixin {
         final userId = decodedToken["userId"];
 
         final request = GetEmployePunchTimeRequest(
-            userId: userId, startDate: 1717093800, endDate: 1717612200);
+            userId: userId, startDate: 1717439400, endDate: 1717957800);
 
         final response =
             await ApiRepository.to.getEmployePunchTime(request: request);
 
         if (response.status == 200) {
-          print(response.data);
+          _getEmployeAveragePunchTime.value = response.data;
+          print('----------${getEmployeAveragePunchTime[0].clockedWorkingMinutes}');
+
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
@@ -160,10 +171,9 @@ class DashboardController extends GetxController with SnackbarMixin {
             await ApiRepository.to.getPunchStatus(request: request);
 
         if (response.status == 200) {
-          print(response.data);
+          // print(response.data);
           _punchStatus.value = response.data;
           update();
-          print(punchStatus);
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
@@ -184,14 +194,11 @@ class DashboardController extends GetxController with SnackbarMixin {
           await ApiRepository.to.getEmployeBirthdays(request: request);
 
       if (response.status == 200) {
-        print(response.data);
+        // print(response.data);
         // _punchStatus.value = response.data ;
         // update();
         // print(punchStatus);
         _getEmployeBirthday.value = response.data;
-        print(getEmployeBirthday[0].daysToBirthday);
-        print(getEmployeBirthday[1].daysToBirthday);
-        print(getEmployeBirthday[2].daysToBirthday);
 
         _birthdayName.value = [
           getEmployeBirthday[0].employee.firstname,
@@ -205,8 +212,6 @@ class DashboardController extends GetxController with SnackbarMixin {
           "In ${getEmployeBirthday[2].daysToBirthday} days"
         ];
         update();
-        print(birthdayName);
-        print(daysToBirthday);
       } else if (response.message == "Failed") {
         debugPrint(response.errors['errorMessage']);
         showErrorSnackbar(message: errorOccuredText);
@@ -222,20 +227,30 @@ class DashboardController extends GetxController with SnackbarMixin {
     //String platform = (Platform.isAndroid || Platform.isIOS) ? "MOBILE" : "WEB";
 
     try {
+       final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      final userId = decodedToken!["userId"];
+
       final request = GetLeavesRequest(
-          userId: 'c3f9a1c8-fe21-4c7e-9bae-612afa4a24f9',
-          asOfDate: "2024-06-06",
-          status: ["ACTIVE"],
+          userId: userId,
+          keyword: '',
+          page: 0,
+          size: 10,
           field: "leaveBalance",
           sortOfOrder: "ASC",
-          page: 0,
-          size: 10);
+          asOfDate: "2024-06-10",
+          status: ["ACTIVE"],
+          );
 
-      final response =
-          await ApiRepository.to.getLeaves(request: request);
+      final response = await ApiRepository.to.getLeaves(request: request);
 
       if (response.status == 200) {
         print(response.data);
+        _getEmployeRemainingLeaves.value = response.data;
+
+
+        print('##########${getEmployeRemainingLeaves[0].balanceLeaves}');
+        update();
       } else if (response.message == "Failed") {
         debugPrint(response.errors['errorMessage']);
         showErrorSnackbar(message: errorOccuredText);
@@ -256,10 +271,9 @@ class DashboardController extends GetxController with SnackbarMixin {
         final response = await ApiRepository.to.getAttendance(request: request);
 
         if (response.status == 200) {
-          print(response.data);
+          // print(response.data);
           _getAttendance.value = response.data;
           update();
-          print(getAttendance);
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);

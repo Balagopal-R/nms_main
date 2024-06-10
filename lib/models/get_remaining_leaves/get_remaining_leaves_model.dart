@@ -1,8 +1,8 @@
 class GetRemainingLeavesModel {
     Employee employee;
-    int balanceLeaves;
-    int takenLeaves;
-    int totalLeaves;
+    double balanceLeaves;
+    double takenLeaves;
+    double totalLeaves;
     String leaveTypeName;
     int leaveTypeId;
 

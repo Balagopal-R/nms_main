@@ -34,12 +34,6 @@ class ProfileController extends GetxController with SnackbarMixin {
             await ApiRepository.to.getEmployDetails(request: request);
         if (response.status == 200) {
           _getEmployData.value = response.data;
-          print('------------------------------Baluuuuuuu');
-
-
-          // debugPrint(
-          //     "Employ-- length  ${_getEmployData.value!.corporateDetails.buddy!.personalDetailsBuddy.firstname}");
-
           update();
         }
       }

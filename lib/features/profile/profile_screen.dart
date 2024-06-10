@@ -78,7 +78,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 LogoutButton(
                   onTap: () {
-                    _showLogoutDialog(context);
+                    // _showLogoutDialog(context);
+                    _showCustomLogoutDialog(context);
                   },
                 ),
               ],
@@ -94,31 +95,77 @@ class ProfileScreen extends StatelessWidget {
       }
     );
   }
-
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
+  void _showCustomLogoutDialog(BuildContext context) {
+    showModalBottomSheet(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Are you sure you want to logout?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
+        return Container(
+          height: MediaQuery.of(context).size.height / 4,
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.0),
+              topRight: Radius.circular(16.0),
             ),
-            TextButton(
-              onPressed: () {
-                // Handle logout action
-              },
-              child: const Text('Logout'),
-            ),
-          ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Are you sure you want to log out?',
+                style: TextStyle(fontSize: 16.0,color: Color(0xff212121),fontWeight: FontWeight.w400),
+              ),
+              SizedBox(height: 24.0),
+              GestureDetector(
+                onTap: () {
+                  // Handle logout action
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 12.0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFA5B5B),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              SizedBox(height: 12.0),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 12.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xFF3BBCA0)),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Color(0xFF3BBCA0)),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
+      isScrollControlled: true,
     );
   }
+
+
+
 }
 
 class ProfileButton extends StatelessWidget {

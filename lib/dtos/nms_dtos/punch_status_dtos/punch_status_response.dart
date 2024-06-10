@@ -1,5 +1,4 @@
 import 'package:nms/dtos/api_response.dart';
-import 'package:nms/models/punch_status/punch_status_model.dart';
 
 class PunchStatusResponse extends ApiResponse {
   PunchStatusResponse({message, status, data, errors})

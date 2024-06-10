@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -40,15 +39,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 onTap: () {
                   // Get.to(const LeaveBalanceScreen());
                 },
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.only(left: 1.0),
-                  child: Text(
-                    'Hello Ryan',
+                  child: controller.getEmployData != null
+                  ? Text(
+                    'Hello ${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}!',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 24,
                         fontWeight: FontWeight.w700),
-                  ),
+                  ) : const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    ),
                 ),
               ),
               actions: [
@@ -66,7 +70,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
+            body:  controller.getEmployData != null
+                  ? SingleChildScrollView(
               child: Column(
                 children: [
                   // First Container
@@ -183,8 +188,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
+                    
                       padding: EdgeInsets.all(0),
                       decoration: BoxDecoration(
+                        
                         borderRadius: BorderRadius.circular(8.0),
                         color: backgroundColor,
                         boxShadow: [
@@ -196,63 +203,72 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ],
                       ),
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                            height: 300.0, enlargeCenterPage: false),
-                        items: [
-                          _buildChartPage(
-                              'Avg Break Time',
-                              [1.2, 1.1, 1.3, 1.0, 1.4, 1.5, 2],
-                              '1.2 hours',
-                              'Last 7 days',
-                              'assets/svg/ph_coffee_bold.svg',
-                              Color(0xffFFEECC)),
-                          _buildChartPage(
-                              'Avg Punch Time',
-                              [7.8, 7.6, 7.7, 7.9, 8.0, 7.8, 7.7],
-                              '7.8 hours',
-                              ' Last 7 days',
-                              'assets/svg/clock.svg',
-                              Color(0xffBEFFE8)),
-                          _buildChartPage('Attendance',
-                              [17, 18, 16, 19, 20, 21, 17],
-                               '17',
-                                'This Month',
-                              'assets/svg/attendance.svg',
-                              Color(0xffDFDFFB)),
-                    
-                    
-                          _buildTextPage(
-                              'Birthdays',
-                              controller.birthdayName,
-                              controller.daysToBirthday,
-                              'assets/svg/cake.svg',
-                              Color(0xffFFEECC)
-                              // ['Esther Howard', 'Guy Hawkins', 'Devon Lane'],
-                              // ['Today', 'In 2 Days', 'In 10 Days'],
-                              ),
-                    
-                              
-                          _buildTextPage(
-                              'Leaves',
-                              ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
-                              ['Tomorrow', 'May 19, 2024', 'May 17, 2024'],
-                              'assets/svg/upcoming_leaves.svg',
-                              Color(0xffBEFFE8)),
-
-                          _buildTextPage(
-                              'Leave History',
-                              ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
-                              ['Yesterday', 'Feb 19, 2024', 'Feb 17, 2024'],
-                              'assets/svg/teamListing.svg',
-                              Color(0xffDFDFFB)),
-                        ].map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return i;
-                            },
-                          );
-                        }).toList(),
+                      child: Expanded(
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                              height: 300.0,
+                               autoPlay: true),
+                          items: [
+                            _buildChartPage(
+                                'Avg Break Time',
+                                [1.2, 1.1, 1.3, 1.0, 1.4, 1.5, 2],
+                                '1.2 hours',
+                                'Last 7 days',
+                                'assets/svg/ph_coffee_bold.svg',
+                                Color(0xffFFEECC)),
+                            _buildChartPage(
+                                'Avg Punch Time',
+                                [controller.getEmployeAveragePunchTime[6].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[0].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[1].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[2].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[3].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[4].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[5].clockedWorkingMinutes.toDouble(),],
+                                '7.8 hours',
+                                ' Last 7 days',
+                                'assets/svg/clock.svg',
+                                Color(0xffBEFFE8)),
+                            _buildChartPage('Attendance',
+                                [17, 18, 16, 19, 20, 21, 17],
+                                 controller.getAttendance.toString(),
+                                  'This Month',
+                                'assets/svg/attendance.svg',
+                                Color(0xffDFDFFB)),
+                                            
+                                            
+                            _buildTextPage(
+                                'Birthdays',
+                                controller.birthdayName,
+                                controller.daysToBirthday,
+                                'assets/svg/cake.svg',
+                                Color(0xffFFEECC)
+                                // ['Esther Howard', 'Guy Hawkins', 'Devon Lane'],
+                                // ['Today', 'In 2 Days', 'In 10 Days'],
+                                ),
+                                            
+                                
+                            _buildTextPage(
+                                'Leaves',
+                                ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
+                                ['Tomorrow', 'May 19, 2024', 'May 17, 2024'],
+                                'assets/svg/upcoming_leaves.svg',
+                                Color(0xffBEFFE8)),
+                        
+                            _buildTextPage(
+                                'Leave History',
+                                ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
+                                ['Yesterday', 'Feb 19, 2024', 'Feb 17, 2024'],
+                                'assets/svg/teamListing.svg',
+                                Color(0xffDFDFFB)),
+                          ].map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return i;
+                              },
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                   ),
@@ -279,7 +295,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ],
               ),
-            ),
+            ) : const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    ),
             floatingActionButton: SpeedDial(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7)),
@@ -339,7 +359,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     label: 'Edit Punch'),
               ],
             ),
-          );
+            );
         });
   }
 

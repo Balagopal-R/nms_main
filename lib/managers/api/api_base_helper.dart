@@ -25,8 +25,17 @@ class ApiBaseHelper {
     try {
       debugPrint(jsonEncode(body));
       debugPrint(jsonEncode(params));
+       String completeUrl = "";
+       if (params == {}) {
+        completeUrl = '$_baseUrl$endpoint';
+      } else {
+        String queryString = params.entries
+            .map((entry) => '${entry.key}=${Uri.encodeComponent(entry.value)}')
+            .join('&');
+        completeUrl = '$_baseUrl$endpoint?$queryString';
+      }
 
-      var url = Uri.parse('$_baseUrl$endpoint?$params');
+      var url = Uri.parse(completeUrl);
 
       var response = await http.post(url,
           headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader(),

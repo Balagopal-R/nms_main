@@ -1,5 +1,4 @@
 import 'package:nms/dtos/api_response.dart';
-import 'package:nms/models/get_attendance/get_attendance_model.dart';
 
 class GetEmployeAttendanceResponse extends ApiResponse {
  GetEmployeAttendanceResponse({message, status, data, errors})

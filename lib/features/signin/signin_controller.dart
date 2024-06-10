@@ -131,9 +131,9 @@ class SignInController extends GetxController with SnackbarMixin {
             await ApiRepository.to.logInWithEmail(request: request);
 
         if (response.status == 200) {
-          debugPrint('----------${response.data['accessToken']}--------------');
-          debugPrint(
-              '----------${response.data['refreshToken']}--------------');
+          // debugPrint('----------${response.data['accessToken']}--------------');
+          // debugPrint(
+          //     '----------${response.data['refreshToken']}--------------');
           final nmsSharedPreferences = NMSSharedPreferences();
           String accessToken = response.data['accessToken'];
           String refreshToken = response.data['refreshToken'];
