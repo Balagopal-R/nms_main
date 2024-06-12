@@ -27,14 +27,16 @@ class BasicInfoCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Mobile Number'), Text(mobileNumber)],
+              children: [const Text('Mobile Number',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(mobileNumber,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Email'), Text(email)],
+              children: [const Text('Email',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(email,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
@@ -42,7 +44,8 @@ class BasicInfoCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Joining Date'), Text(joiningDate)],
+              children: [const Text('Joining Date',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(joiningDate,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           )
         ],

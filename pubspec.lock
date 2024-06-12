@@ -296,6 +296,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  modal_bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: modal_bottom_sheet
+      sha256: eac66ef8cb0461bf069a38c5eb0fa728cee525a531a8304bd3f7b2185407c67e
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   path:
     dependency: transitive
     description:
@@ -368,14 +376,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  popup_menu:
-    dependency: "direct main"
-    description:
-      name: popup_menu
-      sha256: a6d7f39669cd010818063233f287822d4fcfcdc1d872b4bae72d9f3caf848e3a
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   shared_preferences:
     dependency: "direct main"
     description:

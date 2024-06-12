@@ -36,7 +36,7 @@ class CorneredButton extends StatelessWidget {
         child: Center(
             child: Text(title,
                 style: AppTheme.lightTheme.textTheme.headlineSmall
-                    ?.copyWith(color: textcolor,fontSize: 20))),
+                    ?.copyWith(color: textcolor,fontSize: 16))),
       ),
     );
   }

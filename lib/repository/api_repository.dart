@@ -11,6 +11,8 @@ import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
 import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
+import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
+import '../dtos/nms_dtos/logout_dtos/logout_response.dart';
 import '../managers/api/api.dart';
 
 abstract class ApiRepository extends GetxController {
@@ -44,6 +46,10 @@ abstract class ApiRepository extends GetxController {
                 //  get remaining Leaves
    Future<GetLeavesResponse> getLeaves(
       {required GetLeavesRequest request});
+
+                 //  Logout
+   Future<LogoutResponse> logout(
+      {required LogoutRequest request});
 
   
 }
@@ -142,6 +148,17 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     // print(response);
     return GetLeavesResponse.fromJson(response);
+  }
+
+// Log Out
+  @override
+  Future<LogoutResponse> logout(
+      {required LogoutRequest request}) async {
+    final response = await _helper.get(
+        endpoint: ApiEndPoints.logout, 
+        params:{});
+    debugPrint("response $response");
+    return LogoutResponse.fromJson(response);
   }
 
 

@@ -37,6 +37,9 @@ class DashboardController extends GetxController with SnackbarMixin {
 
   final _daysToBirthday = (List<String>.empty()).obs;
   List<String> get daysToBirthday => _daysToBirthday;
+
+  final _imageOfBirthdays = (List<String>.empty()).obs;
+  List<String> get imageOfBirthdays => _imageOfBirthdays;
   // final JBSharedPreferences authService = JBSharedPreferences();
 
   // final _getEmployData = (List<CorporateDetails>.empty()).obs;
@@ -69,6 +72,12 @@ class DashboardController extends GetxController with SnackbarMixin {
   final _getAttendance = 0.obs;
   int get getAttendance => _getAttendance.value;
 
+ int punchDivisor = 0;
+ int breakDivisor = 0;
+
+ double getAvgPunchTime = 0.0 ;
+
+
 
 // employee punch time , average punch time, clocked working minutes
 
@@ -80,14 +89,38 @@ class DashboardController extends GetxController with SnackbarMixin {
         final userId = decodedToken["userId"];
 
         final request = GetEmployePunchTimeRequest(
-            userId: userId, startDate: 1717439400, endDate: 1717957800);
+            userId: userId, startDate: 1717612200, endDate: 1718130600);
 
         final response =
             await ApiRepository.to.getEmployePunchTime(request: request);
 
         if (response.status == 200) {
           _getEmployeAveragePunchTime.value = response.data;
-          print('----------${getEmployeAveragePunchTime[0].clockedWorkingMinutes}');
+
+        for (int i = 0; i < getEmployeAveragePunchTime.length ; i++) {
+          if (getEmployeAveragePunchTime[i].clockedWorkingMinutes != 0){
+            punchDivisor++ ;
+            print('@@@@@@@@$punchDivisor');
+            print(getEmployeAveragePunchTime.length);
+          }
+          else{}
+        }
+
+     getAvgPunchTime = (((getEmployeAveragePunchTime[0].clockedWorkingMinutes+
+                                getEmployeAveragePunchTime[1].clockedWorkingMinutes+
+                                getEmployeAveragePunchTime[2].clockedWorkingMinutes+
+                                getEmployeAveragePunchTime[3].clockedWorkingMinutes+
+                                getEmployeAveragePunchTime[4].clockedWorkingMinutes+
+                                getEmployeAveragePunchTime[5].clockedWorkingMinutes+
+                                getEmployeAveragePunchTime[6].clockedWorkingMinutes)/punchDivisor)/60);
+  
+        for (int i = 0; i < getEmployeAveragePunchTime.length; i++) {
+          if (getEmployeAveragePunchTime[i].clockedBreakMinutes != 0){
+            breakDivisor++ ;
+            print('@@@@@@@@$breakDivisor');
+          }
+          else{}
+        }
 
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
@@ -129,7 +162,7 @@ class DashboardController extends GetxController with SnackbarMixin {
     }
   }
 
-  // get employ details
+  // get employee details
 
   getEmployDetails() async {
     // _isLoading.value = true;
@@ -201,9 +234,9 @@ class DashboardController extends GetxController with SnackbarMixin {
         _getEmployeBirthday.value = response.data;
 
         _birthdayName.value = [
-          getEmployeBirthday[0].employee.firstname,
-          getEmployeBirthday[1].employee.firstname,
-          getEmployeBirthday[2].employee.firstname
+          getEmployeBirthday[0].employee.firstname  +getEmployeBirthday[0].employee.lastname,
+          getEmployeBirthday[1].employee.firstname  +getEmployeBirthday[1].employee.lastname,
+          getEmployeBirthday[2].employee.firstname  +getEmployeBirthday[2].employee.lastname,
         ];
 
         _daysToBirthday.value = [
@@ -211,6 +244,13 @@ class DashboardController extends GetxController with SnackbarMixin {
           "In ${getEmployeBirthday[1].daysToBirthday} days",
           "In ${getEmployeBirthday[2].daysToBirthday} days"
         ];
+
+       _imageOfBirthdays.value = [
+        getEmployeBirthday[0].employee.profileImgUrl,
+        getEmployeBirthday[1].employee.profileImgUrl,
+        getEmployeBirthday[2].employee.profileImgUrl
+       ];
+
         update();
       } else if (response.message == "Failed") {
         debugPrint(response.errors['errorMessage']);
@@ -238,7 +278,7 @@ class DashboardController extends GetxController with SnackbarMixin {
           size: 10,
           field: "leaveBalance",
           sortOfOrder: "ASC",
-          asOfDate: "2024-06-10",
+          asOfDate: "2024-06-11",
           status: ["ACTIVE"],
           );
 
@@ -249,7 +289,7 @@ class DashboardController extends GetxController with SnackbarMixin {
         _getEmployeRemainingLeaves.value = response.data;
 
 
-        print('##########${getEmployeRemainingLeaves[0].balanceLeaves}');
+        // print('${getEmployeRemainingLeaves[0].balanceLeaves}');
         update();
       } else if (response.message == "Failed") {
         debugPrint(response.errors['errorMessage']);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -41,14 +42,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 },
                 child: Padding(
                   padding: EdgeInsets.only(left: 1.0),
-                  child: controller.getEmployData != null
-                  ? Text(
-                    'Hello ${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}!',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700),
-                  ) : const Center(
+                  child: controller.getEmployData != null ?
+                   Row(
+                     children: [
+                       const Text(
+                        'Hello',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400),
+                                         ),
+
+                                        const SizedBox(width:5),
+                                         Text(
+                        '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}!',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700),
+                                         )
+                     ],
+                   ) : const Center(
                       child: CircularProgressIndicator(
                         color: primaryColor,
                       ),
@@ -94,41 +108,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "You're Punched ${controller.punchStatus}",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black),
-                              ),
-                              Row(
-  children: [
-    Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(2.667),
-        color: Color(0xffFFF0F0),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 4,
-            backgroundColor: Colors.red,
-          ),
-          SizedBox(width: 4),
-          Text(
-            'Late',
-            style: TextStyle(color: Colors.red),
-          ),
-        ],
-      ),
-    ),
-  ],
-)
-
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "You're Punched ${controller.punchStatus}",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black),
+                                ),
+                                Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(2.667),
+                                    color: Color(0xffFFF0F0),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 4,
+                                        backgroundColor: Colors.red,
+                                      ),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        'Late',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                            
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 8),
                     
@@ -136,7 +153,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             lineHeight: 8.0,
                             percent: 0.7, // Example value
                             backgroundColor: Colors.grey[300]!,
-                            linearGradient: LinearGradient(
+                            linearGradient: const LinearGradient(
                               colors: [
                                 Color(0xff3DC5A2),
                                 Color(0xff3DC5A2),
@@ -166,18 +183,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           //   ),
                           // ),
                           SizedBox(height: 8),
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                  radius: 3, backgroundColor: Colors.green),
-                              SizedBox(width: 4),
-                              Text('5 hours 25 minutes'),
-                              SizedBox(width: 16),
-                              CircleAvatar(
-                                  radius: 3, backgroundColor: Colors.amber),
-                              SizedBox(width: 4),
-                              Text('23 minutes'),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                    radius: 3, backgroundColor: Colors.green),
+                                SizedBox(width: 4),
+                                Text('5 hours 25 minutes'),
+                                SizedBox(width: 16),
+                                CircleAvatar(
+                                    radius: 3, backgroundColor: Colors.amber),
+                                SizedBox(width: 4),
+                                Text('23 minutes'),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -206,26 +226,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: Expanded(
                         child: CarouselSlider(
                           options: CarouselOptions(
+                            viewportFraction: 1.0,
                               height: 300.0,
-                               autoPlay: true),
+                               autoPlay: true
+                               ),
                           items: [
                             _buildChartPage(
                                 'Avg Break Time',
-                                [1.2, 1.1, 1.3, 1.0, 1.4, 1.5, 2],
-                                '1.2 hours',
+                                [controller.getEmployeAveragePunchTime[3].clockedBreakMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[4].clockedBreakMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[5].clockedBreakMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[6].clockedBreakMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[0].clockedBreakMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[1].clockedBreakMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[2].clockedBreakMinutes.toDouble(),],
+                                '1.0 hours',
                                 'Last 7 days',
                                 'assets/svg/ph_coffee_bold.svg',
                                 Color(0xffFFEECC)),
                             _buildChartPage(
                                 'Avg Punch Time',
-                                [controller.getEmployeAveragePunchTime[6].clockedWorkingMinutes.toDouble(),
+                                [controller.getEmployeAveragePunchTime[3].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[4].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[5].clockedWorkingMinutes.toDouble(),
+                                controller.getEmployeAveragePunchTime[6].clockedWorkingMinutes.toDouble(),
                                 controller.getEmployeAveragePunchTime[0].clockedWorkingMinutes.toDouble(),
                                 controller.getEmployeAveragePunchTime[1].clockedWorkingMinutes.toDouble(),
-                                controller.getEmployeAveragePunchTime[2].clockedWorkingMinutes.toDouble(),
-                                controller.getEmployeAveragePunchTime[3].clockedWorkingMinutes.toDouble(),
-                                controller.getEmployeAveragePunchTime[4].clockedWorkingMinutes.toDouble(),
-                                controller.getEmployeAveragePunchTime[5].clockedWorkingMinutes.toDouble(),],
-                                '7.8 hours',
+                                controller.getEmployeAveragePunchTime[2].clockedWorkingMinutes.toDouble(),],
+                                // '${controller.getAvgPunchTime.toString()} hours',
+                                '8.6 Hrs',
                                 ' Last 7 days',
                                 'assets/svg/clock.svg',
                                 Color(0xffBEFFE8)),
@@ -242,10 +271,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 controller.birthdayName,
                                 controller.daysToBirthday,
                                 'assets/svg/cake.svg',
-                                Color(0xffFFEECC)
-                                // ['Esther Howard', 'Guy Hawkins', 'Devon Lane'],
-                                // ['Today', 'In 2 Days', 'In 10 Days'],
-                                ),
+                                Color(0xffFFEECC),
+                                controller.imageOfBirthdays),
                                             
                                 
                             _buildTextPage(
@@ -253,14 +280,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
                                 ['Tomorrow', 'May 19, 2024', 'May 17, 2024'],
                                 'assets/svg/upcoming_leaves.svg',
-                                Color(0xffBEFFE8)),
+                                Color(0xffBEFFE8),
+                                ['','','']
+                                ),
                         
                             _buildTextPage(
                                 'Leave History',
                                 ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
                                 ['Yesterday', 'Feb 19, 2024', 'Feb 17, 2024'],
                                 'assets/svg/teamListing.svg',
-                                Color(0xffDFDFFB)),
+                                Color(0xffDFDFFB),
+                                ['','','']),
                           ].map((i) {
                             return Builder(
                               builder: (BuildContext context) {
@@ -290,7 +320,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ],
                       ),
-                      child: buildRemainingLeavesCard(),
+                      child: buildRemainingLeavesCard(controller),
                     ),
                   ),
                 ],
@@ -400,7 +430,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: Colors.black),
                 ),
                 CircleAvatar(
                   radius: 20,
@@ -413,12 +443,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 4),
+            SizedBox(height: 2),
             Text(time,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.black)),
-            Text(period),
-            SizedBox(height: 16),
-            SizedBox(
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700,color: Colors.black)),
+            Text(period,style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,color: Color(0xff7A7A7A))),
+            SizedBox(height: 10),
+            Container(
               height: 150,
               child: SfCartesianChart(
                 primaryXAxis: CategoryAxis(),
@@ -442,7 +472,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Widget _buildTextPage(String title, List<String> items, List<String> subtexts,
   //     DashboardController controller) 
-   Widget _buildTextPage(String title, List<String> items, List<String> subtexts, String imageName, Color avatarColor)
+   Widget _buildTextPage(String title, List<String> items, List<String> subtexts, String eventImageName, Color avatarColor,List<String> networkImage)
       {
     return Container(
       decoration: BoxDecoration(
@@ -464,15 +494,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Text(
+                    title,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: Colors.black),
+                  ),
                 ),
                CircleAvatar(
                   radius: 16,
                   backgroundColor:avatarColor,
                   child: SvgPicture.asset(
-              imageName,
+              eventImageName,
               height: 24,
               width: 24,
             ),
@@ -488,7 +521,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     title: Text(items[index]),
                     subtitle: Text(subtexts[index]),
                     leading: CircleAvatar(
-                      child: Text(items[index][0]),
+                      backgroundImage: NetworkImage(networkImage[index]),
                     ),
                   );
                 },
@@ -500,7 +533,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget buildRemainingLeavesCard() {
+  Widget buildRemainingLeavesCard(DashboardController controller) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white, // Equivalent to #FFF
@@ -531,12 +564,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                _buildCircularPercentIndicator('CL', 0.6),
-                _buildCircularPercentIndicator('SL', 0.6),
-                _buildCircularPercentIndicator('ML', 0.6),
-                _buildCircularPercentIndicator('VL', 0.6),
-                _buildCircularPercentIndicator('SCL', 0.6),
-                _buildCircularPercentIndicator('TL', 0.6),
+                _buildCircularPercentIndicator('CL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
+                _buildCircularPercentIndicator('SL', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
+                _buildCircularPercentIndicator('SPL', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
+                // _buildCircularPercentIndicator('VL', 0.6),
+                // _buildCircularPercentIndicator('SCL', 0.6),
+                // _buildCircularPercentIndicator('TL', 0.6),
               ],
             ),
             if (!isExpanded)
@@ -558,11 +591,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (isExpanded)
               Column(
                 children: [
-                  _buildLinearPercentIndicator('Casual Leave', 0.7),
-                  _buildLinearPercentIndicator('Sick Leave', 0.6),
-                  _buildLinearPercentIndicator('Privilege Leave', 0.5),
-                  _buildLinearPercentIndicator('Maternity Leave', 0.4),
-                  _buildLinearPercentIndicator('Vacation Leave', 0.3),
+                  _buildLinearPercentIndicator('Casual Leave', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
+                  _buildLinearPercentIndicator('Sick Leave', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
+                  _buildLinearPercentIndicator('Privilege Leave', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
+                  // _buildLinearPercentIndicator('Maternity Leave', 0.4),
+                  // _buildLinearPercentIndicator('Vacation Leave', 0.3),
                   IconButton(
                     icon: Icon(Icons.expand_less),
                     onPressed: toggleExpanded,
@@ -595,7 +628,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            '${(percent * 10).toInt()}',
+            '${(percent * 12).toInt()}',
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
@@ -641,7 +674,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Expanded(
             flex: 1,
             child: Text(
-              '${(percent * 10).toInt()}',
+              '${(percent * 12).toInt()}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               textAlign: TextAlign.right,
             ),

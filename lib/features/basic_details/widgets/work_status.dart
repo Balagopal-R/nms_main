@@ -33,14 +33,16 @@ class WorkStatusCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Work Mode'), Text(workMode)],
+              children: [const Text('Work Mode',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(workMode,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Designation'), Text(designation)],
+              children: [const Text('Designation',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(designation,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
@@ -48,7 +50,8 @@ class WorkStatusCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16,),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Department'), Text(department)],
+              children: [const Text('Department',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(department,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
@@ -56,7 +59,8 @@ class WorkStatusCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Office Location'), Text(officeLocation)],
+              children: [const Text('Office Location',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(officeLocation,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
@@ -64,7 +68,8 @@ class WorkStatusCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16,bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Employment Status'), Text(employmentStatus)],
+              children: [const Text('Employment Status',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(employmentStatus,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
@@ -72,7 +77,8 @@ class WorkStatusCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16,bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Shift Time'), Text(shiftTime)],
+              children: [const Text('Shift Time',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(shiftTime,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           )
         ],

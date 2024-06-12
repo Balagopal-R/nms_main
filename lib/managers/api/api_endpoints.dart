@@ -10,4 +10,5 @@ class ApiEndPoints {
   static const String getAttendance = 'punch/getAttendance';
   static const String getBirthdays = 'employee/getUpcomingBirthdays';
   static const String getRemainingLeaves = 'leaveAllocation/getLeaves';
+  static const String logout = 'auth/logout' ;
 }

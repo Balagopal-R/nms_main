@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nms/features/signin/signin.dart';
 import 'package:nms/utils/utils.dart';
 import 'package:nms/widgets/appbar_main_widget.dart';
 
@@ -21,48 +22,71 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
+                SizedBox(height: 40),
                 Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF1F1F1),
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage: AssetImage('assets/png/person.jpg'),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),
-                      ),
-                      SizedBox(height: 4),
-                      Text(controller.getEmployData!.employeeCode,
-                      style: TextStyle(color: Color(0xff7A7A7A)),),
-                      SizedBox(height: 4),
-                      Text(controller
-                                  .getEmployData!.personalDetails.personalEmail,
-                      style: TextStyle(color: Color(0xff7A7A7A)),),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(controller.getEmployData!.corporateDetails.department.departmentName,style: TextStyle(color: Color(0xff7A7A7A)),),
-                          SizedBox(width: 4),
-                          Icon(Icons.circle, size: 5, color: Colors.green),
-                          SizedBox(width: 4),
-                          Text(controller.getEmployData!.corporateDetails.designation.designationName,style: TextStyle(color: Color(0xff7A7A7A)),),
-                          SizedBox(width: 4),
-                          Icon(Icons.circle, size: 5, color: Colors.green),
-                          SizedBox(width: 4),
-                          Text(controller.getEmployData!.corporateDetails.dateOfFirstJoining.toString(),style: TextStyle(color: Color(0xff7A7A7A)),),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+  decoration: BoxDecoration(
+    color: const Color(0xFFF1F1F1),
+    borderRadius: BorderRadius.circular(4.0),
+  ),
+  padding: const EdgeInsets.only(top: 48.0, left: 16.0, right: 16.0, bottom: 16.0),
+  child: Stack(
+    clipBehavior: Clip.none,
+    alignment: Alignment.center,
+    children: [
+      Column(
+        children: [
+          SizedBox(height: 10), // This creates space for the CircleAvatar
+          Text(
+            '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          SizedBox(height: 4),
+          Text(
+            controller.getEmployData!.employeeCode,
+            style: TextStyle(color: Color(0xff7A7A7A)),
+          ),
+          SizedBox(height: 4),
+          Text(
+            controller.getEmployData!.personalDetails.personalEmail,
+            style: TextStyle(color: Color(0xff7A7A7A)),
+          ),
+          SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                controller.getEmployData!.corporateDetails.department.departmentName,
+                style: TextStyle(color: Color(0xff7A7A7A)),
+              ),
+              SizedBox(width: 4),
+              Icon(Icons.circle, size: 5, color: Colors.green),
+              SizedBox(width: 4),
+              Text(
+                controller.getEmployData!.corporateDetails.designation.designationName,
+                style: TextStyle(color: Color(0xff7A7A7A)),
+              ),
+              SizedBox(width: 4),
+              Icon(Icons.circle, size: 5, color: Colors.green),
+              SizedBox(width: 4),
+              Text(
+                controller.getEmployData!.corporateDetails.dateOfFirstJoining.toString(),
+                style: TextStyle(color: Color(0xff7A7A7A)),
+              ),
+            ],
+          ),
+        ],
+      ),
+      Positioned(
+        top: -90, // Half of the CircleAvatar's diameter to center it
+        child: CircleAvatar(
+          radius: 40,
+          backgroundImage: NetworkImage(controller.getEmployData!.profileImgUrl!), // Replace with your image URL
+        ),
+      ),
+    ],
+  ),
+),
+
                 const SizedBox(height: 16),
                 ProfileButton(
                   title: 'Basic Details',
@@ -79,7 +103,7 @@ class ProfileScreen extends StatelessWidget {
                 LogoutButton(
                   onTap: () {
                     // _showLogoutDialog(context);
-                    _showCustomLogoutDialog(context);
+                    _showCustomLogoutDialog(context, controller);
                   },
                 ),
               ],
@@ -95,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
       }
     );
   }
-  void _showCustomLogoutDialog(BuildContext context) {
+  void _showCustomLogoutDialog(BuildContext context, ProfileController controller) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -119,9 +143,9 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.0),
               GestureDetector(
-                onTap: () {
-                  // Handle logout action
-                  Navigator.of(context).pop();
+                onTap: () async{
+                 await controller.userLogout();
+                 Get.offAllNamed('/');
                 },
                 child: Container(
                   width: double.infinity,
@@ -163,8 +187,6 @@ class ProfileScreen extends StatelessWidget {
       isScrollControlled: true,
     );
   }
-
-
 
 }
 

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nms/features/nms_main_layout/dashboard/dashboard.dart';
 import 'package:nms/features/nms_main_layout/leave/leave_screen.dart';
 import 'package:nms/features/nms_main_layout/punch/punch_screen.dart';
 import 'package:nms/features/nms_main_layout/team_listing/team_listing.dart';
-import 'package:nms/features/profile/profile_screen.dart';
-import 'package:popup_menu/popup_menu.dart';
 
 class NmsMainLayoutScreen extends StatefulWidget {
   const NmsMainLayoutScreen({super.key});
@@ -31,93 +30,77 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
     });
   }
 
- void _showPopupMenu() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
+ void showCustomBottomSheet(BuildContext context) {
+  showMaterialModalBottomSheet(
+    context: context,
+    builder: (context) => Container(
+      padding: EdgeInsets.all(16.0),
+      height: 150,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 100,
+            height: 4,
+            margin: EdgeInsets.only(bottom: 16.0),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildMenuItem(Icons.access_time, 'Timesheet', () {
-
-                      }),
-                      _buildMenuItem(Icons.person, 'Profile', () {
-                        print('Baluuuuu');
-                       Get.toNamed('/profile_screen');
-                      }),
-                      _buildMenuItem(Icons.settings, 'Settings', () {
-                      
-                      }),
-                    ],
-                  ),
-                ],
-              ),
+              color: Color(0xFF7A7A7A),
+              borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-        );
-      },
-    );
-  }
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildBottomSheetItem(
+                context,
+                icon: Icons.access_time,
+                label: 'Timesheet',
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamed(context, '/timesheet');
+                },
+              ),
+              _buildBottomSheetItem(
+                context,
+                icon: Icons.person,
+                label: 'Profile',
+                onTap: () {
+                  Get.toNamed('/profile_screen');
+                },
+              ),
+              _buildBottomSheetItem(
+                context,
+                icon: Icons.settings,
+                label: 'Settings',
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamed(context, '/settings');
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
-  Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
-    return Column(
+Widget _buildBottomSheetItem(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(
-          icon: Icon(icon, color: Colors.teal),
-          onPressed: onTap,
-        ),
-        Text(title, style: TextStyle(color: Colors.black)),
+        Icon(icon, size: 40, color: Colors.teal),
+        SizedBox(height: 8),
+        Text(label, style: TextStyle(color: Colors.teal)),
       ],
-    );
-  }
-//   void _showPopupMenu() {
-//   PopupMenu menu = PopupMenu(
-//     context: context,
-//     items: [
-//       MenuItem(
-//         title: 'Timesheet',
-//         image: Icon(Icons.access_time, color: Colors.white),
-//       ),
-//       MenuItem(
-//         title: 'Profile',
-//         image: Icon(Icons.person, color: Colors.white),
-//       ),
-//       MenuItem(
-//         title: 'Settings',
-//         image: Icon(Icons.settings, color: Colors.white),
-//       ),
-//     ],
-//     onClickMenu: (MenuItemProvider item) {
-//       switch (item.menuTitle) {
-//         case 'Timesheet':
-//           // Navigator.pushNamed(context, '/timesheet');
-//           break;
-//         case 'Profile':
-//           Get.toNamed('/profile_screen');
-//           break;
-//         case 'Settings':
-//           // Navigator.pushNamed(context, '/settings');
-//           break;
-//       }
-//     },
-//   );
-//   menu.show(widgetKey: _moreIconKey);
-// }
-
+    ),
+  );
+}
 
   final GlobalKey _moreIconKey = GlobalKey();
 
@@ -176,7 +159,8 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
         // selectedItemColor: Colors.amber[800],
          onTap: (index) {
           if (index == 4) {
-            _showPopupMenu();
+            // _showPopupMenu();
+            showCustomBottomSheet(context);
           } else {
             _onItemTapped(index);
           }

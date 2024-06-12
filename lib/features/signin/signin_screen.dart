@@ -59,7 +59,7 @@ class SignInScreen extends StatelessWidget {
                               "assets/svg/logo.svg",
                             ),
                             const SizedBox(
-                              height: 40,
+                              height: 30,
                             ),
                             // SvgPicture.asset(
                             //   "assets/svg/NMS.svg",
@@ -77,7 +77,7 @@ class SignInScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 25),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
                         child: Obx(

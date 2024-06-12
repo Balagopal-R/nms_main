@@ -27,14 +27,14 @@ class BasicDetailsScreen extends StatelessWidget {
                             const SizedBox(
                               height: 24,
                             ),
-                            const Center(
+                             Center(
                               child: CircleAvatar(
                                   radius: 44,
                                   backgroundColor: Colors.blueGrey,
                                   backgroundImage:
-                                      AssetImage('assets/png/person.jpg')),
+                                      NetworkImage(controller.getEmployData!.profileImgUrl!),)
                             ),
-                            const SizedBox(
+                           const SizedBox(
                               height: 8,
                             ),
                             Text(
@@ -60,7 +60,7 @@ class BasicDetailsScreen extends StatelessWidget {
                                   "Basic Information",
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700),
                                 ),
                               ],
