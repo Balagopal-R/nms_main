@@ -29,7 +29,7 @@ class WorkDetailsCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('salary',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              children: [const Text('Salary',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
               Text(salary,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
@@ -37,7 +37,7 @@ class WorkDetailsCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('project',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              children: [const Text('Project',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
               Text(project,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
@@ -46,7 +46,7 @@ class WorkDetailsCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16,),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('buddy',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              children: [const Text('Buddy',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
               Text(buddy,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
@@ -55,7 +55,7 @@ class WorkDetailsCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16,bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('manager',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              children: [const Text('Manager',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
               Text(manager,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           )

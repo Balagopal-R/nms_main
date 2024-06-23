@@ -97,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileButton(
                   title: 'My Documents',
                   onTap: () {
-                    // Navigate to My Documents page
+                    Get.toNamed('/my_documents_screen');
                   },
                 ),
                 LogoutButton(

@@ -27,7 +27,7 @@ class BasicInfoCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Mobile Number',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
+              children: [const Text('Mobile No.',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
               Text(mobileNumber,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),

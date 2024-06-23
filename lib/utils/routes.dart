@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:nms/features/basic_details/basic_details.dart';
+import 'package:nms/features/my_documents/my_documents_screen.dart';
 import 'package:nms/features/profile/profile_screen.dart';
 import 'package:nms/features/reset_password/reset_password.dart';
 import '../features/nms_main_layout/nms_main_layout_screen.dart';
@@ -20,11 +21,16 @@ List<GetPage> routes() => [
           transition: Transition.cupertino),
       GetPage(
           name: "/reset_password_screen",
-          // name: "/",
           page: () => const ResetPasswordScreen(),
           transition: Transition.cupertino),
       GetPage(
           name: "/profile_screen",
           page: () => const ProfileScreen(),
           transition: Transition.cupertino),
+      GetPage(
+          name: "/my_documents_screen",
+          page: () => MyDocumentsScreen(),
+          transition: Transition.cupertino),
     ];
+
+

@@ -52,7 +52,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildBottomSheetItem(
                 context,
@@ -94,7 +94,7 @@ Widget _buildBottomSheetItem(BuildContext context, {required IconData icon, requ
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 40, color: Colors.teal),
+        Icon(icon, size: 30, color: Colors.teal),
         SizedBox(height: 8),
         Text(label, style: TextStyle(color: Colors.teal)),
       ],

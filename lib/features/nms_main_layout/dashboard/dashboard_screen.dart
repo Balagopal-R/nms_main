@@ -228,7 +228,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           options: CarouselOptions(
                             viewportFraction: 1.0,
                               height: 300.0,
-                               autoPlay: true
+                              //  autoPlay: true
                                ),
                           items: [
                             _buildChartPage(
@@ -276,7 +276,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             
                                 
                             _buildTextPage(
-                                'Leaves',
+                                'Upcoming Leaves',
                                 ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
                                 ['Tomorrow', 'May 19, 2024', 'May 17, 2024'],
                                 'assets/svg/upcoming_leaves.svg',

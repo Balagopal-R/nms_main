@@ -37,6 +37,7 @@ class SignInController extends GetxController with SnackbarMixin {
   // final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   var otpController = TextEditingController().obs;
+  
   final _validationDisplay = false.obs;
   bool get validationDisplay => _validationDisplay.value;
 
@@ -82,9 +83,10 @@ class SignInController extends GetxController with SnackbarMixin {
         //  || value.length < 7
         ) {
       return passwordRequiredText;
-    } else if (value.length < 5) {
-      return "Minimum 5 Characters";
-    }
+    } 
+    // else if (value.length < 5) {
+    //   return "Minimum 5 Characters";
+    // }
     return null;
   }
 
