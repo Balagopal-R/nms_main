@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nms/dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
+import 'package:nms/dtos/nms_dtos/documents_list_dtos/documents_list_response.dart';
 import 'package:nms/dtos/nms_dtos/get_attendance/get_attendance_request.dart';
 import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_response.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
@@ -50,6 +52,10 @@ abstract class ApiRepository extends GetxController {
                  //  Logout
    Future<LogoutResponse> logout(
       {required LogoutRequest request});
+
+                //  get remaining Leaves
+   Future<DocumentsListResponse> listDocuments(
+      {required DocumentsListRequest request});
 
   
 }
@@ -159,6 +165,19 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
         params:{});
     debugPrint("response $response");
     return LogoutResponse.fromJson(response);
+  }
+
+   //  Listing employes uploaded documents
+  @override
+  Future<DocumentsListResponse> listDocuments(
+      {required DocumentsListRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.documentList,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return DocumentsListResponse.fromJson(response);
   }
 
 

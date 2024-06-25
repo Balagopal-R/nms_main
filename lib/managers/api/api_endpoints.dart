@@ -11,4 +11,5 @@ class ApiEndPoints {
   static const String getBirthdays = 'employee/getUpcomingBirthdays';
   static const String getRemainingLeaves = 'leaveAllocation/getLeaves';
   static const String logout = 'auth/logout' ;
+  static const String documentList = 'file/getAll' ;
 }
