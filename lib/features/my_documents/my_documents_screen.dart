@@ -39,7 +39,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
             Get.back();
           },
         ),
-        title: Text('Team Listing'),
+        title: Text('My Documents'),
         centerTitle: true,
         actions: [
           IconButton(

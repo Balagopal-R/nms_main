@@ -12,4 +12,5 @@ class ApiEndPoints {
   static const String getRemainingLeaves = 'leaveAllocation/getLeaves';
   static const String logout = 'auth/logout' ;
   static const String documentList = 'file/getAll' ;
+  static const String teamListing = 'punch/punchBoard';
 }

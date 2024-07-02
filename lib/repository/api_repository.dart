@@ -9,6 +9,7 @@ import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_response.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
+import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
 import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
 import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
@@ -53,9 +54,13 @@ abstract class ApiRepository extends GetxController {
    Future<LogoutResponse> logout(
       {required LogoutRequest request});
 
-                //  get remaining Leaves
+                //  Listing user documents
    Future<DocumentsListResponse> listDocuments(
       {required DocumentsListRequest request});
+
+       //  Team Listing
+   Future<TeamListingResponse> teamListing(
+      {required TeamListingRequest request});
 
   
 }
@@ -180,6 +185,18 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return DocumentsListResponse.fromJson(response);
   }
 
+  //  Listing of team members, punch in & out details
+  @override
+  Future<TeamListingResponse> teamListing(
+      {required TeamListingRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.teamListing,
+      body: request.toBody(),
+      params: request.toMap(),
+    );
+    print(response);
+    return TeamListingResponse.fromJson(response);
+  }
 
-  
+
 }
