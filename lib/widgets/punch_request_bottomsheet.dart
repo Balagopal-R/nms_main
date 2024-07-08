@@ -1,10 +1,59 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nms/widgets/cornered_button.dart';
-
 import '../utils/theme/theme_constants.dart';
+// import 'package:scroll_date_picker/scroll_date_picker.dart';
 
-class PunchRequestBottomSheetContent extends StatelessWidget {
+
+class PunchRequestBottomSheetContent extends StatefulWidget {
+  @override
+  State<PunchRequestBottomSheetContent> createState() => _PunchRequestBottomSheetContentState();
+}
+
+class _PunchRequestBottomSheetContentState extends State<PunchRequestBottomSheetContent> {
+  
+  DateTime selectedDate = DateTime.now(); 
+
+   List<TimeOfDay> _selectedTimes = [
+    TimeOfDay(hour: 9, minute: 0), // Punch In Time
+    TimeOfDay(hour: 12, minute: 0), // Punch Out Time
+    TimeOfDay(hour: 13, minute: 0), // Break
+    TimeOfDay(hour: 14, minute: 0), // Resume
+  ];
+   void _showTimePicker(int pickerNumber) async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: _selectedTimes[pickerNumber],
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        _selectedTimes[pickerNumber] = pickedTime;
+      });
+    }
+  }
+
+  String _formatTime24Hour(TimeOfDay time) {
+    // Format the time as a two-digit string in 24-hour format
+    return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
+  }
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2018, 1, 1),
+      lastDate: DateTime(2100, 12, 31),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -75,7 +124,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
               height: 50.0, // Increased height for Date Picker
               child: GestureDetector(
                 onTap: () {
-                  // Date Picker Logic
+                 _selectDate(context);
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.0),
@@ -88,7 +137,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '25/09/2023',
+                        DateFormat('dd/MM/yyyy').format(selectedDate),
                         style: TextStyle(
                           color: Colors.black,
                         ),
@@ -159,7 +208,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                           SizedBox(height: 8.0),
                           GestureDetector(
                             onTap: () {
-                              // Time Picker Logic
+                              _showTimePicker(0);
                             },
                             child: Container(
                               height: 50,
@@ -174,7 +223,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '09:00',
+                                   _formatTime24Hour(_selectedTimes[0]),
                                     style: TextStyle(
                                       color: Colors.black,
                                     ),
@@ -197,7 +246,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                           SizedBox(height: 8.0),
                           GestureDetector(
                             onTap: () {
-                              // Time Picker Logic
+                              _showTimePicker(2);
                             },
                             child: Container(
                               height: 50,
@@ -212,7 +261,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '13:00',
+                                     _formatTime24Hour(_selectedTimes[2]),
                                     style: TextStyle(
                                       color: Colors.black,
                                     ),
@@ -242,7 +291,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                           SizedBox(height: 8.0),
                           GestureDetector(
                             onTap: () {
-                              // Time Picker Logic
+                             _showTimePicker(1);
                             },
                             child: Container(
                               height: 50,
@@ -257,7 +306,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '18:00',
+                                    _formatTime24Hour(_selectedTimes[1]),
                                     style: TextStyle(
                                       color: Colors.black,
                                     ),
@@ -280,7 +329,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                           SizedBox(height: 8.0),
                           GestureDetector(
                             onTap: () {
-                              // Time Picker Logic
+                             _showTimePicker(3);
                             },
                             child: Container(
                               height: 50,
@@ -295,7 +344,7 @@ class PunchRequestBottomSheetContent extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '14:00',
+                                     _formatTime24Hour(_selectedTimes[3]),
                                     style: TextStyle(
                                       color: Colors.black,
                                     ),

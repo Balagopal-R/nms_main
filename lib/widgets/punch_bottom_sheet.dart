@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:nms/widgets/cornered_button.dart';
 import '../utils/theme/theme_constants.dart';
+import 'package:intl/intl.dart'; 
 
 class PunchBottomSheetContent extends StatelessWidget {
 
@@ -16,6 +16,14 @@ class PunchBottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    final today = DateTime.now(); // Get the current date
+    final formattedDate = DateFormat('dd/MM/yyyy').format(today); // Format the date
+
+    final now = DateTime.now();
+    final formattedTime = DateFormat('HH:mm').format(now); // Format in 24-hour format
+
+
 
     return Container(
       width: screenWidth,
@@ -78,7 +86,7 @@ class PunchBottomSheetContent extends StatelessWidget {
                   Text(
               'Date*',
               style: TextStyle(
-                color: Color(0xFF7A7A7A),
+                color: Color(0xffD9D9D9),
                 fontFamily: 'Satoshi',
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
@@ -86,33 +94,28 @@ class PunchBottomSheetContent extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
 
-               GestureDetector(
-                    onTap: () {
-                      // Date Picker Logic
-                    },
-                    child: Container(
-                      height: 50,
-                              width: screenWidth*0.43,
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4.0),
-                        border: Border.all(color: Color(0xFFB7B7B7)),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '25/09/2023',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                          Icon(Icons.calendar_today, color: Colors.grey),
-                        ],
-                      ),
-                    ),
-                  ),
+               Container(
+                 height: 50,
+                         width: screenWidth*0.43,
+                 padding: EdgeInsets.symmetric(horizontal: 12.0),
+                 decoration: BoxDecoration(
+                   borderRadius: BorderRadius.circular(4.0),
+                   border: Border.all(color: Color(0xffD9D9D9)),
+                   color: Colors.white,
+                 ),
+                 child: Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     Text(
+                       formattedDate,
+                       style: TextStyle(
+                         color: Colors.black,
+                       ),
+                     ),
+                     Icon(Icons.calendar_today, color: Colors.grey),
+                   ],
+                 ),
+               ),
 
                   ],
                 ),
@@ -123,38 +126,34 @@ class PunchBottomSheetContent extends StatelessWidget {
                    Text(
                             'Time*',
                             style: TextStyle(
-                              color: Color(0xFF7A7A7A),
+                              color: Color(0xffD9D9D9),
                               fontFamily: 'Satoshi',
                               fontSize: 14.0,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           SizedBox(height: 8.0),
-                          GestureDetector(
-                            onTap: () {
-                              // Time Picker Logic
-                            },
-                            child: Container(
-                              height: 50,
-                              width: screenWidth*0.43,
-                              padding: EdgeInsets.symmetric(horizontal: 12.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.0),
-                                border: Border.all(color: Color(0xFFB7B7B7)),
-                                color: Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '09:00',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
+
+                          Container(
+                            height: 50,
+                            width: screenWidth*0.43,
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.0),
+                              border: Border.all(color: Color(0xffD9D9D9)),
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  formattedTime,
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
-                                  Icon(Icons.access_time, color: Colors.grey),
-                                ],
-                              ),
+                                ),
+                                Icon(Icons.access_time, color: Colors.grey),
+                              ],
                             ),
                           ),
                   ],

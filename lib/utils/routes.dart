@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:nms/features/basic_details/basic_details.dart';
 import 'package:nms/features/my_documents/my_documents_screen.dart';
+import 'package:nms/features/nms_main_layout/punch/approvals/approvals_screen.dart';
 import 'package:nms/features/profile/profile_screen.dart';
 import 'package:nms/features/reset_password/reset_password.dart';
 import '../features/nms_main_layout/nms_main_layout_screen.dart';
@@ -8,7 +9,7 @@ import '../features/signin/signin.dart';
 
 List<GetPage> routes() => [
       GetPage(
-          name: "/",
+          name: "/n",
           page: () => const SignInScreen(),
           transition: Transition.cupertino),
       GetPage(
@@ -30,6 +31,10 @@ List<GetPage> routes() => [
       GetPage(
           name: "/my_documents_screen",
           page: () => MyDocumentsScreen(),
+          transition: Transition.cupertino),
+      GetPage(
+          name: "/",
+          page: () => ApprovalsScreen(),
           transition: Transition.cupertino),
     ];
 
