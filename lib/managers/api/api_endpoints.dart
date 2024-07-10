@@ -13,4 +13,8 @@ class ApiEndPoints {
   static const String logout = 'auth/logout' ;
   static const String documentList = 'file/getAll' ;
   static const String teamListing = 'punch/punchBoard';
+  static const String lastPunchIn = 'punch/lastPunchIn';
+  static const String punchIn = 'punch/punchIn';
+  static const String punchOut = 'punch/punchOut';
+  static const String punchRequest = 'punch/punchRequest';
 }

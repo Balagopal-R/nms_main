@@ -8,6 +8,9 @@ import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_response.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_response.dart';
+import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
+import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
+import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
 import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
@@ -16,6 +19,7 @@ import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_response.dart';
+import '../dtos/nms_dtos/punch_request_dtos/punch_request.dart';
 import '../managers/api/api.dart';
 
 abstract class ApiRepository extends GetxController {
@@ -61,6 +65,23 @@ abstract class ApiRepository extends GetxController {
        //  Team Listing
    Future<TeamListingResponse> teamListing(
       {required TeamListingRequest request});
+
+          //  Last Punch In
+   Future<LastPunchInResponse> lastPunchIn(
+      {required LastPunchInRequest request});
+
+          //  Punch In
+   Future<PunchInResponse> punchIn(
+      {required PunchInRequest request});
+
+          //  Punch Out
+   Future<PunchOutResponse> punchOut(
+      {required PunchOutRequest request});
+
+          //  Punch Out
+   Future<PunchRequestResponse> punchRequest(
+      {required PunchRequestRequest request});
+
 
   
 }
@@ -198,5 +219,55 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return TeamListingResponse.fromJson(response);
   }
 
+  //  last Punch In
+  @override
+  Future<LastPunchInResponse> lastPunchIn(
+      {required LastPunchInRequest request}) async {
+    final response = await _helper.get(
+      endpoint: ApiEndPoints.lastPunchIn,
+      params: request.toMap(),
+    );
+    debugPrint("response $response");
+    return LastPunchInResponse.fromJson(response);
+  }
+
+  //  Punch In
+  @override
+  Future<PunchInResponse> punchIn(
+      {required PunchInRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.punchIn,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return PunchInResponse.fromJson(response);
+  }
+
+  //  Punch Out
+  @override
+  Future<PunchOutResponse> punchOut(
+      {required PunchOutRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.punchOut,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return PunchOutResponse.fromJson(response);
+  }
+
+   //  Punch Request
+  @override
+  Future<PunchRequestResponse> punchRequest(
+      {required PunchRequestRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.punchRequest,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return PunchRequestResponse.fromJson(response);
+  }
 
 }

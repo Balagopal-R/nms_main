@@ -9,7 +9,7 @@ import '../features/signin/signin.dart';
 
 List<GetPage> routes() => [
       GetPage(
-          name: "/n",
+          name: "/",
           page: () => const SignInScreen(),
           transition: Transition.cupertino),
       GetPage(
@@ -33,7 +33,7 @@ List<GetPage> routes() => [
           page: () => MyDocumentsScreen(),
           transition: Transition.cupertino),
       GetPage(
-          name: "/",
+          name: "/nn",
           page: () => ApprovalsScreen(),
           transition: Transition.cupertino),
     ];
