@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nms/features/nms_main_layout/dashboard/dashboard.dart';
 import 'package:nms/features/nms_main_layout/leave/leave_screen.dart';
 import 'package:nms/features/nms_main_layout/punch/punch_screen.dart';
@@ -29,79 +28,6 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
       _selectedIndex = index;
     });
   }
-
- void showCustomBottomSheet(BuildContext context) {
-  showMaterialModalBottomSheet(
-    context: context,
-    builder: (context) => Container(
-      padding: EdgeInsets.all(16.0),
-      height: 150,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 100,
-            height: 4,
-            margin: EdgeInsets.only(bottom: 16.0),
-            decoration: BoxDecoration(
-              color: Color(0xFF7A7A7A),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildBottomSheetItem(
-                context,
-                icon: Icons.access_time,
-                label: 'Timesheet',
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.pushNamed(context, '/timesheet');
-                },
-              ),
-              _buildBottomSheetItem(
-                context,
-                icon: Icons.person,
-                label: 'Profile',
-                onTap: () {
-                  Get.toNamed('/profile_screen');
-                },
-              ),
-              _buildBottomSheetItem(
-                context,
-                icon: Icons.settings,
-                label: 'Settings',
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.pushNamed(context, '/settings');
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _buildBottomSheetItem(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 30, color: Colors.teal),
-        SizedBox(height: 8),
-        Text(label, style: TextStyle(color: Colors.teal)),
-      ],
-    ),
-  );
-}
-
   final GlobalKey _moreIconKey = GlobalKey();
 
   @override
@@ -156,15 +82,127 @@ Widget _buildBottomSheetItem(BuildContext context, {required IconData icon, requ
           ),
         ],
         currentIndex: _selectedIndex,
-        // selectedItemColor: Colors.amber[800],
          onTap: (index) {
           if (index == 4) {
-            // _showPopupMenu();
-            showCustomBottomSheet(context);
+            showModalBottomSheet(
+                context: context,
+                builder: (context) => CustomBottomSheet(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                ),
+                backgroundColor: Colors.transparent,
+              );
           } else {
             _onItemTapped(index);
           }
         },
+      ),
+    );
+  }
+}
+
+class CustomBottomSheet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(24, 39, 75, 0.08),
+            offset: Offset(0, -5),
+            blurRadius: 8,
+            spreadRadius: -6,
+          ),
+        ],
+      ),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 5,
+            width: 50,
+            decoration: BoxDecoration(
+              color: Color(0xFF7A7A7A),
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              BottomSheetColumn(
+                iconPath: 'assets/png/time_tracking_icon.png',
+                label: 'Timesheet',
+                onTap: () {
+                  
+                },
+                textColor: Colors.black,
+                textStyle: TextStyle(fontFamily: 'Satoshi'),
+              ),
+              BottomSheetColumn(
+                iconPath: 'assets/png/profile.png',
+                label: 'Profile',
+                onTap: () {
+                   Get.toNamed('/profile_screen');
+                },
+                textColor: Colors.black,
+                textStyle: TextStyle(fontFamily: 'Satoshi'),
+              ),
+              BottomSheetColumn(
+                iconPath: 'assets/png/settings.png',
+                label: 'Settings',
+                onTap: () {
+                  
+                },
+                textColor: Colors.black,
+                textStyle: TextStyle(fontFamily: 'Satoshi'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BottomSheetColumn extends StatelessWidget {
+  final String iconPath;
+  final String label;
+  final VoidCallback onTap;
+  final Color textColor;
+  final TextStyle textStyle;
+
+  const BottomSheetColumn({
+    Key? key,
+    required this.iconPath,
+    required this.label,
+    required this.onTap,
+    required this.textColor,
+    required this.textStyle,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Image.asset(iconPath, width: 30, height: 30),
+          SizedBox(height: 5),
+          Text(
+            label,
+            style: textStyle.copyWith(color: textColor),
+          ),
+        ],
       ),
     );
   }

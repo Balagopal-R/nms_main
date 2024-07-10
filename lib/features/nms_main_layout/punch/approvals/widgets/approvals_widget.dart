@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_bottomsheet.dart';
 
 class ApprovalsWidget extends StatelessWidget {
   final String status;
@@ -18,7 +19,7 @@ class ApprovalsWidget extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Container(
           width: screenWidth,
           height: screenHeight * 0.33,
@@ -101,7 +102,16 @@ class ApprovalsWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            builder: (context) => ApprovalsBottomSheetContent(),
+          );
+                        },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
@@ -152,3 +162,4 @@ class ApprovalsWidget extends StatelessWidget {
     );
   }
 }
+

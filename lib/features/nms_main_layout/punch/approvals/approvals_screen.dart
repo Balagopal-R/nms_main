@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nms/widgets/approvals_widget.dart';
+import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_widget.dart';
 import 'package:nms/widgets/punch_in_out_request_bottomsheet.dart';
 
 class ApprovalsScreen extends StatelessWidget {
+  
   final List<Map<String, String>> items = [
     {
       'status': 'Pending',

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LeaveScreen extends StatelessWidget {
-  const LeaveScreen({super.key});
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text("LeaveScreen")),
+      backgroundColor: Color(0xffF1F1F1),
+      body: Center(child: Text("HistoryScreen")),
     );
 
 

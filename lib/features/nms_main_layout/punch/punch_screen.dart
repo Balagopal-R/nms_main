@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nms/features/nms_main_layout/punch/approvals/approvals.dart';
+import 'package:nms/features/nms_main_layout/punch/summary/summary_screen.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
+
+import 'history/history_screen.dart';
 
 class PunchScreen extends StatefulWidget {
   const PunchScreen({super.key});
@@ -22,7 +26,7 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+       backgroundColor: Color(0xffF1F1F1),
       appBar: AppBar(
         backgroundColor: Color(0xffFAFAFA),
         leading: IconButton(
@@ -93,53 +97,127 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
               )
             : null,
       ),
-      body: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 22, right: 21, bottom: 8),
-                            child: Container(
-                              height: 34,
-                              width: 300,
-                              decoration: BoxDecoration(
-                                color: messageColor,
-                                borderRadius: BorderRadius.circular(
-                                  5.0,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: TabBar(
-                                  controller: _controller,
-                                  indicator: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                      5.0,
-                                    ),
-                                    color: Colors.white,
-                                  ),
-                                  labelColor: primaryColor,
-                                  labelStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700),
-                                  unselectedLabelStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                  dividerColor: messageColor,
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  unselectedLabelColor: Colors.white,
-                                  tabs: const [
-                                    Tab(
-                                      text: 'History',
-                                    ),
-                                    Tab(
-                                      text: 'Approvals',
-                                    ),
-                                    Tab(
-                                      text: 'Summary',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+      // body: Padding(
+      //                       padding: const EdgeInsets.only(
+      //                           left: 22, right: 21, bottom: 8),
+      //                       child: Container(
+      //                         height: 34,
+      //                         width: 300,
+      //                         decoration: BoxDecoration(
+      //                           color: messageColor,
+      //                           borderRadius: BorderRadius.circular(
+      //                             5.0,
+      //                           ),
+      //                         ),
+      //                         child: Padding(
+      //                           padding: const EdgeInsets.all(2.0),
+      //                           child: TabBar(
+      //                             controller: _controller,
+      //                             indicator: BoxDecoration(
+      //                               borderRadius: BorderRadius.circular(
+      //                                 5.0,
+      //                               ),
+      //                               color: Colors.white,
+      //                             ),
+      //                             labelColor: primaryColor,
+      //                             labelStyle: const TextStyle(
+      //                                 fontSize: 14,
+      //                                 fontWeight: FontWeight.w700),
+      //                             unselectedLabelStyle: const TextStyle(
+      //                                 fontSize: 14,
+      //                                 fontWeight: FontWeight.w400),
+      //                             dividerColor: messageColor,
+      //                             indicatorSize: TabBarIndicatorSize.tab,
+      //                             unselectedLabelColor: Colors.white,
+      //                             tabs: const [
+      //                               Tab(
+      //                                 text: 'History',
+      //                               ),
+      //                               Tab(
+      //                                 text: 'Approvals',
+      //                               ),
+      //                               Tab(
+      //                                 text: 'Summary',
+      //                               ),
+      //                             ],
+                                
+        
+      //                           ),
+      //                         ),
+      //                       ),
+      //                     ),
+
+    body: SafeArea(
+        child: Container(
+          // decoration: BoxDecoration(
+          //                       color: messageColor,
+          //                       borderRadius: BorderRadius.circular(
+          //                         5.0,
+          //                       ),
+          //                     ),
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 10,
+          ),
+          child: DefaultTabController(
+            length: 3,
+            initialIndex: 2,
+            child: Column(
+              children: [
+                Container(
+                  height: 47,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      border: Border.all(color: Colors.grey, width: 1)),
+                  child: TabBar(
+                    unselectedLabelColor: Colors.grey[900],
+                    indicator: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        color: Color(0xffCAE3A8)),
+                    tabs: [
+                      Tab(
+                        child: Container(
+                          child: const Text(
+                            "History",
+                            style: TextStyle(fontSize: 14, color: Colors.black),
                           ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          child: const Text(" Approvals ",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.black)),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          child: const Text("Summary",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.black)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                    child: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    const HistoryScreen(),
+                    ApprovalsScreen(),
+                    const SummaryScreen(),
+                    
+                  ],
+                ))
+              ],
+            ),
+          ),
+        ),
+      ),
+
+
     );
 
 
