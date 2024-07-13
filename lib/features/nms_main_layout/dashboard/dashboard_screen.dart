@@ -564,9 +564,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                _buildCircularPercentIndicator('CL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
-                _buildCircularPercentIndicator('SL', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
-                _buildCircularPercentIndicator('SPL', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
+                // _buildCircularPercentIndicator('SPL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
+                _buildCircularPercentIndicator('WL', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
+                _buildCircularPercentIndicator('SL', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
+                _buildCircularPercentIndicator('LEA', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves),
+                _buildCircularPercentIndicator('TL', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves),
                 // _buildCircularPercentIndicator('VL', 0.6),
                 // _buildCircularPercentIndicator('SCL', 0.6),
                 // _buildCircularPercentIndicator('TL', 0.6),
@@ -591,9 +593,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (isExpanded)
               Column(
                 children: [
-                  _buildLinearPercentIndicator('Casual Leave', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
-                  _buildLinearPercentIndicator('Sick Leave', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
-                  _buildLinearPercentIndicator('Privilege Leave', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
+                  // _buildLinearPercentIndicator('SPECIAL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
+                  _buildLinearPercentIndicator('WOMENS ', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
+                  _buildLinearPercentIndicator('SICK', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
+                 _buildLinearPercentIndicator('LEAVES ', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves),
+                  _buildLinearPercentIndicator('TEST ', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves),
                   // _buildLinearPercentIndicator('Maternity Leave', 0.4),
                   // _buildLinearPercentIndicator('Vacation Leave', 0.3),
                   IconButton(
@@ -628,7 +632,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            '${(percent * 12).toInt()}',
+            '${(percent * 12).toInt}',
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,

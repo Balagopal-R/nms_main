@@ -2,25 +2,27 @@ class TeamListingModel {
     String userId;
     String firstname;
     String lastname;
-    String profileImg;
+    String? profileImg;
     String designation;
     String dept;
     int? punchIn;
+    int? punchOut;
     String? punchLocation;
     String shiftTime;
-    String status;
+    String? status;
 
     TeamListingModel({
         required this.userId,
         required this.firstname,
         required this.lastname,
-        required this.profileImg,
+        this.profileImg,
         required this.designation,
         required this.dept,
         this.punchIn,
+        this.punchOut,
         this.punchLocation,
         required this.shiftTime,
-        required this.status,
+        this.status,
     });
 
     factory TeamListingModel.fromJson(Map<String, dynamic> json) => TeamListingModel(
@@ -31,6 +33,7 @@ class TeamListingModel {
         designation: json["designation"],
         dept: json["dept"],
         punchIn: json["punchIn"],
+        punchOut: json["punchOut"],
         punchLocation: json["punchLocation"],
         shiftTime: json["shiftTime"],
         status: json["status"],
@@ -44,6 +47,7 @@ class TeamListingModel {
         "designation": designation,
         "dept": dept,
         "punchIn": punchIn,
+        "punchOut": punchOut,
         "punchLocation": punchLocation,
         "shiftTime": shiftTime,
         "status": status,

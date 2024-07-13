@@ -35,20 +35,21 @@ class TeamListingController extends GetxController with SnackbarMixin{
   void onInit() async{
 
   await teamListingScreen();
-  // await getLastPunchIn();
+  await getLastPunchIn();
   // await userPunchIn();
-  await userPunchOut(); 
+  // await userPunchOut(); 
   super.onInit();
   }
+
      
-    //  list uploaded user documenst
+    //  listing team members along with punch in/out information
    teamListingScreen() async {
     try {
 
         final request = TeamListingRequest(
           keyword: "",
           field: "",
-          sortOfOrder:"" ,
+          sortOfOrder:"ASC" ,
           page: 0,
           size: 10,);
 
@@ -105,7 +106,7 @@ class TeamListingController extends GetxController with SnackbarMixin{
 
         final request = PunchInRequest(
           empId: userId,
-          punchInDateTime: 1720498440,
+          punchInDateTime: 1720778265,
           punchLocation: "OFFICE",
           projectCode: "NMS",
           task: "Unassigned",
@@ -142,7 +143,7 @@ class TeamListingController extends GetxController with SnackbarMixin{
 
         final request = PunchOutRequest(
           empId: userId,
-          punchOutDateTime: 1720498440,
+          punchOutDateTime: 1720778265,
           punchLocation: "OFFICE",
           projectCode: "NMS",
           task: "Unassigned",

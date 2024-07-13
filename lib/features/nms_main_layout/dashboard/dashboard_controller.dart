@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'dart:core';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
@@ -77,6 +79,22 @@ class DashboardController extends GetxController with SnackbarMixin {
 
  double getAvgPunchTime = 0.0 ;
 
+ int getTodaysEpochTime() {
+  // Get current date without time
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+
+  // Convert to seconds since epoch
+  return today.millisecondsSinceEpoch ~/ 1000;
+}
+
+String getTodaysDate() {
+  final now = DateTime.now();
+  final formatter = DateFormat('yyyy-MM-dd');
+  final formattedDate = formatter.format(now);
+  return formattedDate;
+}
+
 
 
 // employee punch time , average punch time, clocked working minutes
@@ -85,11 +103,12 @@ class DashboardController extends GetxController with SnackbarMixin {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
+      final todaysEpoch = getTodaysEpochTime();
       if (decodedToken != null) {
         final userId = decodedToken["userId"];
 
         final request = GetEmployePunchTimeRequest(
-            userId: userId, startDate: 1718217000, endDate: 1718735400);
+            userId: userId, startDate: todaysEpoch-518400, endDate: todaysEpoch);
 
         final response =
             await ApiRepository.to.getEmployePunchTime(request: request);
@@ -273,6 +292,7 @@ class DashboardController extends GetxController with SnackbarMixin {
        final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       final userId = decodedToken!["userId"];
+      String today = getTodaysDate();
 
       final request = GetLeavesRequest(
           userId: userId,
@@ -281,7 +301,7 @@ class DashboardController extends GetxController with SnackbarMixin {
           size: 10,
           field: "leaveBalance",
           sortOfOrder: "ASC",
-          asOfDate: "2024-06-19",
+          asOfDate: today,
           status: ["ACTIVE"],
           );
 
@@ -291,7 +311,11 @@ class DashboardController extends GetxController with SnackbarMixin {
         print(response.data);
         _getEmployeRemainingLeaves.value = response.data;
 
-
+        print(getEmployeRemainingLeaves[0].balanceLeaves/getEmployeRemainingLeaves[0].totalLeaves);
+         print(getEmployeRemainingLeaves[1].balanceLeaves/getEmployeRemainingLeaves[1].totalLeaves);          
+          print(getEmployeRemainingLeaves[2].balanceLeaves/getEmployeRemainingLeaves[2].totalLeaves);
+         print(getEmployeRemainingLeaves[3].balanceLeaves/getEmployeRemainingLeaves[3].totalLeaves);
+          print(getEmployeRemainingLeaves[4].balanceLeaves/getEmployeRemainingLeaves[4].totalLeaves);
         // print('${getEmployeRemainingLeaves[0].balanceLeaves}');
         update();
       } else if (response.message == "Failed") {

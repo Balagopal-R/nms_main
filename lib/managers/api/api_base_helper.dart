@@ -91,6 +91,52 @@ class ApiBaseHelper {
     return responseJson;
   }
 
+   Future<dynamic> multipartWithBody(
+      {required String endpoint,
+      required Map<String, dynamic> params,
+      required dynamic body,
+      Map<String, String>? headers}) async {
+    dynamic responseJson;
+    try {
+      String completeUrl = "";
+      if (params == {}) {
+        completeUrl = '$_baseUrl$endpoint';
+      } else {
+        String queryString = params.entries
+            .map((entry) => '${entry.key}=${Uri.encodeComponent(entry.value)}')
+            .join('&');
+        completeUrl = '$_baseUrl$endpoint?$queryString';
+      }
+      var uri = Uri.parse(completeUrl);
+      var request = http.MultipartRequest('POST', uri);
+      request.files.add(http.MultipartFile(
+          'file', body.readAsBytes().asStream(), body.lengthSync(),
+          filename: body.path.split("/").last));
+      request.headers
+          .addAll(headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader());
+
+      var response = await request.send();
+
+      responseJson = _returnResponseForMultipart(response);
+    } on SocketException {
+      throw NoNetworkException();
+    }
+    return responseJson;
+  }
+
+  dynamic _returnResponseForMultipart(http.BaseResponse response) async {
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = response;
+        debugPrint(responseJson.toString());
+        return responseJson;
+      default:
+        throw FetchDataException(
+            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+    }
+  }
+
+
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

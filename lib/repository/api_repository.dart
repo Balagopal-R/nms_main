@@ -13,6 +13,7 @@ import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
+import '../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
 import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
@@ -30,6 +31,7 @@ abstract class ApiRepository extends GetxController {
   //Signin_Screen
   Future<SubmitLoginResponse> logInWithEmail(
       {required SubmitLoginRequest request});
+      
   // signin_employ_details
   Future<GetEmployResponse> getEmployDetails(
       {required GetEmpoyRequest request});
@@ -78,11 +80,13 @@ abstract class ApiRepository extends GetxController {
    Future<PunchOutResponse> punchOut(
       {required PunchOutRequest request});
 
-          //  Punch Out
+          //  Punch Request
    Future<PunchRequestResponse> punchRequest(
       {required PunchRequestRequest request});
 
-
+   //  File Upload
+   Future<dynamic> fileUpload(
+      {required FileUploadRequest request});
   
 }
 
@@ -268,6 +272,19 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     print(response);
     return PunchRequestResponse.fromJson(response);
+  }
+
+  //  File Upload
+  @override
+  Future<dynamic> fileUpload(
+      {required FileUploadRequest request}) async {
+    final response = await _helper.multipartWithBody(
+      endpoint: ApiEndPoints.fileUpload,
+      body: request.toBody(),
+      params: request.toMap(),
+    );
+    print(response);
+    return response;
   }
 
 }

@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
+import 'package:nms/models/file_upload_model/file_upload_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
 import '../../dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
+import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 
 class MyDocumentsController extends GetxController with SnackbarMixin {
 
@@ -19,6 +22,9 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
 
   // final _employeDocumentDetailsMap = (Map<String, String>.empty()).obs;
   // Map<String, String> get employeDocumentDetailsMap => _employeDocumentDetailsMap;
+
+  final _userFileUpload = Rx<FileUploadModel?>(null);
+  FileUploadModel? get userFileUpload => _userFileUpload.value;
 
   Map<String, String> documentMap = {'name': '', 'date': '', 'category': ''};
   
@@ -50,14 +56,17 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
 
         if (response.status == 200) {
           _listEmployeDocuments.value = response.data;
-          for (int i = 0 ; i < listEmployeDocuments.length; i++) {
-            documentMap = {'name': listEmployeDocuments[i].displayName,
-                           'date': listEmployeDocuments[i].createdAt.toString(), 
-                           'category': listEmployeDocuments[i].category};
+          print(listEmployeDocuments.length);
+          print(listEmployeDocuments[0].displayName);
 
-          // _employeDocumentDetails.value = _employeDocumentDetails.value.add(documentMap);
+          // for (int i = 0 ; i < listEmployeDocuments.length; i++) {
+          //   documentMap = {'name': listEmployeDocuments[i].displayName,
+          //                  'date': listEmployeDocuments[i].createdAt.toString(), 
+          //                  'category': listEmployeDocuments[i].category};
 
-          }
+          // // _employeDocumentDetails.value = _employeDocumentDetails.value.add(documentMap);
+
+          // }
 
        
 
@@ -100,5 +109,89 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
       }
     }
   }
+
+  //   File upload
+  //  fileUpload() async {
+  //   try {
+  //     final authService = NMSJWTDecoder();
+  //     final decodedToken = await authService.decodeAuthToken();
+  //     if (decodedToken != null) {
+  //       final userId = decodedToken["userId"];
+
+  //       final request = FileUploadRequest(
+  //         userId: userId,
+  //         category: 'Work',
+  //         uploadfile: 
+  //         );
+
+  //       final response =
+  //           await ApiRepository.to.fileUpload(request: request);
+
+  //       if (response.status == 200) {
+  //         _userFileUpload.value = response.data;
+  //         print(userFileUpload!.fileName);
+       
+
+  //       } else if (response.message == "Failed") {
+  //         debugPrint(response.errors['errorMessage']);
+  //         showErrorSnackbar(message: errorOccuredText);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     showErrorSnackbar(message: e.toString());
+  //   }
+  // }
+
+   // upload image api function
+  Future<void> uploadImage(File imageFile) async {
+    String defaultMessage = '';
+
+    try {
+
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+        final userId = decodedToken["userId"];
+      final request =
+          FileUploadRequest(userId: userId, uploadfile: imageFile,category: 'Work');
+      final response = await ApiRepository.to.fileUpload(request: request);
+
+      if (response.statusCode == 200) {
+        final response1 = await response.stream.bytesToString();
+        final parsedJson = json.decode(response1);
+        var datas = FileUploadModel.fromJson(parsedJson);
+        var message = datas.fileUrl;
+
+        // if (uploadedImagevalue.length < 5) {
+        //   uploadedImagevalue.add(_extractLastSegment(message));
+        //   _extractedFirstPart.value = _extractFirstSegment(message);
+        // } else {
+        //   showErrorSnackbar(
+        //       title: errorText, message: "Maximum 5 images can be uploaded");
+        // }
+
+        // print(uploadedImagevalue);
+
+        debugPrint('-----Stored file name :$message-----');
+        update();
+      } else {
+        debugPrint('fail');
+        // uploadedImageMessage.value = defaultMessage;
+      }
+      }
+    } 
+  //   catch (e) {
+  //     showErrorSnackbar(title: errorText, message: e.toString());
+  //     uploadedImageMessage.value = defaultMessage;
+  //     debugPrint(e.toString());
+  //   }
+  // }
+   catch (e) {
+      showErrorSnackbar(message: e.toString());
+    }
+  }
+
+
+
 
 }

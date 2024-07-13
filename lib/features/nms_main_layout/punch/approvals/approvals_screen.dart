@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_widget.dart';
-import 'package:nms/widgets/punch_in_out_request_bottomsheet.dart';
+import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
 
 class ApprovalsScreen extends StatelessWidget {
   
@@ -36,7 +36,7 @@ class ApprovalsScreen extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return PunchInOutRequestSheetContent();
+                  return PunchInRequestSheetContent();
                 },
               );
             },

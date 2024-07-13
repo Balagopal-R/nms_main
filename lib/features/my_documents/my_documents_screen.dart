@@ -99,7 +99,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
       ),
           body: controller.listEmployeDocuments != null ?
           ListView.builder(
-            itemCount: documents.length,
+            itemCount: controller.listEmployeDocuments.length,
             itemBuilder: (context, index) {
               return Container(
                 margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
@@ -109,7 +109,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           onPressed: () {
           },
         ),
-                  title: Text(documents[index]['name']!),
+                  title: Text(controller.listEmployeDocuments[index].displayName),
                   subtitle: Row(
                     children: [
                       Text(documents[index]['date']!),
@@ -214,30 +214,74 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                   ),
                 ),
                 SizedBox(height: 8.0),
+
+
+                // DropdownButtonFormField<String>(
+                //   value: _selectedCategory,
+                //   hint: Text('Select'),
+                //   items: _categories.map((category) {
+                //     return DropdownMenuItem(
+                //       value: category,
+                //       child: Text(category),
+                //     );
+                //   }).toList(),
+                //   onChanged: (value) {
+                //     setState(() {
+                //       _selectedCategory = value;
+                //     });
+                //   },
+                //   icon: Icon(Icons.arrow_drop_down),
+                //   decoration: InputDecoration(
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(4.0),
+                //       borderSide: BorderSide(
+                //         color: Color(0xFFB7B7B7),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+
                 DropdownButtonFormField<String>(
-                  value: _selectedCategory,
-                  hint: Text('Select'),
-                  items: _categories.map((category) {
-                    return DropdownMenuItem(
-                      value: category,
-                      child: Text(category),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                  },
-                  icon: Icon(Icons.arrow_drop_down),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide: BorderSide(
-                        color: Color(0xFFB7B7B7),
-                      ),
-                    ),
-                  ),
-                ),
+
+  menuMaxHeight: 200.0, // Adjust height as needed
+  value: _selectedCategory,
+  hint: Text('Select'),
+  items: _categories.map((category) {
+    return DropdownMenuItem(
+      value: category,
+      child: Text(category),
+    );
+  }).toList(),
+  onChanged: (value) {
+    setState(() {
+      _selectedCategory = value;
+    });
+  },
+  icon: Icon(Icons.arrow_drop_down, color: _selectedCategory != null ? Colors.teal[400] : null), // Dynamic icon color
+  
+  decoration: InputDecoration(
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4.0),
+      borderSide: BorderSide(color: Color(0xFFB7B7B7)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4.0),
+      borderSide: BorderSide(color: Color(0xff3BBCA0)), // Aqua highlight on focus
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4.0),
+      borderSide: BorderSide(color: Colors.red), // Red border for validation
+    ),
+    contentPadding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 12.0), // Adjust padding as needed
+    hintText:'Select',
+  ),
+  validator: (value) => value == null ? 'Please select a category' : null,
+  dropdownColor: Colors.white, // White background for dropdown menu
+),
+
+
+
+
                 SizedBox(height: 10.0),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -283,7 +327,10 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                         color: primaryColor,
                         title: 'Submit',
                         textcolor: backgroundColor,
-                        onPress: () async {},
+                        onPress: () async {
+
+
+                        },
                       ),
         
                 // ElevatedButton(
