@@ -240,7 +240,13 @@ class LogoutButton extends StatelessWidget {
               'Logout',
               style: TextStyle(color: Colors.red),
             ),
-            Icon(Icons.logout, color: Colors.red),
+            
+            // Icon(Icons.logout, color: Colors.red),
+
+            Image(
+  image: AssetImage('assets/png/logout.png'), // Adjust the path if needed
+  color: Colors.red, // Apply desired color (optional)
+)
           ],
         ),
       ),

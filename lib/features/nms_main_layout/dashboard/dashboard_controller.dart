@@ -78,6 +78,14 @@ class DashboardController extends GetxController with SnackbarMixin {
  int breakDivisor = 0;
 
  double getAvgPunchTime = 0.0 ;
+ double getAvgBreakTime = 0.0 ;
+
+ final _avgPunchTime = 0.0.obs;
+ double get avgPunchTime => _avgPunchTime.value;
+ 
+  final _avgBreakTime = 0.0.obs;
+ double get avgBreakTime => _avgBreakTime.value;
+
 
  int getTodaysEpochTime() {
   // Get current date without time
@@ -134,6 +142,8 @@ String getTodaysDate() {
                                 getEmployeAveragePunchTime[5].clockedWorkingMinutes+
                                 getEmployeAveragePunchTime[6].clockedWorkingMinutes)/punchDivisor));
                                 print('^^^^^^^^$getAvgPunchTime');
+
+                                _avgPunchTime.value = getAvgPunchTime/3600 ;
   
         for (int i = 0; i < getEmployeAveragePunchTime.length; i++) {
           if (getEmployeAveragePunchTime[i].clockedBreakMinutes != 0){
@@ -143,6 +153,18 @@ String getTodaysDate() {
           else{}
         }
          print('%%%%%%%%$breakDivisor');
+
+          getAvgBreakTime = (((getEmployeAveragePunchTime[0].clockedBreakMinutes+
+                                getEmployeAveragePunchTime[1].clockedBreakMinutes+
+                                getEmployeAveragePunchTime[2].clockedBreakMinutes+
+                                getEmployeAveragePunchTime[3].clockedBreakMinutes+
+                                getEmployeAveragePunchTime[4].clockedBreakMinutes+
+                                getEmployeAveragePunchTime[5].clockedBreakMinutes+
+                                getEmployeAveragePunchTime[6].clockedBreakMinutes)/breakDivisor));
+                                print('^^^^^^^^$getAvgPunchTime');
+
+                                _avgBreakTime.value = getAvgBreakTime/3600 ;
+
 
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);

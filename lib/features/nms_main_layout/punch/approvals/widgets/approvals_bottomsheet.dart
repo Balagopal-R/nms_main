@@ -54,7 +54,7 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 8),
-                  Text('01 Mar 2024', style: TextStyle(fontSize: 16)),
+                  Text('01 Mar 2024',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
                   SizedBox(height: 12),
                   Divider(color: Color(0xFFF1F1F1), thickness: 2),
                   SizedBox(height: 12),
@@ -70,7 +70,7 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                   SizedBox(height: 16),
                   Text('Approved By', style: TextStyle(fontSize: 16)),
                   SizedBox(height: 4),
-                  Text('HR Admin', style: TextStyle(fontSize: 16)),
+                  Text('HR Admin',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
                   SizedBox(height: 16),
                   GestureDetector(
                     onTap: () {
@@ -104,23 +104,29 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(leftTitle, style: TextStyle(fontSize: 14, color: Colors.black54)),
-              SizedBox(height: 4),
-              Text(leftValue, style: TextStyle(fontSize: 16)),
-            ],
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(leftTitle, style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, color: Colors.black54)),
+                SizedBox(height: 4),
+                Text(leftValue,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+              ],
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(rightTitle, style: TextStyle(fontSize: 14, color: Colors.black54)),
-              SizedBox(height: 4),
-              Text(rightValue, style: TextStyle(fontSize: 16)),
-            ],
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(rightTitle, style: TextStyle(fontSize: 14, color: Colors.black54)),
+                SizedBox(height: 4),
+                Text(rightValue,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+              ],
+            ),
           ),
         ],
       ),

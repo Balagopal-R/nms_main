@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
@@ -37,9 +38,49 @@ class TeamListingController extends GetxController with SnackbarMixin{
   await teamListingScreen();
   await getLastPunchIn();
   // await userPunchIn();
-  // await userPunchOut(); 
+  await userPunchOut(); 
+  // await userPunchRequest();
+
+  // await dateTimeToEpoch('14/07/2024', '15:00');
   super.onInit();
   }
+
+
+  int dateTimeToEpoch(String dateString, String timeString) {
+  // Validate date format
+  if (!RegExp(r"^\d{2}/\d{2}/\d{4}$").hasMatch(dateString)) {
+    throw ArgumentError('Invalid date format. Expected dd/mm/yyyy');
+  }
+
+  // Validate time format
+  if (!RegExp(r"^\d{2}:\d{2}$").hasMatch(timeString)) {
+    throw ArgumentError('Invalid time format. Expected HH:mm');
+  }
+
+  // Parse the date parts
+  List<int> date = dateString.split('/').map(int.parse).toList();
+
+  // Parse the time parts
+  List<int> time = timeString.split(':').map(int.parse).toList();
+
+  // Create a DateTime object
+  DateTime parsedDateTime = DateTime(date[2], date[1], date[0], time[0], time[1]);
+  
+  print(parsedDateTime.millisecondsSinceEpoch ~/ 1000);
+  // Convert to milliseconds since epoch and return seconds (divide by 1000)
+  return parsedDateTime.millisecondsSinceEpoch ~/ 1000;
+  
+}
+
+String unixEpochTimeTo24HourString(int epochTime) {
+  // Create a DateTime object from the epoch time
+  final dateTime = DateTime.fromMillisecondsSinceEpoch(epochTime * 1000);
+
+  // Use intl package to format the time in 24-hour format
+  final formatter = DateFormat('HH:mm');
+  return formatter.format(dateTime);
+}
+
 
      
     //  listing team members along with punch in/out information
@@ -106,7 +147,7 @@ class TeamListingController extends GetxController with SnackbarMixin{
 
         final request = PunchInRequest(
           empId: userId,
-          punchInDateTime: 1720778265,
+          punchInDateTime: 1720945153,
           punchLocation: "OFFICE",
           projectCode: "NMS",
           task: "Unassigned",
@@ -143,7 +184,7 @@ class TeamListingController extends GetxController with SnackbarMixin{
 
         final request = PunchOutRequest(
           empId: userId,
-          punchOutDateTime: 1720778265,
+          punchOutDateTime: 1720945467,
           punchLocation: "OFFICE",
           projectCode: "NMS",
           task: "Unassigned",
@@ -180,16 +221,17 @@ class TeamListingController extends GetxController with SnackbarMixin{
 
         final request = PunchRequestRequest(
           empId: userId,
-          shiftDate: 0,
-          punchInDateTime: 0,
-          punchOutDateTime: 1720498440,
-          breakDateTime: 0,
-          resumeDateTime: 0,
+          shiftDate: 1719081000,
+          punchInDateTime: 1719113400,
+          punchOutDateTime: 1719145800,
+          breakDateTime: 1719127800,
+          resumeDateTime: 1719131400,
           punchLocation: "OFFICE",
           projectCode: "NMS",
           task: "Unassigned",
           description: "",
-          reasonToChange: ""
+          reasonToChange: "" ,
+          isOnBreak: false
           );
 
         final response =

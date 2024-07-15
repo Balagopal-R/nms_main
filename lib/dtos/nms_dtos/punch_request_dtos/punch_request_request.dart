@@ -1,11 +1,12 @@
 class PunchRequestRequest {
   String empId;
   int shiftDate;
+  String punchLocation;
   int punchInDateTime;
   int punchOutDateTime;
   int breakDateTime;
   int resumeDateTime;
-  String punchLocation;
+  bool isOnBreak;
   String? projectCode;
   String? task;
   String? description;
@@ -14,7 +15,7 @@ class PunchRequestRequest {
   PunchRequestRequest({required this.empId,required this.shiftDate,required this.punchInDateTime,
                        required this.punchOutDateTime,required this.breakDateTime,required this.resumeDateTime, 
                        required this.punchLocation,this.projectCode,this.task,this.description,
-                       this.reasonToChange,});
+                       this.reasonToChange,required this.isOnBreak});
 
    Map<String, dynamic> toBody() {
     final map = {
@@ -29,7 +30,8 @@ class PunchRequestRequest {
                "projectCode": projectCode,
                "task": task,
                "description": description,
-               "reasonToChange": reasonToChange
+               "reasonToChange": reasonToChange,
+               "isOnBreak" : isOnBreak,
                 }
       };
     return map;

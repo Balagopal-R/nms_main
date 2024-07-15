@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/features/nms_main_layout/team_listing/team_listing_controller.dart';
+import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/punch_bottom_sheet.dart';
 import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
 import 'package:nms/widgets/punch_out_request_bottomsheet.dart';
 import 'package:nms/widgets/punch_request_bottomsheet.dart';
+
 
 class TeamListingScreen extends StatefulWidget {
   @override
@@ -120,10 +122,12 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
   }
               
             },
-            child: Icon(Icons.add),
             backgroundColor: Color(0xFF3BBCA0),
+             child: const Image(
+    image: AssetImage('assets/png/plus.png'),
+  ),
           ),
-          body: ListView.builder(
+          body: controller.teamListing != null? ListView.builder(
             itemCount: controller.teamListing.length,
             itemBuilder: (context, index) {
               return Container(
@@ -142,10 +146,10 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                 children: [
                   Stack(
                     children: [
-                      // CircleAvatar(
-                      //   radius: 24,
-                      //   // backgroundImage: NetworkImage(controller.teamListing[index].profileImg),
-                      // ),
+                      CircleAvatar(
+                        radius: 24,
+                        backgroundImage: NetworkImage(controller.teamListing[index].profileImg.toString()),
+                      ),
                       Positioned(
                         bottom: 0,
                         right: 0,
@@ -178,7 +182,10 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                         width: 20.0,
                       ),
                       SizedBox(width: 4.0),
-                      Text(controller.teamListing[index].shiftTime, style: TextStyle(color: Color(0xff888888), fontSize: 12, fontWeight: FontWeight.w500)),
+                     Text(
+  controller.teamListing[index].punchIn?.toString() ?? '--:--',
+  style: TextStyle(color: Color(0xff888888), fontSize: 12, fontWeight: FontWeight.w500),
+),
                     ],
                   ),
                   Row(
@@ -213,17 +220,17 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
               decoration: BoxDecoration(
-                color:Colors.red,
+                color:Color(0xffBEFFE8),
                 borderRadius: BorderRadius.circular(2.667),
               ),
               child: Row(
                 children: [
                   CircleAvatar(
                     radius: 4.0,
-                    backgroundColor: Colors.red,
+                    backgroundColor: Color(0xff2F9680),
                   ),
                   SizedBox(width: 4.0),
-                  Text("On Time", style: TextStyle(color: Colors.amber)),
+                  Text("On Time", style: TextStyle(color: Color(0xff2F9680))),
                 ],
               ),
             ),
@@ -231,8 +238,12 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
         ],
       ),
     );
-            },
-          ),
+            }, 
+          ) : const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    ),
         );
       },
     );

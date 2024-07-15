@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
@@ -141,8 +142,10 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                     ),
           floatingActionButton: FloatingActionButton(
             onPressed: () => _showBottomSheet(context),
-            child: Icon(Icons.add),
             backgroundColor: Color(0xFF3BBCA0),
+            child: const Image(
+    image: AssetImage('assets/png/plus.png'),
+  ),
           ),
         );
       }
@@ -171,6 +174,8 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
   List<PlatformFile> _files = [];
   String? _selectedCategory;
   final List<String> _categories = ['Personal', 'Academic', 'Work', 'Medical', 'Others'];
+  bool _isCategorySelected = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -198,19 +203,19 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                 ),
                 Text(
                   'Add document',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700,color: Colors.black),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 6.0),
                 Divider(
                   color: Color(0xFFF1F1F1),
-                  thickness: 1.0,
+                  thickness: 2.0,
                 ),
                 SizedBox(height: 10.0),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Category *',
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400,color: Color(0xff7A7A7A)),
                   ),
                 ),
                 SizedBox(height: 8.0),
@@ -241,45 +246,124 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                 //   ),
                 // ),
 
-                DropdownButtonFormField<String>(
 
-  menuMaxHeight: 200.0, // Adjust height as needed
-  value: _selectedCategory,
-  hint: Text('Select'),
-  items: _categories.map((category) {
-    return DropdownMenuItem(
-      value: category,
-      child: Text(category),
-    );
-  }).toList(),
-  onChanged: (value) {
-    setState(() {
-      _selectedCategory = value;
-    });
-  },
-  icon: Icon(Icons.arrow_drop_down, color: _selectedCategory != null ? Colors.teal[400] : null), // Dynamic icon color
+              DropdownButtonFormField2<String>(
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(color: Color(0xFFB7B7B7)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(color: Color(0xFFB7B7B7)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(color: Color(0xFF3BBCA0)),
+            ),
+            filled: true,
+            fillColor: Color(0xFFFFFFFF),
+          ),
+          isExpanded: true,
+          hint: Text(
+            'Select',
+            style: TextStyle(fontSize: 16),
+          ),
+          // icon: Padding(
+          //   padding: const EdgeInsets.only(right: 10),
+          //   child: Image.asset(
+          //     'assets/images/chevron_down.png', // Replace with your asset image path
+          //     height: 20,
+          //     width: 20,
+          //   ),
+          // ),
+          // iconSize: 30,
+          // buttonHeight: 50,
+          // buttonWidth: MediaQuery.of(context).size.width,
+          items: _categories
+              .map((item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ))
+              .toList(),
+          validator: (value) {
+            if (value == null) {
+              return 'Select Category';
+            }
+            return null;
+          },
+          onChanged: (value) {
+            setState(() {
+              _selectedCategory = value as String?;
+              _isCategorySelected = true;
+            });
+          },
+          onSaved: (value) {
+            setState(() {
+              _selectedCategory = value as String?;
+            });
+          },
+        ),
+        if (!_isCategorySelected)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              'Select Category',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 12,
+              ),
+            ),
+          ),
+
+
+
+
+
+//                 DropdownButtonFormField<String>(
+
+//   menuMaxHeight: 200.0, // Adjust height as needed
+//   value: _selectedCategory,
+//   hint: Text('Select'),
+//   items: _categories.map((category) {
+//     return DropdownMenuItem(
+//       value: category,
+//       child: Text(category),
+//     );
+//   }).toList(),
+//   onChanged: (value) {
+//     setState(() {
+//       _selectedCategory = value;
+//     });
+//   },
+//   icon: Icon(Icons.arrow_drop_down, color: _selectedCategory != null ? Colors.teal[400] : null), // Dynamic icon color
   
-  decoration: InputDecoration(
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(4.0),
-      borderSide: BorderSide(color: Color(0xFFB7B7B7)),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(4.0),
-      borderSide: BorderSide(color: Color(0xff3BBCA0)), // Aqua highlight on focus
-    ),
-    errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(4.0),
-      borderSide: BorderSide(color: Colors.red), // Red border for validation
-    ),
-    contentPadding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 12.0), // Adjust padding as needed
-    hintText:'Select',
-  ),
-  validator: (value) => value == null ? 'Please select a category' : null,
-  dropdownColor: Colors.white, // White background for dropdown menu
-),
-
-
+//   decoration: InputDecoration(
+//     enabledBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(4.0),
+//       borderSide: BorderSide(color: Color(0xFFB7B7B7)),
+//     ),
+//     focusedBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(4.0),
+//       borderSide: BorderSide(color: Color(0xff3BBCA0)), // Aqua highlight on focus
+//     ),
+//     errorBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(4.0),
+//       borderSide: BorderSide(color: Colors.red), // Red border for validation
+//     ),
+//     contentPadding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 12.0), // Adjust padding as needed
+//     hintText:'Select',
+//   ),
+//   validator: (value) => value == null ? 'Please select a category' : null,
+//   dropdownColor: Colors.white, // White background for dropdown menu
+// ),
 
 
                 SizedBox(height: 10.0),
@@ -288,9 +372,9 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                   child: Text(
                     'Add File',
                     style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: _files.length == 3 ? Colors.grey.shade400 : Colors.black,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                      color: _files.length == 3 ? Colors.grey.shade400 : Color(0xff7A7A7A),
                     ),
                   ),
                 ),
@@ -298,16 +382,21 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
         
                 ElevatedButton.icon(
                   onPressed: _files.length == 3 ? null : _pickFiles,
-                  icon: Icon(Icons.upload_file),
-                  label: Text('Choose File'),
+                  icon: Image.asset('assets/png/export.png', // Replace with actual image path
+    width: 24.0, // Adjust icon size as needed
+    height: 24.0, // Adjust icon size as needed
+  ),
+                  label: Text('Choose File',style: TextStyle(color: Colors.black,fontSize: 16, fontWeight: FontWeight.w500),),
                   style: ElevatedButton.styleFrom(
-                    // primary: Color(0xFFF1F1F1),
+                    maximumSize: Size(double.infinity, 50.0),
+                    backgroundColor:  Color(0xFFF1F1F1),
                     // onPrimary: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                   ),
                 ),
+                 SizedBox(height: 10.0),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(

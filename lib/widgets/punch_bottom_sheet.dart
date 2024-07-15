@@ -4,7 +4,7 @@ import '../utils/theme/theme_constants.dart';
 import 'package:intl/intl.dart'; 
 
 class PunchBottomSheetContent extends StatelessWidget {
-
+   
    final String title;
    const PunchBottomSheetContent(
       {Key? key,
@@ -23,7 +23,7 @@ class PunchBottomSheetContent extends StatelessWidget {
     final now = DateTime.now();
     final formattedTime = DateFormat('HH:mm').format(now); // Format in 24-hour format
 
-
+    String? selectedValue = '';
 
     return Container(
       width: screenWidth,
@@ -194,7 +194,7 @@ class PunchBottomSheetContent extends StatelessWidget {
                   hint: Text('Select'),
                   underline: SizedBox(),
                   icon: Icon(Icons.arrow_drop_down, color: Colors.grey),
-                  items: <String>['Location 1', 'Location 2', 'Location 3'].map((String value) {
+                  items: <String>['WFO', 'WFH', 'Hybrid','On Site'].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -204,6 +204,10 @@ class PunchBottomSheetContent extends StatelessWidget {
                 ),
               ),
             ),
+
+      
+
+
             SizedBox(height: 8.0),
 
                         Text(
@@ -219,7 +223,7 @@ class PunchBottomSheetContent extends StatelessWidget {
             SizedBox(height: 8.0),
            
             Container(
-              height: 50.0, // Increased height for Location Dropdown
+              height: 50.0, // Increased height for Project Dropdown
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.0),
                 decoration: BoxDecoration(
@@ -232,7 +236,7 @@ class PunchBottomSheetContent extends StatelessWidget {
                   hint: Text('Select'),
                   underline: SizedBox(),
                   icon: Icon(Icons.arrow_drop_down, color: Colors.grey),
-                  items: <String>['Location 1', 'Location 2', 'Location 3'].map((String value) {
+                  items: <String>['Project 1', 'Project 2', 'Project 3'].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -242,8 +246,8 @@ class PunchBottomSheetContent extends StatelessWidget {
                 ),
               ),
             ),
-              
 
+ 
             SizedBox(height: 8.0),
 
              Text(
@@ -271,7 +275,7 @@ class PunchBottomSheetContent extends StatelessWidget {
                 maxLines: 1,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter a task',
+                  hintText: '',
                 ),
               ),
             ),
@@ -312,7 +316,7 @@ class PunchBottomSheetContent extends StatelessWidget {
                 maxLines: 5,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter reason...',
+                  hintText: '',
                 ),
               ),
             ),

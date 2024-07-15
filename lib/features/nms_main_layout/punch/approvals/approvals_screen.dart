@@ -40,7 +40,9 @@ class ApprovalsScreen extends StatelessWidget {
                 },
               );
             },
-            child: Icon(Icons.add),
+            child: Image(
+    image: AssetImage('assets/png/plus.png'),
+  ),
             backgroundColor: Color(0xFF3BBCA0),
           ),
       body: ListView.builder(

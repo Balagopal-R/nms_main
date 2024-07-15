@@ -28,7 +28,7 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
     return Scaffold(
        backgroundColor: Color(0xffF1F1F1),
       appBar: AppBar(
-        backgroundColor: Color(0xffFAFAFA),
+        backgroundColor: Color(0xffF1F1F1),
         leading: IconButton(
           icon: Image.asset('assets/png/arrow_left.png',height: 24,width: 24),
           onPressed: () {
@@ -38,7 +38,7 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
         centerTitle: true,
         actions: [
           IconButton(
-          icon: Image.asset('assets/png/cross.png',height: 24,width: 24),
+          icon: Image.asset('assets/png/calendar.png',height: 24,width: 24),
           onPressed: () {
           },
         ),
@@ -97,125 +97,125 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
               )
             : null,
       ),
-      // body: Padding(
-      //                       padding: const EdgeInsets.only(
-      //                           left: 22, right: 21, bottom: 8),
-      //                       child: Container(
-      //                         height: 34,
-      //                         width: 300,
-      //                         decoration: BoxDecoration(
-      //                           color: messageColor,
-      //                           borderRadius: BorderRadius.circular(
-      //                             5.0,
-      //                           ),
-      //                         ),
-      //                         child: Padding(
-      //                           padding: const EdgeInsets.all(2.0),
-      //                           child: TabBar(
-      //                             controller: _controller,
-      //                             indicator: BoxDecoration(
-      //                               borderRadius: BorderRadius.circular(
-      //                                 5.0,
-      //                               ),
-      //                               color: Colors.white,
-      //                             ),
-      //                             labelColor: primaryColor,
-      //                             labelStyle: const TextStyle(
-      //                                 fontSize: 14,
-      //                                 fontWeight: FontWeight.w700),
-      //                             unselectedLabelStyle: const TextStyle(
-      //                                 fontSize: 14,
-      //                                 fontWeight: FontWeight.w400),
-      //                             dividerColor: messageColor,
-      //                             indicatorSize: TabBarIndicatorSize.tab,
-      //                             unselectedLabelColor: Colors.white,
-      //                             tabs: const [
-      //                               Tab(
-      //                                 text: 'History',
-      //                               ),
-      //                               Tab(
-      //                                 text: 'Approvals',
-      //                               ),
-      //                               Tab(
-      //                                 text: 'Summary',
-      //                               ),
-      //                             ],
-                                
-        
-      //                           ),
-      //                         ),
-      //                       ),
-      //                     ),
-
-    body: SafeArea(
-        child: Container(
-          // decoration: BoxDecoration(
-          //                       color: messageColor,
-          //                       borderRadius: BorderRadius.circular(
-          //                         5.0,
-          //                       ),
-          //                     ),
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 10,
-          ),
-          child: DefaultTabController(
-            length: 3,
-            initialIndex: 2,
-            child: Column(
-              children: [
-                Container(
-                  height: 47,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: Colors.grey, width: 1)),
-                  child: TabBar(
-                    unselectedLabelColor: Colors.grey[900],
-                    indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        color: Color(0xffCAE3A8)),
-                    tabs: [
-                      Tab(
-                        child: Container(
-                          child: const Text(
-                            "History",
-                            style: TextStyle(fontSize: 14, color: Colors.black),
-                          ),
-                        ),
-                      ),
-                      Tab(
-                        child: Container(
-                          child: const Text(" Approvals ",
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.black)),
-                        ),
-                      ),
-                      Tab(
-                        child: Container(
-                          child: const Text("Summary",
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.black)),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                    child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
-                    const HistoryScreen(),
-                    ApprovalsScreen(),
-                    const SummaryScreen(),
-                    
-                  ],
-                ))
-              ],
+     
+body: Padding(
+  padding: const EdgeInsets.only(left: 22, right: 21, bottom: 8),
+  child: Column(  // Use Column for top-center alignment
+    children: [
+      Padding(  // Maintain padding around the tab bar
+        padding: const EdgeInsets.all(2.0),
+        child: Center(  // Center the tab bar horizontally
+          child: TabBar(
+            controller: _controller,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              color: Colors.white,
             ),
+            labelColor: primaryColor,
+            labelStyle: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+            ),
+            unselectedLabelStyle: const TextStyle(  // Update here
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              // color: Color(0xFF7A7A7A),  // Set color to #7A7A7A
+            ),
+            dividerColor: messageColor,
+            indicatorSize: TabBarIndicatorSize.tab,
+            unselectedLabelColor: Color(0xFF7A7A7A),  // Not needed anymore
+            tabs: const [
+              Tab(text: 'History'),
+              Tab(text: 'Approvals'),
+              Tab(text: 'Summary'),
+            ],
           ),
         ),
       ),
+      Expanded(  // Use Expanded for flexible content area
+        child: TabBarView(
+          controller: _controller,
+          children: [
+            HistoryScreen(),
+            ApprovalsScreen(),
+            SummaryScreen(),
+          ],
+        ),
+      ),
+    ],
+  ),
+),
+
+
+    // body: SafeArea(
+    //     child: Container(
+    //       // decoration: BoxDecoration(
+    //       //                       color: messageColor,
+    //       //                       borderRadius: BorderRadius.circular(
+    //       //                         5.0,
+    //       //                       ),
+    //       //                     ),
+    //       padding: const EdgeInsets.only(
+    //         left: 20,
+    //         right: 20,
+    //         top: 10,
+    //       ),
+    //       child: DefaultTabController(
+    //         length: 3,
+    //         initialIndex: 2,
+    //         child: Column(
+    //           children: [
+    //             Container(
+    //               height: 47,
+    //               decoration: BoxDecoration(
+    //                   borderRadius: BorderRadius.circular(7),
+    //                   border: Border.all(color: Colors.grey, width: 1)),
+    //               child: TabBar(
+    //                 unselectedLabelColor: Colors.grey[900],
+    //                 indicator: BoxDecoration(
+    //                     borderRadius: BorderRadius.circular(7),
+    //                     color: Color(0xffCAE3A8)),
+    //                 tabs: [
+    //                   Tab(
+    //                     child: Container(
+    //                       child: const Text(
+    //                         "History",
+    //                         style: TextStyle(fontSize: 14, color: Colors.black),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   Tab(
+    //                     child: Container(
+    //                       child: const Text(" Approvals ",
+    //                           style:
+    //                               TextStyle(fontSize: 14, color: Colors.black)),
+    //                     ),
+    //                   ),
+    //                   Tab(
+    //                     child: Container(
+    //                       child: const Text("Summary",
+    //                           style:
+    //                               TextStyle(fontSize: 14, color: Colors.black)),
+    //                     ),
+    //                   )
+    //                 ],
+    //               ),
+    //             ),
+    //             Expanded(
+    //                 child: TabBarView(
+    //               physics: NeverScrollableScrollPhysics(),
+    //               children: [
+    //                 const HistoryScreen(),
+    //                 ApprovalsScreen(),
+    //                 const SummaryScreen(),
+                    
+    //               ],
+    //             ))
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
 
 
     );
