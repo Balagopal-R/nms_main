@@ -106,19 +106,20 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                   title: Text(controller.listEmployeDocuments[index].displayName),
                   subtitle: Row(
                     children: [
-                      Text(controller.listEmployeDocuments[index].createdAt.toString()),
+                      Text(controller.epochTimeToFormattedDate(controller.listEmployeDocuments[index].createdAt)),
                      const SizedBox(width: 10.0),
                      const CircleAvatar(
                         radius: 2.0,
                         backgroundColor: Color(0xFFE3E3E3),
                       ),
                      const SizedBox(width: 5.0),
-                      Text(controller.listEmployeDocuments[index].category),
+                      Text(controller.capitalizeFirstLetter(controller.listEmployeDocuments[index].category)),
                     ],
                   ),
                   trailing: IconButton(
           icon: Image.asset('assets/png/download.png'),
           onPressed: () {
+            
           },
         ),
                   tileColor: const Color(0xFFFAFAFA),
@@ -179,192 +180,211 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
     return GetBuilder<MyDocumentsController>(
       init: MyDocumentsController(),
       builder: (controller) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            left: 16.0,
-            right: 16.0,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF7A7A7A),
-                    borderRadius: BorderRadius.circular(2.0),
-                  ),
-                ),
-                const Text(
-                  'Add Document',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700,color: Colors.black),
-                ),
-                const SizedBox(height: 6.0),
-               const Divider(
-                  color: Color(0xFFF1F1F1),
-                  thickness: 2.0,
-                ),
-               const SizedBox(height: 10.0),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Category *',
-                    style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400,color: Color(0xff7A7A7A)),
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-
-
-              DropdownButtonFormField2<String>(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+        return Container(
+          decoration: const BoxDecoration(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(16.0),
+      topRight: Radius.circular(16.0),
+      bottomLeft: Radius.zero,
+      bottomRight: Radius.zero,
+    ),
+    color: Colors.white,
+    boxShadow: [
+      BoxShadow(
+        offset: Offset(0, -5),
+        blurRadius: 8.0,
+        spreadRadius: -6.0,
+        color: Color.fromRGBO(24, 39, 75, 0.08),
+      ),
+    ],
+  ),
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 16.0,
+              right: 16.0,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
-            ),
-            filled: true,
-            fillColor: const Color(0xFFFFFFFF),
-          ),
-          isExpanded: true,
-          hint: const Text(
-            'Select',
-            style: TextStyle(fontSize: 16),
-          ),
-          // icon: Padding(
-          //   padding: const EdgeInsets.only(right: 10),
-          //   child: Image.asset(
-          //     'assets/images/chevron_down.png', // Replace with your asset image path
-          //     height: 20,
-          //     width: 20,
-          //   ),
-          // ),
-          // iconSize: 30,
-          // buttonHeight: 50,
-          // buttonWidth: MediaQuery.of(context).size.width,
-          items: _categories
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF7A7A7A),
+                      borderRadius: BorderRadius.circular(2.0),
                     ),
-                  ))
-              .toList(),
-          validator: (value) {
-            if (value == null) {
-              return 'Select Category';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            setState(() {
-              _selectedCategory = value as String?;
-              _isCategorySelected = true;
-            });
-          },
-          onSaved: (value) {
-            setState(() {
-              _selectedCategory = value as String?;
-            });
-          },
-        ),
-        if (!_isCategorySelected)
-         const Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              'Select Category',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 12,
+                  ),
+                  const Text(
+                    'Add Document',
+                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700,color: Colors.black),
+                  ),
+                  const SizedBox(height: 6.0),
+                 const Divider(
+                    color: Color(0xFFF1F1F1),
+                    thickness: 2.0,
+                  ),
+                 const SizedBox(height: 12.0),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Category *',
+                      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400,color: Color(0xff7A7A7A)),
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+          
+          
+                DropdownButtonFormField2<String>(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+              ),
+              filled: true,
+              fillColor: const Color(0xFFFFFFFF),
+            ),
+            isExpanded: true,
+            hint: const Text(
+              'Select',
+              style: TextStyle(fontSize: 16),
+            ),
+            // icon: Padding(
+            //   padding: const EdgeInsets.only(right: 10),
+            //   child: Image.asset(
+            //     'assets/images/chevron_down.png', // Replace with your asset image path
+            //     height: 20,
+            //     width: 20,
+            //   ),
+            // ),
+            // iconSize: 30,
+            // buttonHeight: 50,
+            // buttonWidth: MediaQuery.of(context).size.width,
+            items: _categories
+                .map((item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ))
+                .toList(),
+            validator: (value) {
+              if (value == null) {
+                return 'Select Category';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                _selectedCategory = value as String?;
+                _isCategorySelected = true;
+              });
+            },
+            onSaved: (value) {
+              setState(() {
+                _selectedCategory = value as String?;
+              });
+            },
+          ),
+          if (!_isCategorySelected)
+           const Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                'Select Category',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 12,
+                ),
               ),
             ),
-          ),
-
-
-                const SizedBox(height: 10.0),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Add File',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400,
-                      color: _files.length == 3 ? Colors.grey.shade400 : const Color(0xff7A7A7A),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-        
-                ElevatedButton.icon(
-                  onPressed: _files.length == 3 ? null : _pickFiles,
-                  icon: Image.asset('assets/png/export.png', // Replace with actual image path
-    width: 24.0, // Adjust icon size as needed
-    height: 24.0, // Adjust icon size as needed
-  ),
-                  label: const Text('Choose File',style: TextStyle(color: Colors.black,fontSize: 16, fontWeight: FontWeight.w500),),
-                  style: ElevatedButton.styleFrom(
-                    maximumSize: const Size(double.infinity, 50.0),
-                    backgroundColor:  Color(0xFFF1F1F1),
-                    // onPrimary: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                  ),
-                ),
-                 const SizedBox(height: 10.0),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'JPEG, JPG or PDF, file size no more than 5MB',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: _files.length == 3 ? Colors.grey.shade400 : const Color(0xFF7A7A7A),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                _buildFileList(),
-                const SizedBox(height: 10.0),
-        
-                CorneredButton(
-                        height: 35,
-                        color: primaryColor,
-                        title: 'Submit',
-                        textcolor: backgroundColor,
-                        onPress: () async {
-
-
-                        },
+          
+          
+                  const SizedBox(height: 12.0),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Add File',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        color: _files.length == 3 ? Colors.grey.shade400 : const Color(0xff7A7A7A),
                       ),
-        
-                // ElevatedButton(
-                //   onPressed: _files.isNotEmpty ? _submit : null,
-                //   child: Text('Submit'),
-                //   style: ElevatedButton.styleFrom(
-                //     // primary: Color(0xFF3BBCA0),
-                //     // onPrimary: Colors.white,
-                //     minimumSize: Size(double.infinity, 50),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(4.0),
-                //     ),
-                //   ),
-                // ),
-                const SizedBox(height: 20.0),
-              ],
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+          
+                  ElevatedButton.icon(
+                    onPressed: _files.length == 3 ? null : _pickFiles,
+                    icon: Image.asset('assets/png/export.png', // Replace with actual image path
+              width: 24.0, // Adjust icon size as needed
+              height: 24.0, // Adjust icon size as needed
+            ),
+                    label: const Text('Choose File',style: TextStyle(color: Colors.black,fontSize: 16, fontWeight: FontWeight.w500),),
+                    style: ElevatedButton.styleFrom(
+                      maximumSize: const Size(double.infinity, 40.0),
+                      backgroundColor:  Color(0xFFF1F1F1),
+                      // onPrimary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                    ),
+                  ),
+                   const SizedBox(height: 10.0),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'JPEG, JPG or PDF, file size no more than 5MB',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: _files.length == 3 ? Colors.grey.shade400 : const Color(0xFF7A7A7A),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  _buildFileList(),
+                  const SizedBox(height: 10.0),
+          
+                  CorneredButton(
+                          height: 40,
+                          color: primaryColor,
+                          title: 'Submit',
+                          textcolor: backgroundColor,
+                          onPress: () async {
+          
+          
+                          },
+                        ),
+          
+                  // ElevatedButton(
+                  //   onPressed: _files.isNotEmpty ? _submit : null,
+                  //   child: Text('Submit'),
+                  //   style: ElevatedButton.styleFrom(
+                  //     // primary: Color(0xFF3BBCA0),
+                  //     // onPrimary: Colors.white,
+                  //     minimumSize: Size(double.infinity, 50),
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(4.0),
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20.0),
+                ],
+              ),
             ),
           ),
         );

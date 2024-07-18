@@ -15,11 +15,6 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   final _punchRequestMessage = ''.obs;
   String get punchRequestMessage => _punchRequestMessage.value;
 
-  // final dateController = TextEditingController();
-  // final punchInTimeController = TextEditingController();
-  // final punchOutTimeController = TextEditingController();
-  // final breakController = TextEditingController();
-  // final resumeController = TextEditingController();
   final reasonController = TextEditingController();
 
 
@@ -86,6 +81,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
         if (response.status == 200) {
           _punchRequestMessage.value = response.data;
           print(punchRequestMessage);
+        showSuccessSnackbar(title: 'Success', message:'You have successfully submitted a new Punch request') ;
        
 
         } else if (response.message == "Failed") {

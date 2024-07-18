@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
@@ -35,6 +35,27 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
     await listUserDocuments();
     super.onInit();
   }
+
+  
+
+String epochTimeToFormattedDate (int epochTime) {
+  // Convert epoch time to DateTime object
+  final dateTime = DateTime.fromMillisecondsSinceEpoch(epochTime);
+
+  // Use DateFormat to format the date string
+  final formattedDate = DateFormat('dd MMM yy').format(dateTime);
+
+  return formattedDate;
+}
+
+String capitalizeFirstLetter(String text) {
+  if (text.isEmpty) return text;
+
+  return text[0].toUpperCase() + text.substring(1).toLowerCase();
+}
+
+
+
      
     //  list uploaded user documenst
   Future<void> listUserDocuments() async {

@@ -241,7 +241,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 controller.getEmployeAveragePunchTime[1].clockedBreakMinutes.toDouble()/3600,
                                 controller.getEmployeAveragePunchTime[2].clockedBreakMinutes.toDouble()/3600,],
                                 // '1.0 hours',
-                                '${controller.avgBreakTime.toString()} hrs',
+                                '${controller.formatDoubleWithTwoDecimals(controller.avgBreakTime)} hrs',
                                 'Last 7 days',
                                 'assets/svg/ph_coffee_bold.svg',
                                 Color(0xffFFEECC)),
@@ -254,7 +254,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 controller.getEmployeAveragePunchTime[0].clockedWorkingMinutes.toDouble()/3600,
                                 controller.getEmployeAveragePunchTime[1].clockedWorkingMinutes.toDouble()/3600,
                                 controller.getEmployeAveragePunchTime[2].clockedWorkingMinutes.toDouble()/3600,],
-                                '${controller.avgPunchTime.toString()} hrs',
+                                '${controller.formatDoubleWithTwoDecimals(controller.avgPunchTime)} hrs',
                                 // '8.6 Hrs',
                                 ' Last 7 days',
                                 'assets/svg/clock.svg',
@@ -565,11 +565,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                // _buildCircularPercentIndicator('SPL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
-                _buildCircularPercentIndicator('WL', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
-                _buildCircularPercentIndicator('SL', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
-                _buildCircularPercentIndicator('LEA', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves),
-                _buildCircularPercentIndicator('TL', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves),
+                 _buildCircularPercentIndicator('SPL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
+                _buildCircularPercentIndicator('WL', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
+                _buildCircularPercentIndicator('SL', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
+                _buildCircularPercentIndicator('LEA', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
+                _buildCircularPercentIndicator('TL', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
                 // _buildCircularPercentIndicator('VL', 0.6),
                 // _buildCircularPercentIndicator('SCL', 0.6),
                 // _buildCircularPercentIndicator('TL', 0.6),
@@ -594,11 +594,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (isExpanded)
               Column(
                 children: [
-                  // _buildLinearPercentIndicator('SPECIAL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves),
-                  _buildLinearPercentIndicator('WOMENS ', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves),
-                  _buildLinearPercentIndicator('SICK', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves),
-                 _buildLinearPercentIndicator('LEAVES ', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves),
-                  _buildLinearPercentIndicator('TEST ', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves),
+                   _buildLinearPercentIndicator('SPECIAL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
+                  _buildLinearPercentIndicator('WOMENS ', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
+                  _buildLinearPercentIndicator('SICK', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
+                 _buildLinearPercentIndicator('LEAVES ', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
+                  _buildLinearPercentIndicator('TEST ', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
                   // _buildLinearPercentIndicator('Maternity Leave', 0.4),
                   // _buildLinearPercentIndicator('Vacation Leave', 0.3),
                   IconButton(
@@ -624,7 +624,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildCircularPercentIndicator(String leaveType, double percent) {
+  Widget _buildCircularPercentIndicator(String leaveType, double percent, double totalLeaves) {
     return CircularPercentIndicator(
       radius: 40.0, // Reduced the radius size
       lineWidth: 10.0, // Reduced the line width
@@ -633,7 +633,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            '${(percent * 12).toInt}',
+            '${(percent * totalLeaves).toInt()}',
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
@@ -653,7 +653,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildLinearPercentIndicator(String leaveType, double percent) {
+  Widget _buildLinearPercentIndicator(String leaveType, double percent, double totalLeaves) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -679,7 +679,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Expanded(
             flex: 1,
             child: Text(
-              '${(percent * 12).toInt()}',
+              '${(percent * totalLeaves).toInt()}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               textAlign: TextAlign.right,
             ),

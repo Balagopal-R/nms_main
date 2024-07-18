@@ -103,6 +103,13 @@ String getTodaysDate() {
   return formattedDate;
 }
 
+String formatDoubleWithTwoDecimals(double value) {
+  final formattedValue = value.toStringAsFixed(2);
+  return formattedValue;
+}
+
+
+
 
 
 // employee punch time , average punch time, clocked working minutes

@@ -20,7 +20,7 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
     @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 3, vsync: this, initialIndex: 0);
+    _controller = TabController(length: 3, vsync: this, initialIndex: 1);
   }
 
   @override

@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
-import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/last_punch_in_model/last_punch_in_model.dart';
 import 'package:nms/utils/helpers/validation.dart';
-import '../../../dtos/nms_dtos/punch_out_dtos/punch_out.dart';
-import '../../../dtos/nms_dtos/punch_request_dtos/punch_request.dart';
 import '../../../dtos/nms_dtos/team_listing_dtos/team_listing.dart';
 import '../../../models/team_list_model/team_list_model.dart';
 import '../../../repository/api_repository.dart';
@@ -33,40 +30,18 @@ class TeamListingController extends GetxController with SnackbarMixin{
   super.onInit();
   }
 
-
-  int dateTimeToEpoch(String dateString, String timeString) {
-  // Validate date format
-  if (!RegExp(r"^\d{2}/\d{2}/\d{4}$").hasMatch(dateString)) {
-    throw ArgumentError('Invalid date format. Expected dd/mm/yyyy');
+  String epochToTimeString(int? epochTime) {
+  if (epochTime == null) {
+    return '--:--';
   }
 
-  // Validate time format
-  if (!RegExp(r"^\d{2}:\d{2}$").hasMatch(timeString)) {
-    throw ArgumentError('Invalid time format. Expected HH:mm');
-  }
+  // Convert epoch time to DateTime object
+  final dateTime = DateTime.fromMillisecondsSinceEpoch(epochTime);
 
-  // Parse the date parts
-  List<int> date = dateString.split('/').map(int.parse).toList();
+  // Use DateFormat to format the time string in 24-hour format
+  final formattedTime = DateFormat('HH:mm').format(dateTime);
 
-  // Parse the time parts
-  List<int> time = timeString.split(':').map(int.parse).toList();
-
-  // Create a DateTime object
-  DateTime parsedDateTime = DateTime(date[2], date[1], date[0], time[0], time[1]);
-  
-  print(parsedDateTime.millisecondsSinceEpoch ~/ 1000);
-  // Convert to milliseconds since epoch and return seconds (divide by 1000)
-  return parsedDateTime.millisecondsSinceEpoch ~/ 1000;
-  
-}
-
-String unixEpochTimeTo24HourString(int epochTime) {
-  // Create a DateTime object from the epoch time
-  final dateTime = DateTime.fromMillisecondsSinceEpoch(epochTime * 1000);
-
-  // Use intl package to format the time in 24-hour format
-  final formatter = DateFormat('HH:mm');
-  return formatter.format(dateTime);
+  return formattedTime;
 }
 
 
@@ -87,7 +62,6 @@ String unixEpochTimeTo24HourString(int epochTime) {
 
         if (response.status == 200) {
           _teamListing.value = response.data;
-          print(response.data);
           update();
 
 
@@ -105,6 +79,70 @@ String unixEpochTimeTo24HourString(int epochTime) {
       update();
     }
   }
+
+Color getColorBasedOnConditions(bool condition1, bool condition2,) {
+  if (condition1 && condition2) {
+    return Colors.green;
+  } else {
+    return Colors.red;
+  }
+}
+
+Color getContainerColorBasedOnPunchStatus(String condition1) {
+  if (condition1 == 'ON-TIME') {
+    return Color(0XFFBEFFE8);
+  } else if (condition1 == 'LATE') {
+    return Color(0XFFFFF0F0);
+  }
+  else if (condition1 == 'BREAK') {
+    return Color(0XFFFEFAF3);
+  }
+  else if (condition1 == 'ABSENT') {
+    return Color(0XFFF1F1F1);
+  }
+  else if (condition1 == 'LEAVE') {
+    return Color(0XFFDFDFFB);
+  }
+  else if (condition1 == 'OUT') {
+    return Color(0XFFFFF0F0);
+  }
+  else {
+    return Color(0XFFFFF0F0);
+  }
+}
+
+Color getColorBasedOnPunchStatus(String condition1) {
+  if (condition1 == 'ON-TIME') {
+    return Color(0XFF2F9680);
+  } else if (condition1 == 'LATE') {
+    return Color(0XFFFF4646);
+  }
+  else if (condition1 == 'BREAK') {
+    return Color(0XFFECB35D);
+  }
+  else if (condition1 == 'ABSENT') {
+    return Color(0XFFB7B7B7);
+  }
+  else if (condition1 == 'LEAVE') {
+    return Color(0XFF605DEC);
+  }
+  else if (condition1 == 'OUT') {
+    return Color(0XFFFF4646);
+  }
+  else {
+    return Color(0XFFFF4646);
+  }
+}
+
+String capitalizeFirstLetter(String text) {
+  if (text.isEmpty) return text;
+
+  return text[0].toUpperCase() + text.substring(1).toLowerCase();
+}
+
+
+
+
 
    // last punch in
 

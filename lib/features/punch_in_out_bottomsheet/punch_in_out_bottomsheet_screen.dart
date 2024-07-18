@@ -1,6 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:nms/features/punch_request_bottomsheet/punch_request_bottomsheet_controller.dart';
+import 'package:nms/features/punch_in_out_bottomsheet/punch_in_out_bottomsheet.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/cornered_button.dart';
 import 'package:intl/intl.dart';
@@ -41,8 +41,8 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
 
     String? selectedValue = '';
 
-    return GetBuilder<PunchRequestBottomSheetController>(
-      init : PunchRequestBottomSheetController(),
+    return GetBuilder<PunchInOutBottomSheetController>(
+      init : PunchInOutBottomSheetController(),
       builder: (controller) {
         return Container(
           width: screenWidth,
@@ -293,7 +293,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                 SizedBox(height: 8.0),
 
               //  Select Project Dropdown
-                  DropdownButtonFormField2<String>(
+                          DropdownButtonFormField2<String>(
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(0),
             border: OutlineInputBorder(
@@ -327,6 +327,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
           // iconSize: 30,
           // buttonHeight: 50,
           // buttonWidth: MediaQuery.of(context).size.width,
+          // dropdownMaxHeight: 200, // Set the maximum height for the dropdown menu
           items: project
               .map((item) => DropdownMenuItem<String>(
                     value: item,
@@ -347,19 +348,19 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
           },
           onChanged: (value) {
             setState(() {
-              selectedProject = value as String?;
+              selectedProject = value;
               isProjectSelected = true;
             });
           },
           onSaved: (value) {
             setState(() {
-              selectedProject = value as String?;
+              selectedProject = value;
             });
           },
         ),
         if (!isProjectSelected)
-         const Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+          const Padding(
+            padding: EdgeInsets.only(top: 8.0),
             child: Text(
               'Select Project',
               style: TextStyle(
@@ -368,7 +369,6 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
               ),
             ),
           ),
-         
                 SizedBox(height: 8.0),
         
                  Text(
@@ -382,7 +382,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                 ),
                 SizedBox(height: 8.0),
         
-                // Row 9: Reason Text Field
+                // Row 9: Task Text Field
                 Container(
                   height: 50.0,
                   padding: EdgeInsets.all(8.0),
@@ -392,6 +392,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                     color: Colors.white,
                   ),
                   child: TextField(
+                    controller: controller.taskController,
                     maxLength: 25,
                     maxLines: 1,
                     decoration: InputDecoration(
@@ -433,6 +434,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                     color: Colors.white,
                   ),
                   child: TextField(
+                    controller: controller.descriptionController,
                     maxLength: 200,
                     maxLines: 5,
                     decoration: InputDecoration(
