@@ -38,6 +38,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Color(0xff3BBCA0),
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(

@@ -58,7 +58,7 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
           _listEmployeDocuments.value = response.data;
           print(listEmployeDocuments.length);
           print(listEmployeDocuments[0].displayName);
-
+          update();
           // for (int i = 0 ; i < listEmployeDocuments.length; i++) {
           //   documentMap = {'name': listEmployeDocuments[i].displayName,
           //                  'date': listEmployeDocuments[i].createdAt.toString(), 
@@ -73,10 +73,12 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
+          update();
         }
       }
     } catch (e) {
       return catchErrorSection(e);
+      update();
     }
   }
 

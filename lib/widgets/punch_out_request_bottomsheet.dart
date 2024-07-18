@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nms/widgets/punch_bottom_sheet.dart';
-import 'package:nms/widgets/punch_request_bottomsheet.dart';
+import '../features/punch_in_out_bottomsheet/punch_in_out_bottomsheet.dart';
+import '../features/punch_request_bottomsheet/punch_request_bottomsheet.dart';
 
 class PunchOutRequestSheetContent extends StatelessWidget {
   @override
@@ -27,13 +27,14 @@ class PunchOutRequestSheetContent extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) {
-                  return PunchBottomSheetContent(title: 'Punch Out');
+                  return PunchInOutBottomSheetScreen(title: 'Punch Out');
                 },
               );
             },
             child: Row(
               children: [
-                Icon(Icons.arrow_back, color: Colors.teal),
+                // Icon(Icons.arrow_back, color: Colors.teal),
+                Image.asset('assets/png/punch_out_green.png'),
                 SizedBox(width: 16.0),
                 Text('Punch Out', style: TextStyle(color: Colors.black)), // Black text
               ],
@@ -48,13 +49,14 @@ class PunchOutRequestSheetContent extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) {
-                  return PunchRequestBottomSheetContent();
+                  return PunchRequestBottomSheetScreen();
                 },
               );
             },
             child: Row(
               children: [
-                Icon(Icons.arrow_back, color: Colors.teal),
+                Image.asset('assets/png/edit.png'),
+                // Icon(Icons.arrow_back, color: Colors.teal),
                 SizedBox(width: 16.0),
                 Text('Punch Request', style: TextStyle(color: Colors.black)), // Black text
               ],

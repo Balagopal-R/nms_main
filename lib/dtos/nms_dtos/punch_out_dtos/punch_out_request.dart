@@ -15,7 +15,7 @@ class PunchOutRequest {
    Map<String, dynamic> toBody() {
     final map = {
       "data":{"empId": empId,
-              "punchInDateTime": punchOutDateTime,
+              "punchOutDateTime": punchOutDateTime,
               "punchLocation": punchLocation,
               "projectCode": projectCode,
               "task": task,

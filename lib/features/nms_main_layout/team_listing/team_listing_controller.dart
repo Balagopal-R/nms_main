@@ -23,25 +23,13 @@ class TeamListingController extends GetxController with SnackbarMixin{
     final _getEmployPunchIn = Rx<LastPunchInModel?>(null);
   LastPunchInModel? get getEmployPunchIn => _getEmployPunchIn.value;
 
-    final _punchInMessage = ''.obs;
-  String get punchInMessage => _punchInMessage.value;
-
-  final _punchOutMessage = ''.obs;
-  String get punchOutMessage => _punchOutMessage.value;
-
-  final _punchRequestMessage = ''.obs;
-  String get punchRequestMessage => _punchRequestMessage.value;
+  
 
    @override
   void onInit() async{
 
   await teamListingScreen();
   await getLastPunchIn();
-  // await userPunchIn();
-  await userPunchOut(); 
-  // await userPunchRequest();
-
-  // await dateTimeToEpoch('14/07/2024', '15:00');
   super.onInit();
   }
 
@@ -100,6 +88,7 @@ String unixEpochTimeTo24HourString(int epochTime) {
         if (response.status == 200) {
           _teamListing.value = response.data;
           print(response.data);
+          update();
 
 
        
@@ -107,11 +96,13 @@ String unixEpochTimeTo24HourString(int epochTime) {
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
+          update();
         }
       
     } catch (e) {
       showErrorSnackbar(message: e.toString());
       debugPrint(e.toString());
+      update();
     }
   }
 
@@ -137,119 +128,8 @@ String unixEpochTimeTo24HourString(int epochTime) {
     }
   }
 
-    //  user punch in
-   userPunchIn() async {
-    try {
-      final authService = NMSJWTDecoder();
-      final decodedToken = await authService.decodeAuthToken();
-      if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+  
 
-        final request = PunchInRequest(
-          empId: userId,
-          punchInDateTime: 1720945153,
-          punchLocation: "OFFICE",
-          projectCode: "NMS",
-          task: "Unassigned",
-          description: "",
-          isOnBreak: false,
-          shiftDate: 1720463400
-          );
-
-        final response =
-            await ApiRepository.to.punchIn(request: request);
-
-        if (response.status == 200) {
-          _punchInMessage.value = response.data;
-          print(punchInMessage);
-       
-
-        } else if (response.message == "Failed") {
-          debugPrint(response.errors['errorMessage']);
-          showErrorSnackbar(message: errorOccuredText);
-        }
-      }
-    } catch (e) {
-      showErrorSnackbar(message: e.toString());
-    }
-  }
-
-      //  user punch Out
-   userPunchOut() async {
-    try {
-      final authService = NMSJWTDecoder();
-      final decodedToken = await authService.decodeAuthToken();
-      if (decodedToken != null) {
-        final userId = decodedToken["userId"];
-
-        final request = PunchOutRequest(
-          empId: userId,
-          punchOutDateTime: 1720945467,
-          punchLocation: "OFFICE",
-          projectCode: "NMS",
-          task: "Unassigned",
-          description: "",
-          isOnBreak: false,
-          shiftDate: 1720463400
-          );
-
-        final response =
-            await ApiRepository.to.punchOut(request: request);
-
-        if (response.status == 200) {
-          _punchOutMessage.value = response.data;
-          print(punchOutMessage);
-       
-
-        } else if (response.message == "Failed") {
-          debugPrint(response.errors['errorMessage']);
-          showErrorSnackbar(message: errorOccuredText);
-        }
-      }
-    } catch (e) {
-      showErrorSnackbar(message: e.toString());
-    }
-  }
-
-     //  User punch Request
-   userPunchRequest() async {
-    try {
-      final authService = NMSJWTDecoder();
-      final decodedToken = await authService.decodeAuthToken();
-      if (decodedToken != null) {
-        final userId = decodedToken["userId"];
-
-        final request = PunchRequestRequest(
-          empId: userId,
-          shiftDate: 1719081000,
-          punchInDateTime: 1719113400,
-          punchOutDateTime: 1719145800,
-          breakDateTime: 1719127800,
-          resumeDateTime: 1719131400,
-          punchLocation: "OFFICE",
-          projectCode: "NMS",
-          task: "Unassigned",
-          description: "",
-          reasonToChange: "" ,
-          isOnBreak: false
-          );
-
-        final response =
-            await ApiRepository.to.punchRequest(request: request);
-
-        if (response.status == 200) {
-          _punchRequestMessage.value = response.data;
-          print(punchRequestMessage);
-       
-
-        } else if (response.message == "Failed") {
-          debugPrint(response.errors['errorMessage']);
-          showErrorSnackbar(message: errorOccuredText);
-        }
-      }
-    } catch (e) {
-      showErrorSnackbar(message: e.toString());
-    }
-  }
+   
 
 }
