@@ -33,11 +33,6 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    final today = DateTime.now(); // Get the current date
-    final formattedDate = DateFormat('dd/MM/yyyy').format(today); // Format the date
-
-    final now = DateTime.now();
-    final formattedTime = DateFormat('HH:mm').format(now); // Format in 24-hour format
 
     String? selectedValue = '';
 
@@ -126,7 +121,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [
                          Text(
-                           formattedDate,
+                           controller.formattedDate,
                            style: TextStyle(
                              color: Colors.black,
                            ),
@@ -166,7 +161,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      formattedTime,
+                                      controller.formattedTime,
                                       style: TextStyle(
                                         color: Colors.black,
                                       ),
@@ -197,82 +192,131 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                   ),
                 ),
                 SizedBox(height: 8.0),
-      
-                          DropdownButtonFormField2<String>(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
-            ),
-            filled: true,
-            fillColor: const Color(0xFFFFFFFF),
-          ),
-          isExpanded: true,
-          hint: const Text(
-            'Select',
-            style: TextStyle(fontSize: 16),
-          ),
-          // icon: Padding(
-          //   padding: const EdgeInsets.only(right: 10),
-          //   child: Image.asset(
-          //     'assets/images/chevron_down.png', // Replace with your asset image path
-          //     height: 20,
-          //     width: 20,
-          //   ),
-          // ),
-          // iconSize: 30,
-          // buttonHeight: 50,
-          // buttonWidth: MediaQuery.of(context).size.width,
-          items: locations
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ))
-              .toList(),
-          validator: (value) {
-            if (value == null) {
-              return 'Select Category';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            setState(() {
-              selectedLocation = value as String?;
-              isLocationSelected = true;
-            });
-          },
-          onSaved: (value) {
-            setState(() {
-              selectedLocation = value as String?;
-            });
-          },
-        ),
-        if (!isLocationSelected)
-         const Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              'Select Location',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 12,
+
+                DropdownButtonFormField2<String>(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+                ),
+                filled: true,
+                fillColor: const Color(0xFFFFFFFF),
               ),
+              isExpanded: true,
+              hint: const Text(
+                'Select',
+                style: TextStyle(fontSize: 16),
+              ),
+              items: locations // Replace with your list of locations
+                  .map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(fontSize: 16, color: Colors.black),
+                        ),
+                      ))
+                  .toList(),
+              validator: (value) {
+                if (value == null) {
+                  return 'Select Location';
+                }
+                return null;
+              },
+              onChanged: (value) => controller.onLocationSelected(value!), // Access the controller
             ),
-          ),
+            if (!controller.selectedLocation.value.isEmpty) // Check for selected value
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  'Selected Location: ${controller.selectedLocation.value}',
+                  style: const TextStyle(color: Colors.black, fontSize: 12),
+                ),
+              ),
+      
+        //                   DropdownButtonFormField2<String>(
+        //   decoration: InputDecoration(
+        //     contentPadding: const EdgeInsets.all(0),
+        //     border: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+        //     ),
+        //     focusedBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+        //     ),
+        //     filled: true,
+        //     fillColor: const Color(0xFFFFFFFF),
+        //   ),
+        //   isExpanded: true,
+        //   hint: const Text(
+        //     'Select',
+        //     style: TextStyle(fontSize: 16),
+        //   ),
+        //   // icon: Padding(
+        //   //   padding: const EdgeInsets.only(right: 10),
+        //   //   child: Image.asset(
+        //   //     'assets/images/chevron_down.png', // Replace with your asset image path
+        //   //     height: 20,
+        //   //     width: 20,
+        //   //   ),
+        //   // ),
+        //   // iconSize: 30,
+        //   // buttonHeight: 50,
+        //   // buttonWidth: MediaQuery.of(context).size.width,
+        //   items: locations
+        //       .map((item) => DropdownMenuItem<String>(
+        //             value: item,
+        //             child: Text(
+        //               item,
+        //               style: const TextStyle(
+        //                 fontSize: 16,
+        //                 color: Colors.black,
+        //               ),
+        //             ),
+        //           ))
+        //       .toList(),
+        //   validator: (value) {
+        //     if (value == null) {
+        //       return 'Select Category';
+        //     }
+        //     return null;
+        //   },
+        //   onChanged: (value) {
+        //     setState(() {
+        //       selectedLocation = value as String?;
+        //       isLocationSelected = true;
+        //     });
+        //   },
+        //   onSaved: (value) {
+        //     setState(() {
+        //       selectedLocation = value as String?;
+        //     });
+        //   },
+        // ),
+        // if (!isLocationSelected)
+        //  const Padding(
+        //     padding: const EdgeInsets.only(top: 8.0),
+        //     child: Text(
+        //       'Select Location',
+        //       style: TextStyle(
+        //         color: Colors.red,
+        //         fontSize: 12,
+        //       ),
+        //     ),
+        //   ),
 
         
           
@@ -292,83 +336,144 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
         
                 SizedBox(height: 8.0),
 
-              //  Select Project Dropdown
-                          DropdownButtonFormField2<String>(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
-            ),
-            filled: true,
-            fillColor: const Color(0xFFFFFFFF),
-          ),
-          isExpanded: true,
-          hint: const Text(
-            'Select',
-            style: TextStyle(fontSize: 16),
-          ),
-          // icon: Padding(
-          //   padding: const EdgeInsets.only(right: 10),
-          //   child: Image.asset(
-          //     'assets/images/chevron_down.png', // Replace with your asset image path
-          //     height: 20,
-          //     width: 20,
-          //   ),
-          // ),
-          // iconSize: 30,
-          // buttonHeight: 50,
-          // buttonWidth: MediaQuery.of(context).size.width,
-          // dropdownMaxHeight: 200, // Set the maximum height for the dropdown menu
-          items: project
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ))
-              .toList(),
-          validator: (value) {
-            if (value == null) {
-              return 'Select Category';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            setState(() {
-              selectedProject = value;
-              isProjectSelected = true;
-            });
-          },
-          onSaved: (value) {
-            setState(() {
-              selectedProject = value;
-            });
-          },
-        ),
-        if (!isProjectSelected)
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: Text(
-              'Select Project',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 12,
+                DropdownButtonFormField2<String>(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+                ),
+                filled: true,
+                fillColor: const Color(0xFFFFFFFF),
               ),
+              isExpanded: true,
+              hint: const Text(
+                'Select',
+                style: TextStyle(fontSize: 16),
+              ),
+              // ... other dropdown properties (icon, size, etc.)
+              items: project
+                  .map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ))
+                  .toList(),
+              validator: (value) {
+                if (value == null) {
+                  return 'Select Project';
+                }
+                return null;
+              },
+              onChanged: (value) => controller.onProjectSelected(value!),
             ),
-          ),
+            Obx(
+              () => !controller.selectedProject.isEmpty
+                  ? Text(
+                      'Selected Project: ${controller.selectedProject.value}',
+                      style: const TextStyle(fontSize: 12),
+                    )
+                  : const SizedBox(),
+            ),
+            if (!controller.selectedProject.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  'Select Project',
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+
+              //  Select Project Dropdown
+        //                   DropdownButtonFormField2<String>(
+        //   decoration: InputDecoration(
+        //     contentPadding: const EdgeInsets.all(0),
+        //     border: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+        //     ),
+        //     focusedBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+        //     ),
+        //     filled: true,
+        //     fillColor: const Color(0xFFFFFFFF),
+        //   ),
+        //   isExpanded: true,
+        //   hint: const Text(
+        //     'Select',
+        //     style: TextStyle(fontSize: 16),
+        //   ),
+        //   // icon: Padding(
+        //   //   padding: const EdgeInsets.only(right: 10),
+        //   //   child: Image.asset(
+        //   //     'assets/images/chevron_down.png', // Replace with your asset image path
+        //   //     height: 20,
+        //   //     width: 20,
+        //   //   ),
+        //   // ),
+        //   // iconSize: 30,
+        //   // buttonHeight: 50,
+        //   // buttonWidth: MediaQuery.of(context).size.width,
+        //   // dropdownMaxHeight: 200, // Set the maximum height for the dropdown menu
+        //   items: project
+        //       .map((item) => DropdownMenuItem<String>(
+        //             value: item,
+        //             child: Text(
+        //               item,
+        //               style: const TextStyle(
+        //                 fontSize: 16,
+        //                 color: Colors.black,
+        //               ),
+        //             ),
+        //           ))
+        //       .toList(),
+        //   validator: (value) {
+        //     if (value == null) {
+        //       return 'Select Category';
+        //     }
+        //     return null;
+        //   },
+        //   onChanged: (value) {
+        //     setState(() {
+        //       selectedProject = value;
+        //       isProjectSelected = true;
+        //     });
+        //   },
+        //   onSaved: (value) {
+        //     setState(() {
+        //       selectedProject = value;
+        //     });
+        //   },
+        // ),
+        // if (!isProjectSelected)
+        //   const Padding(
+        //     padding: EdgeInsets.only(top: 8.0),
+        //     child: Text(
+        //       'Select Project',
+        //       style: TextStyle(
+        //         color: Colors.red,
+        //         fontSize: 12,
+        //       ),
+        //     ),
+        //   ),
                 SizedBox(height: 8.0),
         
                  Text(
@@ -462,7 +567,12 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                         title: 'Submit',
                         textcolor: backgroundColor,
                         onPress: () async {
-        
+                          if (widget.title == 'Punch IN'){
+                          await controller.userPunchIn();
+                          } else {
+                          await controller.userPunchOut();
+                          }
+                          
                         },
                       )
               ],

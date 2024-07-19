@@ -180,81 +180,132 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                 // ),
                 
                  // Row 6: Location Dropdown
-                            DropdownButtonFormField2<String>(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
-            ),
-            filled: true,
-            fillColor: const Color(0xFFFFFFFF),
-          ),
-          isExpanded: true,
-          hint: const Text(
-            'Select',
-            style: TextStyle(fontSize: 16),
-          ),
-          // icon: Padding(
-          //   padding: const EdgeInsets.only(right: 10),
-          //   child: Image.asset(
-          //     'assets/images/chevron_down.png', // Replace with your asset image path
-          //     height: 20,
-          //     width: 20,
-          //   ),
-          // ),
-          // iconSize: 30,
-          // buttonHeight: 50,
-          // buttonWidth: MediaQuery.of(context).size.width,
-          items: locations
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ))
-              .toList(),
-          validator: (value) {
-            if (value == null) {
-              return 'Select Category';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            setState(() {
-              selectedLocation = value as String?;
-              isLocationSelected = true;
-            });
-          },
-          onSaved: (value) {
-            setState(() {
-              selectedLocation = value as String?;
-            });
-          },
-        ),
-        if (!isLocationSelected)
-         const Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              'Select Category',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 12,
+
+                                 DropdownButtonFormField2<String>(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+                ),
+                filled: true,
+                fillColor: const Color(0xFFFFFFFF),
               ),
+              isExpanded: true,
+              hint: const Text(
+                'Select',
+                style: TextStyle(fontSize: 16),
+              ),
+              items: locations // Replace with your list of locations
+                  .map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(fontSize: 16, color: Colors.black),
+                        ),
+                      ))
+                  .toList(),
+              validator: (value) {
+                if (value == null) {
+                  return 'Select Location';
+                }
+                return null;
+              },
+              onChanged: (value) => controller.onLocationSelected(value!), // Access the controller
             ),
-          ),
+            if (!controller.selectedLocation.value.isEmpty) // Check for selected value
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  'Selected Location: ${controller.selectedLocation.value}',
+                  style: const TextStyle(color: Colors.black, fontSize: 12),
+                ),
+              ),
+
+
+        //                     DropdownButtonFormField2<String>(
+        //   decoration: InputDecoration(
+        //     contentPadding: const EdgeInsets.all(0),
+        //     border: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+        //     ),
+        //     focusedBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(4),
+        //       borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+        //     ),
+        //     filled: true,
+        //     fillColor: const Color(0xFFFFFFFF),
+        //   ),
+        //   isExpanded: true,
+        //   hint: const Text(
+        //     'Select',
+        //     style: TextStyle(fontSize: 16),
+        //   ),
+        //   // icon: Padding(
+        //   //   padding: const EdgeInsets.only(right: 10),
+        //   //   child: Image.asset(
+        //   //     'assets/images/chevron_down.png', // Replace with your asset image path
+        //   //     height: 20,
+        //   //     width: 20,
+        //   //   ),
+        //   // ),
+        //   // iconSize: 30,
+        //   // buttonHeight: 50,
+        //   // buttonWidth: MediaQuery.of(context).size.width,
+        //   items: locations
+        //       .map((item) => DropdownMenuItem<String>(
+        //             value: item,
+        //             child: Text(
+        //               item,
+        //               style: const TextStyle(
+        //                 fontSize: 16,
+        //                 color: Colors.black,
+        //               ),
+        //             ),
+        //           ))
+        //       .toList(),
+        //   validator: (value) {
+        //     if (value == null) {
+        //       return 'Select Category';
+        //     }
+        //     return null;
+        //   },
+        //   onChanged: (value) {
+        //     setState(() {
+        //       selectedLocation = value as String?;
+        //       isLocationSelected = true;
+        //     });
+        //   },
+        //   onSaved: (value) {
+        //     setState(() {
+        //       selectedLocation = value as String?;
+        //     });
+        //   },
+        // ),
+        // if (!isLocationSelected)
+        //  const Padding(
+        //     padding: const EdgeInsets.only(top: 8.0),
+        //     child: Text(
+        //       'Select Category',
+        //       style: TextStyle(
+        //         color: Colors.red,
+        //         fontSize: 12,
+        //       ),
+        //     ),
+        //   ),
 
 
                 SizedBox(height: 8.0),

@@ -15,6 +15,13 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   final _punchRequestMessage = ''.obs;
   String get punchRequestMessage => _punchRequestMessage.value;
 
+  final selectedLocation = ''.obs;
+
+  void onLocationSelected(String value) {
+    selectedLocation.value = value;
+    update(); // Update UI whenever selectedLocation changes
+  }
+
   final reasonController = TextEditingController();
 
 
@@ -24,7 +31,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   super.onInit();
   }
 
-  DateTime selectedDate = DateTime.now(); 
+  
 
   int dateTimeToEpoch(String dateString, String timeString) {
   // Validate date format
@@ -67,7 +74,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
           punchOutDateTime: int.parse(selectedTimes[1].toString()),
           breakDateTime: int.parse(selectedTimes[2].toString()),
           resumeDateTime: int.parse(selectedTimes[3].toString()),
-          punchLocation: "OFFICE",
+          punchLocation: selectedLocation.value,
           projectCode: "NMS",
           task: "Unassigned",
           description: "",
@@ -100,6 +107,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
     return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
   }
 
+ DateTime selectedDate = DateTime.now(); 
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

@@ -10,6 +10,20 @@ import '../../utils/helpers/validation.dart';
 
 class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
 
+  final selectedProject = ''.obs; // Observable string to store the selected project
+
+  void onProjectSelected(String value) {
+    selectedProject.value = value;
+    update(); // Update the UI whenever selectedProject changes
+  }
+
+  final selectedLocation = ''.obs;
+
+  void onLocationSelected(String value) {
+    selectedLocation.value = value;
+    update(); // Update UI whenever selectedLocation changes
+  }
+
     final _punchInMessage = ''.obs;
   String get punchInMessage => _punchInMessage.value;
 
@@ -19,12 +33,23 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
   final taskController = TextEditingController();
   final descriptionController = TextEditingController();
 
+  String get formattedDate {
+    final today = DateTime.now();
+    return DateFormat('dd/MM/yyyy').format(today);
+  }
+
+  String get formattedTime {
+    final now = DateTime.now();
+    return DateFormat('HH:mm').format(now);
+  }
+  
+
+
 
    @override
   void onInit() async{
-  await userPunchIn();
-  await userPunchOut(); 
   super.onInit();
+ 
   }
 
     int dateTimeToEpoch(String dateString, String timeString) {
@@ -73,19 +98,21 @@ String unixEpochTimeTo24HourString(int epochTime) {
 
         final request = PunchInRequest(
           empId: userId,
-          punchInDateTime: 1720945153,
-          punchLocation: "OFFICE",
-          projectCode: "NMS",
+          punchInDateTime: dateTimeToEpoch(formattedDate, formattedTime),
+          punchLocation: selectedLocation.value,
+          projectCode: selectedProject.value,
           task: taskController.text,
           description: descriptionController.text,
           isOnBreak: false,
-          shiftDate: 1720463400
+          shiftDate: dateTimeToEpoch(formattedDate, "01:00"),
           );
 
         final response =
             await ApiRepository.to.punchIn(request: request);
 
         if (response.status == 200) {
+        showSuccessSnackbar(title: 'Success', message:'You have successfully Punched IN') ;
+       
           _punchInMessage.value = response.data;
           print(punchInMessage);
        
@@ -110,13 +137,13 @@ String unixEpochTimeTo24HourString(int epochTime) {
 
         final request = PunchOutRequest(
           empId: userId,
-          punchOutDateTime: 1721209425,
-          punchLocation: "OFFICE",
-          projectCode: "NMS",
+          punchOutDateTime: dateTimeToEpoch(formattedDate, formattedTime),
+          punchLocation: selectedLocation.value,
+          projectCode: selectedProject.value,
           task: "Unassigned",
           description: "",
           isOnBreak: false,
-          shiftDate: 1721154600
+          shiftDate: dateTimeToEpoch(formattedDate, "01:00"),
           );
 
         final response =
@@ -125,6 +152,7 @@ String unixEpochTimeTo24HourString(int epochTime) {
         if (response.status == 200) {
           _punchOutMessage.value = response.data;
           print(punchOutMessage);
+          showSuccessSnackbar(title: 'Success', message:'You have successfully Punched OUT') ;
        
 
         } else if (response.message == "Failed") {
