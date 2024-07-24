@@ -20,6 +20,7 @@ import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_response.dart';
+import '../dtos/nms_dtos/punch_approvals_dtos/punch_approvals.dart';
 import '../dtos/nms_dtos/punch_request_dtos/punch_request.dart';
 import '../managers/api/api.dart';
 
@@ -87,6 +88,10 @@ abstract class ApiRepository extends GetxController {
    //  File Upload
    Future<dynamic> fileUpload(
       {required FileUploadRequest request});
+
+   //  Punch Approvals Card
+   Future<dynamic> punchApprovals(
+      {required PunchApprovalsRequest request});
   
 }
 
@@ -285,6 +290,19 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     print(response);
     return response;
+  }
+
+   //  Listing of Punch Approvals 
+  @override
+  Future<PunchApprovalsResponse> punchApprovals(
+      {required PunchApprovalsRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.punchApprovals,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return PunchApprovalsResponse.fromJson(response);
   }
 
 }

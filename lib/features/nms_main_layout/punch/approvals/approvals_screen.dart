@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_widget.dart';
+import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
 import 'package:nms/widgets/punch_out_request_bottomsheet.dart';
 import 'package:get/get.dart';
@@ -7,29 +8,6 @@ import 'approvals_controller.dart';
 
 // ignore: use_key_in_widget_constructors
 class ApprovalsScreen extends StatelessWidget {
-  
-  final List<Map<String, String>> items = [
-    {
-      'status': 'Pending',
-      'statusColor': '#ECB35D',
-      'statusText': 'For Approval',
-    },
-    {
-      'status': 'Approved',
-      'statusColor': '#4CAF50',
-      'statusText': 'Approved',
-    },
-    {
-      'status': 'Rejected',
-      'statusColor': '#F44336',
-      'statusText': 'Rejected',
-    },
-    {
-      'status': 'Completed',
-      'statusColor': '#3F51B5',
-      'statusText': 'Completed',
-    },
-  ];
 
  @override
   Widget build(BuildContext context) {
@@ -64,17 +42,26 @@ class ApprovalsScreen extends StatelessWidget {
           ),
                 backgroundColor: Color(0xFF3BBCA0),
               ),
-          body: ListView.builder(
-            itemCount: items.length,
+          // ignore: unnecessary_null_comparison
+          body: controller.punchApprovals != null ?
+          ListView.builder(
+            itemCount: controller.punchApprovals.length,
             itemBuilder: (context, index) {
-              final item = items[index];
+              final item = controller.punchApprovals[index];
               return ApprovalsWidget(
-                status: item['status']!,
-                statusColor: item['statusColor']!,
-                statusText: item['statusText']!,
+               appliedDate: item.createdAt.toString(),
+               statusColor: 'Colors.green' ,
+               statusText: item.status,
+               reqDate: item.shiftDate.toString(),
+               reqTime: item.punchInDatetime.toString(),
+               reqWorkMode: item.punchLocation
               );
             },
-          ),
+          ) : const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    ),
         );
       }
     );

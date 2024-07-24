@@ -1,4 +1,4 @@
-class PunchApprovalsModel {
+class PunchApprovalPendingRequestModel {
     int id;
     String empId;
     String unitId;
@@ -23,9 +23,9 @@ class PunchApprovalsModel {
     int updatedAt;
     AtedBy createdBy;
     AtedBy updatedBy;
-    List<dynamic> punchLog;
+    List<PunchLog> punchLog;
 
-    PunchApprovalsModel({
+    PunchApprovalPendingRequestModel({
         required this.id,
         required this.empId,
         required this.unitId,
@@ -53,7 +53,7 @@ class PunchApprovalsModel {
         required this.punchLog,
     });
 
-    factory PunchApprovalsModel.fromJson(Map<String, dynamic> json) => PunchApprovalsModel(
+    factory PunchApprovalPendingRequestModel.fromJson(Map<String, dynamic> json) => PunchApprovalPendingRequestModel(
         id: json["id"],
         empId: json["empId"],
         unitId: json["unitId"],
@@ -78,7 +78,7 @@ class PunchApprovalsModel {
         updatedAt: json["updatedAt"],
         createdBy: AtedBy.fromJson(json["createdBy"]),
         updatedBy: AtedBy.fromJson(json["updatedBy"]),
-        punchLog: List<dynamic>.from(json["punchLog"].map((x) => x)),
+        punchLog: List<PunchLog>.from(json["punchLog"].map((x) => PunchLog.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -106,7 +106,7 @@ class PunchApprovalsModel {
         "updatedAt": updatedAt,
         "createdBy": createdBy.toJson(),
         "updatedBy": updatedBy.toJson(),
-        "punchLog": List<dynamic>.from(punchLog.map((x) => x)),
+        "punchLog": List<dynamic>.from(punchLog.map((x) => x.toJson())),
     };
 }
 
@@ -114,23 +114,37 @@ class AtedBy {
     String userId;
     String firstname;
     String lastname;
+    String profileImgUrl;
+    String employeeCode;
+    Department department;
     int probationPeriod;
+    String shiftTime;
+    String workStatus;
     bool archived;
 
     AtedBy({
         required this.userId,
         required this.firstname,
         required this.lastname,
+        required this.profileImgUrl,
+        required this.employeeCode,
+        required this.department,
         required this.probationPeriod,
+        required this.shiftTime,
+        required this.workStatus,
         required this.archived,
-
     });
 
     factory AtedBy.fromJson(Map<String, dynamic> json) => AtedBy(
         userId: json["userId"],
         firstname: json["firstname"],
         lastname: json["lastname"],
+        profileImgUrl: json["profileImgUrl"],
+        employeeCode: json["employeeCode"],
+        department: Department.fromJson(json["department"]),
         probationPeriod: json["probationPeriod"],
+        shiftTime: json["shiftTime"],
+        workStatus: json["workStatus"],
         archived: json["archived"],
     );
 
@@ -138,11 +152,39 @@ class AtedBy {
         "userId": userId,
         "firstname": firstname,
         "lastname": lastname,
+        "profileImgUrl": profileImgUrl,
+        "employeeCode": employeeCode,
+        "department": department.toJson(),
         "probationPeriod": probationPeriod,
+        "shiftTime": shiftTime,
+        "workStatus": workStatus,
         "archived": archived,
     };
 }
 
+class Department {
+    int id;
+    String departmentName;
+    String departmentCode;
+
+    Department({
+        required this.id,
+        required this.departmentName,
+        required this.departmentCode,
+    });
+
+    factory Department.fromJson(Map<String, dynamic> json) => Department(
+        id: json["id"],
+        departmentName: json["departmentName"],
+        departmentCode: json["departmentCode"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "departmentName": departmentName,
+        "departmentCode": departmentCode,
+    };
+}
 
 class Manager {
     int id;
@@ -177,5 +219,57 @@ class Manager {
         "lastname": lastname,
         "probationPeriod": probationPeriod,
         "archived": archived,
+    };
+}
+
+class PunchLog {
+    String empId;
+    String unitId;
+    String orgId;
+    int shiftDate;
+    int punchInDateTime;
+    int punchOutDateTime;
+    String punchLocation;
+    String description;
+    String reasonToChange;
+    bool isOnBreak;
+
+    PunchLog({
+        required this.empId,
+        required this.unitId,
+        required this.orgId,
+        required this.shiftDate,
+        required this.punchInDateTime,
+        required this.punchOutDateTime,
+        required this.punchLocation,
+        required this.description,
+        required this.reasonToChange,
+        required this.isOnBreak,
+    });
+
+    factory PunchLog.fromJson(Map<String, dynamic> json) => PunchLog(
+        empId: json["empId"],
+        unitId: json["unitId"],
+        orgId: json["orgId"],
+        shiftDate: json["shiftDate"],
+        punchInDateTime: json["punchInDateTime"],
+        punchOutDateTime: json["punchOutDateTime"],
+        punchLocation: json["punchLocation"],
+        description: json["description"],
+        reasonToChange: json["reasonToChange"],
+        isOnBreak: json["isOnBreak"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "empId": empId,
+        "unitId": unitId,
+        "orgId": orgId,
+        "shiftDate": shiftDate,
+        "punchInDateTime": punchInDateTime,
+        "punchOutDateTime": punchOutDateTime,
+        "punchLocation": punchLocation,
+        "description": description,
+        "reasonToChange": reasonToChange,
+        "isOnBreak": isOnBreak,
     };
 }

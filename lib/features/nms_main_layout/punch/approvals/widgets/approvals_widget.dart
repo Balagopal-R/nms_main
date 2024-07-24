@@ -4,14 +4,21 @@ import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_b
 import 'package:get/get.dart';
 
 class ApprovalsWidget extends StatelessWidget {
-  final String status;
+
   final String statusColor;
   final String statusText;
+  final String appliedDate;
+  final String reqDate;
+  final String reqTime;
+  final String reqWorkMode;
 
   ApprovalsWidget({
-    required this.status,
+    required this.appliedDate,
     required this.statusColor,
     required this.statusText,
+    required this.reqDate,
+    required this.reqTime,
+    required this.reqWorkMode
   });
 
   @override
@@ -66,7 +73,7 @@ class ApprovalsWidget extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 8),
-                    Text('01-Mar-2024',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+                    Text(appliedDate,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
                     Divider(
                       height: 16,
                       color: Color(0xFFF1F1F1),
@@ -83,10 +90,10 @@ class ApprovalsWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Mar 03',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+                        Text(reqDate,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
                         Row(
                           children: [
-                            Text('IN-09:00',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+                            Text(reqTime,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
                             SizedBox(width: 4),
                             Text(
                               '+3',
@@ -100,7 +107,7 @@ class ApprovalsWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text('Req Work Mode'),
-                    Text('WFO',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+                    Text(reqWorkMode,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

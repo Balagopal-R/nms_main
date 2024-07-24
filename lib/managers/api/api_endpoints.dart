@@ -18,4 +18,5 @@ class ApiEndPoints {
   static const String punchOut = 'punch/punchOut';
   static const String punchRequest = 'punch/punchRequest';
   static const String fileUpload = 'file/upload';
+  static const String punchApprovals = 'punch/punchReqGetAll';
 }
