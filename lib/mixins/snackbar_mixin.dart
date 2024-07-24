@@ -31,8 +31,8 @@ mixin SnackbarMixin on GetxController {
   showSuccessSnackbar({required String title, required String message}) {
     Flushbar(
       padding: const EdgeInsets.fromLTRB(20, 16, 16, 16),
-      titleColor: secondaryColor,
-      messageColor: secondaryColor,
+      titleColor: Color(0xff3BBCA0),
+      messageColor: Color(0xff3BBCA0),
       icon: SvgPicture.asset(
         "assets/svg/success.svg",
       ),
@@ -41,9 +41,9 @@ mixin SnackbarMixin on GetxController {
       message: message,
       messageSize: 12,
       duration: const Duration(seconds: 3),
-      backgroundColor: backgroundColor,
+      backgroundColor: Color(0xffBEFFE8),
       margin: const EdgeInsets.all(10),
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
       borderColor: Colors.green,
       isDismissible: true,
       blockBackgroundInteraction: true,

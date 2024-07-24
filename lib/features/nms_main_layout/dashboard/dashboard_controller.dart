@@ -168,7 +168,6 @@ String formatDoubleWithTwoDecimals(double value) {
                                 getEmployeAveragePunchTime[4].clockedBreakMinutes+
                                 getEmployeAveragePunchTime[5].clockedBreakMinutes+
                                 getEmployeAveragePunchTime[6].clockedBreakMinutes)/breakDivisor));
-                                print('^^^^^^^^$getAvgPunchTime');
 
                                 _avgBreakTime.value = getAvgBreakTime/3600 ;
 

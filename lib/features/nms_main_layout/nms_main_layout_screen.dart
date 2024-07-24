@@ -100,6 +100,8 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
             _onItemTapped(index);
           }
         },
+        selectedIconTheme: IconThemeData(color: Color(0xff3BBCA0)),
+        unselectedIconTheme: IconThemeData(color: Colors.transparent), 
       ),
     );
   }

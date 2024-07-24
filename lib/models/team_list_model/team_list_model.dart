@@ -54,30 +54,3 @@ class TeamListingModel {
     };
 }
 
-class Pagination {
-    int totalPages;
-    int totalElements;
-    int currentPage;
-    int pageSize;
-
-    Pagination({
-        required this.totalPages,
-        required this.totalElements,
-        required this.currentPage,
-        required this.pageSize,
-    });
-
-    factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
-        totalPages: json["totalPages"],
-        totalElements: json["totalElements"],
-        currentPage: json["currentPage"],
-        pageSize: json["pageSize"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "totalPages": totalPages,
-        "totalElements": totalElements,
-        "currentPage": currentPage,
-        "pageSize": pageSize,
-    };
-}

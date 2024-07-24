@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:nms/features/punch_request_bottomsheet/punch_request_bottomsheet_controller.dart';
 import 'package:nms/widgets/cornered_button.dart';
 import '../../utils/theme/theme_constants.dart';
-// import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 
 class PunchRequestBottomSheetScreen extends StatefulWidget {
@@ -20,27 +19,6 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
   String? selectedLocation;
   final List<String> locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
   bool isLocationSelected = true;
-
-  //  List<TimeOfDay> _selectedTimes = [
-  //   TimeOfDay(hour: 9, minute: 0), // Punch In Time
-  //   TimeOfDay(hour: 12, minute: 0), // Punch Out Time
-  //   TimeOfDay(hour: 13, minute: 0), // Break
-  //   TimeOfDay(hour: 14, minute: 0), // Resume
-  // ];
-  //  void _showTimePicker(int pickerNumber) async {
-  //   TimeOfDay? pickedTime = await showTimePicker(
-  //     context: context,
-  //     initialTime: _selectedTimes[pickerNumber],
-  //   );
-
-  //   if (pickedTime != null) {
-  //     setState(() {
-  //       _selectedTimes[pickerNumber] = pickedTime;
-  //     });
-  //   }
-  // }
-
- 
 
 
   @override
@@ -153,31 +131,6 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                 ),
                 SizedBox(height: 8.0),
         
-                // Row 6: Location Dropdown
-                // Container(
-                //   height: 50.0, // Increased height for Location Dropdown
-                //   child: Container(
-                //     padding: EdgeInsets.symmetric(horizontal: 12.0),
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(4.0),
-                //       border: Border.all(color: Color(0xFFB7B7B7)),
-                //       color: Colors.white,
-                //     ),
-                //     child: DropdownButton<String>(
-                //       isExpanded: true,
-                //       hint: Text('Select'),
-                //       underline: SizedBox(),
-                //       icon: Icon(Icons.arrow_drop_down, color: Colors.grey),
-                //       items: <String>['Location 1', 'Location 2', 'Location 3'].map((String value) {
-                //         return DropdownMenuItem<String>(
-                //           value: value,
-                //           child: Text(value),
-                //         );
-                //       }).toList(),
-                //       onChanged: (_) {},
-                //     ),
-                //   ),
-                // ),
                 
                  // Row 6: Location Dropdown
 
@@ -221,92 +174,14 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
               },
               onChanged: (value) => controller.onLocationSelected(value!), // Access the controller
             ),
-            if (!controller.selectedLocation.value.isEmpty) // Check for selected value
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  'Selected Location: ${controller.selectedLocation.value}',
-                  style: const TextStyle(color: Colors.black, fontSize: 12),
-                ),
-              ),
-
-
-        //                     DropdownButtonFormField2<String>(
-        //   decoration: InputDecoration(
-        //     contentPadding: const EdgeInsets.all(0),
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(4),
-        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-        //     ),
-        //     enabledBorder: OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(4),
-        //       borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-        //     ),
-        //     focusedBorder: OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(4),
-        //       borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
-        //     ),
-        //     filled: true,
-        //     fillColor: const Color(0xFFFFFFFF),
-        //   ),
-        //   isExpanded: true,
-        //   hint: const Text(
-        //     'Select',
-        //     style: TextStyle(fontSize: 16),
-        //   ),
-        //   // icon: Padding(
-        //   //   padding: const EdgeInsets.only(right: 10),
-        //   //   child: Image.asset(
-        //   //     'assets/images/chevron_down.png', // Replace with your asset image path
-        //   //     height: 20,
-        //   //     width: 20,
-        //   //   ),
-        //   // ),
-        //   // iconSize: 30,
-        //   // buttonHeight: 50,
-        //   // buttonWidth: MediaQuery.of(context).size.width,
-        //   items: locations
-        //       .map((item) => DropdownMenuItem<String>(
-        //             value: item,
-        //             child: Text(
-        //               item,
-        //               style: const TextStyle(
-        //                 fontSize: 16,
-        //                 color: Colors.black,
-        //               ),
-        //             ),
-        //           ))
-        //       .toList(),
-        //   validator: (value) {
-        //     if (value == null) {
-        //       return 'Select Category';
-        //     }
-        //     return null;
-        //   },
-        //   onChanged: (value) {
-        //     setState(() {
-        //       selectedLocation = value as String?;
-        //       isLocationSelected = true;
-        //     });
-        //   },
-        //   onSaved: (value) {
-        //     setState(() {
-        //       selectedLocation = value as String?;
-        //     });
-        //   },
-        // ),
-        // if (!isLocationSelected)
-        //  const Padding(
-        //     padding: const EdgeInsets.only(top: 8.0),
-        //     child: Text(
-        //       'Select Category',
-        //       style: TextStyle(
-        //         color: Colors.red,
-        //         fontSize: 12,
-        //       ),
-        //     ),
-        //   ),
-
+            // if (!controller.selectedLocation.value.isEmpty) // Check for selected value
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: 8.0),
+            //     child: Text(
+            //       'Selected Location: ${controller.selectedLocation.value}',
+            //       style: const TextStyle(color: Colors.black, fontSize: 12),
+            //     ),
+            //   ),
 
                 SizedBox(height: 8.0),
           

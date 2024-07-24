@@ -570,9 +570,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _buildCircularPercentIndicator('SL', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
                 _buildCircularPercentIndicator('LEA', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
                 _buildCircularPercentIndicator('TL', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-                // _buildCircularPercentIndicator('VL', 0.6),
-                // _buildCircularPercentIndicator('SCL', 0.6),
-                // _buildCircularPercentIndicator('TL', 0.6),
+
               ],
             ),
             if (!isExpanded)

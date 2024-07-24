@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
@@ -27,8 +25,8 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
 
    @override
   void onInit() async{
-
   super.onInit();
+
   }
 
   
@@ -69,11 +67,11 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
 
         final request = PunchRequestRequest(
           empId: userId,
-          shiftDate: int.parse(selectedDate.toString()),
-          punchInDateTime: int.parse(selectedTimes[0].toString()),
-          punchOutDateTime: int.parse(selectedTimes[1].toString()),
-          breakDateTime: int.parse(selectedTimes[2].toString()),
-          resumeDateTime: int.parse(selectedTimes[3].toString()),
+          shiftDate: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), '01:00'),
+          punchInDateTime: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), formatTime24Hour(selectedTimes[0])),
+          punchOutDateTime: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), formatTime24Hour(selectedTimes[1])),
+          breakDateTime: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), formatTime24Hour(selectedTimes[2])),
+          resumeDateTime: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), formatTime24Hour(selectedTimes[3])),
           punchLocation: selectedLocation.value,
           projectCode: "NMS",
           task: "Unassigned",
@@ -97,15 +95,12 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
         }
       }
     } catch (e) {
+      
       showErrorSnackbar(message: e.toString());
+      showErrorSnackbar(message: 'Failed to submit a new Punch request');
     }
   }
 
-
-   String formatTime24Hour(TimeOfDay time) {
-    // Format the time as a two-digit string in 24-hour format
-    return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
-  }
 
  DateTime selectedDate = DateTime.now(); 
 
@@ -127,9 +122,14 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   //   // You can now use the context here
   // }
 
+     String formatTime24Hour(TimeOfDay time) {
+    // Format the time as a two-digit string in 24-hour format
+    return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
+  }
+
    List<TimeOfDay> selectedTimes = [
     TimeOfDay(hour: 9, minute: 0), // Punch In Time
-    TimeOfDay(hour: 12, minute: 0), // Punch Out Time
+    TimeOfDay(hour: 18, minute: 0), // Punch Out Time
     TimeOfDay(hour: 13, minute: 0), // Break
     TimeOfDay(hour: 14, minute: 0), // Resume
   ];
