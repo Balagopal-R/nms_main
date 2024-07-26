@@ -14,7 +14,7 @@ class PunchApprovalPendingRequestModel {
     String shiftTime;
     List<Manager> managers;
     String departmentName;
-    String profileImgUrl;
+    String? profileImgUrl;
     String workMobileNumber;
     String employeeCode;
     String firstName;
@@ -22,7 +22,7 @@ class PunchApprovalPendingRequestModel {
     int createdAt;
     int updatedAt;
     AtedBy createdBy;
-    AtedBy updatedBy;
+    AtedBy? updatedBy;
     List<PunchLog> punchLog;
 
     PunchApprovalPendingRequestModel({
@@ -41,7 +41,7 @@ class PunchApprovalPendingRequestModel {
         required this.shiftTime,
         required this.managers,
         required this.departmentName,
-        required this.profileImgUrl,
+        this.profileImgUrl,
         required this.workMobileNumber,
         required this.employeeCode,
         required this.firstName,
@@ -49,7 +49,7 @@ class PunchApprovalPendingRequestModel {
         required this.createdAt,
         required this.updatedAt,
         required this.createdBy,
-        required this.updatedBy,
+        this.updatedBy,
         required this.punchLog,
     });
 
@@ -105,7 +105,7 @@ class PunchApprovalPendingRequestModel {
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "createdBy": createdBy.toJson(),
-        "updatedBy": updatedBy.toJson(),
+        "updatedBy": updatedBy?.toJson(),
         "punchLog": List<dynamic>.from(punchLog.map((x) => x.toJson())),
     };
 }
@@ -114,51 +114,23 @@ class AtedBy {
     String userId;
     String firstname;
     String lastname;
-    String profileImgUrl;
-    String employeeCode;
-    Department department;
-    int probationPeriod;
-    String shiftTime;
-    String workStatus;
-    bool archived;
 
     AtedBy({
         required this.userId,
         required this.firstname,
         required this.lastname,
-        required this.profileImgUrl,
-        required this.employeeCode,
-        required this.department,
-        required this.probationPeriod,
-        required this.shiftTime,
-        required this.workStatus,
-        required this.archived,
     });
 
     factory AtedBy.fromJson(Map<String, dynamic> json) => AtedBy(
         userId: json["userId"],
         firstname: json["firstname"],
         lastname: json["lastname"],
-        profileImgUrl: json["profileImgUrl"],
-        employeeCode: json["employeeCode"],
-        department: Department.fromJson(json["department"]),
-        probationPeriod: json["probationPeriod"],
-        shiftTime: json["shiftTime"],
-        workStatus: json["workStatus"],
-        archived: json["archived"],
     );
 
     Map<String, dynamic> toJson() => {
         "userId": userId,
         "firstname": firstname,
         "lastname": lastname,
-        "profileImgUrl": profileImgUrl,
-        "employeeCode": employeeCode,
-        "department": department.toJson(),
-        "probationPeriod": probationPeriod,
-        "shiftTime": shiftTime,
-        "workStatus": workStatus,
-        "archived": archived,
     };
 }
 
@@ -229,10 +201,10 @@ class PunchLog {
     int shiftDate;
     int punchInDateTime;
     int punchOutDateTime;
-    String punchLocation;
-    String description;
-    String reasonToChange;
-    bool isOnBreak;
+    String? punchLocation;
+    String? description;
+    String? reasonToChange;
+    bool? isOnBreak;
 
     PunchLog({
         required this.empId,
@@ -241,10 +213,10 @@ class PunchLog {
         required this.shiftDate,
         required this.punchInDateTime,
         required this.punchOutDateTime,
-        required this.punchLocation,
-        required this.description,
-        required this.reasonToChange,
-        required this.isOnBreak,
+        this.punchLocation,
+        this.description,
+        this.reasonToChange,
+        this.isOnBreak,
     });
 
     factory PunchLog.fromJson(Map<String, dynamic> json) => PunchLog(

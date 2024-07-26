@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/approvals_controller.dart';
-import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_bottomsheet.dart';
 import 'package:get/get.dart';
 
 class ApprovalsWidget extends StatelessWidget {
@@ -11,15 +10,18 @@ class ApprovalsWidget extends StatelessWidget {
   final String reqDate;
   final String reqTime;
   final String reqWorkMode;
+  final VoidCallback onTap;
 
-  ApprovalsWidget({
+   const ApprovalsWidget({
+    Key? key,
     required this.appliedDate,
     required this.statusColor,
     required this.statusText,
     required this.reqDate,
     required this.reqTime,
-    required this.reqWorkMode
-  });
+    required this.reqWorkMode,
+    required this.onTap, 
+  }) : super(key: key); 
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +116,7 @@ class ApprovalsWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                ),
-                builder: (context) => ApprovalsBottomSheetContent(),
-              );
-                            },
+                          onTap: onTap,
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(

@@ -20,6 +20,7 @@ import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_response.dart';
+import '../dtos/nms_dtos/punch_approval_pending_request_dtos/punch_approval_pending_request.dart';
 import '../dtos/nms_dtos/punch_approvals_dtos/punch_approvals.dart';
 import '../dtos/nms_dtos/punch_request_dtos/punch_request.dart';
 import '../managers/api/api.dart';
@@ -92,6 +93,10 @@ abstract class ApiRepository extends GetxController {
    //  Punch Approvals Card
    Future<dynamic> punchApprovals(
       {required PunchApprovalsRequest request});
+
+       //  Punch Approvals View Request
+   Future<dynamic> punchApprovalsRequestView(
+      {required PunchApprovalPendingRequest request});
   
 }
 
@@ -303,6 +308,19 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     print(response);
     return PunchApprovalsResponse.fromJson(response);
+  }
+
+    //  Punch Approvals View Request
+  @override
+  Future<PunchApprovalPendingResponse> punchApprovalsRequestView(
+      {required PunchApprovalPendingRequest request}) async {
+      final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.punchApprovalsPendingRequest,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return PunchApprovalPendingResponse.fromJson(response);
   }
 
 }
