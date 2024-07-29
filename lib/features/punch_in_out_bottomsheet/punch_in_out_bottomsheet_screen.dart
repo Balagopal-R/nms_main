@@ -28,6 +28,8 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
    final List<String> project = ['NMS', 'KESHER', 'Premium Shop', 'NMS Chat','Winemonger','Quotely','Just Borrow','Cakesys','Unassigned','Trybond'];
    bool isProjectSelected = true;
 
+   double componentsHeight = 47 ;
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -109,7 +111,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                 SizedBox(height: 8.0),
         
                    Container(
-                     height: 50,
+                     height: componentsHeight,
                              width: screenWidth*0.43,
                      padding: EdgeInsets.symmetric(horizontal: 12.0),
                      decoration: BoxDecoration(
@@ -149,7 +151,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                               SizedBox(height: 8.0),
         
                               Container(
-                                height: 50,
+                                height: componentsHeight,
                                 width: screenWidth*0.43,
                                 padding: EdgeInsets.symmetric(horizontal: 12.0),
                                 decoration: BoxDecoration(
@@ -309,14 +311,14 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
             //         )
             //       : const SizedBox(),
             // ),
-            if (!controller.selectedProject.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  'Select Project',
-                  style: TextStyle(color: Colors.red, fontSize: 12),
-                ),
-              ),
+            // if (!controller.selectedProject.isNotEmpty)
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: 8.0),
+            //     child: Text(
+            //       'Select Project',
+            //       style: TextStyle(color: Colors.red, fontSize: 12),
+            //     ),
+            //   ),
 
                 SizedBox(height: 8.0),
         
@@ -333,7 +335,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
         
                 // Row 9: Task Text Field
                 Container(
-                  height: 50.0,
+                  height: componentsHeight,
                   padding: EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4.0),
@@ -375,7 +377,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
         
                 // Row 9: Reason Text Field
                 Container(
-                  height: 100.0,
+                  height: componentsHeight*2,
                   padding: EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4.0),
@@ -406,7 +408,7 @@ class _PunchInOutBottomSheetScreenState extends State<PunchInOutBottomSheetScree
                 // Row 11: Submit Button
         
                 CorneredButton(
-                        height: 50,
+                        height: componentsHeight,
                         color: primaryColor,
                         title: 'Submit',
                         textcolor: backgroundColor,

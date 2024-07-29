@@ -19,6 +19,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
   String? selectedLocation;
   final List<String> locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
   bool isLocationSelected = true;
+  double componentsHeight = 49 ;
 
 
   @override
@@ -91,7 +92,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         
                 // Row 4: Date Picker
                 Container(
-                  height: 50.0, // Increased height for Date Picker
+                  height: componentsHeight, // Increased height for Date Picker
                   child: GestureDetector(
                     onTap: () {
                      controller.selectDate(context);
@@ -207,7 +208,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                   controller.showTimePickers(0, context);
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: componentsHeight,
                                   width: screenWidth*0.41,
                                   padding: EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
@@ -245,7 +246,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                  controller.showTimePickers(2, context);
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: componentsHeight,
                                   width: screenWidth*0.41,
                                   padding: EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
@@ -290,7 +291,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                  controller.showTimePickers(1, context);
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: componentsHeight,
                                   width: screenWidth*0.41,
                                   padding: EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
@@ -328,7 +329,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                 controller.showTimePickers(3, context);
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: componentsHeight,
                                   width: screenWidth*0.41,
                                   padding: EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
@@ -371,7 +372,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         
                 // Row 9: Reason Text Field
                 Container(
-                  height: 100.0,
+                  height: componentsHeight*2,
                   padding: EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4.0),
@@ -388,21 +389,21 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                     ),
                   ),
                 ),
-                SizedBox(height: 8.0),
+                // SizedBox(height: 8.0),
         
-                // Row 10: Characters Remaining
-                Text(
-                  '200/200 characters remaining',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
+                // // Row 10: Characters Remaining
+                // Text(
+                //   '200/200 characters remaining',
+                //   style: TextStyle(
+                //     color: Colors.grey,
+                //   ),
+                // ),
                 SizedBox(height: 16.0),
         
                 // Row 11: Submit Button
         
                 CorneredButton(
-                        height: 50,
+                        height: componentsHeight,
                         color: primaryColor,
                         title: 'Submit',
                         textcolor: backgroundColor,

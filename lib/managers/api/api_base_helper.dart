@@ -18,7 +18,7 @@ class ApiBaseHelper {
 
   Future<dynamic> postWithBody(
       {required String endpoint,
-      required Map<String, String> params,
+      required Map<String, dynamic> params,
       required dynamic body,
       Map<String, String>? headers}) async {
     dynamic responseJson;

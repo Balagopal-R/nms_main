@@ -9,8 +9,10 @@ import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
 import '../../../../dtos/nms_dtos/punch_approval_pending_request_dtos/punch_approval_pending_request.dart';
 import '../../../../dtos/nms_dtos/punch_approvals_dtos/punch_approvals.dart';
+import '../../../../dtos/nms_dtos/punch_request_cancel_dtos/punch_request_cancel.dart';
 import '../../../../models/last_punch_in_model/last_punch_in_model.dart';
 import '../../../../models/punch_approval_pending_request_model/punch_approval_pending_request_model.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ApprovalsController extends GetxController with SnackbarMixin {
 
@@ -23,13 +25,62 @@ class ApprovalsController extends GetxController with SnackbarMixin {
     final _punchApprovalsViewRequest = Rx<PunchApprovalPendingRequestModel?>(null);
   PunchApprovalPendingRequestModel? get punchApprovalsViewRequest => _punchApprovalsViewRequest.value;
 
+  final _punchRequestCancel = ''.obs;
+  String get punchRequestCancel => _punchRequestCancel.value;
+
+  static const _pageSize = 10;
+  final PagingController<int, PunchApprovalsModel> pagingController =
+      PagingController(firstPageKey: 0);
+
 
   @override
   void onInit() async {
     await getLastPunchIn();
     await userPunchApprovals();
+    await userPunchRequestCancel(194);
+
+  //  pagingController.addPageRequestListener((pageKey) {
+  //     _fetchPage(pageKey);
+  //   });
     super.onInit();
   }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+        final userId = decodedToken["userId"];
+
+        final request = PunchApprovalsRequest(
+          field: "createdAt",
+          sortOfOrder: "ASC",
+          page: pageKey,
+          size: _pageSize,
+          userId: userId,
+        );
+
+        final response = await ApiRepository.to.punchApprovals(request: request);
+
+        final isLastPage = response.data.length < _pageSize;
+        if (isLastPage) {
+          pagingController.appendLastPage(response.data);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(response.data, nextPageKey);
+        }
+      }
+    } catch (e) {
+      pagingController.error = e;
+    }
+  }
+ 
+  @override
+  void onClose() {
+    pagingController.dispose();
+    super.onClose();
+  }
+
 
  
 
@@ -145,6 +196,36 @@ String formatEpochToTimeString(int? epoch) {
       update();
     }
   }
+
+   // Punch Request Cancel
+  userPunchRequestCancel(int id) async {
+    
+    try {
+      final request = PunchRequestCancelRequest(
+        punchRequestId : id
+      );
+
+      final response = await ApiRepository.to.punchRequestCancel(request: request);
+
+      if (response.status == 200) {
+      _punchRequestCancel.value = response.data ;
+      print(punchRequestCancel);
+  
+        update();
+      } 
+      else if (response.message == "Failed") {
+        showErrorSnackbar(message: errorOccuredText);
+        update();
+      }
+    } catch (e) {
+    
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
+      update();
+    }
+  }
+
+
 
 
 }

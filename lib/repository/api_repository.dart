@@ -22,6 +22,7 @@ import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_response.dart';
 import '../dtos/nms_dtos/punch_approval_pending_request_dtos/punch_approval_pending_request.dart';
 import '../dtos/nms_dtos/punch_approvals_dtos/punch_approvals.dart';
+import '../dtos/nms_dtos/punch_request_cancel_dtos/punch_request_cancel.dart';
 import '../dtos/nms_dtos/punch_request_dtos/punch_request.dart';
 import '../managers/api/api.dart';
 
@@ -97,6 +98,13 @@ abstract class ApiRepository extends GetxController {
        //  Punch Approvals View Request
    Future<dynamic> punchApprovalsRequestView(
       {required PunchApprovalPendingRequest request});
+
+ //  Punch Request Cancel
+   Future<dynamic> punchRequestCancel(
+      {required PunchRequestCancelRequest request});
+
+  
+      
   
 }
 
@@ -321,6 +329,19 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     print(response);
     return PunchApprovalPendingResponse.fromJson(response);
+  }
+
+  //  Punch Request Cancel
+  @override
+  Future<PunchRequestCancelResponse> punchRequestCancel(
+      {required PunchRequestCancelRequest request}) async {
+      final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.punchApprovalsCancel,
+      body: {},
+      params: request.toMap(),
+    );
+    print(response);
+    return PunchRequestCancelResponse.fromJson(response);
   }
 
 }

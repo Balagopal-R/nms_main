@@ -20,4 +20,5 @@ class ApiEndPoints {
   static const String fileUpload = 'file/upload';
   static const String punchApprovals = 'punch/punchReqGetAll';
   static const String punchApprovalsPendingRequest = 'punch/getPendingRequest';
+  static const String punchApprovalsCancel = 'punch/cancel';
 }
