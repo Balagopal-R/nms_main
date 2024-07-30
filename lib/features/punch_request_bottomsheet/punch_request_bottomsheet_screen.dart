@@ -16,9 +16,9 @@ class PunchRequestBottomSheetScreen extends StatefulWidget {
 
 class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetScreen> {
   
-  String? selectedLocation;
-  final List<String> locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
-  bool isLocationSelected = true;
+  // String? selectedLocation;
+  // final List<String> locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
+  // bool isLocationSelected = true;
   double componentsHeight = 49 ;
 
 
@@ -135,9 +135,10 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                 
                  // Row 6: Location Dropdown
 
-                                 DropdownButtonFormField2<String>(
+                              Obx(() =>   DropdownButtonFormField2<String>(
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(0),
+                errorText: controller.isLocationValid.value ? null : 'Please select project',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
@@ -158,7 +159,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                 'Select',
                 style: TextStyle(fontSize: 16),
               ),
-              items: locations // Replace with your list of locations
+              items: controller.locations // Replace with your list of locations
                   .map((item) => DropdownMenuItem<String>(
                         value: item,
                         child: Text(
@@ -167,22 +168,20 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                         ),
                       ))
                   .toList(),
+              value: controller.selectedLocation.value.isEmpty ? null : controller.selectedLocation.value,
               validator: (value) {
-                if (value == null) {
-                  return 'Select Location';
-                }
-                return null;
-              },
-              onChanged: (value) => controller.onLocationSelected(value!), // Access the controller
+            if (value == null) {
+              return 'Select Location';
+            }
+            return null;
+          },
+              onChanged: (value) {
+                controller.selectedLocation.value = value!;
+                controller.isLocationValid.value = true;
+              }, // Access the controller
             ),
-            // if (!controller.selectedLocation.value.isEmpty) // Check for selected value
-            //   Padding(
-            //     padding: const EdgeInsets.only(top: 8.0),
-            //     child: Text(
-            //       'Selected Location: ${controller.selectedLocation.value}',
-            //       style: const TextStyle(color: Colors.black, fontSize: 12),
-            //     ),
-            //   ),
+                              ),
+        
 
                 SizedBox(height: 8.0),
           
@@ -408,7 +407,14 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                         title: 'Submit',
                         textcolor: backgroundColor,
                         onPress: () async {
-                        await controller.userPunchRequest();
+                        // await controller.userPunchRequest();
+                        
+                         controller.validateForm();
+                    if (controller.isLocationValid.value) {
+                      await controller.userPunchRequest();
+                    }
+
+
                         },
                       )
               ],

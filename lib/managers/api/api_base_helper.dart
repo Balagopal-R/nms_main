@@ -18,7 +18,7 @@ class ApiBaseHelper {
 
   Future<dynamic> postWithBody(
       {required String endpoint,
-      required Map<String, dynamic> params,
+      required Map<String, String> params,
       required dynamic body,
       Map<String, String>? headers}) async {
     dynamic responseJson;
@@ -47,6 +47,41 @@ class ApiBaseHelper {
     }
     return responseJson;
   }
+
+  Future<dynamic> postWithBodyParamsHasNoString(
+      {required String endpoint,
+      required Map<String, dynamic> params,
+      required dynamic body,
+      Map<String, String>? headers}) async {
+    dynamic responseJson;
+    try {
+      debugPrint(jsonEncode(body));
+      debugPrint(jsonEncode(params));
+ 
+      String completeUrl = "";
+ 
+      if (params == {}) {
+        completeUrl = '$_baseUrl$endpoint';
+      } else {
+        String queryString = params.entries
+            .map((entry) => '${entry.key}=${entry.value}')
+            .join('&');
+        completeUrl = '$_baseUrl$endpoint?$queryString';
+      }
+ 
+      var url = Uri.parse(completeUrl);
+ 
+      var response = await http.post(url,
+          headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader(),
+          body: jsonEncode(body));
+ 
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      throw NoNetworkException();
+    }
+    return responseJson;
+  }
+
 
   Future<dynamic> get(
       {required String endpoint,

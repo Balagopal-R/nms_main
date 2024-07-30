@@ -14,6 +14,13 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   String get punchRequestMessage => _punchRequestMessage.value;
 
   final selectedLocation = ''.obs;
+  var isLocationValid = true.obs;
+
+    var locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
+
+    void validateForm() {
+   isLocationValid.value = selectedLocation.isNotEmpty;
+     }
 
   void onLocationSelected(String value) {
     selectedLocation.value = value;

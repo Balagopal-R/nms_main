@@ -37,7 +37,6 @@ class ApprovalsController extends GetxController with SnackbarMixin {
   void onInit() async {
     await getLastPunchIn();
     await userPunchApprovals();
-    await userPunchRequestCancel(194);
 
   //  pagingController.addPageRequestListener((pageKey) {
   //     _fetchPage(pageKey);
@@ -209,7 +208,7 @@ String formatEpochToTimeString(int? epoch) {
 
       if (response.status == 200) {
       _punchRequestCancel.value = response.data ;
-      print(punchRequestCancel);
+      showSuccessSnackbar(title: 'Success', message: 'Approval Request Cancelled');
   
         update();
       } 

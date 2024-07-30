@@ -10,14 +10,30 @@ import '../../utils/helpers/validation.dart';
 
 class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
 
-  final selectedProject = ''.obs; // Observable string to store the selected project
+  var selectedLocation = ''.obs;
+  var selectedProject = ''.obs;
+  var task = ''.obs;
 
+  var isLocationValid = true.obs;
+  var isProjectValid = true.obs;
+  var isTaskValid = true.obs;
+
+
+  var locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
+  var projects = ['NMS', 'KESHER', 'Premium Shop', 'NMS Chat','Winemonger','Quotely','Just Borrow','Cakesys','Unassigned','Trybond'];
+
+  void validateForm() {
+    isLocationValid.value = selectedLocation.isNotEmpty;
+    isProjectValid.value = selectedProject.isNotEmpty;
+    isTaskValid.value = task.isNotEmpty;
+  }
+  
   void onProjectSelected(String value) {
     selectedProject.value = value;
     update(); // Update the UI whenever selectedProject changes
   }
 
-  final selectedLocation = ''.obs;
+  
 
   void onLocationSelected(String value) {
     selectedLocation.value = value;
@@ -42,6 +58,28 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
     final now = DateTime.now();
     return DateFormat('HH:mm').format(now);
   }
+
+  final locationError = RxString('');
+  final projectError = RxString('');
+  final taskError = RxString('');
+
+  // Method to show validation error
+  void showValidationError(String errorMessage) {
+    if (errorMessage == 'Select Location') {
+      locationError.value = errorMessage;
+    } else if (errorMessage == 'Select Project') {
+      projectError.value = errorMessage;
+    } else if (errorMessage == 'Enter a Task') {
+      taskError.value = errorMessage;
+    }
+  }
+
+  // Clear error messages when fields are valid
+  void clearErrors() {
+    locationError.value = '';
+    projectError.value = '';
+    taskError.value = '';
+  }
   
 
 
@@ -49,6 +87,7 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
    @override
   void onInit() async{
   super.onInit();
+   clearErrors();
  
   }
 

@@ -335,7 +335,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
   @override
   Future<PunchRequestCancelResponse> punchRequestCancel(
       {required PunchRequestCancelRequest request}) async {
-      final response = await _helper.postWithBody(
+      final response = await _helper.postWithBodyParamsHasNoString(
       endpoint: ApiEndPoints.punchApprovalsCancel,
       body: {},
       params: request.toMap(),

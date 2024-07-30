@@ -159,7 +159,10 @@ class ApprovalsScreen extends StatelessWidget {
                reqDate: controller.formatEpochToMiniDateString(item.shiftDate),
                reqTime: controller.formatEpochToTimeStringIN(item.punchInDatetime),
                reqWorkMode: item.punchLocation,
-               onTap: () async{
+               onCancelTap: () async{
+                  _showCustomDialog(context,controller, controller.punchApprovals[index].id);
+               },
+               viewRequestTap: () async{
                 await controller.userPunchApprovalPendingRequest(item.id);
                 print(controller.punchApprovalsViewRequest?.status);
                 showModalBottomSheet(
@@ -186,8 +189,9 @@ class ApprovalsScreen extends StatelessWidget {
                   reqOutTime: "18:00",
                   reqLocation: controller.punchApprovalsViewRequest!.punchLocation,
                   onTap: () {
-                    _showCustomDialog(context);
+                    _showCustomDialog(context,controller, controller.punchApprovalsViewRequest!.id );
                   },
+                
                 ),
               );
                },
@@ -204,7 +208,8 @@ class ApprovalsScreen extends StatelessWidget {
   }
 }
 
-void _showCustomDialog(BuildContext context) {
+
+void _showCustomDialog(BuildContext context, ApprovalsController controller,int id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -232,7 +237,7 @@ void _showCustomDialog(BuildContext context) {
                 SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
-                    // Handle 'Yes, cancel this request' action
+                    controller.userPunchApprovalPendingRequest(id);
                     Navigator.of(context).pop();
                   },
                   child: Container(

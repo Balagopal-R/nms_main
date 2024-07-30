@@ -10,7 +10,9 @@ class ApprovalsWidget extends StatelessWidget {
   final String reqDate;
   final String reqTime;
   final String reqWorkMode;
-  final VoidCallback onTap;
+  final VoidCallback viewRequestTap;
+  final VoidCallback onCancelTap;
+
 
    const ApprovalsWidget({
     Key? key,
@@ -20,7 +22,8 @@ class ApprovalsWidget extends StatelessWidget {
     required this.reqDate,
     required this.reqTime,
     required this.reqWorkMode,
-    required this.onTap, 
+    required this.viewRequestTap, 
+    required this.onCancelTap
   }) : super(key: key); 
 
   @override
@@ -116,7 +119,7 @@ class ApprovalsWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                          onTap: onTap,
+                          onTap: viewRequestTap,
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
@@ -139,10 +142,12 @@ class ApprovalsWidget extends StatelessWidget {
         
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-         _showCustomDialog(context);
+                            onTap: onCancelTap,
+                            
+        //                     () {
+        //  _showCustomDialog(context);
         
-                            },
+        //                     },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
