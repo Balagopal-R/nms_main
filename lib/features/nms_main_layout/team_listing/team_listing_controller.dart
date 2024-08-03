@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nms/dtos/api_response.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
@@ -13,43 +12,15 @@ import '../../../repository/api_repository.dart';
 
 class TeamListingController extends GetxController with SnackbarMixin {
   
-  final TextEditingController searchEmployeeController =
-      TextEditingController();
-
-  final _teamListingRes = Rx<TeamListingResponse?>(null);
-  TeamListingResponse? get teamListingRes => _teamListingRes.value;
-
   final _teamListing = (List<TeamListingModel>.empty()).obs;
   List<TeamListingModel> get teamListing => _teamListing;
-
-   final _teamListingContent = (List<TeamListingModel>.empty()).obs;
-  List<TeamListingModel> get teamListingContent => _teamListingContent;
 
   final _getEmployPunchIn = Rx<LastPunchInModel?>(null);
   LastPunchInModel? get getEmployPunchIn => _getEmployPunchIn.value;
 
-  final _getTeamPagination = Rx<Pagination?>(null);
-  Pagination? get getTeamPagination => _getTeamPagination.value;
-
-  final _isLoading = false.obs;
-  bool get isLoading => _isLoading.value;
-
-  int isPageno = 0;
-
-  final teamListingScrollController = ScrollController();
-
   @override
   void onInit() async {
-
-    await initialFetching();
-    teamListingScrollController.addListener(() {
-      if (!isLoading &&
-          teamListingScrollController.position.pixels ==
-              teamListingScrollController.position.maxScrollExtent) {
-        print('here');
-        fetchNextPage();
-      }
-    });
+    await teamListingScreen();
     await getLastPunchIn();
     super.onInit();
   }
@@ -70,72 +41,34 @@ class TeamListingController extends GetxController with SnackbarMixin {
 
   //  listing team members along with punch in/out information
   teamListingScreen() async {
-    print('page:${isPageno}');
-    _isLoading.value = true;
-    _teamListing.value = [];
+   
     try {
       final request = TeamListingRequest(
         keyword: "",
         field: "",
         sortOfOrder: "ASC",
-        page: isPageno,
+        page: 0,
         size: 10,
       );
 
       final response = await ApiRepository.to.teamListing(request: request);
 
       if (response.status == 200) {
-        print(isPageno);
         _teamListing.value = response.data;
-        _getTeamPagination.value = response.pagination;
-        isPageno = isPageno+1;
-        debugPrint('pagination:${getTeamPagination}');
-        if (response.pagination == null) {
-          print('Pagination is null');
-        } else {
-          print('Total pages: ${response.pagination?.totalPages}');
-        }
 
-        if (teamListing.isNotEmpty) {
-          for (int i = 0; i < teamListing.length; i++) {
-            _teamListingContent.add(teamListing[i]);
-          }
-          debugPrint(teamListingContent.toString());
-        } else {}
-        _isLoading.value = false;
         update();
       } else if (response.message == "Failed") {
-        _isLoading.value = false;
+        
         debugPrint(response.errors['errorMessage']);
         showErrorSnackbar(message: errorOccuredText);
         update();
       }
     } catch (e) {
-      _isLoading.value = false;
+     
       showErrorSnackbar(message: e.toString());
       debugPrint(e.toString());
       update();
     }
-  }
-
-  @override
-  void dispose() {
-    // _isPageno.value = 0;
-    teamListingScrollController.dispose();
-    super.dispose();
-  }
-
-  initialFetching() async {
-    _teamListing.clear();
-    // _isPageno.value = 0;
-    await teamListingScreen();
-  }
-
-  fetchNextPage() async {
-    debugPrint(getTeamPagination!.totalPages.toString());
-    if (isPageno <= 4) {
-      await teamListingScreen();
-    } else {}
   }
 
   Color getColorBasedOnConditions(
@@ -207,7 +140,6 @@ class TeamListingController extends GetxController with SnackbarMixin {
       }
     } catch (e) {
       showErrorSnackbar(message: e.toString());
-      // _isLoading.value = false;
       debugPrint(e.toString());
     }
   }

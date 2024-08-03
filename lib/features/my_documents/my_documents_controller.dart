@@ -106,8 +106,9 @@ String capitalizeFirstLetter(String text) {
         }
       }
     } catch (e) {
-      return catchErrorSection(e);
       update();
+      return catchErrorSection(e);
+      
     }
   }
 

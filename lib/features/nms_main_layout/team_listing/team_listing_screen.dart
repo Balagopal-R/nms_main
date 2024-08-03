@@ -14,12 +14,6 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
   bool isSearching = false;
 
   @override
-  void dispose() {
-    Get.delete<TeamListingController>();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GetBuilder<TeamListingController>(
       init: TeamListingController(),
@@ -28,13 +22,13 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
           backgroundColor: Color(0xffFAFAFA),
           appBar: AppBar(
             backgroundColor: Color(0xffFAFAFA),
-            leading: IconButton(
-              icon: Image.asset('assets/png/arrow_left.png',
-                  height: 24, width: 24),
-              onPressed: () {
-                Get.back();
-              },
-            ),
+            // leading: IconButton(
+            //   icon: Image.asset('assets/png/arrow_left.png',
+            //       height: 24, width: 24),
+            //   onPressed: () {
+            //     Get.back();
+            //   },
+            // ),
             title: Text('Team Listing'),
             centerTitle: true,
             actions: [
@@ -123,8 +117,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
           // ignore: unnecessary_null_comparison
           body: controller.teamListing != null
               ? ListView.builder(
-                controller: controller.teamListingScrollController,
-                  itemCount: controller.teamListingContent.length,
+                  itemCount: controller.teamListing.length,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
@@ -147,7 +140,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                       CircleAvatar(
                                         radius: 24,
                                         backgroundImage: NetworkImage(controller
-                                            .teamListingContent[index].profileImg
+                                            .teamListing[index].profileImg
                                             .toString()),
                                       ),
                                       Positioned(
@@ -155,7 +148,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                         right: 0,
                                         child: CircleAvatar(
                                             radius: 6,
-                                            backgroundColor: controller.getColorBasedOnConditions(controller.teamListingContent[index].punchIn != null, controller.teamListingContent[index].punchOut == null)),
+                                            backgroundColor: controller.getColorBasedOnConditions(controller.teamListing[index].punchIn != null, controller.teamListing[index].punchOut == null)),
                                       ),
                                     ],
                                   ),
@@ -166,14 +159,14 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                     children: [
                                       Text(
                                           controller
-                                              .teamListingContent[index].firstname,
+                                              .teamListing[index].firstname,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               color: Colors.black,
                                               fontSize: 14)),
                                       Text(
                                           controller
-                                              .teamListingContent[index].designation,
+                                              .teamListing[index].designation,
                                           style: TextStyle(
                                               color: Color(0xff7A7A7A),
                                               fontSize: 12,
@@ -196,7 +189,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                         width: 20.0,
                                       ),
                                       SizedBox(width: 4.0),
-                                      Text(controller.epochToTimeString(controller.teamListingContent[index].punchIn),
+                                      Text(controller.epochToTimeString(controller.teamListing[index].punchIn),
                                         style: TextStyle(
                                             color: Color(0xff888888),
                                             fontSize: 12,
@@ -213,7 +206,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                         width: 20.0,
                                       ),
                                       SizedBox(width: 4.0),
-                                      Text(controller.epochToTimeString(controller.teamListingContent[index].punchOut),
+                                      Text(controller.epochToTimeString(controller.teamListing[index].punchOut),
                                           style: TextStyle(
                                               color: Color(0xff888888),
                                               fontSize: 12,
@@ -231,7 +224,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                       SizedBox(width: 4.0),
                                       Text(
                                           controller
-                                              .teamListingContent[index]!.punchLocation
+                                              .teamListing[index]!.punchLocation
                                               .toString(),
                                           style: TextStyle(
                                               color: Color(0xff888888),
@@ -250,19 +243,19 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 6.0, vertical: 2.0),
                               decoration: BoxDecoration(
-                                color: controller.getContainerColorBasedOnPunchStatus(controller.teamListingContent[index].status.toString()),
+                                color: controller.getContainerColorBasedOnPunchStatus(controller.teamListing[index].status.toString()),
                                 borderRadius: BorderRadius.circular(2.667),
                               ),
                               child: Row(
                                 children: [
                                   CircleAvatar(
                                     radius: 4.0,
-                                    backgroundColor: controller.getColorBasedOnPunchStatus(controller.teamListingContent[index].status.toString()),
+                                    backgroundColor: controller.getColorBasedOnPunchStatus(controller.teamListing[index].status.toString()),
                                   ),
                                   SizedBox(width: 4.0),
-                                  Text(controller.capitalizeFirstLetter(controller.teamListingContent[index].status.toString()),
+                                  Text(controller.capitalizeFirstLetter(controller.teamListing[index].status.toString()),
                                       style: TextStyle(
-                                          color: controller.getColorBasedOnPunchStatus(controller.teamListingContent[index].status.toString()),
+                                          color: controller.getColorBasedOnPunchStatus(controller.teamListing[index].status.toString()),
                                           fontSize: 10,
                                           fontWeight: FontWeight.w500)),
                                 ],
