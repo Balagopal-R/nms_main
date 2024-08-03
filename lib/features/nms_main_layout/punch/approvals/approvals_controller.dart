@@ -121,14 +121,13 @@ String formatEpochToTimeString(int? epoch) {
 
         final response = await ApiRepository.to.punchApprovals(request: request);
         if (response.status == 200) {
-          print('------${response.toString()}');
           
           final isLastPage = response.pagination.totalPages == pageKey;
           if (isLastPage) {
             pagingController.appendLastPage(response.data);
           } else {
             final nextPageKey = pageKey + 1;
-            pagingController.appendPage(response.data, nextPageKey as int);
+            pagingController.appendPage(response.data, nextPageKey);
           }
           // pagingController.appendPage(response.data , pageKey+1);
           _punchApprovals.addAll(response.data);

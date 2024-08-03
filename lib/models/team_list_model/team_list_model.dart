@@ -3,12 +3,12 @@ class TeamListingModel {
     String firstname;
     String lastname;
     String? profileImg;
-    String designation;
-    String dept;
+    String? designation;
+    String? dept;
     int? punchIn;
     int? punchOut;
     String? punchLocation;
-    String shiftTime;
+    String? shiftTime;
     String? status;
 
     TeamListingModel({
@@ -16,12 +16,12 @@ class TeamListingModel {
         required this.firstname,
         required this.lastname,
         this.profileImg,
-        required this.designation,
-        required this.dept,
+        this.designation,
+        this.dept,
         this.punchIn,
         this.punchOut,
         this.punchLocation,
-        required this.shiftTime,
+        this.shiftTime,
         this.status,
     });
 

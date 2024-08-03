@@ -9,6 +9,7 @@ import 'package:nms/utils/helpers/validation.dart';
 import '../../../dtos/nms_dtos/team_listing_dtos/team_listing.dart';
 import '../../../models/team_list_model/team_list_model.dart';
 import '../../../repository/api_repository.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class TeamListingController extends GetxController with SnackbarMixin {
   
@@ -18,11 +19,26 @@ class TeamListingController extends GetxController with SnackbarMixin {
   final _getEmployPunchIn = Rx<LastPunchInModel?>(null);
   LastPunchInModel? get getEmployPunchIn => _getEmployPunchIn.value;
 
+  static const _pageSize = 10;
+  final PagingController<int, TeamListingModel> pagingController =
+      PagingController(firstPageKey: 0);
+
+
   @override
   void onInit() async {
-    await teamListingScreen();
+    // await teamListingScreen();
+    pagingController.addPageRequestListener((pageKey) {
+      teamListingScreenPagination(pageKey);
+    });
+     // Trigger the initial page load
+    pagingController.refresh();
     await getLastPunchIn();
     super.onInit();
+  }
+
+   RxBool isSearching = false.obs;
+   void toggleSearch() {
+    isSearching.value = !isSearching.value;
   }
 
   String epochToTimeString(int? epochTime) {
@@ -37,6 +53,47 @@ class TeamListingController extends GetxController with SnackbarMixin {
     final formattedTime = DateFormat('HH:mm').format(dateTime);
 
     return formattedTime;
+  }
+
+  //  listing team members along with punch in/out information with Pagination
+   Future<void> teamListingScreenPagination(int pageKey) async {
+   
+    try {
+      final request = TeamListingRequest(
+        keyword: "",
+        field: "",
+        sortOfOrder: "ASC",
+        page: pageKey,
+        size: _pageSize,
+      );
+
+      final response = await ApiRepository.to.teamListing(request: request);
+
+      if (response.status == 200) {
+        
+        final isLastPage = response.pagination?.totalPages == pageKey;
+          if (isLastPage) {
+            pagingController.appendLastPage(response.data);
+          } else {
+            final nextPageKey = pageKey + 1;
+            pagingController.appendPage(response.data, nextPageKey);
+          }
+          // pagingController.appendPage(response.data , pageKey+1);
+          _teamListing.addAll(response.data);
+          update();
+
+      } else if (response.message == "Failed") {
+        
+        debugPrint(response.errors['errorMessage']);
+        showErrorSnackbar(message: errorOccuredText);
+        update();
+      }
+    } catch (e) {
+      pagingController.error = e.toString();
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
+      update();
+    }
   }
 
   //  listing team members along with punch in/out information
