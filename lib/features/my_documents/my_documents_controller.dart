@@ -14,17 +14,25 @@ import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 
 class MyDocumentsController extends GetxController with SnackbarMixin {
 
+  var uploadedImageMessage = "".obs;
+
    final _listEmployeDocuments = (List<DocumentsListModel>.empty()).obs;
   List<DocumentsListModel> get listEmployeDocuments => _listEmployeDocuments;
 
    final _employeDocumentDetails = (List<Map<String, String>>.empty()).obs;
   List<Map<String, String>> get employeDocumentDetails => _employeDocumentDetails;
 
+    final _uploadedImagevalue = (List<String>.empty(growable: true)).obs;
+  List<String> get uploadedImagevalue => _uploadedImagevalue.value;
+
   // final _employeDocumentDetailsMap = (Map<String, String>.empty()).obs;
   // Map<String, String> get employeDocumentDetailsMap => _employeDocumentDetailsMap;
 
   final _userFileUpload = Rx<FileUploadModel?>(null);
   FileUploadModel? get userFileUpload => _userFileUpload.value;
+
+    final _extractedFirstPart = "".obs;
+  String get extractedFirstPart => _extractedFirstPart.value;
 
   Map<String, String> documentMap = {'name': '', 'date': '', 'category': ''};
   
@@ -133,38 +141,6 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
-  //   File upload
-  //  fileUpload() async {
-  //   try {
-  //     final authService = NMSJWTDecoder();
-  //     final decodedToken = await authService.decodeAuthToken();
-  //     if (decodedToken != null) {
-  //       final userId = decodedToken["userId"];
-
-  //       final request = FileUploadRequest(
-  //         userId: userId,
-  //         category: 'Work',
-  //         uploadfile: 
-  //         );
-
-  //       final response =
-  //           await ApiRepository.to.fileUpload(request: request);
-
-  //       if (response.status == 200) {
-  //         _userFileUpload.value = response.data;
-  //         print(userFileUpload!.fileName);
-       
-
-  //       } else if (response.message == "Failed") {
-  //         debugPrint(response.errors['errorMessage']);
-  //         showErrorSnackbar(message: errorOccuredText);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     showErrorSnackbar(message: e.toString());
-  //   }
-  // }
-
    // upload image api function
   Future<void> uploadImage(File imageFile) async {
     String defaultMessage = '';
@@ -184,14 +160,15 @@ String capitalizeFirstLetter(String text) {
         final parsedJson = json.decode(response1);
         var datas = FileUploadModel.fromJson(parsedJson);
         var message = datas.fileUrl;
-
-        // if (uploadedImagevalue.length < 5) {
-        //   uploadedImagevalue.add(_extractLastSegment(message));
-        //   _extractedFirstPart.value = _extractFirstSegment(message);
-        // } else {
-        //   showErrorSnackbar(
-        //       title: errorText, message: "Maximum 5 images can be uploaded");
-        // }
+        
+        // uploadedImageMessage.value = message;
+        if (uploadedImagevalue.length < 3) {
+          uploadedImagevalue.add(_extractLastSegment(message));
+          _extractedFirstPart.value = _extractFirstSegment(message);
+        } else {
+          showErrorSnackbar(message: "Maximum 3 images can be uploaded");
+          
+        }
 
         // print(uploadedImagevalue);
 
@@ -199,18 +176,35 @@ String capitalizeFirstLetter(String text) {
         update();
       } else {
         debugPrint('fail');
-        // uploadedImageMessage.value = defaultMessage;
+        uploadedImageMessage.value = defaultMessage;
       }
       }
     } 
-  //   catch (e) {
-  //     showErrorSnackbar(title: errorText, message: e.toString());
-  //     uploadedImageMessage.value = defaultMessage;
-  //     debugPrint(e.toString());
-  //   }
-  // }
    catch (e) {
       showErrorSnackbar(message: e.toString());
+           uploadedImageMessage.value = defaultMessage;
+      debugPrint(e.toString());
+    }
+  }
+
+    String _extractLastSegment(String url) {
+    Uri uri = Uri.parse(url);
+    List<String> pathSegments = uri.pathSegments;
+    if (pathSegments.isNotEmpty) {
+      return pathSegments.last;
+    } else {
+      return '';
+    }
+  }
+
+  String _extractFirstSegment(String url) {
+    Uri uri = Uri.parse(url);
+    List<String> pathSegments = uri.pathSegments;
+    if (pathSegments.isNotEmpty) {
+      var part = uri.replace(path: '/').toString();
+      return part;
+    } else {
+      return '';
     }
   }
 

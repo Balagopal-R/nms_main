@@ -27,7 +27,6 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
     isProjectValid.value = selectedProject.isNotEmpty;
     isTaskValid.value = task.isNotEmpty;
   }
-  
   void onProjectSelected(String value) {
     selectedProject.value = value;
     update(); // Update the UI whenever selectedProject changes

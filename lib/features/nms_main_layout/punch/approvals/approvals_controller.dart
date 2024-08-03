@@ -32,54 +32,25 @@ class ApprovalsController extends GetxController with SnackbarMixin {
   final PagingController<int, PunchApprovalsModel> pagingController =
       PagingController(firstPageKey: 0);
 
-
-  @override
-  void onInit() async {
-    await getLastPunchIn();
-    await userPunchApprovals();
-
-  //  pagingController.addPageRequestListener((pageKey) {
-  //     _fetchPage(pageKey);
-  //   });
-    super.onInit();
-  }
-
-  Future<void> _fetchPage(int pageKey) async {
-    try {
-      final authService = NMSJWTDecoder();
-      final decodedToken = await authService.decodeAuthToken();
-      if (decodedToken != null) {
-        final userId = decodedToken["userId"];
-
-        final request = PunchApprovalsRequest(
-          field: "createdAt",
-          sortOfOrder: "ASC",
-          page: pageKey,
-          size: _pageSize,
-          userId: userId,
-        );
-
-        final response = await ApiRepository.to.punchApprovals(request: request);
-
-        final isLastPage = response.data.length < _pageSize;
-        if (isLastPage) {
-          pagingController.appendLastPage(response.data);
-        } else {
-          final nextPageKey = pageKey + 1;
-          pagingController.appendPage(response.data, nextPageKey);
-        }
-      }
-    } catch (e) {
-      pagingController.error = e;
-    }
-  }
  
-  @override
-  void onClose() {
-    pagingController.dispose();
-    super.onClose();
-  }
 
+  // @override
+  // void onInit() async {
+  //   await getLastPunchIn();
+  //   await userPunchApprovals();
+  //   super.onInit();
+  // }
+    @override
+  void onInit() async{
+    super.onInit();
+    pagingController.addPageRequestListener((pageKey) {
+      userPunchApprovals(pageKey);
+    });
+     // Trigger the initial page load
+    pagingController.refresh();
+     await getLastPunchIn();
+    
+  }
 
  
 
@@ -132,42 +103,87 @@ String formatEpochToTimeString(int? epoch) {
     }
   }
 
-  //  listing punch approvals
-  userPunchApprovals() async {
-  
+
+   // listing punch approvals with Pagination
+  Future<void> userPunchApprovals(int pageKey) async {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-      final userId = decodedToken["userId"];
-      
-      final request = PunchApprovalsRequest(
-        field: "createdAt",
-        sortOfOrder: "ASC",
-        page: 0,
-        size: 10,
-        userId: userId,
-      );
+        final userId = decodedToken["userId"];
+        final request = PunchApprovalsRequest(
+          field: "createdAt",
+          sortOfOrder: "ASC",
+          page: pageKey,
+          size: _pageSize,
+          userId: userId,
+        );
 
-      final response = await ApiRepository.to.punchApprovals(request: request);
-
-      if (response.status == 200) {
-      
-        _punchApprovals.value = response.data;
-        update();
-      } 
-      else if (response.message == "Failed") {
-        showErrorSnackbar(message: errorOccuredText);
-        update();
-      }
+        final response = await ApiRepository.to.punchApprovals(request: request);
+        if (response.status == 200) {
+          print('------${response.toString()}');
+          
+          final isLastPage = response.pagination.totalPages == pageKey;
+          if (isLastPage) {
+            pagingController.appendLastPage(response.data);
+          } else {
+            final nextPageKey = pageKey + 1;
+            pagingController.appendPage(response.data, nextPageKey as int);
+          }
+          // pagingController.appendPage(response.data , pageKey+1);
+          _punchApprovals.addAll(response.data);
+          update();
+        } else if (response.message == "Failed") {
+          pagingController.error = errorOccuredText;
+          showErrorSnackbar(message: errorOccuredText);
+          update();
+        }
       }
     } catch (e) {
-    
+      pagingController.error = e.toString();
       showErrorSnackbar(message: e.toString());
       debugPrint(e.toString());
       update();
     }
   }
+
+
+  // //  listing punch approvals
+  // userPunchApprovals() async {
+  
+  //   try {
+  //     final authService = NMSJWTDecoder();
+  //     final decodedToken = await authService.decodeAuthToken();
+  //     if (decodedToken != null) {
+  //     final userId = decodedToken["userId"];
+      
+  //     final request = PunchApprovalsRequest(
+  //       field: "createdAt",
+  //       sortOfOrder: "ASC",
+  //       page: 0,
+  //       size: 10,
+  //       userId: userId,
+  //     );
+
+  //     final response = await ApiRepository.to.punchApprovals(request: request);
+
+  //     if (response.status == 200) {
+      
+  //       _punchApprovals.value = response.data;
+  //       update();
+  //     } 
+  //     else if (response.message == "Failed") {
+  //       showErrorSnackbar(message: errorOccuredText);
+  //       update();
+  //     }
+  //     }
+  //   } catch (e) {
+    
+  //     showErrorSnackbar(message: e.toString());
+  //     debugPrint(e.toString());
+  //     update();
+  //   }
+  // }
 
    //  listing Punch Approvals View Request
   userPunchApprovalPendingRequest(int id) async {
