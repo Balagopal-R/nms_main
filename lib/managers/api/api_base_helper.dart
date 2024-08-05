@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
 import '../../config/app/app_config.dart';
 import '../auth_token_header/auth_tocken_header.dart';
-
 import 'api.dart';
 
 class ApiBaseHelper {
@@ -153,6 +151,38 @@ class ApiBaseHelper {
       var response = await request.send();
 
       responseJson = _returnResponseForMultipart(response);
+    } on SocketException {
+      throw NoNetworkException();
+    }
+    return responseJson;
+  }
+
+   Future<dynamic> postWithId(
+      {required String endpoint,
+      required Map<String, dynamic> params,
+      required dynamic id,
+      Map<String, String>? headers}) async {
+    dynamic responseJson;
+    try {
+      String completeUrl = "";
+      if (params == {}) {
+        completeUrl = '$_baseUrl$endpoint/$id';
+      } else {
+        String queryString = params.entries
+            .map((entry) => '${entry.key}=${Uri.encodeComponent(entry.value)}')
+            .join('&');
+        completeUrl = '$_baseUrl$endpoint/$id?$queryString';
+      }
+
+      // completeUrl = '$_baseUrl$endpoint/$id';
+      debugPrint('postWithid delete Filess-------  $completeUrl');
+      var url = Uri.parse(completeUrl);
+      var response = await http.post(
+        url,
+        headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader(),
+      );
+
+      responseJson = _returnResponse(response);
     } on SocketException {
       throw NoNetworkException();
     }

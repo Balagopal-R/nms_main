@@ -1,6 +1,10 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:nms/utils/theme/app_theme.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:get/get.dart';
 
@@ -170,11 +174,6 @@ class AddDocumentBottomSheet extends StatefulWidget {
 class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
   List<PlatformFile> _files = [];
   
-  String? _selectedCategory;
-  final List<String> _categories = ['Personal', 'Academic', 'Work', 'Medical', 'Others'];
-  bool _isCategorySelected = true;
-
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MyDocumentsController>(
@@ -235,83 +234,53 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-          
-          
-                DropdownButtonFormField2<String>(
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(0),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
-              ),
-              filled: true,
-              fillColor: const Color(0xFFFFFFFF),
+ 
+           Obx(() => DropdownButtonFormField2<String>(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(0),
+             errorText: controller.isCategoryValid.value ? null : 'Please select Category',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
             ),
-            isExpanded: true,
-            hint: const Text(
-              'Select',
-              style: TextStyle(fontSize: 16),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
             ),
-            // icon: Padding(
-            //   padding: const EdgeInsets.only(right: 10),
-            //   child: Image.asset(
-            //     'assets/images/chevron_down.png', // Replace with your asset image path
-            //     height: 20,
-            //     width: 20,
-            //   ),
-            // ),
-            // iconSize: 30,
-            // buttonHeight: 50,
-            // buttonWidth: MediaQuery.of(context).size.width,
-            items: _categories
-                .map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ))
-                .toList(),
-            validator: (value) {
-              if (value == null) {
-                return 'Select Category';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              setState(() {
-                _selectedCategory = value as String?;
-                _isCategorySelected = true;
-              });
-            },
-            onSaved: (value) {
-              setState(() {
-                _selectedCategory = value as String?;
-              });
-            },
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+            ),
+            filled: true,
+            fillColor: const Color(0xFFFFFFFF),
           ),
-          if (!_isCategorySelected)
-           const Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                'Select Category',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 12,
-                ),
-              ),
-            ),
+          isExpanded: true,
+          hint: const Text(
+            'Select',
+            style: TextStyle(fontSize: 16),
+          ),
+          items: controller.category
+              .map((item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ))
+              .toList(),
+          value: controller.selectedCategory.value.isEmpty ? null : controller.selectedCategory.value,
+          validator: (value) {
+            if (value == null) {
+              return 'Select Category';
+            }
+            return null;
+          },
+          onChanged: (value) {
+                controller.selectedCategory.value = value!;
+                controller.isCategoryValid.value = true;
+              },
+        ),
+    ),
           
           
                   const SizedBox(height: 12.0),
@@ -327,6 +296,156 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 8.0),
+
+// New Codeeeeeeeeeeeeeeeeeeeeeeeeee Just Borrow
+
+                  // GestureDetector(
+                  //                 onTap: () {
+                  //                   showModalBottomSheet(
+                  //                     context: context,
+                  //                     builder: (BuildContext context) {
+                  //                       return SafeArea(
+                  //                         child: Column(
+                  //                           mainAxisSize: MainAxisSize.min,
+                  //                           children: <Widget>[
+                  //                             ListTile(
+                  //                               leading:
+                  //                                   const Icon(Icons.camera),
+                  //                               title: const Text(
+                  //                                   'Take a picture'),
+                  //                               onTap: () {
+                  //                                 controller.pickImage(
+                  //                                     ImageSource.camera);
+                  //                                 Navigator.pop(context);
+                  //                               },
+                  //                             ),
+                  //                             ListTile(
+                  //                               leading:
+                  //                                   const Icon(Icons.image),
+                  //                               title: const Text(
+                  //                                   'Choose from gallery'),
+                  //                               onTap: () {
+                  //                                 controller.pickImage(
+                  //                                     ImageSource.gallery);
+                  //                                 Navigator.pop(context);
+                  //                               },
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       );
+                  //                     },
+                  //                   );
+                  //                 },
+                  //                 child: 
+                  //                 // DottedBorder(
+                  //                 //   borderType: BorderType.RRect,
+                  //                 //   color: primaryColor,
+                  //                 //   strokeWidth: 1,
+                  //                 //   dashPattern: const [6, 3, 6, 3],
+                  //                 //   radius: const Radius.circular(5),
+                  //                 //   child: 
+                  //                   Container(
+                  //                     height: 38,
+                  //                     decoration: BoxDecoration(
+                  //                       color: primaryLightColor,
+                  //                       borderRadius: BorderRadius.circular(5),
+                  //                     ),
+                  //                     child: Center(
+                  //                         child: Row(
+                  //                       mainAxisAlignment:
+                  //                           MainAxisAlignment.center,
+                  //                       children: [
+                  //                         SvgPicture.asset(
+                  //                             "assets/svg/cake.svg"),
+
+                  //                         Text("Upload Images",
+                  //                             style: AppTheme.lightTheme
+                  //                                 .textTheme.headlineSmall
+                  //                                 ?.copyWith(
+                  //                                     color: primaryColor)),
+                                          
+                  //                       ],
+                  //                     )),
+                  //                   ),
+                  //                 // ),
+                  //               ),
+                  //               const SizedBox(
+                  //                 height: 15,
+                  //               ),
+                  //               controller.uploadedImagevalue.isNotEmpty
+                  //                   ? Center(
+                  //                       child: ListView.separated(
+                  //                         shrinkWrap: true,
+                  //                         itemCount: controller
+                  //                             .uploadedImagevalue.length,
+                  //                         separatorBuilder: (context, index) =>
+                  //                             const SizedBox(
+                  //                           height: 5,
+                  //                         ),
+                  //                         itemBuilder: (context, index) {
+                  //                           return Row(
+                  //                             children: [
+                  //                               SizedBox(
+                  //                                 height: 50,
+                  //                                 child: Image.network(
+                  //                                   "${controller.extractedFirstPart}${controller.uploadedImagevalue[index]}",
+                  //                                   loadingBuilder: (BuildContext
+                  //                                           context,
+                  //                                       Widget child,
+                  //                                       ImageChunkEvent?
+                  //                                           loadingProgress) {
+                  //                                     if (loadingProgress ==
+                  //                                         null) {
+                  //                                       return child; // Return the image when it's fully loaded.
+                  //                                     } else {
+                  //                                       return const Center(
+                  //                                         child:
+                  //                                             CircularProgressIndicator(
+                  //                                           color: primaryColor,
+                  //                                         ),
+                  //                                       );
+                  //                                     }
+                  //                                   },
+                  //                                   errorBuilder:
+                  //                                       (BuildContext context,
+                  //                                           Object error,
+                  //                                           StackTrace?
+                  //                                               stackTrace) {
+                  //                                     // Show a red container when image fails to load
+                  //                                     return SizedBox(
+                  //                                       width: 80,
+                  //                                       height: 80,
+                  //                                       child: Image.asset(
+                  //                                           'assets/images/white_color.png'),
+                  //                                     );
+                  //                                   },
+                  //                                 ),
+                  //                               ),
+                  //                               Expanded(
+                  //                                   child: Column(
+                  //                                 children: [
+                  //                                   Text(controller
+                  //                                           .uploadedImagevalue[
+                  //                                       index]),
+                  //                                 ],
+                  //                               )),
+                  //                               GestureDetector(
+                  //                                   onTap: () {
+                  //                                     controller.deleteFileByName(
+                  //                                         controller
+                  //                                                 .uploadedImagevalue[
+                  //                                             index]);
+                  //                                   },
+                  //                                   child: const Icon(
+                  //                                       Icons.close)),
+                  //                             ],
+                  //                           );
+                  //                         },
+                  //                       ),
+                  //                     )
+                  //                   : const Center(
+                  //                       child: Text('No image selected.')),
+
           
                   ElevatedButton.icon(
                     onPressed: _files.length == 3 ? null : _pickFiles,
@@ -365,7 +484,11 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                           title: 'Submit',
                           textcolor: backgroundColor,
                           onPress: () async {
-          
+                            controller.validateForm();
+                            if (controller.isCategoryValid.value) {
+                      
+                    await controller.uploadFiles(_files);
+                    }
           
                           },
                         ),

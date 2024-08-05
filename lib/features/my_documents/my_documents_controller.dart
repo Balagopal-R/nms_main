@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:nms/dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
@@ -16,14 +20,27 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
 
   var uploadedImageMessage = "".obs;
 
+  late File? imageFile = null;
+  late String? imageName = null;
+  late double? imageSize = null;
+
+  var isCategoryValid = true.obs;
+  var selectedCategory = ''.obs;
+  var category = ['Personal', 'Academic', 'Work', 'Medical', 'Others'];
+
+    void validateForm() {
+    isCategoryValid.value = selectedCategory.isNotEmpty;
+  }
+
+
+  final _uploadedImagevalue = (List<String>.empty(growable: true)).obs;
+  List<String> get uploadedImagevalue => _uploadedImagevalue.value;
+
    final _listEmployeDocuments = (List<DocumentsListModel>.empty()).obs;
   List<DocumentsListModel> get listEmployeDocuments => _listEmployeDocuments;
 
    final _employeDocumentDetails = (List<Map<String, String>>.empty()).obs;
   List<Map<String, String>> get employeDocumentDetails => _employeDocumentDetails;
-
-    final _uploadedImagevalue = (List<String>.empty(growable: true)).obs;
-  List<String> get uploadedImagevalue => _uploadedImagevalue.value;
 
   // final _employeDocumentDetailsMap = (Map<String, String>.empty()).obs;
   // Map<String, String> get employeDocumentDetailsMap => _employeDocumentDetailsMap;
@@ -88,17 +105,7 @@ String capitalizeFirstLetter(String text) {
           print(listEmployeDocuments.length);
           print(listEmployeDocuments[0].displayName);
           update();
-          // for (int i = 0 ; i < listEmployeDocuments.length; i++) {
-          //   documentMap = {'name': listEmployeDocuments[i].displayName,
-          //                  'date': listEmployeDocuments[i].createdAt.toString(), 
-          //                  'category': listEmployeDocuments[i].category};
-
-          // // _employeDocumentDetails.value = _employeDocumentDetails.value.add(documentMap);
-
-          // }
-
-       
-
+         
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
@@ -142,8 +149,15 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
+   Future<void> uploadFiles(List<PlatformFile> files)  async{
+    for (var file in files){
+          await uploadImage(file);
+        }
+
+     }
+
    // upload image api function
-  Future<void> uploadImage(File imageFile) async {
+  Future<void> uploadImage(PlatformFile imageFile) async {
     String defaultMessage = '';
 
     try {
@@ -152,11 +166,19 @@ String capitalizeFirstLetter(String text) {
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
         final userId = decodedToken["userId"];
+         File fileFromPath = File(imageFile.xFile.path );
+          // File fileFromPath =
       final request =
-          FileUploadRequest(userId: userId, uploadfile: imageFile,category: 'Work');
-      final response = await ApiRepository.to.fileUpload(request: request);
+          FileUploadRequest(
+            userId: userId, 
+            uploadfile: fileFromPath,
+            category: selectedCategory.value);
+            print('request:${request.toString()}');
+        
 
-      if (response.statusCode == 200) {
+      final response = await ApiRepository.to.fileUpload(request: request);
+       print('response:${response.toString()}');
+      if (response.status == 200) {
         final response1 = await response.stream.bytesToString();
         final parsedJson = json.decode(response1);
         var datas = FileUploadModel.fromJson(parsedJson);
@@ -188,6 +210,31 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
+   deleteFileByName(String name) async {
+    // _isLoading.value = true;
+    try {
+      final request = DeleteFileByNameRequest(fileName: name);
+      final response =
+          await ApiRepository.to.deleteFileByName(request: request);
+      if (response.status == 200) {
+        // _categoryTypeListModelData.value = response.data;
+        debugPrint("length is ${response.message}");
+        uploadedImagevalue.remove(name);
+
+        update();
+
+        debugPrint("success ");
+      } else {
+        // _isLoading.value = false;
+        debugPrint("Error");
+      }
+    } catch (e) {
+      showErrorSnackbar(message: e.toString());
+      // _isLoading.value = false;
+      debugPrint(e.toString());
+    }
+  }
+
     String _extractLastSegment(String url) {
     Uri uri = Uri.parse(url);
     List<String> pathSegments = uri.pathSegments;
@@ -208,6 +255,26 @@ String capitalizeFirstLetter(String text) {
       return '';
     }
   }
+
+  // Future<void> pickImage(ImageSource source) async {
+  //   final pickedFile = await ImagePicker().pickImage(source: source);
+
+  //   imageFile = File(pickedFile!.path);
+  //   imageName = File(pickedFile.name).toString();
+  //   imageSize = File(pickedFile.path).lengthSync() / (1024 * 1024);
+  //   if (imageSize! < 5) {
+  //     await uploadImage(imageFile!);
+  //   } else {
+  //     showErrorSnackbar(
+  //       message: 'File size should be less than 5 MB');
+  //   }
+  //   update();
+  // }
+
+  // clearimage() {
+  //   imageFile = null;
+  //   update();
+  // }
 
 
 

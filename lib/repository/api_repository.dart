@@ -13,6 +13,7 @@ import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
+import '../dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import '../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
 import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
@@ -102,6 +103,10 @@ abstract class ApiRepository extends GetxController {
  //  Punch Request Cancel
    Future<dynamic> punchRequestCancel(
       {required PunchRequestCancelRequest request});
+
+       // Deletefilebyname api
+  Future<DeleteFileByNameResponse> deleteFileByName(
+      {required DeleteFileByNameRequest request});
 
   
       
@@ -342,6 +347,19 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     print(response);
     return PunchRequestCancelResponse.fromJson(response);
+  }
+
+  //edit_item_screen - deletefilebyname api
+  @override
+  Future<DeleteFileByNameResponse> deleteFileByName(
+      {required DeleteFileByNameRequest request}) async {
+    final response = await _helper.postWithId(
+      endpoint: ApiEndPoints.deleteFileByName,
+      id: request.toBody(),
+      params: {},
+    );
+    debugPrint("response $response");
+    return DeleteFileByNameResponse.fromJson(response);
   }
 
 }
