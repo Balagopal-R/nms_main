@@ -97,36 +97,36 @@ class TeamListingController extends GetxController with SnackbarMixin {
   }
 
   //  listing team members along with punch in/out information
-  teamListingScreen() async {
+  // teamListingScreen() async {
    
-    try {
-      final request = TeamListingRequest(
-        keyword: "",
-        field: "",
-        sortOfOrder: "ASC",
-        page: 0,
-        size: 10,
-      );
+  //   try {
+  //     final request = TeamListingRequest(
+  //       keyword: "",
+  //       field: "",
+  //       sortOfOrder: "ASC",
+  //       page: 0,
+  //       size: 10,
+  //     );
 
-      final response = await ApiRepository.to.teamListing(request: request);
+  //     final response = await ApiRepository.to.teamListing(request: request);
 
-      if (response.status == 200) {
-        _teamListing.value = response.data;
+  //     if (response.status == 200) {
+  //       _teamListing.value = response.data;
 
-        update();
-      } else if (response.message == "Failed") {
+  //       update();
+  //     } else if (response.message == "Failed") {
         
-        debugPrint(response.errors['errorMessage']);
-        showErrorSnackbar(message: errorOccuredText);
-        update();
-      }
-    } catch (e) {
+  //       debugPrint(response.errors['errorMessage']);
+  //       showErrorSnackbar(message: errorOccuredText);
+  //       update();
+  //     }
+  //   } catch (e) {
      
-      showErrorSnackbar(message: e.toString());
-      debugPrint(e.toString());
-      update();
-    }
-  }
+  //     showErrorSnackbar(message: e.toString());
+  //     debugPrint(e.toString());
+  //     update();
+  //   }
+  // }
 
   Color getColorBasedOnConditions(
     bool condition1,
@@ -140,7 +140,7 @@ class TeamListingController extends GetxController with SnackbarMixin {
   }
 
   Color getContainerColorBasedOnPunchStatus(String condition1) {
-    if (condition1 == 'ON-TIME') {
+    if (condition1 == 'ON_TIME') {
       return Color(0XFFBEFFE8);
     } else if (condition1 == 'LATE') {
       return Color(0XFFFFF0F0);
@@ -158,7 +158,7 @@ class TeamListingController extends GetxController with SnackbarMixin {
   }
 
   Color getColorBasedOnPunchStatus(String condition1) {
-    if (condition1 == 'ON-TIME') {
+    if (condition1 == 'ON_TIME') {
       return Color(0XFF2F9680);
     } else if (condition1 == 'LATE') {
       return Color(0XFFFF4646);

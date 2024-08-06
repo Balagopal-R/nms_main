@@ -17,7 +17,7 @@ class ApprovalsScreen extends StatelessWidget {
       init: ApprovalsController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Color(0xffF1F1F1),
+          backgroundColor: Color(0xffFFAFAFA),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               if (controller.getEmployPunchIn!.punchOutDateTime != null) {
@@ -48,11 +48,14 @@ class ApprovalsScreen extends StatelessWidget {
               
               ApprovalsWidget(
                 appliedDate: controller.formatEpochToDateString(item.createdAt),
-                statusColor: 'Colors.green',
-                statusText: item.status,
+                statusText: controller.capitalizeFirstLetter(item.status),
+                statusColor: controller.getColorBasedOnApprovalStatus(item.status),
+                containerColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
                 reqDate: controller.formatEpochToMiniDateString(item.shiftDate),
                 reqTime: controller.formatEpochToTimeStringIN(item.punchInDatetime),
-                // reqWorkMode: item.punchLocation,
+                reqTimeOne: controller.formatEpochToTimeStringIN(item.punchOutDatetime),
+                reqTimeTwo: controller.formatEpochToTimeStringIN(item.resumeDateTime),
+                reqTimeThree: controller.formatEpochToTimeStringIN(item.breakDateTime),
                 reqWorkMode: item.punchLocation,
                 onCancelTap: () async {
                   _showCustomDialog(context, controller, item.id);
@@ -62,14 +65,15 @@ class ApprovalsScreen extends StatelessWidget {
                   await Get.bottomSheet(
                    ApprovalsBottomSheetContent(
                   appliedDate: controller.formatEpochToDateString(controller.punchApprovalsViewRequest!.createdAt),
-                  statusColor: Color(0xff2F9680),
+                  statusColor: controller.getColorBasedOnApprovalStatus(controller.punchApprovalsViewRequest!.status),
+                  containerColor: controller.getContainerColorBasedOnApprovalStatus(controller.punchApprovalsViewRequest!.status),
                   statusText: controller.punchApprovalsViewRequest!.status,
                   inTime: controller.formatEpochToTimeString(controller.punchApprovalsViewRequest!.punchLog[0].punchInDateTime),
                   breakTime: controller.formatEpochToTimeString(controller.punchApprovalsViewRequest!.punchLog[0].punchInDateTime),
                   resumeTime: controller.formatEpochToTimeString(controller.punchApprovalsViewRequest!.punchLog[0].punchOutDateTime),
                   outTime: controller.formatEpochToTimeString(controller.punchApprovalsViewRequest!.punchLog[controller.punchApprovalsViewRequest!.punchLog.length-1].punchOutDateTime),
                   location: controller.punchApprovalsViewRequest!.punchLog[0].punchLocation.toString(),
-                  by: controller.punchApprovalsViewRequest!.status,
+                  by: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.status),
                   admin: controller.punchApprovalsViewRequest?.managers?.isNotEmpty == true 
                         ? controller.punchApprovalsViewRequest!.managers[0].firstname?.toString() ?? '_' : '_',
                   reqInTime: "09:00",

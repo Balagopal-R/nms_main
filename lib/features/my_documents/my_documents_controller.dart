@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:nms/dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
@@ -32,6 +33,10 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
     isCategoryValid.value = selectedCategory.isNotEmpty;
   }
 
+  static const _pageSize = 10;
+  final PagingController<int, DocumentsListModel> pagingController =
+      PagingController(firstPageKey: 0);
+
 
   final _uploadedImagevalue = (List<String>.empty(growable: true)).obs;
   List<String> get uploadedImagevalue => _uploadedImagevalue.value;
@@ -57,7 +62,12 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
   
   @override
   void onInit() async{
-    await listUserDocuments();
+    // await listUserDocuments();
+    // pagingController.addPageRequestListener((pageKey) {
+    //   listUserDocumentsPagination(pageKey);
+    // });
+    //  // Trigger the initial page load
+    // pagingController.refresh();
     super.onInit();
   }
 
@@ -79,45 +89,90 @@ String capitalizeFirstLetter(String text) {
   return text[0].toUpperCase() + text.substring(1).toLowerCase();
 }
 
+  
+  //  list uploaded user documents with Pagination
+  // Future<void> listUserDocumentsPagination(int pageKey) async {
+  //   try {
+  //     final authService = NMSJWTDecoder();
+  //     final decodedToken = await authService.decodeAuthToken();
+  //     if (decodedToken != null) {
+  //       final userId = decodedToken["userId"];
+
+  //       final request = DocumentsListRequest(
+  //         field: "",
+  //         sortOfOrder:"" ,
+  //         page: pageKey,
+  //         size: _pageSize,
+  //         userId: userId,);
+
+  //       final response =
+  //           await ApiRepository.to.listDocuments(request: request);
+
+  //       if (response.status == 200) {
+  //          final isLastPage = response.pagination?.totalPages == pageKey;
+  //         if (isLastPage) {
+  //           pagingController.appendLastPage(response.data);
+  //         } else {
+  //           final nextPageKey = pageKey + 1;
+  //           pagingController.appendPage(response.data, nextPageKey);
+  //         }
+  //         // pagingController.appendPage(response.data , pageKey+1);
+  //         _listEmployeDocuments.addAll(response.data);
+  //         update();
+         
+  //       } else if (response.message == "Failed") {
+  //         debugPrint(response.errors['errorMessage']);
+  //         showErrorSnackbar(message: errorOccuredText);
+  //         update();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     pagingController.error = e.toString();
+  //     update();
+  //     return catchErrorSection(e);
+      
+  //   }
+  // }
+
 
 
      
-    //  list uploaded user documenst
-  Future<void> listUserDocuments() async {
-    try {
-      final authService = NMSJWTDecoder();
-      final decodedToken = await authService.decodeAuthToken();
-      if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+  //   //  list uploaded user documenst
+  // Future<void> listUserDocuments() async {
+  //   try {
+  //     final authService = NMSJWTDecoder();
+  //     final decodedToken = await authService.decodeAuthToken();
+  //     if (decodedToken != null) {
+  //       final userId = decodedToken["userId"];
 
-        final request = DocumentsListRequest(
-          field: "",
-          sortOfOrder:"" ,
-          page: 0,
-          size: 10,
-          userId: userId,);
+  //       final request = DocumentsListRequest(
+  //         field: "",
+  //         sortOfOrder:"" ,
+  //         page: 0,
+  //         size: 10,
+  //         userId: userId,);
 
-        final response =
-            await ApiRepository.to.listDocuments(request: request);
+  //       final response =
+  //           await ApiRepository.to.listDocuments(request: request);
 
-        if (response.status == 200) {
-          _listEmployeDocuments.value = response.data;
-          print(listEmployeDocuments.length);
-          print(listEmployeDocuments[0].displayName);
-          update();
+  //       if (response.status == 200) {
+  //         _listEmployeDocuments.value = response.data;
+  //         print(listEmployeDocuments.length);
+  //         print(listEmployeDocuments[0].displayName);
+  //         update();
          
-        } else if (response.message == "Failed") {
-          debugPrint(response.errors['errorMessage']);
-          showErrorSnackbar(message: errorOccuredText);
-          update();
-        }
-      }
-    } catch (e) {
-      update();
-      return catchErrorSection(e);
+  //       } else if (response.message == "Failed") {
+  //         debugPrint(response.errors['errorMessage']);
+  //         showErrorSnackbar(message: errorOccuredText);
+  //         update();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     update();
+  //     return catchErrorSection(e);
       
-    }
-  }
+  //   }
+  // }
 
   catchErrorSection(e) async {
     debugPrint('error-----${e.toString()}------');
@@ -172,13 +227,18 @@ String capitalizeFirstLetter(String text) {
           FileUploadRequest(
             userId: userId, 
             uploadfile: fileFromPath,
-            category: selectedCategory.value);
+            category: 'PROFILE_IMAGE',
+            // category: selectedCategory.value
+            );
             print('request:${request.toString()}');
         
 
       final response = await ApiRepository.to.fileUpload(request: request);
        print('response:${response.toString()}');
-      if (response.status == 200) {
+
+      if (response.statusCode == 200) {
+        _userFileUpload.value = response.data ;
+        print(userFileUpload!.fileUrl);
         final response1 = await response.stream.bytesToString();
         final parsedJson = json.decode(response1);
         var datas = FileUploadModel.fromJson(parsedJson);

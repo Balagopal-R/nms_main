@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:nms/models/documents_list_model/documensts_list_model.dart';
 import 'package:nms/utils/theme/app_theme.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:get/get.dart';
@@ -29,6 +31,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
+
         backgroundColor: Color(0xffFAFAFA),
         leading: IconButton(
           icon: Image.asset('assets/png/arrow_left.png',height: 24,width: 24),
@@ -94,12 +97,11 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
               )
             : null,
       ),
-          // ignore: unnecessary_null_comparison
-          body: controller.listEmployeDocuments != null ?
-          ListView.builder(
-            itemCount: controller.listEmployeDocuments.length,
-            itemBuilder: (context, index) {
-              return Container(
+         
+          body: PagedListView<int, DocumentsListModel>(
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<DocumentsListModel>(
+              itemBuilder: (context, item, index) =>  Container(
                 margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                 child: ListTile(
                   leading: IconButton(
@@ -107,17 +109,17 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           onPressed: () {
           },
         ),
-                  title: Text(controller.listEmployeDocuments[index].displayName),
+                  title: Text(item.displayName),
                   subtitle: Row(
                     children: [
-                      Text(controller.epochTimeToFormattedDate(controller.listEmployeDocuments[index].createdAt)),
+                      Text(controller.epochTimeToFormattedDate(item.createdAt)),
                      const SizedBox(width: 10.0),
                      const CircleAvatar(
                         radius: 2.0,
                         backgroundColor: Color(0xFFE3E3E3),
                       ),
                      const SizedBox(width: 5.0),
-                      Text(controller.capitalizeFirstLetter(controller.listEmployeDocuments[index].category)),
+                      Text(controller.capitalizeFirstLetter(item.category)),
                     ],
                   ),
                   trailing: IconButton(
@@ -131,13 +133,69 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                     borderRadius: BorderRadius.circular(2.0),
                   ),
                 ),
-              );
-            },
-          ) : const Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                      ),
-                    ),
+              ),
+
+
+              firstPageErrorIndicatorBuilder: (context) => Center(
+                child: Text('Error occurred, please try again.'),
+              ),
+              noItemsFoundIndicatorBuilder: (context) => Center(
+                child: Text('No Documents found.'),
+              ),
+              newPageProgressIndicatorBuilder: (context) => Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+         
+         
+         
+          // ignore: unnecessary_null_comparison
+ //   body: controller.listEmployeDocuments != null ?
+        //   ListView.builder(
+        //     itemCount: controller.listEmployeDocuments.length,
+        //     itemBuilder: (context, index) {
+        //       return Container(
+        //         margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+        //         child: ListTile(
+        //           leading: IconButton(
+        //   icon: Image.asset('assets/png/document.png'),
+        //   onPressed: () {
+        //   },
+        // ),
+        //           title: Text(controller.listEmployeDocuments[index].displayName),
+        //           subtitle: Row(
+        //             children: [
+        //               Text(controller.epochTimeToFormattedDate(controller.listEmployeDocuments[index].createdAt)),
+        //              const SizedBox(width: 10.0),
+        //              const CircleAvatar(
+        //                 radius: 2.0,
+        //                 backgroundColor: Color(0xFFE3E3E3),
+        //               ),
+        //              const SizedBox(width: 5.0),
+        //               Text(controller.capitalizeFirstLetter(controller.listEmployeDocuments[index].category)),
+        //             ],
+        //           ),
+        //           trailing: IconButton(
+        //   icon: Image.asset('assets/png/download.png'),
+        //   onPressed: () {
+            
+        //   },
+        // ),
+        //           tileColor: const Color(0xFFFAFAFA),
+        //           shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.circular(2.0),
+        //           ),
+        //         ),
+        //       );
+        //     },
+        //   ) : const Center(
+        //               child: CircularProgressIndicator(
+        //                 color: primaryColor,
+        //               ),
+        //             ),
+
+
           floatingActionButton: FloatingActionButton(
             onPressed: () => _showBottomSheet(context),
             backgroundColor: const Color(0xFF3BBCA0),
@@ -208,7 +266,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 40,
+                    width: 80,
                     height: 4,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     decoration: BoxDecoration(
@@ -253,12 +311,21 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
             ),
             filled: true,
             fillColor: const Color(0xFFFFFFFF),
+            suffixIcon: Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Image.asset(
+            'assets/png/arrow_down.png', // Replace with your asset path
+            height: 24,
+            width: 24,
+          ),
+        ),
           ),
           isExpanded: true,
           hint: const Text(
             'Select',
             style: TextStyle(fontSize: 16),
           ),
+          // icon: const Icon(Icons.arrow_drop_down, color: Colors.transparent),
           items: controller.category
               .map((item) => DropdownMenuItem<String>(
                     value: item,
@@ -446,23 +513,33 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                   //                   : const Center(
                   //                       child: Text('No image selected.')),
 
-          
-                  ElevatedButton.icon(
-                    onPressed: _files.length == 3 ? null : _pickFiles,
-                    icon: Image.asset('assets/png/export.png', // Replace with actual image path
+                  GestureDetector(
+      onTap: _files.length == 3 ? null : _pickFiles,
+      child: Container(
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          color: Color(0xFFF1F1F1), // Use theme color
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // SvgPicture.asset(
+              //   'assets/svg/cake.svg',
+              // ),
+               Image.asset('assets/png/export.png', // Replace with actual image path
               width: 24.0, // Adjust icon size as needed
               height: 24.0, // Adjust icon size as needed
             ),
-                    label: const Text('Choose File',style: TextStyle(color: Colors.black,fontSize: 16, fontWeight: FontWeight.w500),),
-                    style: ElevatedButton.styleFrom(
-                      maximumSize: const Size(double.infinity, 40.0),
-                      backgroundColor:  Color(0xFFF1F1F1),
-                      // onPrimary: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                    ),
-                  ),
+              const SizedBox(width: 10.0), // Add spacing between icon and text
+              const Text('Choose File',style: TextStyle(color: Colors.black,fontSize: 16, fontWeight: FontWeight.w500),),
+            ],
+          ),
+        ),
+      ),
+    ),
+
                    const SizedBox(height: 10.0),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -520,6 +597,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
     if (result != null) {
       setState(() {
         _files.addAll(result.files);
+        
         if (_files.length > 3) {
           _files = _files.sublist(0, 3); // Limit to 3 files
         }

@@ -32,6 +32,7 @@ class ApprovalsController extends GetxController with SnackbarMixin {
   final PagingController<int, PunchApprovalsModel> pagingController =
       PagingController(firstPageKey: 0);
 
+
  
 
   // @override
@@ -238,6 +239,49 @@ String formatEpochToTimeString(int? epoch) {
       update();
     }
   }
+
+  Color getContainerColorBasedOnApprovalStatus(String condition1) {
+    if (condition1 == 'ACCEPTED') {
+      return Color(0XFFBEFFE8);
+    } else if (condition1 == 'PENDING') {
+      return Color(0XFFFFF0F0);
+    } else if (condition1 == 'REJECTED') {
+      return Color(0XFFFEFAF3);
+    } else if (condition1 == 'REGULARIZED') {
+      return Color(0XFFF1F1F1);
+    } else if (condition1 == 'CANCELLED') {
+      return Color(0XFFDFDFFB);
+    } else if (condition1 == 'REVOKED') {
+      return Color(0XFFFFF0F0);
+    } else {
+      return Color(0XFFFFF0F0);
+    }
+  }
+
+  Color getColorBasedOnApprovalStatus(String condition1) {
+    if (condition1 == 'ACCEPTED') {
+      return Color(0XFF2F9680);
+    } else if (condition1 == 'PENDING') {
+      return Color(0XFFFF4646);
+    } else if (condition1 == 'REJECTED') {
+      return Color(0XFFECB35D);
+    } else if (condition1 == 'REGULARIZED') {
+      return Color(0XFFB7B7B7);
+    } else if (condition1 == 'CANCELLED') {
+      return Color(0XFF605DEC);
+    } else if (condition1 == 'REVOKED') {
+      return Color(0XFFFF4646);
+    } else {
+      return Color(0XFFFF4646);
+    }
+  }
+
+  String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
+
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
+
 
 
 

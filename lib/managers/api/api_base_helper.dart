@@ -192,9 +192,9 @@ class ApiBaseHelper {
   dynamic _returnResponseForMultipart(http.BaseResponse response) async {
     switch (response.statusCode) {
       case 200:
-        var responseJson = response;
-        debugPrint(responseJson.toString());
-        return responseJson;
+        // var responseJson = response;
+        debugPrint(response.toString());
+        return response;
       default:
         throw FetchDataException(
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');

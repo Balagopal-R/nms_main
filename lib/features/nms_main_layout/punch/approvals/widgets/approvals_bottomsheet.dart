@@ -5,6 +5,7 @@ import '../approvals_controller.dart';
 class ApprovalsBottomSheetContent extends StatelessWidget {
   final String appliedDate;
   final Color statusColor;
+  final Color containerColor;
   final String statusText;
   final String inTime;
   final String breakTime;
@@ -24,6 +25,7 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
     Key? key,
     required this.appliedDate,
     required this.statusColor,
+    required this.containerColor,
     required this.statusText,
     required this.inTime,
     required this.breakTime,
@@ -75,7 +77,7 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Color(0xFFBEFFE8),
+                              color: containerColor,
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Row(
@@ -84,7 +86,7 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                                   height: 8,
                                   width: 8,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFF2F9680),
+                                    color: statusColor,
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -110,7 +112,7 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 16),
-                      Text(by, style: TextStyle(fontSize: 16)),
+                      Text('$by by', style: TextStyle(fontSize: 16)),
                       SizedBox(height: 4),
                       Text(admin,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
                       SizedBox(height: 16),

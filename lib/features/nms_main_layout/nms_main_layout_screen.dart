@@ -156,6 +156,7 @@ class CustomBottomSheet extends StatelessWidget {
                 iconPath: 'assets/png/profile.png',
                 label: 'Profile',
                 onTap: () {
+                  Navigator.pop(context);
                    Get.toNamed('/profile_screen');
                 },
                 textColor: Colors.black,

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/approvals_controller.dart';
 import 'package:get/get.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 
 class ApprovalsWidget extends StatelessWidget {
 
-  final String statusColor;
+  final Color statusColor;
+  final Color containerColor;
   final String statusText;
   final String appliedDate;
   final String reqDate;
   final String reqTime;
+  final String reqTimeOne;
+  final String reqTimeTwo;
+  final String reqTimeThree;
   final String reqWorkMode;
   final VoidCallback viewRequestTap;
   final VoidCallback onCancelTap;
@@ -18,9 +23,13 @@ class ApprovalsWidget extends StatelessWidget {
     Key? key,
     required this.appliedDate,
     required this.statusColor,
+    required this.containerColor,
     required this.statusText,
     required this.reqDate,
     required this.reqTime,
+    required this.reqTimeOne,
+    required this.reqTimeTwo,
+    required this.reqTimeThree,
     required this.reqWorkMode,
     required this.viewRequestTap, 
     required this.onCancelTap
@@ -30,6 +39,7 @@ class ApprovalsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    final tooltipController = JustTheController();
 
     return GetBuilder<ApprovalsController>(
       init: ApprovalsController(),
@@ -56,20 +66,20 @@ class ApprovalsWidget extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFEFAF3),
+                            color: containerColor,
                             borderRadius: BorderRadius.circular(2.667),
                           ),
                           child: Row(
                             children: [
                               CircleAvatar(
                                 radius: 4,
-                                backgroundColor: Color(0xFFECB35D),
+                                backgroundColor: statusColor,
                               ),
                               SizedBox(width: 4),
                               Text(
                                 statusText,
                                 style: TextStyle(
-                                  color: Color(0xFFECB35D),
+                                  color: statusColor,
                                 ),
                               ),
                             ],
@@ -100,12 +110,48 @@ class ApprovalsWidget extends StatelessWidget {
                           children: [
                             Text(reqTime,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
                             SizedBox(width: 4),
-                            Text(
-                              '+3',
-                              style: TextStyle(
-                                color: Colors.green,
-                              ),
-                            ),
+
+                           JustTheTooltip(
+          controller: tooltipController,
+          content: Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  reqTimeOne,
+                  style: TextStyle(color: Colors.black),
+                ),
+                Text(
+                  reqTimeTwo,
+                  style: TextStyle(color: Colors.black),
+                ),
+                Text(
+                  reqTimeThree,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+          child: GestureDetector(
+            onTap: () {
+              tooltipController.showTooltip();
+              print('Baluuuuuuuuuu');
+            },
+            child: Text(
+              '+3',
+              style: TextStyle(
+                color: Colors.green,
+              ),
+            ),
+          ),
+        ),
+
+
                           ],
                         ),
                       ],

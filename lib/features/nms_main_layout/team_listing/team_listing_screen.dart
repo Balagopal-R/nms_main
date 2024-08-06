@@ -108,6 +108,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
               image: AssetImage('assets/png/plus.png'),
             ),
           ),
+          
           body: PagedListView<int, TeamListingModel>(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<TeamListingModel>(
