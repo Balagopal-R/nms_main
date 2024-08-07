@@ -11,12 +11,12 @@ class PunchScreen extends StatefulWidget {
   State<PunchScreen> createState() => _PunchScreenState();
 }
 
-class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStateMixin {
-
+class _PunchScreenState extends State<PunchScreen>
+    with SingleTickerProviderStateMixin {
   TabController? _controller;
   bool isSearching = false;
 
-    @override
+  @override
   void initState() {
     super.initState();
     _controller = TabController(length: 3, vsync: this, initialIndex: 1);
@@ -25,24 +25,23 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Color(0xffFFAFAFA),
+      backgroundColor: Color(0xffFFAFAFA),
       appBar: AppBar(
         backgroundColor: Color(0xffFFAFAFA),
         leading: IconButton(
-          icon: Image.asset('assets/png/arrow_left.png',height: 24,width: 24),
-          onPressed: () {
-          },
+          icon: Image.asset('assets/png/arrow_left.png', height: 24, width: 24),
+          onPressed: () {},
         ),
         title: Text('Punch Records'),
         centerTitle: true,
         actions: [
           IconButton(
-          icon: Image.asset('assets/png/calendar.png',height: 24,width: 24),
-          onPressed: () {
-          },
-        ),
+            icon: Image.asset('assets/png/calendar.png', height: 24, width: 24),
+            onPressed: () {},
+          ),
           IconButton(
-            icon: Image.asset(isSearching ? 'assets/png/cross.png' : 'assets/png/search.png'),
+            icon: Image.asset(
+                isSearching ? 'assets/png/cross.png' : 'assets/png/search.png'),
             onPressed: () {
               setState(() {
                 isSearching = !isSearching;
@@ -54,7 +53,8 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
             ? PreferredSize(
                 preferredSize: Size.fromHeight(60.0),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -71,7 +71,8 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
                               children: [
                                 Icon(Icons.search, color: Colors.grey),
                                 SizedBox(width: 8.0),
-                                Text('Search', style: TextStyle(color: Colors.grey)),
+                                Text('Search',
+                                    style: TextStyle(color: Colors.grey)),
                               ],
                             ),
                           ),
@@ -96,55 +97,58 @@ class _PunchScreenState extends State<PunchScreen> with SingleTickerProviderStat
               )
             : null,
       ),
-     
-body: Padding(
-  padding: const EdgeInsets.only(left: 22, right: 21, bottom: 8),
-  child: Column(  // Use Column for top-center alignment
-    children: [
-      Padding(  // Maintain padding around the tab bar
-        padding: const EdgeInsets.all(2.0),
-        child: Center(  // Center the tab bar horizontally
-          child: TabBar(
-            controller: _controller,
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-              color: Colors.white,
-            ),
-            labelColor: primaryColor,
-            labelStyle: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
-            unselectedLabelStyle: const TextStyle(  // Update here
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              // color: Color(0xFF7A7A7A),  // Set color to #7A7A7A
-            ),
-            dividerColor: messageColor,
-            indicatorSize: TabBarIndicatorSize.tab,
-            unselectedLabelColor: Color(0xFF7A7A7A),  // Not needed anymore
-            tabs: const [
-              Tab(text: 'History'),
-              Tab(text: 'Approvals'),
-              Tab(text: 'Summary'),
-            ],
-          ),
-        ),
-      ),
-      Expanded(  // Use Expanded for flexible content area
-        child: TabBarView(
-          controller: _controller,
+      body: Padding(
+        padding: const EdgeInsets.only(left: 22, right: 21, bottom: 8),
+        child: Column(
+          // Use Column for top-center alignment
           children: [
-            HistoryScreen(),
-            ApprovalsScreen(),
-            SummaryScreen(),
+            Padding(
+              // Maintain padding around the tab bar
+              padding: const EdgeInsets.all(2.0),
+              child: Center(
+                // Center the tab bar horizontally
+                child: TabBar(
+                  controller: _controller,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.white,
+                  ),
+                  labelColor: primaryColor,
+                  labelStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  unselectedLabelStyle: const TextStyle(
+                    // Update here
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    // color: Color(0xFF7A7A7A),  // Set color to #7A7A7A
+                  ),
+                  dividerColor: messageColor,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  unselectedLabelColor: Color(0xFF7A7A7A), // Not needed anymore
+                  tabs: const [
+                    Tab(text: 'History'),
+                    Tab(text: 'Approvals'),
+                    Tab(text: 'Summary'),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              // Use Expanded for flexible content area
+              child: TabBarView(
+                controller: _controller,
+                children: [
+                  HistoryScreen(),
+                  ApprovalsScreen(),
+                  SummaryScreen(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
-    ],
-  ),
-),
     );
-
- }
+  }
 }

@@ -12,7 +12,6 @@ import '../../../repository/api_repository.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class TeamListingController extends GetxController with SnackbarMixin {
-  
   final _teamListing = (List<TeamListingModel>.empty()).obs;
   List<TeamListingModel> get teamListing => _teamListing;
 
@@ -23,21 +22,20 @@ class TeamListingController extends GetxController with SnackbarMixin {
   final PagingController<int, TeamListingModel> pagingController =
       PagingController(firstPageKey: 0);
 
-
   @override
   void onInit() async {
     // await teamListingScreen();
     pagingController.addPageRequestListener((pageKey) {
       teamListingScreenPagination(pageKey);
     });
-     // Trigger the initial page load
+    // Trigger the initial page load
     pagingController.refresh();
     await getLastPunchIn();
     super.onInit();
   }
 
-   RxBool isSearching = false.obs;
-   void toggleSearch() {
+  RxBool isSearching = false.obs;
+  void toggleSearch() {
     isSearching.value = !isSearching.value;
   }
 
@@ -56,8 +54,7 @@ class TeamListingController extends GetxController with SnackbarMixin {
   }
 
   //  listing team members along with punch in/out information with Pagination
-   Future<void> teamListingScreenPagination(int pageKey) async {
-   
+  Future<void> teamListingScreenPagination(int pageKey) async {
     try {
       final request = TeamListingRequest(
         keyword: "",
@@ -70,20 +67,17 @@ class TeamListingController extends GetxController with SnackbarMixin {
       final response = await ApiRepository.to.teamListing(request: request);
 
       if (response.status == 200) {
-        
         final isLastPage = response.pagination?.totalPages == pageKey;
-          if (isLastPage) {
-            pagingController.appendLastPage(response.data);
-          } else {
-            final nextPageKey = pageKey + 1;
-            pagingController.appendPage(response.data, nextPageKey);
-          }
-          // pagingController.appendPage(response.data , pageKey+1);
-          _teamListing.addAll(response.data);
-          update();
-
+        if (isLastPage) {
+          pagingController.appendLastPage(response.data);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(response.data, nextPageKey);
+        }
+        // pagingController.appendPage(response.data , pageKey+1);
+        _teamListing.addAll(response.data);
+        update();
       } else if (response.message == "Failed") {
-        
         debugPrint(response.errors['errorMessage']);
         showErrorSnackbar(message: errorOccuredText);
         update();
@@ -98,7 +92,7 @@ class TeamListingController extends GetxController with SnackbarMixin {
 
   //  listing team members along with punch in/out information
   // teamListingScreen() async {
-   
+
   //   try {
   //     final request = TeamListingRequest(
   //       keyword: "",
@@ -115,13 +109,13 @@ class TeamListingController extends GetxController with SnackbarMixin {
 
   //       update();
   //     } else if (response.message == "Failed") {
-        
+
   //       debugPrint(response.errors['errorMessage']);
   //       showErrorSnackbar(message: errorOccuredText);
   //       update();
   //     }
   //   } catch (e) {
-     
+
   //     showErrorSnackbar(message: e.toString());
   //     debugPrint(e.toString());
   //     update();

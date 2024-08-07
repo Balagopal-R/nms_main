@@ -23,8 +23,8 @@ class ApiBaseHelper {
     try {
       debugPrint(jsonEncode(body));
       debugPrint(jsonEncode(params));
-       String completeUrl = "";
-       if (params == {}) {
+      String completeUrl = "";
+      if (params == {}) {
         completeUrl = '$_baseUrl$endpoint';
       } else {
         String queryString = params.entries
@@ -55,9 +55,9 @@ class ApiBaseHelper {
     try {
       debugPrint(jsonEncode(body));
       debugPrint(jsonEncode(params));
- 
+
       String completeUrl = "";
- 
+
       if (params == {}) {
         completeUrl = '$_baseUrl$endpoint';
       } else {
@@ -66,20 +66,19 @@ class ApiBaseHelper {
             .join('&');
         completeUrl = '$_baseUrl$endpoint?$queryString';
       }
- 
+
       var url = Uri.parse(completeUrl);
- 
+
       var response = await http.post(url,
           headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader(),
           body: jsonEncode(body));
- 
+
       responseJson = _returnResponse(response);
     } on SocketException {
       throw NoNetworkException();
     }
     return responseJson;
   }
-
 
   Future<dynamic> get(
       {required String endpoint,
@@ -124,7 +123,7 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-   Future<dynamic> multipartWithBody(
+  Future<dynamic> multipartWithBody(
       {required String endpoint,
       required Map<String, dynamic> params,
       required dynamic body,
@@ -148,16 +147,17 @@ class ApiBaseHelper {
       request.headers
           .addAll(headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader());
 
-      var response = await request.send();
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
-      responseJson = _returnResponseForMultipart(response);
+      responseJson = _returnResponse(response);
     } on SocketException {
       throw NoNetworkException();
     }
     return responseJson;
   }
 
-   Future<dynamic> postWithId(
+  Future<dynamic> postWithId(
       {required String endpoint,
       required Map<String, dynamic> params,
       required dynamic id,
@@ -200,7 +200,6 @@ class ApiBaseHelper {
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
     }
   }
-
 
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {

@@ -9,7 +9,7 @@ class FileUploadResponse extends ApiResponse {
     return FileUploadResponse(
       message: json["message"],
       status: json["status"],
-      data:json["data"] == null ? null : FileUploadModel.fromJson(json["data"]),
+      data: json["data"] == null ? null : FileUploadModel.fromJson(json["data"]),
     );
   }
 }

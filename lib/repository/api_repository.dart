@@ -89,7 +89,7 @@ abstract class ApiRepository extends GetxController {
       {required PunchRequestRequest request});
 
    //  File Upload
-   Future<dynamic> fileUpload(
+   Future<FileUploadResponse> fileUpload(
       {required FileUploadRequest request});
 
    //  Punch Approvals Card
@@ -299,7 +299,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
 
   //  File Upload
   @override
-  Future<dynamic> fileUpload(
+  Future<FileUploadResponse> fileUpload(
       {required FileUploadRequest request}) async {
     final response = await _helper.multipartWithBody(
       endpoint: ApiEndPoints.fileUpload,
@@ -307,7 +307,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       params: request.toMap(),
     );
     print(response);
-    return response;
+    return FileUploadResponse.fromJson(response);
   }
 
    //  Listing of Punch Approvals 

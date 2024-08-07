@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:nms/dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
@@ -63,11 +61,11 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
   @override
   void onInit() async{
     // await listUserDocuments();
-    // pagingController.addPageRequestListener((pageKey) {
-    //   listUserDocumentsPagination(pageKey);
-    // });
-    //  // Trigger the initial page load
-    // pagingController.refresh();
+    pagingController.addPageRequestListener((pageKey) {
+      listUserDocumentsPagination(pageKey);
+    });
+     // Trigger the initial page load
+    pagingController.refresh();
     super.onInit();
   }
 
@@ -91,88 +89,48 @@ String capitalizeFirstLetter(String text) {
 
   
   //  list uploaded user documents with Pagination
-  // Future<void> listUserDocumentsPagination(int pageKey) async {
-  //   try {
-  //     final authService = NMSJWTDecoder();
-  //     final decodedToken = await authService.decodeAuthToken();
-  //     if (decodedToken != null) {
-  //       final userId = decodedToken["userId"];
+  Future<void> listUserDocumentsPagination(int pageKey) async {
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+        final userId = decodedToken["userId"];
 
-  //       final request = DocumentsListRequest(
-  //         field: "",
-  //         sortOfOrder:"" ,
-  //         page: pageKey,
-  //         size: _pageSize,
-  //         userId: userId,);
+        final request = DocumentsListRequest(
+          field: "",
+          sortOfOrder:"" ,
+          page: pageKey,
+          size: _pageSize,
+          userId: userId,);
 
-  //       final response =
-  //           await ApiRepository.to.listDocuments(request: request);
+        final response =
+            await ApiRepository.to.listDocuments(request: request);
 
-  //       if (response.status == 200) {
-  //          final isLastPage = response.pagination?.totalPages == pageKey;
-  //         if (isLastPage) {
-  //           pagingController.appendLastPage(response.data);
-  //         } else {
-  //           final nextPageKey = pageKey + 1;
-  //           pagingController.appendPage(response.data, nextPageKey);
-  //         }
-  //         // pagingController.appendPage(response.data , pageKey+1);
-  //         _listEmployeDocuments.addAll(response.data);
-  //         update();
+        if (response.status == 200 ) {
+           final isLastPage = response.pagination?.totalPages == pageKey;
+          if (isLastPage) {
+            pagingController.appendLastPage(response.data);
+          } else {
+            final nextPageKey = pageKey + 1;
+            pagingController.appendPage(response.data, nextPageKey);
+          }
+          // pagingController.appendPage(response.data , pageKey+1);
+          _listEmployeDocuments.addAll(response.data);
+          update();
          
-  //       } else if (response.message == "Failed") {
-  //         debugPrint(response.errors['errorMessage']);
-  //         showErrorSnackbar(message: errorOccuredText);
-  //         update();
-  //       }
-  //     }
-  //   } catch (e) {
-  //     pagingController.error = e.toString();
-  //     update();
-  //     return catchErrorSection(e);
+        } else if (response.message == "Failed") {
+          debugPrint(response.errors['errorMessage']);
+          showErrorSnackbar(message: errorOccuredText);
+          update();
+        }
+      }
+    } catch (e) {
+      pagingController.error = e.toString();
+      update();
+      return catchErrorSection(e);
       
-  //   }
-  // }
-
-
-
-     
-  //   //  list uploaded user documenst
-  // Future<void> listUserDocuments() async {
-  //   try {
-  //     final authService = NMSJWTDecoder();
-  //     final decodedToken = await authService.decodeAuthToken();
-  //     if (decodedToken != null) {
-  //       final userId = decodedToken["userId"];
-
-  //       final request = DocumentsListRequest(
-  //         field: "",
-  //         sortOfOrder:"" ,
-  //         page: 0,
-  //         size: 10,
-  //         userId: userId,);
-
-  //       final response =
-  //           await ApiRepository.to.listDocuments(request: request);
-
-  //       if (response.status == 200) {
-  //         _listEmployeDocuments.value = response.data;
-  //         print(listEmployeDocuments.length);
-  //         print(listEmployeDocuments[0].displayName);
-  //         update();
-         
-  //       } else if (response.message == "Failed") {
-  //         debugPrint(response.errors['errorMessage']);
-  //         showErrorSnackbar(message: errorOccuredText);
-  //         update();
-  //       }
-  //     }
-  //   } catch (e) {
-  //     update();
-  //     return catchErrorSection(e);
-      
-  //   }
-  // }
+    }
+  }
 
   catchErrorSection(e) async {
     debugPrint('error-----${e.toString()}------');
@@ -226,8 +184,8 @@ String capitalizeFirstLetter(String text) {
       final request =
           FileUploadRequest(
             userId: userId, 
-            uploadfile: fileFromPath,
-            category: 'PROFILE_IMAGE',
+            file: fileFromPath,
+            category: 'PERSONAL',
             // category: selectedCategory.value
             );
             print('request:${request.toString()}');
@@ -236,30 +194,31 @@ String capitalizeFirstLetter(String text) {
       final response = await ApiRepository.to.fileUpload(request: request);
        print('response:${response.toString()}');
 
-      if (response.statusCode == 200) {
+      if (response.status == 200) {
         _userFileUpload.value = response.data ;
         print(userFileUpload!.fileUrl);
-        final response1 = await response.stream.bytesToString();
-        final parsedJson = json.decode(response1);
-        var datas = FileUploadModel.fromJson(parsedJson);
-        var message = datas.fileUrl;
+        showSuccessSnackbar(title: 'Success', message: 'File Upload Successfully');
+      //   final response1 = await response.stream.bytesToString();
+      //   final parsedJson = json.decode(response1);
+      //   var datas = FileUploadModel.fromJson(parsedJson);
+      //   var message = datas.fileUrl;
         
-        // uploadedImageMessage.value = message;
-        if (uploadedImagevalue.length < 3) {
-          uploadedImagevalue.add(_extractLastSegment(message));
-          _extractedFirstPart.value = _extractFirstSegment(message);
-        } else {
-          showErrorSnackbar(message: "Maximum 3 images can be uploaded");
+      //   // uploadedImageMessage.value = message;
+      //   if (uploadedImagevalue.length < 3) {
+      //     uploadedImagevalue.add(_extractLastSegment(message));
+      //     _extractedFirstPart.value = _extractFirstSegment(message);
+      //   } else {
+      //     showErrorSnackbar(message: "Maximum 3 images can be uploaded");
           
-        }
+      //   }
 
-        // print(uploadedImagevalue);
+      //   // print(uploadedImagevalue);
 
-        debugPrint('-----Stored file name :$message-----');
-        update();
-      } else {
-        debugPrint('fail');
-        uploadedImageMessage.value = defaultMessage;
+      //   debugPrint('-----Stored file name :$message-----');
+      //   update();
+      // } else {
+      //   debugPrint('fail');
+      //   uploadedImageMessage.value = defaultMessage;
       }
       }
     } 
@@ -295,48 +254,25 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
-    String _extractLastSegment(String url) {
-    Uri uri = Uri.parse(url);
-    List<String> pathSegments = uri.pathSegments;
-    if (pathSegments.isNotEmpty) {
-      return pathSegments.last;
-    } else {
-      return '';
-    }
-  }
-
-  String _extractFirstSegment(String url) {
-    Uri uri = Uri.parse(url);
-    List<String> pathSegments = uri.pathSegments;
-    if (pathSegments.isNotEmpty) {
-      var part = uri.replace(path: '/').toString();
-      return part;
-    } else {
-      return '';
-    }
-  }
-
-  // Future<void> pickImage(ImageSource source) async {
-  //   final pickedFile = await ImagePicker().pickImage(source: source);
-
-  //   imageFile = File(pickedFile!.path);
-  //   imageName = File(pickedFile.name).toString();
-  //   imageSize = File(pickedFile.path).lengthSync() / (1024 * 1024);
-  //   if (imageSize! < 5) {
-  //     await uploadImage(imageFile!);
+  //   String _extractLastSegment(String url) {
+  //   Uri uri = Uri.parse(url);
+  //   List<String> pathSegments = uri.pathSegments;
+  //   if (pathSegments.isNotEmpty) {
+  //     return pathSegments.last;
   //   } else {
-  //     showErrorSnackbar(
-  //       message: 'File size should be less than 5 MB');
+  //     return '';
   //   }
-  //   update();
   // }
 
-  // clearimage() {
-  //   imageFile = null;
-  //   update();
+  // String _extractFirstSegment(String url) {
+  //   Uri uri = Uri.parse(url);
+  //   List<String> pathSegments = uri.pathSegments;
+  //   if (pathSegments.isNotEmpty) {
+  //     var part = uri.replace(path: '/').toString();
+  //     return part;
+  //   } else {
+  //     return '';
+  //   }
   // }
-
-
-
 
 }

@@ -3,9 +3,9 @@ import 'dart:io';
 class FileUploadRequest {
   String userId;
   String category;
-  File uploadfile;
+  File file;
 
-  FileUploadRequest({required this.userId,required this.category, required this.uploadfile});
+  FileUploadRequest({required this.userId,required this.category, required this.file});
 
     Map<String, String> toMap() {
     final map = {
@@ -16,7 +16,7 @@ class FileUploadRequest {
   }
 
    File toBody() {
-    return uploadfile;
+    return file;
   }
 
 }

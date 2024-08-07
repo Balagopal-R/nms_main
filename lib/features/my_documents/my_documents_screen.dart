@@ -1,15 +1,10 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
-import 'package:nms/utils/theme/app_theme.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:get/get.dart';
-
 import '../../widgets/cornered_button.dart';
 import 'my_documents_controller.dart';
 
@@ -147,55 +142,6 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
               ),
             ),
           ),
-         
-         
-         
-          // ignore: unnecessary_null_comparison
- //   body: controller.listEmployeDocuments != null ?
-        //   ListView.builder(
-        //     itemCount: controller.listEmployeDocuments.length,
-        //     itemBuilder: (context, index) {
-        //       return Container(
-        //         margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-        //         child: ListTile(
-        //           leading: IconButton(
-        //   icon: Image.asset('assets/png/document.png'),
-        //   onPressed: () {
-        //   },
-        // ),
-        //           title: Text(controller.listEmployeDocuments[index].displayName),
-        //           subtitle: Row(
-        //             children: [
-        //               Text(controller.epochTimeToFormattedDate(controller.listEmployeDocuments[index].createdAt)),
-        //              const SizedBox(width: 10.0),
-        //              const CircleAvatar(
-        //                 radius: 2.0,
-        //                 backgroundColor: Color(0xFFE3E3E3),
-        //               ),
-        //              const SizedBox(width: 5.0),
-        //               Text(controller.capitalizeFirstLetter(controller.listEmployeDocuments[index].category)),
-        //             ],
-        //           ),
-        //           trailing: IconButton(
-        //   icon: Image.asset('assets/png/download.png'),
-        //   onPressed: () {
-            
-        //   },
-        // ),
-        //           tileColor: const Color(0xFFFAFAFA),
-        //           shape: RoundedRectangleBorder(
-        //             borderRadius: BorderRadius.circular(2.0),
-        //           ),
-        //         ),
-        //       );
-        //     },
-        //   ) : const Center(
-        //               child: CircularProgressIndicator(
-        //                 color: primaryColor,
-        //               ),
-        //             ),
-
-
           floatingActionButton: FloatingActionButton(
             onPressed: () => _showBottomSheet(context),
             backgroundColor: const Color(0xFF3BBCA0),
@@ -364,155 +310,6 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                   ),
                   const SizedBox(height: 8.0),
 
-// New Codeeeeeeeeeeeeeeeeeeeeeeeeee Just Borrow
-
-                  // GestureDetector(
-                  //                 onTap: () {
-                  //                   showModalBottomSheet(
-                  //                     context: context,
-                  //                     builder: (BuildContext context) {
-                  //                       return SafeArea(
-                  //                         child: Column(
-                  //                           mainAxisSize: MainAxisSize.min,
-                  //                           children: <Widget>[
-                  //                             ListTile(
-                  //                               leading:
-                  //                                   const Icon(Icons.camera),
-                  //                               title: const Text(
-                  //                                   'Take a picture'),
-                  //                               onTap: () {
-                  //                                 controller.pickImage(
-                  //                                     ImageSource.camera);
-                  //                                 Navigator.pop(context);
-                  //                               },
-                  //                             ),
-                  //                             ListTile(
-                  //                               leading:
-                  //                                   const Icon(Icons.image),
-                  //                               title: const Text(
-                  //                                   'Choose from gallery'),
-                  //                               onTap: () {
-                  //                                 controller.pickImage(
-                  //                                     ImageSource.gallery);
-                  //                                 Navigator.pop(context);
-                  //                               },
-                  //                             ),
-                  //                           ],
-                  //                         ),
-                  //                       );
-                  //                     },
-                  //                   );
-                  //                 },
-                  //                 child: 
-                  //                 // DottedBorder(
-                  //                 //   borderType: BorderType.RRect,
-                  //                 //   color: primaryColor,
-                  //                 //   strokeWidth: 1,
-                  //                 //   dashPattern: const [6, 3, 6, 3],
-                  //                 //   radius: const Radius.circular(5),
-                  //                 //   child: 
-                  //                   Container(
-                  //                     height: 38,
-                  //                     decoration: BoxDecoration(
-                  //                       color: primaryLightColor,
-                  //                       borderRadius: BorderRadius.circular(5),
-                  //                     ),
-                  //                     child: Center(
-                  //                         child: Row(
-                  //                       mainAxisAlignment:
-                  //                           MainAxisAlignment.center,
-                  //                       children: [
-                  //                         SvgPicture.asset(
-                  //                             "assets/svg/cake.svg"),
-
-                  //                         Text("Upload Images",
-                  //                             style: AppTheme.lightTheme
-                  //                                 .textTheme.headlineSmall
-                  //                                 ?.copyWith(
-                  //                                     color: primaryColor)),
-                                          
-                  //                       ],
-                  //                     )),
-                  //                   ),
-                  //                 // ),
-                  //               ),
-                  //               const SizedBox(
-                  //                 height: 15,
-                  //               ),
-                  //               controller.uploadedImagevalue.isNotEmpty
-                  //                   ? Center(
-                  //                       child: ListView.separated(
-                  //                         shrinkWrap: true,
-                  //                         itemCount: controller
-                  //                             .uploadedImagevalue.length,
-                  //                         separatorBuilder: (context, index) =>
-                  //                             const SizedBox(
-                  //                           height: 5,
-                  //                         ),
-                  //                         itemBuilder: (context, index) {
-                  //                           return Row(
-                  //                             children: [
-                  //                               SizedBox(
-                  //                                 height: 50,
-                  //                                 child: Image.network(
-                  //                                   "${controller.extractedFirstPart}${controller.uploadedImagevalue[index]}",
-                  //                                   loadingBuilder: (BuildContext
-                  //                                           context,
-                  //                                       Widget child,
-                  //                                       ImageChunkEvent?
-                  //                                           loadingProgress) {
-                  //                                     if (loadingProgress ==
-                  //                                         null) {
-                  //                                       return child; // Return the image when it's fully loaded.
-                  //                                     } else {
-                  //                                       return const Center(
-                  //                                         child:
-                  //                                             CircularProgressIndicator(
-                  //                                           color: primaryColor,
-                  //                                         ),
-                  //                                       );
-                  //                                     }
-                  //                                   },
-                  //                                   errorBuilder:
-                  //                                       (BuildContext context,
-                  //                                           Object error,
-                  //                                           StackTrace?
-                  //                                               stackTrace) {
-                  //                                     // Show a red container when image fails to load
-                  //                                     return SizedBox(
-                  //                                       width: 80,
-                  //                                       height: 80,
-                  //                                       child: Image.asset(
-                  //                                           'assets/images/white_color.png'),
-                  //                                     );
-                  //                                   },
-                  //                                 ),
-                  //                               ),
-                  //                               Expanded(
-                  //                                   child: Column(
-                  //                                 children: [
-                  //                                   Text(controller
-                  //                                           .uploadedImagevalue[
-                  //                                       index]),
-                  //                                 ],
-                  //                               )),
-                  //                               GestureDetector(
-                  //                                   onTap: () {
-                  //                                     controller.deleteFileByName(
-                  //                                         controller
-                  //                                                 .uploadedImagevalue[
-                  //                                             index]);
-                  //                                   },
-                  //                                   child: const Icon(
-                  //                                       Icons.close)),
-                  //                             ],
-                  //                           );
-                  //                         },
-                  //                       ),
-                  //                     )
-                  //                   : const Center(
-                  //                       child: Text('No image selected.')),
-
                   GestureDetector(
       onTap: _files.length == 3 ? null : _pickFiles,
       child: Container(
@@ -525,9 +322,6 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SvgPicture.asset(
-              //   'assets/svg/cake.svg',
-              // ),
                Image.asset('assets/png/export.png', // Replace with actual image path
               width: 24.0, // Adjust icon size as needed
               height: 24.0, // Adjust icon size as needed
@@ -569,19 +363,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
           
                           },
                         ),
-          
-                  // ElevatedButton(
-                  //   onPressed: _files.isNotEmpty ? _submit : null,
-                  //   child: Text('Submit'),
-                  //   style: ElevatedButton.styleFrom(
-                  //     // primary: Color(0xFF3BBCA0),
-                  //     // onPrimary: Colors.white,
-                  //     minimumSize: Size(double.infinity, 50),
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(4.0),
-                  //     ),
-                  //   ),
-                  // ),
+ 
                   const SizedBox(height: 20.0),
                 ],
               ),
