@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
@@ -14,6 +16,7 @@ import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
 import '../dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
+import '../dtos/nms_dtos/file_download_dtos/file_download.dart';
 import '../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
 import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
@@ -35,82 +38,75 @@ abstract class ApiRepository extends GetxController {
   //Signin_Screen
   Future<SubmitLoginResponse> logInWithEmail(
       {required SubmitLoginRequest request});
-      
+
   // signin_employ_details
   Future<GetEmployResponse> getEmployDetails(
       {required GetEmpoyRequest request});
-     
-    //  employee_details_average_punch_time
-   Future<GetEmployePunchTimeResponse> getEmployePunchTime(
+
+  //  employee_details_average_punch_time
+  Future<GetEmployePunchTimeResponse> getEmployePunchTime(
       {required GetEmployePunchTimeRequest request});
-      
-      // employe_punch_board
-      Future<PunchStatusResponse> getPunchStatus(
+
+  // employe_punch_board
+  Future<PunchStatusResponse> getPunchStatus(
       {required PunchStatusRequest request});
 
-      //       // employe_attendance
-      Future<GetEmployeAttendanceResponse> getAttendance(
+  //       // employe_attendance
+  Future<GetEmployeAttendanceResponse> getAttendance(
       {required GetEmployeAttendanceRequest request});
 
-          //  upcoming birthdays
-   Future<GetBirthdayResponse> getEmployeBirthdays(
+  //  upcoming birthdays
+  Future<GetBirthdayResponse> getEmployeBirthdays(
       {required GetBirthdayRequest request});
 
-                //  get remaining Leaves
-   Future<GetLeavesResponse> getLeaves(
-      {required GetLeavesRequest request});
+  //  get remaining Leaves
+  Future<GetLeavesResponse> getLeaves({required GetLeavesRequest request});
 
-                 //  Logout
-   Future<LogoutResponse> logout(
-      {required LogoutRequest request});
+  //  Logout
+  Future<LogoutResponse> logout({required LogoutRequest request});
 
-                //  Listing user documents
-   Future<DocumentsListResponse> listDocuments(
+  //  Listing user documents
+  Future<DocumentsListResponse> listDocuments(
       {required DocumentsListRequest request});
 
-       //  Team Listing
-   Future<TeamListingResponse> teamListing(
+  //  Team Listing
+  Future<TeamListingResponse> teamListing(
       {required TeamListingRequest request});
 
-          //  Last Punch In
-   Future<LastPunchInResponse> lastPunchIn(
+  //  Last Punch In
+  Future<LastPunchInResponse> lastPunchIn(
       {required LastPunchInRequest request});
 
-          //  Punch In
-   Future<PunchInResponse> punchIn(
-      {required PunchInRequest request});
+  //  Punch In
+  Future<PunchInResponse> punchIn({required PunchInRequest request});
 
-          //  Punch Out
-   Future<PunchOutResponse> punchOut(
-      {required PunchOutRequest request});
+  //  Punch Out
+  Future<PunchOutResponse> punchOut({required PunchOutRequest request});
 
-          //  Punch Request
-   Future<PunchRequestResponse> punchRequest(
+  //  Punch Request
+  Future<PunchRequestResponse> punchRequest(
       {required PunchRequestRequest request});
 
-   //  File Upload
-   Future<FileUploadResponse> fileUpload(
-      {required FileUploadRequest request});
+  //  File Upload
+  Future<FileUploadResponse> fileUpload({required FileUploadRequest request});
 
-   //  Punch Approvals Card
-   Future<dynamic> punchApprovals(
-      {required PunchApprovalsRequest request});
+  //  Punch Approvals Card
+  Future<dynamic> punchApprovals({required PunchApprovalsRequest request});
 
-       //  Punch Approvals View Request
-   Future<dynamic> punchApprovalsRequestView(
+  //  Punch Approvals View Request
+  Future<dynamic> punchApprovalsRequestView(
       {required PunchApprovalPendingRequest request});
 
- //  Punch Request Cancel
-   Future<dynamic> punchRequestCancel(
+  //  Punch Request Cancel
+  Future<dynamic> punchRequestCancel(
       {required PunchRequestCancelRequest request});
 
-       // Deletefilebyname api
+  // Deletefilebyname api
   Future<DeleteFileByNameResponse> deleteFileByName(
       {required DeleteFileByNameRequest request});
 
-  
-      
-  
+  // File Download
+  Future<Uint8List> fileDownload({required FileDownloadRequest request});
 }
 
 class ApiRepositoryImpl extends GetxController implements ApiRepository {
@@ -136,7 +132,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return SubmitLoginResponse.fromJson(response);
   }
 
-
 //  full details of the employe
   @override
   Future<GetEmployResponse> getEmployDetails(
@@ -149,7 +144,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     debugPrint("response $response");
     return GetEmployResponse.fromJson(response);
   }
-
 
   //  employe punch time and average time
   @override
@@ -169,20 +163,22 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
   Future<PunchStatusResponse> getPunchStatus(
       {required PunchStatusRequest request}) async {
     final response = await _helper.get(
-    endpoint: ApiEndPoints.getPunchStatus, 
-    params: request.toMap(),);
+      endpoint: ApiEndPoints.getPunchStatus,
+      params: request.toMap(),
+    );
     debugPrint("response $response");
     return PunchStatusResponse.fromJson(response);
   }
 
-    // get employe attendance
- @override
+  // get employe attendance
+  @override
   Future<GetEmployeAttendanceResponse> getAttendance(
       {required GetEmployeAttendanceRequest request}) async {
     final response = await _helper.get(
       endpoint: ApiEndPoints.getAttendance,
-      params: request.toMap(),);
-   debugPrint("response $response");
+      params: request.toMap(),
+    );
+    debugPrint("response $response");
     return GetEmployeAttendanceResponse.fromJson(response);
   }
 
@@ -190,13 +186,13 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
   @override
   Future<GetBirthdayResponse> getEmployeBirthdays(
       {required GetBirthdayRequest request}) async {
-    final response = await _helper.get(
-        endpoint: ApiEndPoints.getBirthdays, params:{});
+    final response =
+        await _helper.get(endpoint: ApiEndPoints.getBirthdays, params: {});
     debugPrint("response $response");
     return GetBirthdayResponse.fromJson(response);
   }
 
-   //  remaining employe leave
+  //  remaining employe leave
   @override
   Future<GetLeavesResponse> getLeaves(
       {required GetLeavesRequest request}) async {
@@ -211,16 +207,14 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
 
 // Log Out
   @override
-  Future<LogoutResponse> logout(
-      {required LogoutRequest request}) async {
-    final response = await _helper.get(
-        endpoint: ApiEndPoints.logout, 
-        params:{});
+  Future<LogoutResponse> logout({required LogoutRequest request}) async {
+    final response =
+        await _helper.get(endpoint: ApiEndPoints.logout, params: {});
     debugPrint("response $response");
     return LogoutResponse.fromJson(response);
   }
 
-   //  Listing employes uploaded documents
+  //  Listing employes uploaded documents
   @override
   Future<DocumentsListResponse> listDocuments(
       {required DocumentsListRequest request}) async {
@@ -260,8 +254,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
 
   //  Punch In
   @override
-  Future<PunchInResponse> punchIn(
-      {required PunchInRequest request}) async {
+  Future<PunchInResponse> punchIn({required PunchInRequest request}) async {
     final response = await _helper.postWithBody(
       endpoint: ApiEndPoints.punchIn,
       body: request.toBody(),
@@ -273,8 +266,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
 
   //  Punch Out
   @override
-  Future<PunchOutResponse> punchOut(
-      {required PunchOutRequest request}) async {
+  Future<PunchOutResponse> punchOut({required PunchOutRequest request}) async {
     final response = await _helper.postWithBody(
       endpoint: ApiEndPoints.punchOut,
       body: request.toBody(),
@@ -284,7 +276,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return PunchOutResponse.fromJson(response);
   }
 
-   //  Punch Request
+  //  Punch Request
   @override
   Future<PunchRequestResponse> punchRequest(
       {required PunchRequestRequest request}) async {
@@ -310,7 +302,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return FileUploadResponse.fromJson(response);
   }
 
-   //  Listing of Punch Approvals 
+  //  Listing of Punch Approvals
   @override
   Future<PunchApprovalsResponse> punchApprovals(
       {required PunchApprovalsRequest request}) async {
@@ -323,11 +315,11 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return PunchApprovalsResponse.fromJson(response);
   }
 
-    //  Punch Approvals View Request
+  //  Punch Approvals View Request
   @override
   Future<PunchApprovalPendingResponse> punchApprovalsRequestView(
       {required PunchApprovalPendingRequest request}) async {
-      final response = await _helper.postWithBody(
+    final response = await _helper.postWithBody(
       endpoint: ApiEndPoints.punchApprovalsPendingRequest,
       body: request.toBody(),
       params: {},
@@ -340,7 +332,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
   @override
   Future<PunchRequestCancelResponse> punchRequestCancel(
       {required PunchRequestCancelRequest request}) async {
-      final response = await _helper.postWithBodyParamsHasNoString(
+    final response = await _helper.postWithBodyParamsHasNoString(
       endpoint: ApiEndPoints.punchApprovalsCancel,
       body: {},
       params: request.toMap(),
@@ -362,4 +354,15 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return DeleteFileByNameResponse.fromJson(response);
   }
 
+  //  file Download
+  @override
+  Future<Uint8List> fileDownload({required FileDownloadRequest request}) async {
+    final response = await _helper.getImage(
+      endpoint: ApiEndPoints.downloadFileByName,
+      params: request.toMap(),
+      isBlob: true, // Pass a flag to indicate a blob response
+    );
+    debugPrint("File downloaded with size: ${response.length} bytes");
+    return response;
+  }
 }

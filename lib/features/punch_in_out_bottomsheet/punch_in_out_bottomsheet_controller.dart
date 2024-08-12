@@ -18,6 +18,10 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
   var isProjectValid = true.obs;
   var isTaskValid = true.obs;
 
+   RxBool isTaskOrDescriptionFocused = false.obs;
+  final FocusNode taskFocusNode = FocusNode();
+  final FocusNode descriptionFocusNode = FocusNode();
+
 
   var locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
   var projects = ['NMS', 'KESHER', 'Premium Shop', 'NMS Chat','Winemonger','Quotely','Just Borrow','Cakesys','Unassigned','Trybond'];
@@ -81,14 +85,13 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
   }
   
 
-
-
    @override
   void onInit() async{
   super.onInit();
    clearErrors();
  
   }
+
 
     int dateTimeToEpoch(String dateString, String timeString) {
   // Validate date format

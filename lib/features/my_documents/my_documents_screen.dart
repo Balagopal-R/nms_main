@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
@@ -17,6 +18,7 @@ class MyDocumentsScreen extends StatefulWidget {
 
 class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
    bool isSearching = false;
+   double? _progress;
 
 
   @override
@@ -121,6 +123,23 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           icon: Image.asset('assets/png/download.png'),
           onPressed: () {
             
+             controller.downloadFile(item.fileName);
+
+            //  String url = '';
+            // FileDownloader.downloadFile(
+            //   url: url.trim(),
+            //   onProgress: (name, progress) {
+            //     setState(() {
+            //       _progress = progress;
+            //     });
+            //   },
+            //   onDownloadCompleted: (value){
+            //     print('path $value');
+            //     setState(() {
+            //       _progress = null;
+            //     });
+            //   }
+            //   );
           },
         ),
                   tileColor: const Color(0xFFFAFAFA),

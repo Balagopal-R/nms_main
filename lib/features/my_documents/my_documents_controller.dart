@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:nms/dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
+import 'package:nms/dtos/nms_dtos/file_download_dtos/file_download_request.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
@@ -14,10 +15,13 @@ import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
 import '../../dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
 import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class MyDocumentsController extends GetxController with SnackbarMixin {
 
   var uploadedImageMessage = "".obs;
+  
 
   late File? imageFile = null;
   late String? imageName = null;
@@ -254,6 +258,42 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
+
+//   Future<void> downloadFile(String fileName) async {
+
+//   var url = 'https://dev-api.nxtfruit.com/api/v1/file/download?fileName=$fileName';
+
+//   final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+
+//   var headers = {
+//     'Content-Type': 'application/json',
+//     'org-id': 'nintriva',
+//     'Authorization': 'Bearer $authToken',
+//     'unit-id': 'default'
+//   };
+
+//   // Get the application directory
+//   Directory appDocDir = await getApplicationDocumentsDirectory();
+//   String appDocPath = appDocDir.path;
+
+//   // Send the HTTP GET request
+//   var response = await http.get(Uri.parse(url), headers: headers);
+
+//   if (response.statusCode == 200) {
+//     // Create a File object
+//     File file = File('$appDocPath/$fileName');
+
+//     // Write the response bytes to the file
+//     await file.writeAsBytes(response.bodyBytes);
+
+//     print('File downloaded to $appDocPath/$fileName');
+//   } else {
+//     print('Failed to download file: ${response.statusCode}');
+//   }
+// }
+
+  
+
   //   String _extractLastSegment(String url) {
   //   Uri uri = Uri.parse(url);
   //   List<String> pathSegments = uri.pathSegments;
@@ -274,5 +314,24 @@ String capitalizeFirstLetter(String text) {
   //     return '';
   //   }
   // }
+
+  Future<void> downloadFile(String fileName) async {
+    try {
+          final request = FileDownloadRequest(
+            fileName: fileName);
+          final response =
+            await ApiRepository.to.fileDownload(request: request);
+
+        
+    
+    } catch (e) {
+     
+      update();
+      return catchErrorSection(e);
+      
+    }
+  }
+
+
 
 }

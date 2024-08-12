@@ -18,9 +18,15 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
     return GetBuilder<PunchInOutBottomSheetController>(
       init: PunchInOutBottomSheetController(),
       builder: (controller) {
-        return Container(
+        // return Container(
+        return Obx(() => Container(
+        // AnimatedContainer(
+        //   duration: Duration(milliseconds: 300),
           width: screenWidth,
-          height: screenHeight * 0.80,
+          // height: screenHeight * 0.80,
+          height: controller.isTaskOrDescriptionFocused.value
+              ? screenHeight * 1.20 // Adjust the height when task or description is focused
+              : screenHeight * 0.80, // Normal height
           padding: const EdgeInsets.all(16.0),
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -91,19 +97,14 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
                       await controller.userPunchOut();
                     }
                     }
-
-
-                    // if (title == 'Punch IN') {
-                    //   await controller.userPunchIn();
-                    // } else {
-                    //   await controller.userPunchOut();
-                    // }
                   },
                 )
               ],
             ),
           ),
-        );
+        // )
+      )
+      );
       },
     );
   }
@@ -360,6 +361,7 @@ class TaskInput extends StatelessWidget {
         ),
         const SizedBox(height: 8.0),
          Obx(() => TextFormField(
+          focusNode: controller.taskFocusNode,
           maxLength: 25,
           maxLines: 1,
           controller: controller.taskController,
@@ -414,6 +416,7 @@ class DescriptionInput extends StatelessWidget {
         ),
         const SizedBox(height: 8.0),
         TextFormField(
+          focusNode: controller.descriptionFocusNode,
           controller: controller.descriptionController,
            maxLength: 200,         
            maxLines: 4,
