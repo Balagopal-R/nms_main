@@ -106,7 +106,7 @@ class ApiBaseHelper {
     return responseJson;
   }
 
- Future<dynamic> getImage({
+ Future<Uint8List> getImage({
     required String endpoint,
     required Map<String, String> params,
     Map<String, String>? headers,
@@ -129,10 +129,10 @@ class ApiBaseHelper {
         Uri.parse(completeUrl),
         headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader(),
       );
-
+      print(response.body);
       if (isBlob) {
         // If the response is a blob, return the body bytes directly
-        return response.bodyBytes;
+        return response.bodyBytes ;
       } else {
         responseJson = _returnResponse(response);
       }

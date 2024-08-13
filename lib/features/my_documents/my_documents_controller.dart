@@ -13,10 +13,12 @@ import 'package:nms/models/documents_list_model/documensts_list_model.dart';
 import 'package:nms/models/file_upload_model/file_upload_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
 import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+
 
 class MyDocumentsController extends GetxController with SnackbarMixin {
 
@@ -71,7 +73,22 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
      // Trigger the initial page load
     pagingController.refresh();
     super.onInit();
+    requestStoragePermission();
   }
+
+Future<void> requestStoragePermission() async {
+  // Requesting MANAGE_EXTERNAL_STORAGE for Android 10+
+  if (await Permission.manageExternalStorage.request().isGranted) {
+    // Permission granted for Android 10+
+    debugPrint("Manage External Storage Permission Granted");
+  } else if (await Permission.storage.request().isGranted) {
+    // Permission granted for Android 9 and below
+    debugPrint("Storage Permission Granted");
+  } else {
+    // Handle permission denial
+    debugPrint("Storage Permission Denied");
+  }
+}
 
   
 
@@ -258,42 +275,6 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
-
-//   Future<void> downloadFile(String fileName) async {
-
-//   var url = 'https://dev-api.nxtfruit.com/api/v1/file/download?fileName=$fileName';
-
-//   final authToken = await NMSSharedPreferences().getTokenFromPrefs();
-
-//   var headers = {
-//     'Content-Type': 'application/json',
-//     'org-id': 'nintriva',
-//     'Authorization': 'Bearer $authToken',
-//     'unit-id': 'default'
-//   };
-
-//   // Get the application directory
-//   Directory appDocDir = await getApplicationDocumentsDirectory();
-//   String appDocPath = appDocDir.path;
-
-//   // Send the HTTP GET request
-//   var response = await http.get(Uri.parse(url), headers: headers);
-
-//   if (response.statusCode == 200) {
-//     // Create a File object
-//     File file = File('$appDocPath/$fileName');
-
-//     // Write the response bytes to the file
-//     await file.writeAsBytes(response.bodyBytes);
-
-//     print('File downloaded to $appDocPath/$fileName');
-//   } else {
-//     print('Failed to download file: ${response.statusCode}');
-//   }
-// }
-
-  
-
   //   String _extractLastSegment(String url) {
   //   Uri uri = Uri.parse(url);
   //   List<String> pathSegments = uri.pathSegments;
@@ -316,11 +297,14 @@ String capitalizeFirstLetter(String text) {
   // }
 
   Future<void> downloadFile(String fileName) async {
+     await requestStoragePermission();
     try {
           final request = FileDownloadRequest(
             fileName: fileName);
           final response =
             await ApiRepository.to.fileDownload(request: request);
+
+        print(response.toString());
 
         
     

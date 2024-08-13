@@ -53,6 +53,7 @@ dependencies:
   just_the_tooltip: 0.0.12
   image_gallery_saver: 2.0.3
   path_provider: 2.1.4
+  permission_handler: 10.2.0
 
   flutter_file_downloader: 2.0.0
 

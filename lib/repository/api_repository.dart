@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
+import 'package:path_provider/path_provider.dart';
 import '../dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import '../dtos/nms_dtos/file_download_dtos/file_download.dart';
 import '../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
@@ -106,7 +108,7 @@ abstract class ApiRepository extends GetxController {
       {required DeleteFileByNameRequest request});
 
   // File Download
-  Future<Uint8List> fileDownload({required FileDownloadRequest request});
+  Future<File> fileDownload({required FileDownloadRequest request});
 }
 
 class ApiRepositoryImpl extends GetxController implements ApiRepository {
@@ -356,13 +358,33 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
 
   //  file Download
   @override
-  Future<Uint8List> fileDownload({required FileDownloadRequest request}) async {
+  Future<File> fileDownload({required FileDownloadRequest request}) async {
     final response = await _helper.getImage(
       endpoint: ApiEndPoints.downloadFileByName,
       params: request.toMap(),
       isBlob: true, // Pass a flag to indicate a blob response
     );
+    debugPrint("Response Type: ${response.runtimeType}");
+    debugPrint("Response Length: ${response.length}");
     debugPrint("File downloaded with size: ${response.length} bytes");
-    return response;
-  }
+    // Get the devices downloads directory for storing the file
+  // final Directory? downloadsDir = await getExternalStorageDirectory();
+
+   final Directory downloadsDir = await Directory('/storage/emulated/0/Download').create(recursive: true);
+  
+  // Define the file path with a filename 
+  final String filePath = '${downloadsDir.path}/${request.fileName}';
+
+  // Write the Uint8List to a file
+  final File file = File(filePath);
+  await file.writeAsBytes(response , flush: true);
+
+ if (await file.exists()) {
+  debugPrint("File successfully saved at $filePath with size: ${await file.length()} bytes");
+} else {
+  debugPrint("File not saved.");
+}
+  // Return the file
+  return file;
+}
 }
