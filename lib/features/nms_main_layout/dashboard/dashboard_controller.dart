@@ -40,8 +40,8 @@ class DashboardController extends GetxController with SnackbarMixin {
   final _daysToBirthday = (List<String>.empty()).obs;
   List<String> get daysToBirthday => _daysToBirthday;
 
-  final _imageOfBirthdays = (List<String>.empty()).obs;
-  List<String> get imageOfBirthdays => _imageOfBirthdays;
+  final _imageOfBirthdays = (List<String?>.empty()).obs;
+  List<String?> get imageOfBirthdays => _imageOfBirthdays;
   // final JBSharedPreferences authService = JBSharedPreferences();
 
   // final _getEmployData = (List<CorporateDetails>.empty()).obs;
@@ -131,45 +131,51 @@ String formatDoubleWithTwoDecimals(double value) {
         if (response.status == 200) {
           _getEmployeAveragePunchTime.value = response.data;
 
-        for (int i = 0; i < getEmployeAveragePunchTime.length ; i++) {
-          if (getEmployeAveragePunchTime[i].clockedWorkingMinutes != 0){
-            punchDivisor++ ;
+    for (int i = 0; i < getEmployeAveragePunchTime.length; i++) {
+  if (getEmployeAveragePunchTime[i].clockedWorkingMinutes != 0) {
+    punchDivisor++;
+  }
+}
 
-          }
-          else{}
-        }
-         print('@@@@@@@@$punchDivisor');
-            print(getEmployeAveragePunchTime.length);
+if (punchDivisor != 0) {
+  getAvgPunchTime = (
+      getEmployeAveragePunchTime[0].clockedWorkingMinutes +
+      getEmployeAveragePunchTime[1].clockedWorkingMinutes +
+      getEmployeAveragePunchTime[2].clockedWorkingMinutes +
+      getEmployeAveragePunchTime[3].clockedWorkingMinutes +
+      getEmployeAveragePunchTime[4].clockedWorkingMinutes +
+      getEmployeAveragePunchTime[5].clockedWorkingMinutes +
+      getEmployeAveragePunchTime[6].clockedWorkingMinutes) /
+      punchDivisor;
+} else {
+  getAvgPunchTime = 0.0;
+}
 
-     getAvgPunchTime = (((getEmployeAveragePunchTime[0].clockedWorkingMinutes+
-                                getEmployeAveragePunchTime[1].clockedWorkingMinutes+
-                                getEmployeAveragePunchTime[2].clockedWorkingMinutes+
-                                getEmployeAveragePunchTime[3].clockedWorkingMinutes+
-                                getEmployeAveragePunchTime[4].clockedWorkingMinutes+
-                                getEmployeAveragePunchTime[5].clockedWorkingMinutes+
-                                getEmployeAveragePunchTime[6].clockedWorkingMinutes)/punchDivisor));
-                                print('^^^^^^^^$getAvgPunchTime');
+_avgPunchTime.value = getAvgPunchTime / 3600;
 
-                                _avgPunchTime.value = getAvgPunchTime/3600 ;
-  
-        for (int i = 0; i < getEmployeAveragePunchTime.length; i++) {
-          if (getEmployeAveragePunchTime[i].clockedBreakMinutes != 0){
-            breakDivisor++ ;
-           
-          }
-          else{}
-        }
-         print('%%%%%%%%$breakDivisor');
 
-          getAvgBreakTime = (((getEmployeAveragePunchTime[0].clockedBreakMinutes+
-                                getEmployeAveragePunchTime[1].clockedBreakMinutes+
-                                getEmployeAveragePunchTime[2].clockedBreakMinutes+
-                                getEmployeAveragePunchTime[3].clockedBreakMinutes+
-                                getEmployeAveragePunchTime[4].clockedBreakMinutes+
-                                getEmployeAveragePunchTime[5].clockedBreakMinutes+
-                                getEmployeAveragePunchTime[6].clockedBreakMinutes)/breakDivisor));
+   for (int i = 0; i < getEmployeAveragePunchTime.length; i++) {
+  if (getEmployeAveragePunchTime[i].clockedBreakMinutes != 0) {
+    breakDivisor++;
+  }
+}
 
-                                _avgBreakTime.value = getAvgBreakTime/3600 ;
+if (breakDivisor != 0) {
+  getAvgBreakTime = (
+      getEmployeAveragePunchTime[0].clockedBreakMinutes +
+      getEmployeAveragePunchTime[1].clockedBreakMinutes +
+      getEmployeAveragePunchTime[2].clockedBreakMinutes +
+      getEmployeAveragePunchTime[3].clockedBreakMinutes +
+      getEmployeAveragePunchTime[4].clockedBreakMinutes +
+      getEmployeAveragePunchTime[5].clockedBreakMinutes +
+      getEmployeAveragePunchTime[6].clockedBreakMinutes) /
+      breakDivisor;
+} else {
+  getAvgBreakTime = 0.0;
+}
+
+_avgBreakTime.value = getAvgBreakTime / 3600;
+
 
 
         } else if (response.message == "Failed") {

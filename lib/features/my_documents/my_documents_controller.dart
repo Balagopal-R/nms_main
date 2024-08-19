@@ -31,7 +31,7 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
 
   var isCategoryValid = true.obs;
   var selectedCategory = ''.obs;
-  var category = ['Personal', 'Academic', 'Work', 'Medical', 'Others'];
+  var category = ['PROFILE_IMAGE', 'PERSONAL', 'ACADEMIC', 'WORK', 'MEDICAL','OTHERS'];
 
     void validateForm() {
     isCategoryValid.value = selectedCategory.isNotEmpty;
@@ -206,8 +206,8 @@ String capitalizeFirstLetter(String text) {
           FileUploadRequest(
             userId: userId, 
             file: fileFromPath,
-            category: 'PERSONAL',
-            // category: selectedCategory.value
+            // category: 'PERSONAL',
+            category: selectedCategory.value
             );
             print('request:${request.toString()}');
         
@@ -275,26 +275,6 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
-  //   String _extractLastSegment(String url) {
-  //   Uri uri = Uri.parse(url);
-  //   List<String> pathSegments = uri.pathSegments;
-  //   if (pathSegments.isNotEmpty) {
-  //     return pathSegments.last;
-  //   } else {
-  //     return '';
-  //   }
-  // }
-
-  // String _extractFirstSegment(String url) {
-  //   Uri uri = Uri.parse(url);
-  //   List<String> pathSegments = uri.pathSegments;
-  //   if (pathSegments.isNotEmpty) {
-  //     var part = uri.replace(path: '/').toString();
-  //     return part;
-  //   } else {
-  //     return '';
-  //   }
-  // }
 
   Future<void> downloadFile(String fileName) async {
      await requestStoragePermission();
@@ -305,6 +285,7 @@ String capitalizeFirstLetter(String text) {
             await ApiRepository.to.fileDownload(request: request);
 
         print(response.toString());
+        showSuccessSnackbar(title: 'Success', message: 'File Downloaded Successfully');
 
         
     

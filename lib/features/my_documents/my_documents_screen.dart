@@ -335,7 +335,8 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
-          color: Color(0xFFF1F1F1), // Use theme color
+          color:  _files.length == 3 ? Color(0xFFF1F1F1) : Color(0xFFD9D9D9), // Use theme color
+         
         ),
         child: Center(
           child: Row(

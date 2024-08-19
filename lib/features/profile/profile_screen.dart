@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/features/signin/signin.dart';
+import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/utils/utils.dart';
 import 'package:nms/widgets/appbar_main_widget.dart';
 
@@ -145,6 +146,7 @@ class ProfileScreen extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                  await controller.userLogout();
+                 await clearSharedPreferences();
                  Get.offAllNamed('/');
                 },
                 child: Container(

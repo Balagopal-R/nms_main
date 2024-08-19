@@ -473,7 +473,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Widget _buildTextPage(String title, List<String> items, List<String> subtexts,
   //     DashboardController controller) 
-   Widget _buildTextPage(String title, List<String> items, List<String> subtexts, String eventImageName, Color avatarColor,List<String> networkImage)
+   Widget _buildTextPage(String title, List<String> items, List<String> subtexts, String eventImageName, Color avatarColor,List<String?> networkImage)
       {
     return Container(
       decoration: BoxDecoration(
@@ -522,7 +522,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     title: Text(items[index]),
                     subtitle: Text(subtexts[index]),
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage(networkImage[index]),
+                      backgroundImage: NetworkImage(networkImage[index]!),
                     ),
                   );
                 },

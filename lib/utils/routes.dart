@@ -4,12 +4,23 @@ import 'package:nms/features/my_documents/my_documents_screen.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/approvals_screen.dart';
 import 'package:nms/features/profile/profile_screen.dart';
 import 'package:nms/features/reset_password/reset_password.dart';
+import 'package:nms/features/splash/splash_screen.dart';
 import '../features/nms_main_layout/nms_main_layout_screen.dart';
 import '../features/signin/signin.dart';
 
 List<GetPage> routes() => [
+
       GetPage(
           name: "/",
+          page: () => const SplashScreen(),
+          transition: Transition.cupertino),
+
+      GetPage(
+          name: "/splash_screen",
+          page: () => const SplashScreen(),
+          transition: Transition.cupertino),
+      GetPage(
+          name: "/signin_screen",
           page: () => const SignInScreen(),
           transition: Transition.cupertino),
       GetPage(
@@ -33,7 +44,7 @@ List<GetPage> routes() => [
           page: () => MyDocumentsScreen(),
           transition: Transition.cupertino),
       GetPage(
-          name: "/nn",
+          name: "/approvals_screen",
           page: () => ApprovalsScreen(),
           transition: Transition.cupertino),
     ];

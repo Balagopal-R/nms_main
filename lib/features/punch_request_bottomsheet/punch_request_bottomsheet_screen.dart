@@ -182,8 +182,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
             ),
                               ),
         
-
-                SizedBox(height: 8.0),
+         SizedBox(height: 8.0),
           
                    Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

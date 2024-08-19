@@ -81,11 +81,11 @@ class ApprovalsScreen extends StatelessWidget {
                           .punchInDateTime),
                       breakTime: controller.formatEpochToTimeString(controller
                           .punchApprovalsViewRequest!
-                          .punchLog[0]
+                          .punchLog[1]
                           .punchInDateTime),
                       resumeTime: controller.formatEpochToTimeString(controller
                           .punchApprovalsViewRequest!
-                          .punchLog[0]
+                          .punchLog[1]
                           .punchOutDateTime),
                       outTime: controller.formatEpochToTimeString(controller
                           .punchApprovalsViewRequest!

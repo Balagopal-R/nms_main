@@ -73,7 +73,7 @@ class Employee {
     String userId;
     String firstname;
     String lastname;
-    String profileImgUrl;
+    String? profileImgUrl;
     String? employeeCode;
     int probationPeriod;
     bool archived;
@@ -83,7 +83,7 @@ class Employee {
         required this.userId,
         required this.firstname,
         required this.lastname,
-        required this.profileImgUrl,
+        this.profileImgUrl,
         this.employeeCode,
         required this.probationPeriod,
         required this.archived,

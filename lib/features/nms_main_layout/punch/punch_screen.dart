@@ -98,7 +98,7 @@ class _PunchScreenState extends State<PunchScreen>
             : null,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 22, right: 21, bottom: 8),
+        padding: const EdgeInsets.only(left: 22, right: 22, bottom: 8),
         child: Column(
           // Use Column for top-center alignment
           children: [
@@ -112,6 +112,7 @@ class _PunchScreenState extends State<PunchScreen>
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     color: Colors.white,
+                  
                   ),
                   labelColor: primaryColor,
                   labelStyle: const TextStyle(

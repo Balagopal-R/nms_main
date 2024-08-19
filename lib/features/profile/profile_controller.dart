@@ -57,7 +57,7 @@ class ProfileController extends GetxController with SnackbarMixin {
         if (response.status == 200) {
           // print(response.data);
           // _logOut.value = response.data;
-          showErrorSnackbar(message: "Logged out successfully");
+          showSuccessSnackbar(title:'Success', message:  "Logged out successfully");
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
