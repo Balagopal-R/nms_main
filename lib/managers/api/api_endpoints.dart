@@ -4,7 +4,7 @@ class ApiEndPoints {
 
   //nms
   static const String login = 'auth/login';
-  static const String refresh = 'refresh';
+  static const String refresh = 'auth/refresh';
   static const String getEmploy = 'employee/get';
   static const String getEmployeeDashboard = 'punch/getEmployeeDashboard';
   static const String getPunchStatus = 'punch/punchStatus';

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +21,8 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
 
     var locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
 
+    String userId = "";
+
     void validateForm() {
    isLocationValid.value = selectedLocation.isNotEmpty;
      }
@@ -33,8 +38,22 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
    @override
   void onInit() async{
   super.onInit();
+  await getIdFromToken();
 
   }
+
+          getIdFromToken() async {
+    await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+    await RefreshTokenApiCall().checkTokenExpiration();
+    final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+    if (authToken != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+      String uid = decodedToken["userId"];
+      userId = uid;
+      debugPrint("user id is ------$userId");
+    }
+  }
+
 
   
 
@@ -70,7 +89,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+        userId = decodedToken["userId"];
 
         final request = PunchRequestRequest(
           empId: userId,

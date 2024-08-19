@@ -33,8 +33,11 @@ class RefreshTokenApiCall extends GetxController {
       final response = await http.post(
         url,
         headers: {
-          'Authorization': 'Bearer $refreshToken',
-        },
+      'Content-Type': 'application/json',
+      'org-id': 'nintriva',
+      'Authorization': 'Bearer $refreshToken',
+      'unit-id' : 'default'
+    },
       );
 
       if (response.statusCode == 200) {

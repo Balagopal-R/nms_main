@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 
 import '../../dtos/nms_dtos/login/get_employ/get_employ.dart';
@@ -11,11 +14,26 @@ class BasicDetailsController extends GetxController with SnackbarMixin {
 
   final _getEmployData = Rx<EmployeeData?>(null);
   EmployeeData? get getEmployData => _getEmployData.value;
+
+  String userId = "";
   
   @override
   void onInit() async{
+    await getIdFromToken();
     await getEmployDetails();
     super.onInit();
+  }
+
+      getIdFromToken() async {
+    await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+    await RefreshTokenApiCall().checkTokenExpiration();
+    final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+    if (authToken != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+      String uid = decodedToken["userId"];
+      userId = uid;
+      debugPrint("user id is ------$userId");
+    }
   }
 
   //get employ details
@@ -26,7 +44,7 @@ class BasicDetailsController extends GetxController with SnackbarMixin {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+        userId = decodedToken["userId"];
         final request = GetEmpoyRequest(userId: userId);
         final response =
             await ApiRepository.to.getEmployDetails(request: request);

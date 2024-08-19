@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/punch_approvals_model/punch_approvals_model.dart';
@@ -33,9 +36,12 @@ class ApprovalsController extends GetxController with SnackbarMixin {
   final PagingController<int, PunchApprovalsModel> pagingController =
       PagingController(firstPageKey: 0);
 
+      // String userId = "";
+
   @override
   void onInit() async {
     super.onInit();
+    // await getIdFromToken();
     pagingController.addPageRequestListener((pageKey) {
       userPunchApprovals(pageKey);
     });
@@ -43,6 +49,18 @@ class ApprovalsController extends GetxController with SnackbarMixin {
     pagingController.refresh();
     await getLastPunchIn();
   }
+
+  //     getIdFromToken() async {
+  //   await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+  //   await RefreshTokenApiCall().checkTokenExpiration();
+  //   final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+  //   if (authToken != null) {
+  //     Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+  //     String uid = decodedToken["userId"];
+  //     userId = uid;
+  //     debugPrint("user id is ------$userId");
+  //   }
+  // }
 
   String formatEpochToDateString(int epoch) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch);

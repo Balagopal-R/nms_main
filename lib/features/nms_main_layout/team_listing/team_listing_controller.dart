@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/last_punch_in_model/last_punch_in_model.dart';
@@ -25,6 +28,7 @@ class TeamListingController extends GetxController with SnackbarMixin {
   @override
   void onInit() async {
     // await teamListingScreen();
+    // await getIdFromToken();
     pagingController.addPageRequestListener((pageKey) {
       teamListingScreenPagination(pageKey);
     });
@@ -33,6 +37,8 @@ class TeamListingController extends GetxController with SnackbarMixin {
     await getLastPunchIn();
     super.onInit();
   }
+
+  // String userId = "";
 
   RxBool isSearching = false.obs;
   void toggleSearch() {
@@ -52,6 +58,18 @@ class TeamListingController extends GetxController with SnackbarMixin {
 
     return formattedTime;
   }
+
+  //   getIdFromToken() async {
+  //   await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+  //   await RefreshTokenApiCall().checkTokenExpiration();
+  //   final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+  //   if (authToken != null) {
+  //     Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+  //     String uid = decodedToken["userId"];
+  //     userId = uid;
+  //     debugPrint("user id is ------$userId");
+  //   }
+  // }
 
   //  listing team members along with punch in/out information with Pagination
   Future<void> teamListingScreenPagination(int pageKey) async {

@@ -91,11 +91,11 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
                         controller.isProjectValid.value &&
                         controller.isTaskValid.value) {
                       if (title == 'Punch IN') {
-                      await controller.userPunchIn(context);
+                      await controller.userPunchIn();
     
                   
                     } else {
-                      await controller.userPunchOut(context);
+                      await controller.userPunchOut();
                     }
                     }
                   },

@@ -15,6 +15,7 @@ class NmsMainLayoutScreen extends StatefulWidget {
 
 class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
   int _selectedIndex = 0;
+  final Color selectedColor = Color(0xff3BBCA0);
 
   static List<Widget> _widgetOptions = <Widget>[
     DashboardScreen(),
@@ -38,7 +39,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xff3BBCA0),
+        selectedItemColor: selectedColor,
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -46,6 +47,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/home.svg',
               height: 24,
               width: 24,
+              colorFilter: _selectedIndex == 0 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
             ),
             label: '',
           ),
@@ -54,6 +56,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/teamListing.svg',
               height: 24,
               width: 24,
+              colorFilter: _selectedIndex == 1 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
             ),
             label: '',
           ),
@@ -62,6 +65,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/punch.svg',
               height: 24,
               width: 24,
+              colorFilter: _selectedIndex == 2 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
             ),
             label: '',
           ),
@@ -70,6 +74,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/calendarRemove.svg',
               height: 24,
               width: 24,
+              colorFilter: _selectedIndex == 3 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
             ),
             label: '',
           ),

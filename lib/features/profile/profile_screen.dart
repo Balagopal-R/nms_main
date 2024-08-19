@@ -147,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () async{
                  await controller.userLogout();
                  await clearSharedPreferences();
-                 Get.offAllNamed('/');
+                 Get.offAllNamed('/signin_screen');
                 },
                 child: Container(
                   width: double.infinity,

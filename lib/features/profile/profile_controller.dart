@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/login/get_employ/get_employ_request.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/login_screen/get_employee_model.dart';
@@ -16,14 +19,27 @@ class ProfileController extends GetxController with SnackbarMixin {
 
   final _logOut = ''.obs;
   String get logOut => _logOut.value;
+  String userId = "";
 
 
   @override
   void onInit() async{
-
+  await getIdFromToken();
   await getEmployDetails();
   
     super.onInit();
+  }
+
+    getIdFromToken() async {
+    await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+    await RefreshTokenApiCall().checkTokenExpiration();
+    final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+    if (authToken != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+      String uid = decodedToken["userId"];
+      userId = uid;
+      debugPrint("user id is ------$userId");
+    }
   }
 
   getEmployDetails() async {
@@ -32,7 +48,7 @@ class ProfileController extends GetxController with SnackbarMixin {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+        userId = decodedToken["userId"];
         final request = GetEmpoyRequest(userId: userId);
         final response =
             await ApiRepository.to.getEmployDetails(request: request);

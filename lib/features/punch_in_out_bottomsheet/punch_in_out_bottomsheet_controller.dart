@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/repository/api_repository.dart';
 import '../../mixins/snackbar_mixin.dart';
@@ -21,6 +24,8 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
    RxBool isTaskOrDescriptionFocused = false.obs;
   final FocusNode taskFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
+
+  String userId = "";
 
 
   var locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
@@ -88,9 +93,23 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
    @override
   void onInit() async{
   super.onInit();
+  await getIdFromToken();
    clearErrors();
  
   }
+
+        getIdFromToken() async {
+    await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+    await RefreshTokenApiCall().checkTokenExpiration();
+    final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+    if (authToken != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+      String uid = decodedToken["userId"];
+      userId = uid;
+      debugPrint("user id is ------$userId");
+    }
+  }
+
 
 
     int dateTimeToEpoch(String dateString, String timeString) {
@@ -130,13 +149,13 @@ String unixEpochTimeTo24HourString(int epochTime) {
 
 
     //  user punch in
-   userPunchIn(BuildContext context) async {
+   userPunchIn() async {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
-
+         userId = decodedToken["userId"];
+        
         final request = PunchInRequest(
           empId: userId,
           punchInDateTime: dateTimeToEpoch(formattedDate, formattedTime),
@@ -157,12 +176,13 @@ String unixEpochTimeTo24HourString(int epochTime) {
           _punchInMessage.value = response.data;
           print(punchInMessage);
 
-// Dismiss the bottom sheet after a short delay
-        Future.delayed(Duration(milliseconds: 300), () {
-          if (Navigator.canPop(context)) {
-            Navigator.pop(context);
-          }
-        });
+// // Dismiss the bottom sheet after a short delay
+//         Future.delayed(Duration(milliseconds: 300), () {
+//           if (Navigator.canPop(context)) {
+//             Navigator.pop(context);
+//           }
+//         });
+
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
@@ -174,12 +194,12 @@ String unixEpochTimeTo24HourString(int epochTime) {
   }
 
       //  user punch Out
-   userPunchOut(BuildContext context) async {
+   userPunchOut() async {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+        userId = decodedToken["userId"];
 
         final request = PunchOutRequest(
           empId: userId,
@@ -200,12 +220,12 @@ String unixEpochTimeTo24HourString(int epochTime) {
           print(punchOutMessage);
           showSuccessSnackbar(title: 'Success', message:'You have successfully Punched OUT') ;
 
-// Dismiss the bottom sheet after a short delay
-        Future.delayed(Duration(milliseconds: 300), () {
-          if (Navigator.canPop(context)) {
-            Navigator.pop(context);
-          }
-        });
+// // Dismiss the bottom sheet after a short delay
+//         Future.delayed(Duration(milliseconds: 300), () {
+//           if (Navigator.canPop(context)) {
+//             Navigator.pop(context);
+//           }
+//         });
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);

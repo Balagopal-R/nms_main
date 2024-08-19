@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status_request.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/get_birthdays/get_birthdays_model.dart';
 import 'package:nms/models/get_employe_punch_time_model/get_employee_punch_time_model.dart';
@@ -24,7 +27,7 @@ class DashboardController extends GetxController with SnackbarMixin {
 
   @override
   void onInit() async {
-    
+    await getIdFromToken();
     await getEmployePunchTime();
     await getEmployePunchStatus();
     await getEmployeUpcomingBirthdays();
@@ -86,6 +89,8 @@ class DashboardController extends GetxController with SnackbarMixin {
   final _avgBreakTime = 0.0.obs;
  double get avgBreakTime => _avgBreakTime.value;
 
+ String userId = "";
+
 
  int getTodaysEpochTime() {
   // Get current date without time
@@ -108,8 +113,17 @@ String formatDoubleWithTwoDecimals(double value) {
   return formattedValue;
 }
 
-
-
+  getIdFromToken() async {
+    await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+    await RefreshTokenApiCall().checkTokenExpiration();
+    final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+    if (authToken != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+      String uid = decodedToken["userId"];
+      userId = uid;
+      debugPrint("user id is ------$userId");
+    }
+  }
 
 
 // employee punch time , average punch time, clocked working minutes
@@ -120,7 +134,7 @@ String formatDoubleWithTwoDecimals(double value) {
       final decodedToken = await authService.decodeAuthToken();
       final todaysEpoch = getTodaysEpochTime();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+        userId = decodedToken["userId"];
 
         final request = GetEmployePunchTimeRequest(
             userId: userId, startDate: todaysEpoch-518400, endDate: todaysEpoch);
@@ -226,7 +240,7 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+        userId = decodedToken["userId"];
         final request = GetEmpoyRequest(userId: userId);
         final response =
             await ApiRepository.to.getEmployDetails(request: request);
@@ -252,7 +266,7 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+      userId = decodedToken["userId"];
 
         final request = PunchStatusRequest(userId: userId);
 
@@ -325,7 +339,7 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
     try {
        final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
-      final userId = decodedToken!["userId"];
+      userId = decodedToken!["userId"];
       String today = getTodaysDate();
 
       final request = GetLeavesRequest(
@@ -367,7 +381,7 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+        userId = decodedToken["userId"];
         final request = GetEmployeAttendanceRequest(userId: userId);
         final response = await ApiRepository.to.getAttendance(request: request);
 

@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import 'package:nms/dtos/nms_dtos/file_download_dtos/file_download_request.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
+import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
@@ -62,11 +65,12 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
 
   Map<String, String> documentMap = {'name': '', 'date': '', 'category': ''};
   
-
+  // String userId = "";
   
   @override
   void onInit() async{
     // await listUserDocuments();
+    // await getIdFromToken();
     pagingController.addPageRequestListener((pageKey) {
       listUserDocumentsPagination(pageKey);
     });
@@ -75,6 +79,19 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
     super.onInit();
     requestStoragePermission();
   }
+
+  //       getIdFromToken() async {
+  //   await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
+  //   await RefreshTokenApiCall().checkTokenExpiration();
+  //   final authToken = await NMSSharedPreferences().getTokenFromPrefs();
+  //   if (authToken != null) {
+  //     Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
+  //     String uid = decodedToken["userId"];
+  //     userId = uid;
+  //     debugPrint("user id is ------$userId");
+  //   }
+  // }
+
 
 Future<void> requestStoragePermission() async {
   // Requesting MANAGE_EXTERNAL_STORAGE for Android 10+
@@ -199,7 +216,7 @@ String capitalizeFirstLetter(String text) {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-        final userId = decodedToken["userId"];
+       final userId = decodedToken["userId"];
          File fileFromPath = File(imageFile.xFile.path );
           // File fileFromPath =
       final request =
