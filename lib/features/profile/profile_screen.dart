@@ -120,6 +120,7 @@ class ProfileScreen extends StatelessWidget {
       }
     );
   }
+  
   void _showCustomLogoutDialog(BuildContext context, ProfileController controller) {
     showModalBottomSheet(
       context: context,

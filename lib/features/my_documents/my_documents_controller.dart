@@ -200,15 +200,15 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
-   Future<void> uploadFiles(List<PlatformFile> files)  async{
+   Future<void> uploadFiles(List<PlatformFile> files, BuildContext context)  async{
     for (var file in files){
-          await uploadImage(file);
+          await uploadImage(file, context);
         }
 
      }
 
    // upload image api function
-  Future<void> uploadImage(PlatformFile imageFile) async {
+  Future<void> uploadImage(PlatformFile imageFile, BuildContext context) async {
     String defaultMessage = '';
 
     try {
@@ -236,6 +236,10 @@ String capitalizeFirstLetter(String text) {
         _userFileUpload.value = response.data ;
         print(userFileUpload!.fileUrl);
         showSuccessSnackbar(title: 'Success', message: 'File Upload Successfully');
+        await Future.delayed(Duration(seconds: 4));
+        Navigator.pop(context);
+        onInit();
+       
       //   final response1 = await response.stream.bytesToString();
       //   final parsedJson = json.decode(response1);
       //   var datas = FileUploadModel.fromJson(parsedJson);
@@ -313,6 +317,45 @@ String capitalizeFirstLetter(String text) {
       
     }
   }
+
+  List<PlatformFile> files = [];
+
+void pickFiles() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    allowMultiple: true,
+    type: FileType.custom,
+    allowedExtensions: ['jpg', 'jpeg', 'pdf'],
+  );
+
+  if (result != null) {
+    for (var file in result.files) {
+      final fileExtension = file.extension?.toLowerCase();
+      final fileSizeInMB = file.size / (1024 * 1024);
+
+      if (!(fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'pdf')) {
+        showErrorSnackbar(message: 'Please select a JPEG, JPG, or PDF file.');
+        
+      } else if (fileSizeInMB > 5) {
+        showErrorSnackbar(message: 'The file size should not exceed 5MB.');
+      } else {
+          files.add(file);
+
+          if (files.length > 3) {
+            files = files.sublist(0, 3); // Limit to 3 files
+          }
+          update();
+        
+      }
+    }
+  }
+}
+
+void removeFile(int index) {
+      files.removeAt(index);
+      update();
+    
+  }
+
 
 
 

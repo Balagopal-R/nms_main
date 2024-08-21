@@ -149,7 +149,7 @@ String unixEpochTimeTo24HourString(int epochTime) {
 
 
     //  user punch in
-   userPunchIn() async {
+   userPunchIn(BuildContext context) async {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
@@ -175,13 +175,8 @@ String unixEpochTimeTo24HourString(int epochTime) {
         showSuccessSnackbar(title: 'Success', message:'You have successfully Punched IN') ;
           _punchInMessage.value = response.data;
           print(punchInMessage);
-
-// // Dismiss the bottom sheet after a short delay
-//         Future.delayed(Duration(milliseconds: 300), () {
-//           if (Navigator.canPop(context)) {
-//             Navigator.pop(context);
-//           }
-//         });
+         await Future.delayed(Duration(seconds: 4));
+        Navigator.pop(context);
 
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
@@ -194,7 +189,7 @@ String unixEpochTimeTo24HourString(int epochTime) {
   }
 
       //  user punch Out
-   userPunchOut() async {
+   userPunchOut(BuildContext context) async {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
@@ -219,13 +214,9 @@ String unixEpochTimeTo24HourString(int epochTime) {
           _punchOutMessage.value = response.data;
           print(punchOutMessage);
           showSuccessSnackbar(title: 'Success', message:'You have successfully Punched OUT') ;
+       await Future.delayed(Duration(seconds: 4));
+        Navigator.pop(context); 
 
-// // Dismiss the bottom sheet after a short delay
-//         Future.delayed(Duration(milliseconds: 300), () {
-//           if (Navigator.canPop(context)) {
-//             Navigator.pop(context);
-//           }
-//         });
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);

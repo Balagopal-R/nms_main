@@ -19,7 +19,6 @@ class PunchInRequestSheetContent extends StatelessWidget {
             ),
             margin: EdgeInsets.only(bottom: 16.0),
           ),
-
           GestureDetector(
             onTap: () {
               Navigator.pop(context);

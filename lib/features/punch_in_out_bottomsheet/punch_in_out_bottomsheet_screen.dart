@@ -1,3 +1,5 @@
+
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:nms/features/punch_in_out_bottomsheet/punch_in_out_bottomsheet.dart';
@@ -91,11 +93,11 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
                         controller.isProjectValid.value &&
                         controller.isTaskValid.value) {
                       if (title == 'Punch IN') {
-                      await controller.userPunchIn();
+                      await controller.userPunchIn(context);
     
                   
                     } else {
-                      await controller.userPunchOut();
+                      await controller.userPunchOut(context);
                     }
                     }
                   },
@@ -110,6 +112,28 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
     );
   }
 }
+
+// floatingActionButton: Container(
+//                 height: 60,
+//                 width: double.maxFinite,
+//                 decoration: const BoxDecoration(
+//                   color: Colors.white,
+//                 ),
+//                 child: Padding(
+//                   padding:
+//                       const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+//                   child: CorneredButton(
+//                     height: 40,
+//                     onPress: () async {
+//                       await controller.updateProduct();
+//                     },
+//                     color: primaryColor,
+//                     title: "Update",
+//                     textcolor: backgroundColor,
+//                   ),
+//                 )),
+//             floatingActionButtonLocation:
+//                 FloatingActionButtonLocation.centerDocked,
 
 class DateAndTimePicker extends StatelessWidget {
   final PunchInOutBottomSheetController controller;
@@ -225,6 +249,12 @@ class LocationDropdown extends StatelessWidget {
         const SizedBox(height: 8.0),
 
         Obx(() => DropdownButtonFormField2<String>(
+          iconStyleData:const IconStyleData(icon: const SizedBox()),
+                        
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 150
+                        ),
+                        menuItemStyleData: MenuItemStyleData(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(0),
              errorText: controller.isLocationValid.value ? null : 'Please select location',
@@ -242,21 +272,35 @@ class LocationDropdown extends StatelessWidget {
             ),
             filled: true,
             fillColor: const Color(0xFFFFFFFF),
+                  suffixIcon: Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Image.asset(
+            'assets/png/arrow_down.png', // Replace with your asset path
+            height: 24,
+            width: 24,
+          ),
+        ),
           ),
           isExpanded: true,
-          hint: const Text(
-            'Select',
-            style: TextStyle(fontSize: 16),
-          ),
+          hint: const Padding(
+        padding: EdgeInsets.only(left: 2.0),
+        child: Text(
+          'Select',
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
           items: controller.locations
               .map((item) => DropdownMenuItem<String>(
                     value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                  ))
-              .toList(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: Text(
+                            item,
+                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                        ),
+                      ))
+                  .toList(),
           value: controller.selectedLocation.value.isEmpty ? null : controller.selectedLocation.value,
           validator: (value) {
             if (value == null) {
@@ -297,6 +341,12 @@ class ProjectDropdown extends StatelessWidget {
         const SizedBox(height: 8.0),
 
         Obx(() => DropdownButtonFormField2<String>(
+           iconStyleData:const IconStyleData(icon: const SizedBox()),
+                        
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 150
+                        ),
+                        menuItemStyleData: MenuItemStyleData(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(0),
             errorText: controller.isProjectValid.value ? null : 'Please select project',
@@ -314,21 +364,35 @@ class ProjectDropdown extends StatelessWidget {
             ),
             filled: true,
             fillColor: const Color(0xFFFFFFFF),
+            suffixIcon: Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Image.asset(
+            'assets/png/arrow_down.png', // Replace with your asset path
+            height: 24,
+            width: 24,
+          ),
+        ),
           ),
           isExpanded: true,
-          hint: const Text(
-            'Select',
-            style: TextStyle(fontSize: 16),
-          ),
+          hint: const Padding(
+        padding: EdgeInsets.only(left: 2.0),
+        child: Text(
+          'Select',
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
           items: controller.projects
               .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                  ))
-              .toList(),
+                   value: item,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: Text(
+                            item,
+                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                        ),
+                      ))
+                  .toList(),
           value: controller.selectedProject.value.isEmpty ? null : controller.selectedProject.value,
           onChanged: (value) {
                 controller.selectedProject.value = value!;

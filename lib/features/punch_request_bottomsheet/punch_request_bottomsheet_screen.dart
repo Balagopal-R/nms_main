@@ -135,7 +135,12 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                 
                  // Row 6: Location Dropdown
 
-                              Obx(() =>   DropdownButtonFormField2<String>(
+                              Obx(() =>   DropdownButtonFormField2<String>(iconStyleData:const IconStyleData(icon: const SizedBox()),
+                        
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 150
+                        ),
+                        menuItemStyleData: MenuItemStyleData(),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(0),
                 errorText: controller.isLocationValid.value ? null : 'Please select project',
@@ -153,18 +158,32 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                 ),
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
+                suffixIcon: Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Image.asset(
+            'assets/png/arrow_down.png', // Replace with your asset path
+            height: 24,
+            width: 24,
+          ),
+        ),
               ),
               isExpanded: true,
-              hint: const Text(
-                'Select',
-                style: TextStyle(fontSize: 16),
-              ),
+              hint: const Padding(
+        padding: EdgeInsets.only(left: 2.0),
+        child: Text(
+          'Select',
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
               items: controller.locations // Replace with your list of locations
                   .map((item) => DropdownMenuItem<String>(
                         value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(fontSize: 16, color: Colors.black),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: Text(
+                            item,
+                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                          ),
                         ),
                       ))
                   .toList(),
@@ -178,7 +197,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
               onChanged: (value) {
                 controller.selectedLocation.value = value!;
                 controller.isLocationValid.value = true;
-              }, // Access the controller
+              }, 
             ),
                               ),
         
@@ -410,7 +429,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                         
                          controller.validateForm();
                     if (controller.isLocationValid.value) {
-                      await controller.userPunchRequest();
+                      await controller.userPunchRequest(context);
                     }
 
 

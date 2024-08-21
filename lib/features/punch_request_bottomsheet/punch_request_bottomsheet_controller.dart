@@ -84,7 +84,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
 }
 
     //  User punch Request
-   userPunchRequest() async {
+   userPunchRequest(BuildContext context) async {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
@@ -113,6 +113,9 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
           _punchRequestMessage.value = response.data;
           print(punchRequestMessage);
         showSuccessSnackbar(title: 'Success', message:'You have successfully submitted a new Punch request') ;
+        await Future.delayed(Duration(seconds: 4));
+        Navigator.pop(context);
+        
        
 
         } else if (response.message == "Failed") {
