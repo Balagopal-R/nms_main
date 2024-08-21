@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import 'package:nms/dtos/nms_dtos/file_download_dtos/file_download_request.dart';
-import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
-import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
@@ -19,8 +16,6 @@ import 'package:nms/utils/helpers/validation.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
 import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 
 
 class MyDocumentsController extends GetxController with SnackbarMixin {
@@ -354,6 +349,90 @@ void removeFile(int index) {
       files.removeAt(index);
       update();
     
+  }
+
+  void showCustomDialog(
+      BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          backgroundColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Are you sure you want to delete this document?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF212121),
+                    fontFamily: 'Satoshi',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    height: 1.4, // 140% line height
+                  ),
+                ),
+                SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () {
+                   removeFile(index);
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFA5B5B),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Satoshi',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {
+                    // Handle 'No, go back' action
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(
+                        color: Color(0xFF3BBCA0),
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Color(0xFF3BBCA0),
+                        fontFamily: 'Satoshi',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
 

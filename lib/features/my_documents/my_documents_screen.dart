@@ -1,6 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
@@ -17,7 +16,6 @@ class MyDocumentsScreen extends StatefulWidget {
 
 class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
   bool isSearching = false;
-  double? _progress;
 
   @override
   Widget build(BuildContext context) {
@@ -414,51 +412,6 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
         });
   }
 
-  // void _pickFiles() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
-
-  //   if (result != null) {
-  //     setState(() {
-  //       _files.addAll(result.files);
-
-  //       if (_files.length > 3) {
-  //         _files = _files.sublist(0, 3); // Limit to 3 files
-  //       }
-  //     });
-  //   }
-  // }
-
-//   void _pickFiles() async {
-//   FilePickerResult? result = await FilePicker.platform.pickFiles(
-//     allowMultiple: true,
-//     type: FileType.custom,
-//     allowedExtensions: ['jpg', 'jpeg', 'pdf'],
-//   );
-
-//   if (result != null) {
-//     setState(() {
-//       _files.addAll(result.files.where((file) {
-//         final fileSizeInMB = file.size / (1024 * 1024);
-//         return fileSizeInMB <= 5;
-//       }).toList());
-
-//       if (_files.length > 3) {
-//         _files = _files.sublist(0, 3); // Limit to 3 files
-//       }
-//     });
-//   }
-// }
-
-//   void _removeFile(int index) {
-//     setState(() {
-//       _files.removeAt(index);
-//     });
-//   }
-
-//   void _submit() {
-//     // Implement your submit logic here
-//   }
-
   Widget _buildFileList(MyDocumentsController controller) {
     return ListView.builder(
       shrinkWrap: true,
@@ -475,11 +428,14 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
             title: Text(controller.files[index].name),
             trailing: IconButton(
               icon: const Icon(Icons.close),
-              onPressed: () => controller.removeFile(index),
+              onPressed: () {
+                controller.showCustomDialog(context,index);
+              }
             ),
           ),
         );
       },
     );
   }
+
 }

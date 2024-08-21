@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/login/get_employ/get_employ_request.dart';
@@ -113,6 +113,93 @@ class ProfileController extends GetxController with SnackbarMixin {
       }
     }
   }
+
+ void showCustomLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          backgroundColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Are you sure you want to log out?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF212121),
+                    fontFamily: 'Satoshi',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    height: 1.4, // 140% line height
+                  ),
+                ),
+                SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () async{
+                    //  Navigator.of(context).pop();
+                     await userLogout();
+                     await clearSharedPreferences();
+                     Get.offAllNamed('/signin_screen');
+                     // ignore: use_build_context_synchronously
+                     
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFA5B5B),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Satoshi',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(
+                        color: Color(0xFF3BBCA0),
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Color(0xFF3BBCA0),
+                        fontFamily: 'Satoshi',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  
 
 
 }
