@@ -116,11 +116,9 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(admin,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
                       SizedBox(height: 16),
+                      
                       GestureDetector(
                         onTap: onTap,
-                        // onTap: () {
-                        //  _showCustomDialog(context);
-                        // },
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 16),
                           padding: EdgeInsets.symmetric(vertical: 12),

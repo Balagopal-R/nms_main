@@ -15,6 +15,7 @@ class ApprovalsWidget extends StatelessWidget {
   final String reqTimeTwo;
   final String reqTimeThree;
   final String reqWorkMode;
+  final int index;
   final VoidCallback viewRequestTap;
   final VoidCallback onCancelTap;
 
@@ -31,6 +32,7 @@ class ApprovalsWidget extends StatelessWidget {
     required this.reqTimeTwo,
     required this.reqTimeThree,
     required this.reqWorkMode,
+    required this.index,
     required this.viewRequestTap, 
     required this.onCancelTap
   }) : super(key: key); 
@@ -140,7 +142,6 @@ class ApprovalsWidget extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               tooltipController.showTooltip();
-              print('Baluuuuuuuuuu');
             },
             child: Text(
               '+3',
@@ -186,14 +187,33 @@ class ApprovalsWidget extends StatelessWidget {
         
                         SizedBox(width: 8),
         
+                        // Expanded(
+                        //   child: GestureDetector(
+                        //     onTap: onCancelTap,
+                            
+                        //     child: Container(
+                        //       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(4),
+                        //         border: Border.all(color: Color(0xFFFA5B5B)),
+                        //       ),
+                        //       child: Center(
+                        //         child: Text(
+                        //           'Cancel',
+                        //           style: TextStyle(
+                        //             color: Color(0xFFFA5B5B),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
+
+                      if (controller.punchApprovals[index].status == 'PENDING')
                         Expanded(
                           child: GestureDetector(
                             onTap: onCancelTap,
-                            
-        //                     () {
-        //  _showCustomDialog(context);
-        
-        //                     },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
@@ -211,6 +231,7 @@ class ApprovalsWidget extends StatelessWidget {
                             ),
                           ),
                         ),
+
                       ],
                     ),
                   ],
@@ -223,88 +244,3 @@ class ApprovalsWidget extends StatelessWidget {
     );
   }
 }
-
-
-  void _showCustomDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          backgroundColor: Colors.white,
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  'Are you sure you want to cancel this request?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF212121),
-                    fontFamily: 'Satoshi',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    height: 1.4, // 140% line height
-                  ),
-                ),
-                SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {
-                    // Handle 'Yes, cancel this request' action
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFA5B5B),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Yes, cancel this request',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Satoshi',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                GestureDetector(
-                  onTap: () {
-                    // Handle 'No, go back' action
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.0),
-                      border: Border.all(
-                        color: Color(0xFF3BBCA0),
-                      ),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'No, go back',
-                      style: TextStyle(
-                        color: Color(0xFF3BBCA0),
-                        fontFamily: 'Satoshi',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-  

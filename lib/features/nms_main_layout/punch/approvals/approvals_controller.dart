@@ -155,7 +155,7 @@ class ApprovalsController extends GetxController with SnackbarMixin {
   }
 
   //  listing Punch Approvals View Request
-  userPunchApprovalPendingRequest(int id) async {
+  userPunchApprovalViewRequest(int id) async {
     try {
       final request = PunchApprovalPendingRequest(id: id);
 
@@ -191,6 +191,7 @@ class ApprovalsController extends GetxController with SnackbarMixin {
             title: 'Success', message: 'Approval Request Cancelled');
 
         update();
+        onInit();
       } else if (response.message == "Failed") {
         showErrorSnackbar(message: errorOccuredText);
         update();

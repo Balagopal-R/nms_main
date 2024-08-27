@@ -59,11 +59,13 @@ class ApprovalsScreen extends StatelessWidget {
                 reqTimeThree:
                     controller.formatEpochToTimeStringIN(item.breakDateTime),
                 reqWorkMode: item.punchLocation,
+                index: index,
                 onCancelTap: () async {
                   _showCustomDialog(context, controller, item.id);
                 },
+
                 viewRequestTap: () async {
-                  await controller.userPunchApprovalPendingRequest(item.id);
+                  await controller.userPunchApprovalViewRequest(item.id);
                   await Get.bottomSheet(
                     ApprovalsBottomSheetContent(
                       appliedDate: controller.formatEpochToDateString(
@@ -73,7 +75,7 @@ class ApprovalsScreen extends StatelessWidget {
                       containerColor:
                           controller.getContainerColorBasedOnApprovalStatus(
                               controller.punchApprovalsViewRequest!.status),
-                      statusText: controller.punchApprovalsViewRequest!.status,
+                      statusText: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.status),
                       inTime: controller.formatEpochToTimeString(controller
                           .punchApprovalsViewRequest!
                           .punchLog[0]
@@ -112,8 +114,14 @@ class ApprovalsScreen extends StatelessWidget {
                       reqLocation:
                           controller.punchApprovalsViewRequest!.punchLocation,
                       onTap: () {
-                        _showCustomDialog(context, controller,
+                         if (controller.punchApprovals[index].status == 'PENDING') {
+                          _showCustomDialog(context, controller,
                             controller.punchApprovalsViewRequest!.id);
+                            }
+                            else {
+                              
+                            }
+                        
                       },
                     ),
                     isScrollControlled: true,
