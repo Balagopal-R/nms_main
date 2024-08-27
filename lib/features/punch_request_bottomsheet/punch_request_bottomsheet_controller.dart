@@ -219,6 +219,38 @@ Future<void> selectDateTwo(BuildContext context) async {
   update();
 }
 
+String? punchOutValidationMessage;
+String? breakValidationMessage;
+String? resumeValidationMessage;
+
+void validateTimes() {
+  punchOutValidationMessage = null;
+  breakValidationMessage = null;
+  resumeValidationMessage = null;
+
+  TimeOfDay punchInTime = selectedTimes[0];
+  TimeOfDay punchOutTime = selectedTimes[1];
+  TimeOfDay breakTime = selectedTimes[2];
+  TimeOfDay resumeTime = selectedTimes[3];
+
+  if (punchOutTime.hour < punchInTime.hour || (punchOutTime.hour == punchInTime.hour && punchOutTime.minute <= punchInTime.minute)) {
+    punchOutValidationMessage = "Enter a valid Punch-Out time";
+  }
+
+  if ((breakTime.hour < punchInTime.hour || (breakTime.hour == punchInTime.hour && breakTime.minute <= punchInTime.minute)) ||
+      (breakTime.hour > punchOutTime.hour || (breakTime.hour == punchOutTime.hour && breakTime.minute >= punchOutTime.minute))) {
+    breakValidationMessage = "Enter a valid break time";
+  }
+
+  if ((resumeTime.hour < breakTime.hour || (resumeTime.hour == breakTime.hour && resumeTime.minute <= breakTime.minute)) ||
+      (resumeTime.hour > punchOutTime.hour || (resumeTime.hour == punchOutTime.hour && resumeTime.minute >= punchOutTime.minute))) {
+    resumeValidationMessage = "Enter a valid resume time";
+  }
+
+  update(); // Notify the UI to update
+}
+
+
 
 
      String formatTime24Hour(TimeOfDay time) {
@@ -242,6 +274,7 @@ Future<void> selectDateTwo(BuildContext context) async {
   //   if (pickedTime != null) {
     
   //       selectedTimes[pickerNumber] = pickedTime;
+  //          validateTimes();
       
   //   }
   //   update();
@@ -298,6 +331,7 @@ Future<void> selectDateTwo(BuildContext context) async {
 
   if (pickedTime != null) {
     selectedTimes[pickerNumber] = pickedTime;
+    validateTimes();
   }
   update();
 }

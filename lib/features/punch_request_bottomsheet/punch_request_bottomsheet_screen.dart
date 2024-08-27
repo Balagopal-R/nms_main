@@ -282,6 +282,14 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                   ),
                                 ),
                               ),
+                              if (controller.breakValidationMessage != null)
+      Padding(
+        padding: const EdgeInsets.only(top: 4.0),
+        child: Text(
+          controller.breakValidationMessage!,
+          style: TextStyle(color: Colors.red, fontSize: 12.0),
+        ),
+      ),
                             ],
                           ),
                    
@@ -327,6 +335,15 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                   ),
                                 ),
                               ),
+                                                            if (controller.punchOutValidationMessage != null)
+      Padding(
+        padding: const EdgeInsets.only(top: 4.0),
+        child: Text(
+          controller.punchOutValidationMessage!,
+          style: TextStyle(color: Colors.red, fontSize: 12.0),
+        ),
+      ),
+
                               SizedBox(height: 16.0),
                               Text(
                                 'Resume*',
@@ -365,6 +382,15 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                   ),
                                 ),
                               ),
+                               if (controller.resumeValidationMessage != null)
+      Padding(
+        padding: const EdgeInsets.only(top: 4.0),
+        child: Text(
+          controller.resumeValidationMessage!,
+          style: TextStyle(color: Colors.red, fontSize: 12.0),
+        ),
+      ),
+
                             ],
                           ),
                     ],
