@@ -134,31 +134,14 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
     }
   }
 
-
-//  DateTime selectedDate = DateTime.now(); 
-
-//   Future<void> selectDate(BuildContext context) async {
-//     final DateTime? picked = await showDatePicker(
-//       context: context,
-//       initialDate: selectedDate,
-//       firstDate: DateTime(2018, 1, 1),
-//       lastDate: DateTime(2100, 12, 31),
-//     );
-//     if (picked != null && picked != selectedDate) {
-      
-//         selectedDate = picked;
-//     }
-//     update();
-    
-//   }
-DateTime selectedDate = DateTime.now();
+DateTime selectedDate = DateTime.now().subtract(Duration(days: 1)); // Set initial date to yesterday
 
 Future<void> selectDate(BuildContext context) async {
   final DateTime? picked = await showDatePicker(
     context: context,
     initialDate: selectedDate,
-    firstDate: DateTime(2018, 1, 1),
-    lastDate: DateTime(2100, 12, 31),
+    firstDate: DateTime(2018, 1, 1), // Earliest selectable date (you can adjust this)
+    lastDate: DateTime.now().subtract(Duration(days: 1)), // Restrict to dates before today
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.light().copyWith(
@@ -186,7 +169,7 @@ Future<void> selectDateTwo(BuildContext context) async {
     context: context,
     initialDate: selectedDate,
     firstDate: DateTime(2018, 1, 1),
-    lastDate: DateTime(2100, 12, 31),
+    lastDate: DateTime.now().subtract(Duration(days: 1)), // Restrict to dates before today
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.light().copyWith(
