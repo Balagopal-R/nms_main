@@ -16,9 +16,6 @@ class PunchRequestBottomSheetScreen extends StatefulWidget {
 
 class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetScreen> {
   
-  // String? selectedLocation;
-  // final List<String> locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
-  // bool isLocationSelected = true;
   double componentsHeight = 49 ;
 
 
@@ -374,38 +371,9 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                   ),
             
                 SizedBox(height: 16.0),
+
+                ReasonInput(controller: controller),
         
-                // Row 8: Reason
-                Text(
-                  'Reason*',
-                  style: TextStyle(
-                    color: Color(0xFF7A7A7A),
-                    fontFamily: 'Satoshi',
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(height: 8.0),
-        
-                // Row 9: Reason Text Field
-                Container(
-                  height: componentsHeight*2,
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
-                    border: Border.all(color: Color(0xFFB7B7B7)),
-                    color: Colors.white,
-                  ),
-                  child: TextField(
-                    controller: controller.reasonController,
-                    maxLength: 200,
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '',
-                    ),
-                  ),
-                ),
                 // SizedBox(height: 8.0),
         
                 // // Row 10: Characters Remaining
@@ -425,10 +393,10 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                         title: 'Submit',
                         textcolor: backgroundColor,
                         onPress: () async {
-                        // await controller.userPunchRequest();
                         
                          controller.validateForm();
-                    if (controller.isLocationValid.value) {
+                    if (controller.isLocationValid.value &&
+                        controller.isReasonValid.value) {
                       await controller.userPunchRequest(context);
                     }
 
@@ -440,6 +408,61 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
           ),
         );
       }
+    );
+  }
+}
+
+class ReasonInput extends StatelessWidget {
+  final PunchRequestBottomSheetController controller;
+
+  const ReasonInput({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Reason*',
+          style: TextStyle(
+            color: Color(0xFF7A7A7A),
+            fontFamily: 'Satoshi',
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        const SizedBox(height: 8.0),
+         Obx(() => TextFormField(
+          focusNode: controller.reasonFocusNode,
+          maxLength: 200,
+          maxLines: 5,
+          controller: controller.reasonController,
+          decoration: InputDecoration(
+            hintText: 'Enter task',
+            errorText: controller.isReasonValid.value ? null : 'Please enter a reason',
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+            ),
+            filled: true,
+            fillColor: const Color(0xFFFFFFFF),
+          ),
+          onChanged: (value) {
+                controller.reason.value = value;
+                controller.isReasonValid.value = true;
+              },
+        ),
+         ),
+      ],
     );
   }
 }

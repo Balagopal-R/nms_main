@@ -19,20 +19,24 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   final selectedLocation = ''.obs;
   var isLocationValid = true.obs;
 
+  final FocusNode reasonFocusNode = FocusNode();
+  final reasonController = TextEditingController();
+  var isReasonValid = true.obs;
+  var reason = ''.obs;
+
     var locations = ['WFO', 'WFH', 'On-Site', 'Hybrid'];
 
     String userId = "";
 
     void validateForm() {
    isLocationValid.value = selectedLocation.isNotEmpty;
+   isReasonValid.value = reason.isNotEmpty;
      }
 
   void onLocationSelected(String value) {
     selectedLocation.value = value;
     update(); // Update UI whenever selectedLocation changes
   }
-
-  final reasonController = TextEditingController();
 
 
    @override
@@ -131,25 +135,108 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   }
 
 
- DateTime selectedDate = DateTime.now(); 
+//  DateTime selectedDate = DateTime.now(); 
 
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2018, 1, 1),
-      lastDate: DateTime(2100, 12, 31),
-    );
-    if (picked != null && picked != selectedDate) {
+//   Future<void> selectDate(BuildContext context) async {
+//     final DateTime? picked = await showDatePicker(
+//       context: context,
+//       initialDate: selectedDate,
+//       firstDate: DateTime(2018, 1, 1),
+//       lastDate: DateTime(2100, 12, 31),
+//     );
+//     if (picked != null && picked != selectedDate) {
       
-        selectedDate = picked;
-    }
-    update();
+//         selectedDate = picked;
+//     }
+//     update();
     
+//   }
+DateTime selectedDate = DateTime.now();
+
+Future<void> selectDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: selectedDate,
+    firstDate: DateTime(2018, 1, 1),
+    lastDate: DateTime(2100, 12, 31),
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.light(
+            primary: Colors.green, // Selection color (e.g., selected date circle)
+            onPrimary: Colors.white, // Text color inside the selected date circle
+            surface: Colors.white, // Background color of the date picker
+            onSurface: Colors.black, // Text color for dates
+          ),
+          dialogBackgroundColor: Colors.white, // Background color of the dialog
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  if (picked != null && picked != selectedDate) {
+    selectedDate = picked;
   }
-  // void updateContext(BuildContext context) {
-  //   // You can now use the context here
-  // }
+  update();
+}
+
+Future<void> selectDateTwo(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: selectedDate,
+    firstDate: DateTime(2018, 1, 1),
+    lastDate: DateTime(2100, 12, 31),
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          // Customizing the overall color scheme
+          colorScheme: ColorScheme.light(
+            primary: Colors.green, // Header background color, selection color (e.g., selected date circle)
+            onPrimary: Colors.white, // Text color inside the selected date circle
+            surface: Colors.white, // Background color of the calendar
+            onSurface: Colors.black, // Text color for unselected dates
+        
+          ),
+          // Customizing the dialog background color
+          dialogBackgroundColor: Colors.white, // Background color of the dialog
+          
+          // Customizing the header (e.g., the title bar at the top)
+          textTheme: TextTheme(
+            headline4: TextStyle(color: Colors.green), // Year selector text color
+            subtitle1: TextStyle(color: Colors.black), // Month and day text color in the header
+          ),
+          
+          // Customizing the buttons (OK/Cancel)
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+             
+            ),
+          ),
+
+          // Customizing the day text style
+          datePickerTheme: DatePickerThemeData(
+            dayStyle: TextStyle(color: Colors.black), // Default day text color
+            todayForegroundColor: MaterialStateProperty.all(Colors.white), // Today date text color
+            todayBackgroundColor: MaterialStateProperty.all(Colors.green), // Today date background color
+            rangeSelectionBackgroundColor: Colors.green.withOpacity(0.2), // Background color for range selection
+          ),
+
+          // Customizing the calendar grid
+          
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  if (picked != null && picked != selectedDate) {
+    selectedDate = picked;
+  }
+  update();
+}
+
+
 
      String formatTime24Hour(TimeOfDay time) {
     // Format the time as a two-digit string in 24-hour format
@@ -163,19 +250,75 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
     TimeOfDay(hour: 14, minute: 0), // Resume
   ];
   
-   void showTimePickers(int pickerNumber ,BuildContext context) async {
-    TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: selectedTimes[pickerNumber],
-    );
+  //  void showTimePickers(int pickerNumber ,BuildContext context) async {
+  //   TimeOfDay? pickedTime = await showTimePicker(
+  //     context: context,
+  //     initialTime: selectedTimes[pickerNumber],
+  //   );
 
-    if (pickedTime != null) {
+  //   if (pickedTime != null) {
     
-        selectedTimes[pickerNumber] = pickedTime;
+  //       selectedTimes[pickerNumber] = pickedTime;
       
-    }
-    update();
+  //   }
+  //   update();
+  // }
+
+  void showTimePickers(int pickerNumber, BuildContext context) async {
+  TimeOfDay? pickedTime = await showTimePicker(
+    context: context,
+    initialTime: selectedTimes[pickerNumber],
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          timePickerTheme: TimePickerThemeData(
+            backgroundColor: Colors.white, // Background color
+            hourMinuteShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: Color(0xff3BBCA0)), // Border color around hour/minute
+            ),
+            hourMinuteColor: MaterialStateColor.resolveWith((states) =>
+                states.contains(MaterialState.selected)
+                    ? Color(0xff3BBCA0) // Selected hour/minute background color
+                    : Colors.white), // Unselected hour/minute background color
+            dialBackgroundColor: Colors.white, // Dial background color
+            dayPeriodColor: MaterialStateColor.resolveWith((states) =>
+                states.contains(MaterialState.selected)
+                    ? Color(0xff3BBCA0) // Selected AM/PM background color
+                    : Colors.white), // Unselected AM/PM background color
+            dayPeriodTextColor: MaterialStateColor.resolveWith((states) =>
+                states.contains(MaterialState.selected)
+                    ? Colors.white // Selected AM/PM text color
+                    : Colors.black), // Unselected AM/PM text color
+            dialHandColor: Color(0xff3BBCA0), // Dial hand color
+            dialTextColor: MaterialStateColor.resolveWith((states) =>
+                states.contains(MaterialState.selected)
+                    ? Colors.white // Selected dial text color
+                    : Colors.black), // Unselected dial text color
+            entryModeIconColor: Color(0xff3BBCA0), // Icon color in entry mode
+          ),
+          textTheme: const TextTheme(
+            headlineMedium: TextStyle(color: Colors.black), // Text color
+            titleLarge: TextStyle(color: Color(0xff3BBCA0)), // AM/PM selector text color
+          ),
+          colorScheme: const ColorScheme.light(
+            primary: Color(0xff3BBCA0), // Selection color
+            onPrimary: Colors.white, // Text color on selection
+            surface: Colors.white, // Background color
+            onSurface: Colors.black, // Text color
+          ),
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  if (pickedTime != null) {
+    selectedTimes[pickerNumber] = pickedTime;
   }
+  update();
+}
+
 
   
 }

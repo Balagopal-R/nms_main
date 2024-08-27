@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
