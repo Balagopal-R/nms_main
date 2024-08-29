@@ -169,7 +169,8 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         padding: EdgeInsets.only(left: 2.0),
         child: Text(
           'Select',
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
         ),
       ),
               items: controller.locations // Replace with your list of locations
@@ -449,7 +450,7 @@ class ReasonInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Reason',
+          'Reason*',
           style: TextStyle(
             color: Color(0xFF7A7A7A),
             fontFamily: 'Satoshi',
@@ -465,6 +466,8 @@ class ReasonInput extends StatelessWidget {
           controller: controller.reasonController,
           decoration: InputDecoration(
             hintText: 'Enter task',
+            hintStyle: const TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
             errorText: controller.isReasonValid.value ? null : 'Please enter a reason',
             contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             border: OutlineInputBorder(

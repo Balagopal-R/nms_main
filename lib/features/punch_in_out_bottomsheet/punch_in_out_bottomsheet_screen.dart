@@ -1,5 +1,3 @@
-
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:nms/features/punch_in_out_bottomsheet/punch_in_out_bottomsheet.dart';
@@ -152,7 +150,7 @@ class DateAndTimePicker extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Date*',
+              'Date',
               style: TextStyle(
                 color: Color(0xffD9D9D9),
                 fontFamily: 'Satoshi',
@@ -176,10 +174,13 @@ class DateAndTimePicker extends StatelessWidget {
                   Text(
                     controller.formattedDate,
                     style: const TextStyle(
-                      color: Colors.black,
-                    ),
+                color: Color(0xffD9D9D9),
+                fontFamily: 'Satoshi',
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+              ),
                   ),
-                  const Icon(Icons.calendar_today, color: Colors.grey),
+                  const Icon(Icons.calendar_today, color: Color(0xffD9D9D9)),
                 ],
               ),
             ),
@@ -189,7 +190,7 @@ class DateAndTimePicker extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Time*',
+              'Time',
               style: TextStyle(
                 color: Color(0xffD9D9D9),
                 fontFamily: 'Satoshi',
@@ -213,10 +214,13 @@ class DateAndTimePicker extends StatelessWidget {
                   Text(
                     controller.formattedTime,
                     style: const TextStyle(
-                      color: Colors.black,
-                    ),
+                color: Color(0xffD9D9D9),
+                fontFamily: 'Satoshi',
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+              ),
                   ),
-                  const Icon(Icons.access_time, color: Colors.grey),
+                  const Icon(Icons.access_time, color: Color(0xffD9D9D9)),
                 ],
               ),
             ),
@@ -286,7 +290,8 @@ class LocationDropdown extends StatelessWidget {
         padding: EdgeInsets.only(left: 2.0),
         child: Text(
           'Select',
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
         ),
       ),
           items: controller.locations
@@ -378,7 +383,8 @@ class ProjectDropdown extends StatelessWidget {
         padding: EdgeInsets.only(left: 2.0),
         child: Text(
           'Select',
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
         ),
       ),
           items: controller.projects
@@ -432,6 +438,8 @@ class TaskInput extends StatelessWidget {
           controller: controller.taskController,
           decoration: InputDecoration(
             hintText: 'Enter task',
+            hintStyle: const TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
             errorText: controller.isTaskValid.value ? null : 'Please enter task',
             contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             border: OutlineInputBorder(
@@ -487,6 +495,8 @@ class DescriptionInput extends StatelessWidget {
            maxLines: 4,
           decoration: InputDecoration(
             hintText: 'Enter description',
+            hintStyle: const TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
             contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),

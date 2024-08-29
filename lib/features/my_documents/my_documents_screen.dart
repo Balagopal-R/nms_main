@@ -292,7 +292,8 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                           padding: EdgeInsets.only(left: 2.0),
                           child: Text(
                             'Select',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
                           ),
                         ),
                         items: controller.category
