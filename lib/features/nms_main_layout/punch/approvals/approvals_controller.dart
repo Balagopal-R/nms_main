@@ -75,10 +75,10 @@ class ApprovalsController extends GetxController with SnackbarMixin {
     return formatter.format(dateTime);
   }
 
-  String formatEpochToTimeStringIN(int epoch) {
+  String formatEpochToTimeStringIN(int epoch, String method) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch*1000);
     final formatter = DateFormat('HH:mm');
-    return 'IN - ${formatter.format(dateTime)}';
+    return '$method - ${formatter.format(dateTime)}';
   }
 
   String formatEpochToTimeString(int? epoch) {

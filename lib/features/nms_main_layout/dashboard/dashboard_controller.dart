@@ -91,6 +91,9 @@ class DashboardController extends GetxController with SnackbarMixin {
 
  String userId = "";
 
+ final List<String> daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+ final List<String> monthsInYear = ['JAN', 'MAR', 'MAY', 'JUL', 'SEP', 'NOV', 'DEC'];
+
 
  int getTodaysEpochTime() {
   // Get current date without time

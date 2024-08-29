@@ -71,7 +71,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/svg/calendarRemove.svg',
+              'assets/svg/calendar_remove_colorless.svg',
               height: 24,
               width: 24,
               colorFilter: _selectedIndex == 3 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,

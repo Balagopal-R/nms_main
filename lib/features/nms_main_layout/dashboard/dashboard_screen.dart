@@ -243,7 +243,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 '${controller.formatDoubleWithTwoDecimals(controller.avgBreakTime)} hrs',
                                 'Last 7 days',
                                 'assets/svg/ph_coffee_bold.svg',
-                                Color(0xffFFEECC)),
+                                Color(0xffFFEECC),
+                                Color(0xffF0C27D),
+                                controller.daysOfWeek
+                                ),
                             _buildChartPage(
                                 'Avg Punch Time',
                                 [controller.getEmployeAveragePunchTime[3].clockedWorkingMinutes.toDouble()/3600,
@@ -257,13 +260,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 // '8.6 Hrs',
                                 ' Last 7 days',
                                 'assets/svg/clock.svg',
-                                Color(0xffBEFFE8)),
+                                Color(0xffBEFFE8),
+                                Color(0xff3DC5A2),
+                                controller.daysOfWeek
+                                ),
                             _buildChartPage('Attendance',
                                 [17, 18, 16, 19, 20, 21, 17],
                                  controller.getAttendance.toString(),
                                   'This Month',
                                 'assets/svg/attendance.svg',
-                                Color(0xffDFDFFB)),
+                                Color(0xffDFDFFB),
+                                Color(0xff807DF0),
+                                controller.monthsInYear),
                                             
                                             
                             _buildTextPage(
@@ -288,7 +296,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 'Leave History',
                                 ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
                                 ['Yesterday', 'Feb 19, 2024', 'Feb 17, 2024'],
-                                'assets/svg/teamListing.svg',
+                                'assets/svg/calendar_remove.svg',
                                 Color(0xffDFDFFB),
                                 ['','','']),
                           ].map((i) {
@@ -393,82 +401,95 @@ class _DashboardScreenState extends State<DashboardScreen> {
         });
   }
 
-  List<ChartData> getChartData() {
-    return [
-      ChartData('TUE', 0.8),
-      ChartData('WED', 0.9),
-      ChartData('THU', 1.0),
-      ChartData('FRI', 1.1),
-      ChartData('SAT', 1.2),
-      ChartData('SUN', 1.3),
-      ChartData('MON', 1.4),
-    ];
-  }
+Widget _buildChartPage(
+    String title, List<double> data, String time, String period, String imageName, Color avatarColor, Color lineColor, List<String> xAxis) {
+  // final List<String> daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-  Widget _buildChartPage(
-      String title, List<double> data, String time, String period, String imageName, Color avatarColor) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white, // Equivalent to #FFF
-        borderRadius: BorderRadius.circular(8.0), // 8px rounded corners
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.05), // Slight gray shadow
-            offset: Offset(0, 4), // Shadow slightly below the container
-            blurRadius: 18.0, // Blur the shadow for a softer effect
-          ),
-        ],
-      ),
-
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: Colors.black),
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white, // Equivalent to #FFF
+      borderRadius: BorderRadius.circular(8.0), // 8px rounded corners
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.05), // Slight gray shadow
+          offset: Offset(0, 4), // Shadow slightly below the container
+          blurRadius: 18.0, // Blur the shadow for a softer effect
+        ),
+      ],
+    ),
+    child: Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+              ),
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: avatarColor,
+                child: SvgPicture.asset(
+                  imageName,
+                  height: 24,
+                  width: 24,
                 ),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: avatarColor,
-                  child: SvgPicture.asset(
-              imageName,
-              height: 24,
-              width: 24,
-            ),
+              ),
+            ],
+          ),
+          SizedBox(height: 2),
+          Text(
+            time,
+            style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: Colors.black),
+          ),
+          Text(
+            period,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xff7A7A7A)),
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 150,
+            child: SfCartesianChart(
+              borderWidth: 0, // Remove the border around the chart
+              primaryXAxis: CategoryAxis(
+                majorGridLines: MajorGridLines(width: 0), // Disable gridlines
+                axisLine: AxisLine(width: 0), // Hide the x-axis line
+              ),
+              primaryYAxis: NumericAxis(
+                majorGridLines: MajorGridLines(width: 0), // Disable gridlines
+                axisLine: AxisLine(width: 0), // Hide the y-axis line
+                isVisible: false, // Hide y-axis labels
+              ),
+              series: <CartesianSeries>[
+                LineSeries<ChartData, String>(
+                  color: lineColor, // Set the line color to avatarColor
+                  width: 2, // Line thickness
+                  dataSource: List.generate(
+                    data.length,
+                    (index) => ChartData(xAxis[index % xAxis.length], data[index]),
+                  ),
+                  xValueMapper: (ChartData sales, _) => sales.x,
+                  yValueMapper: (ChartData sales, _) => sales.y,
+                  markerSettings: MarkerSettings(isVisible: false), // Hide data markers
+                  dataLabelSettings: DataLabelSettings(
+                    isVisible: false, // Hide data labels
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 2),
-            Text(time,
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700,color: Colors.black)),
-            Text(period,style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,color: Color(0xff7A7A7A))),
-            SizedBox(height: 10),
-            Container(
-              height: 150,
-              child: SfCartesianChart(
-                primaryXAxis: CategoryAxis(),
-                series: <CartesianSeries>[
-                  LineSeries<ChartData, String>(
-                    dataSource: List.generate(
-                      data.length,
-                      (index) => ChartData('${index + 1}', data[index]),
-                    ),
-                    xValueMapper: (ChartData sales, _) => sales.x,
-                    yValueMapper: (ChartData sales, _) => sales.y,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
+
+
+
 
   // Widget _buildTextPage(String title, List<String> items, List<String> subtexts,
   //     DashboardController controller) 
@@ -580,7 +601,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     onPressed: toggleExpanded,
                   ),
                   CorneredButton(
-                    height: 30,
+                    height: 40,
                     color: primaryColor,
                     title: 'Apply for Leave',
                     textcolor: backgroundColor,
@@ -607,7 +628,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   //   child: Text('Apply for Leave'),
                   // ),
                   CorneredButton(
-                    height: 30,
+                    height: 40,
                     color: primaryColor,
                     title: 'Apply for Leave',
                     textcolor: backgroundColor,

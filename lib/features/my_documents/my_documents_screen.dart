@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:nms/models/documents_list_model/documensts_list_model.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
@@ -105,7 +106,8 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                       vertical: 5.0, horizontal: 10.0),
                   child: ListTile(
                     leading: IconButton(
-                      icon: Image.asset('assets/png/document.png'),
+                      icon: SvgPicture.asset('assets/svg/document.svg'),
+                      iconSize: 15,
                       onPressed: () {},
                     ),
                     title: Text(item.displayName),
@@ -123,7 +125,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                       ],
                     ),
                     trailing: IconButton(
-                      icon: Image.asset('assets/png/download.png'),
+                      icon: SvgPicture.asset('assets/svg/download.svg'),
                       onPressed: () {
                         controller.downloadFile(item.fileName);
                       },

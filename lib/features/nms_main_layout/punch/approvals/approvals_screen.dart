@@ -51,13 +51,13 @@ class ApprovalsScreen extends StatelessWidget {
                     .getContainerColorBasedOnApprovalStatus(item.status),
                 reqDate: controller.formatEpochToMiniDateString(item.shiftDate),
                 reqTime:
-                    controller.formatEpochToTimeStringIN(item.punchInDatetime),
+                    controller.formatEpochToTimeStringIN(item.punchInDatetime, 'IN'),
                 reqTimeOne:
-                    controller.formatEpochToTimeStringIN(item.punchOutDatetime),
+                    controller.formatEpochToTimeStringIN(item.punchOutDatetime, 'OUT'),
                 reqTimeTwo:
-                    controller.formatEpochToTimeStringIN(item.resumeDateTime),
+                    controller.formatEpochToTimeStringIN(item.resumeDateTime, 'RES'),
                 reqTimeThree:
-                    controller.formatEpochToTimeStringIN(item.breakDateTime),
+                    controller.formatEpochToTimeStringIN(item.breakDateTime, 'BRK'),
                 reqWorkMode: item.punchLocation,
                 index: index,
                 onCancelTap: () async {

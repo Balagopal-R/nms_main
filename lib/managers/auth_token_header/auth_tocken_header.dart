@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
 import '../refresh_token_expiry/refresh_token_expiry.dart';
 import '../sharedpreferences/sharedpreferences.dart';
 
@@ -7,7 +8,7 @@ class NMSAuthTokenHeader extends GetxController {
 
   Future<Map<String, String>> getAuthTokenHeader() async {
     await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
-    // await RefreshTokenApiCall().checkTokenExpiration();
+    await RefreshTokenApiCall().checkTokenExpiration();
     final authToken = await NMSSharedPreferences().getTokenFromPrefs();
 
     if (authToken == null) {

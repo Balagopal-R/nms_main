@@ -449,7 +449,7 @@ class ReasonInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Reason*',
+          'Reason',
           style: TextStyle(
             color: Color(0xFF7A7A7A),
             fontFamily: 'Satoshi',

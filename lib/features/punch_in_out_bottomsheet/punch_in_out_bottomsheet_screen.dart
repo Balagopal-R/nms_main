@@ -330,7 +330,7 @@ class ProjectDropdown extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Select Project',
+          'Select Project*',
           style: TextStyle(
             color: Color(0xFF7A7A7A),
             fontFamily: 'Satoshi',
@@ -416,7 +416,7 @@ class TaskInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Task',
+          'Task*',
           style: TextStyle(
             color: Color(0xFF7A7A7A),
             fontFamily: 'Satoshi',
@@ -471,7 +471,7 @@ class DescriptionInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Description*',
+          'Description',
           style: TextStyle(
             color: Color(0xFF7A7A7A),
             fontFamily: 'Satoshi',
