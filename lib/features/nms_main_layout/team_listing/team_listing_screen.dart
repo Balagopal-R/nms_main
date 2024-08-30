@@ -88,6 +88,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
          
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
+              await controller.getLastPunchIn();
               if (controller.getEmployPunchIn?.punchOutDateTime != null) {
                 await showModalBottomSheet(
                   context: context,

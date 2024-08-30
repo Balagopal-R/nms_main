@@ -453,10 +453,12 @@ Widget _buildChartPage(
           Container(
             height: 150,
             child: SfCartesianChart(
-              borderWidth: 0, // Remove the border around the chart
+              plotAreaBorderWidth: 0,
+              borderWidth: 0,
               primaryXAxis: CategoryAxis(
                 majorGridLines: MajorGridLines(width: 0), // Disable gridlines
                 axisLine: AxisLine(width: 0), // Hide the x-axis line
+                majorTickLines: MajorTickLines(size: 0), // Hide the tick marks
               ),
               primaryYAxis: NumericAxis(
                 majorGridLines: MajorGridLines(width: 0), // Disable gridlines

@@ -18,6 +18,7 @@ class ApprovalsScreen extends StatelessWidget {
           backgroundColor: Color(0xffFFAFAFA),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
+              await controller.getLastPunchIn();
               if (controller.getEmployPunchIn!.punchOutDateTime != null) {
                 await showModalBottomSheet(
                   context: context,

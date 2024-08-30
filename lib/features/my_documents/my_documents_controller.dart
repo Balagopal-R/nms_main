@@ -231,7 +231,7 @@ String capitalizeFirstLetter(String text) {
         _userFileUpload.value = response.data ;
         print(userFileUpload!.fileUrl);
         showSuccessSnackbar(title: 'Success', message: 'File Upload Successfully');
-        await Future.delayed(Duration(seconds: 4));
+        await Future.delayed(Duration(seconds: 5));
         Navigator.pop(context);
         onInit();
        

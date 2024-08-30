@@ -34,7 +34,7 @@ class TeamListingController extends GetxController with SnackbarMixin {
     });
     // Trigger the initial page load
     pagingController.refresh();
-    await getLastPunchIn();
+    // await getLastPunchIn();
     super.onInit();
   }
 
