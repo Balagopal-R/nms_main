@@ -249,13 +249,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ),
                             _buildChartPage(
                                 'Avg Punch Time',
-                                [controller.getEmployeAveragePunchTime[3].clockedWorkingMinutes.toDouble()/3600,
+                                [controller.getEmployeAveragePunchTime[0].clockedWorkingMinutes.toDouble()/3600,
+                                controller.getEmployeAveragePunchTime[1].clockedWorkingMinutes.toDouble()/3600,
+                                controller.getEmployeAveragePunchTime[2].clockedWorkingMinutes.toDouble()/3600,
+                                controller.getEmployeAveragePunchTime[3].clockedWorkingMinutes.toDouble()/3600,
                                 controller.getEmployeAveragePunchTime[4].clockedWorkingMinutes.toDouble()/3600,
                                 controller.getEmployeAveragePunchTime[5].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[6].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[0].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[1].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[2].clockedWorkingMinutes.toDouble()/3600,],
+                                controller.getEmployeAveragePunchTime[6].clockedWorkingMinutes.toDouble()/3600,],
                                 '${controller.formatDoubleWithTwoDecimals(controller.avgPunchTime)} hrs',
                                 // '8.6 Hrs',
                                 ' Last 7 days',
@@ -466,7 +466,7 @@ Widget _buildChartPage(
                 isVisible: false, // Hide y-axis labels
               ),
               series: <CartesianSeries>[
-                LineSeries<ChartData, String>(
+                 SplineSeries<ChartData, String>(
                   color: lineColor, // Set the line color to avatarColor
                   width: 2, // Line thickness
                   dataSource: List.generate(
@@ -480,6 +480,7 @@ Widget _buildChartPage(
                     isVisible: false, // Hide data labels
                   ),
                 ),
+
               ],
             ),
           ),

@@ -148,7 +148,10 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => _showBottomSheet(context),
+              onPressed: () {
+                controller.clearFields();
+                _showBottomSheet(context);
+              },
               backgroundColor: const Color(0xFF3BBCA0),
               child: const Image(
                 image: AssetImage('assets/png/plus.png'),

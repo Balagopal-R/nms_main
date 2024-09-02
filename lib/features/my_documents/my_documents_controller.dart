@@ -35,6 +35,10 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
     isCategoryValid.value = selectedCategory.isNotEmpty;
   }
 
+  void clearFields() {
+    selectedCategory.value = '';
+  }
+
   static const _pageSize = 10;
   final PagingController<int, DocumentsListModel> pagingController =
       PagingController(firstPageKey: 0);
