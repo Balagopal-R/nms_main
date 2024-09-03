@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:nms/features/nms_main_layout/dashboard/dashboard.dart';
-import 'package:nms/features/nms_main_layout/leave/leave_screen.dart';
+import 'package:nms/features/nms_main_layout/leave_balance/leave_balance_screen.dart';
 import 'package:nms/features/nms_main_layout/punch/punch_screen.dart';
 import 'package:nms/features/nms_main_layout/team_listing/team_listing.dart';
 
@@ -21,7 +21,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
     DashboardScreen(),
     TeamListingScreen(),
     PunchScreen(),
-    LeaveScreen()
+    LeaveBalanceScreen()
   ];
 
   void _onItemTapped(int index) {
