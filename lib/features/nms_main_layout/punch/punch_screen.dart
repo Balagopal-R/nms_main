@@ -106,33 +106,39 @@ class _PunchScreenState extends State<PunchScreen>
               // Maintain padding around the tab bar
               padding: const EdgeInsets.all(2.0),
               child: Center(
-                // Center the tab bar horizontally
-                child: TabBar(
-                  controller: _controller,
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.white,
-                  
+                child: Container(
+                  width: 320,
+                  decoration: BoxDecoration(
+                    color: Color(0xffF1F1F1),
+                    border: Border.all(color: Color(0xFFB7B7B7), width: .3 )),
+                  child: TabBar(
+                    controller: _controller,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(color: Color(0xFFB7B7B7), width: .2),
+                      color: Colors.white,
+                    
+                    ),
+                    labelColor: primaryColor,
+                    labelStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      // Update here
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      // color: Color(0xFF7A7A7A),  // Set color to #7A7A7A
+                    ),
+                    dividerColor: messageColor,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    unselectedLabelColor: Color(0xFF7A7A7A), // Not needed anymore
+                    tabs: const [
+                      Tab(text: 'History'),
+                      Tab(text: 'Approvals'),
+                      Tab(text: 'Summary'),
+                    ],
                   ),
-                  labelColor: primaryColor,
-                  labelStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  unselectedLabelStyle: const TextStyle(
-                    // Update here
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    // color: Color(0xFF7A7A7A),  // Set color to #7A7A7A
-                  ),
-                  dividerColor: messageColor,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  unselectedLabelColor: Color(0xFF7A7A7A), // Not needed anymore
-                  tabs: const [
-                    Tab(text: 'History'),
-                    Tab(text: 'Approvals'),
-                    Tab(text: 'Summary'),
-                  ],
                 ),
               ),
             ),
