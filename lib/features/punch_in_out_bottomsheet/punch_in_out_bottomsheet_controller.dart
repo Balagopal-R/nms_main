@@ -164,7 +164,7 @@ String unixEpochTimeTo24HourString(int epochTime) {
           task: taskController.text,
           description: descriptionController.text,
           isOnBreak: false,
-          shiftDate: dateTimeToEpoch(formattedDate, "01:00"),
+          shiftDate: '2024-09-03',
           );
 
         final response =
@@ -204,7 +204,7 @@ String unixEpochTimeTo24HourString(int epochTime) {
           task: "Unassigned",
           description: "",
           isOnBreak: false,
-          shiftDate: dateTimeToEpoch(formattedDate, "01:00"),
+          shiftDate: '2024-09-03',
           );
 
         final response =

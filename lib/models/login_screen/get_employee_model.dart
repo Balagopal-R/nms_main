@@ -54,7 +54,7 @@ class EmployeeData {
 class PersonalDetails {
   String firstname;
   String lastname;
-  int? dateOfBirth;
+  String? dateOfBirth;
   String? gender;
   String personalMobileNumber;
   String personalEmail;
@@ -116,7 +116,7 @@ class PersonalDetails {
 class PersonalDetailsBuddy {
   String firstname;
   String lastname;
-  int? dateOfBirth;
+  String? dateOfBirth;
   String? gender;
   String? personalMobileNumber;
   String? personalEmail;
@@ -179,8 +179,8 @@ class CorporateDetails {
   String employeeCode;
   String workMobileNumber;
   String workEmail;
-  int dateOfFirstJoining;
-  int? joiningDate;
+  String? dateOfFirstJoining;
+  String? joiningDate;
   dynamic employmentType;
   Designation designation;
   Department department;
@@ -200,7 +200,7 @@ class CorporateDetails {
     required this.employeeCode,
     required this.workMobileNumber,
     required this.workEmail,
-    required this.dateOfFirstJoining,
+    this.dateOfFirstJoining,
      this.joiningDate,
     this.employmentType,
     required this.designation,
@@ -256,7 +256,7 @@ class Buddy {
   dynamic corporateDetails;
   bool? isActive;
   bool? isArchived;
-  dynamic archiveDate;
+  String? archiveDate;
   dynamic archiveType;
   dynamic archiveReason;
 

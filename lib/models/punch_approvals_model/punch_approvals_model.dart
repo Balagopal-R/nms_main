@@ -3,7 +3,7 @@ class PunchApprovalsModel {
     String empId;
     String unitId;
     String orgId;
-    int shiftDate;
+    String shiftDate;
     int punchInDatetime;
     int punchOutDatetime;
     String punchLocation;

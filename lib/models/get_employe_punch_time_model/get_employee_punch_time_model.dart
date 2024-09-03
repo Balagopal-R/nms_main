@@ -1,6 +1,6 @@
 class GetEmployeePunchTimeModel {
-    int startDate;
-    int endDate;
+    String startDate;
+    String endDate;
     int day;
     int clockedWorkingMinutes;
     int clockedBreakMinutes;

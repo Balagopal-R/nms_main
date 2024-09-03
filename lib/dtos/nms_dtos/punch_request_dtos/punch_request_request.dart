@@ -1,6 +1,6 @@
 class PunchRequestRequest {
   String empId;
-  int shiftDate;
+  String shiftDate;
   String punchLocation;
   int punchInDateTime;
   int punchOutDateTime;

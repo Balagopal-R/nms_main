@@ -6,7 +6,7 @@ class PunchOutRequest {
   String task;
   String? description;
   bool isOnBreak;
-  int shiftDate;
+  String shiftDate;
 
   PunchOutRequest({required this.empId,required this.punchOutDateTime, required this.punchLocation,
    required this.projectCode, required this.task,this.description,

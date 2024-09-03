@@ -50,7 +50,7 @@ class ApprovalsScreen extends StatelessWidget {
                     controller.getColorBasedOnApprovalStatus(item.status),
                 containerColor: controller
                     .getContainerColorBasedOnApprovalStatus(item.status),
-                reqDate: controller.formatEpochToMiniDateString(item.shiftDate),
+                reqDate: item.shiftDate,
                 reqTime:
                     controller.formatEpochToTimeStringIN(item.punchInDatetime, 'IN'),
                 reqTimeOne:

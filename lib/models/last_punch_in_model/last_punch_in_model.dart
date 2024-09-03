@@ -2,7 +2,7 @@ class LastPunchInModel {
     String empId;
     String unitId;
     String orgId;
-    int shiftDate;
+    String shiftDate;
     int punchInDateTime;
     int? punchOutDateTime;
     String punchLocation;

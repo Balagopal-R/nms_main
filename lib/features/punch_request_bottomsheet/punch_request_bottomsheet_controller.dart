@@ -43,6 +43,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   void onInit() async{
   super.onInit();
   await getIdFromToken();
+  print(DateFormat('yyyy-MM-dd').format(selectedDate));
 
   }
 
@@ -97,7 +98,8 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
 
         final request = PunchRequestRequest(
           empId: userId,
-          shiftDate: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), '01:00'),
+          shiftDate: DateFormat('yyyy-MM-dd').format(selectedDate),
+          // shiftDate: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), '01:00'),
           punchInDateTime: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), formatTime24Hour(selectedTimes[0])),
           punchOutDateTime: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), formatTime24Hour(selectedTimes[1])),
           breakDateTime: dateTimeToEpoch(DateFormat('dd/MM/yyyy').format(selectedDate), formatTime24Hour(selectedTimes[2])),

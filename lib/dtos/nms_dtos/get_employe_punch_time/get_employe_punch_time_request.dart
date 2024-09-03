@@ -1,7 +1,7 @@
 class GetEmployePunchTimeRequest {
   String userId;
-  int startDate;
-  int endDate;
+  String startDate;
+  String endDate;
 
   GetEmployePunchTimeRequest({required this.userId, required this.startDate, required this.endDate});
 

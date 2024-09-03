@@ -140,7 +140,7 @@ String formatDoubleWithTwoDecimals(double value) {
         userId = decodedToken["userId"];
 
         final request = GetEmployePunchTimeRequest(
-            userId: userId, startDate: todaysEpoch-518400, endDate: todaysEpoch);
+            userId: userId, startDate: '2024-08-28', endDate: '2024-09-03');
 
         final response =
             await ApiRepository.to.getEmployePunchTime(request: request);
