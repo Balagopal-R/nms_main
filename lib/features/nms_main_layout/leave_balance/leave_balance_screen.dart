@@ -4,6 +4,8 @@ import 'approvals_leave/approvals_leave.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'leave_bottomsheet/apply_leave_bottomsheet.dart';
+
 class LeaveBalanceScreen extends StatefulWidget {
   const LeaveBalanceScreen({super.key});
 
@@ -57,6 +59,14 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
       ),
       floatingActionButton: FloatingActionButton(
   onPressed: () {
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ApplyLeaveBottomSheetScreen();
+      },
+    );
 
   },
    backgroundColor: Color(0xFF3BBCA0),

@@ -17,11 +17,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
 import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 
-
 class MyDocumentsController extends GetxController with SnackbarMixin {
-
   var uploadedImageMessage = "".obs;
-  
 
   late File? imageFile = null;
   late String? imageName = null;
@@ -29,9 +26,16 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
 
   var isCategoryValid = true.obs;
   var selectedCategory = ''.obs;
-  var category = ['PROFILE_IMAGE', 'PERSONAL', 'ACADEMIC', 'WORK', 'MEDICAL','OTHERS'];
+  var category = [
+    'PROFILE_IMAGE',
+    'PERSONAL',
+    'ACADEMIC',
+    'WORK',
+    'MEDICAL',
+    'OTHERS'
+  ];
 
-    void validateForm() {
+  void validateForm() {
     isCategoryValid.value = selectedCategory.isNotEmpty;
   }
 
@@ -43,15 +47,15 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
   final PagingController<int, DocumentsListModel> pagingController =
       PagingController(firstPageKey: 0);
 
-
   final _uploadedImagevalue = (List<String>.empty(growable: true)).obs;
   List<String> get uploadedImagevalue => _uploadedImagevalue.value;
 
-   final _listEmployeDocuments = (List<DocumentsListModel>.empty()).obs;
+  final _listEmployeDocuments = (List<DocumentsListModel>.empty()).obs;
   List<DocumentsListModel> get listEmployeDocuments => _listEmployeDocuments;
 
-   final _employeDocumentDetails = (List<Map<String, String>>.empty()).obs;
-  List<Map<String, String>> get employeDocumentDetails => _employeDocumentDetails;
+  final _employeDocumentDetails = (List<Map<String, String>>.empty()).obs;
+  List<Map<String, String>> get employeDocumentDetails =>
+      _employeDocumentDetails;
 
   // final _employeDocumentDetailsMap = (Map<String, String>.empty()).obs;
   // Map<String, String> get employeDocumentDetailsMap => _employeDocumentDetailsMap;
@@ -59,21 +63,21 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
   final _userFileUpload = Rx<FileUploadModel?>(null);
   FileUploadModel? get userFileUpload => _userFileUpload.value;
 
-    final _extractedFirstPart = "".obs;
+  final _extractedFirstPart = "".obs;
   String get extractedFirstPart => _extractedFirstPart.value;
 
   Map<String, String> documentMap = {'name': '', 'date': '', 'category': ''};
-  
+
   // String userId = "";
-  
+
   @override
-  void onInit() async{
+  void onInit() async {
     // await listUserDocuments();
     // await getIdFromToken();
     pagingController.addPageRequestListener((pageKey) {
       listUserDocumentsPagination(pageKey);
     });
-     // Trigger the initial page load
+    // Trigger the initial page load
     pagingController.refresh();
     super.onInit();
     requestStoragePermission();
@@ -91,40 +95,36 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
   //   }
   // }
 
-
-Future<void> requestStoragePermission() async {
-  // Requesting MANAGE_EXTERNAL_STORAGE for Android 10+
-  if (await Permission.manageExternalStorage.request().isGranted) {
-    // Permission granted for Android 10+
-    debugPrint("Manage External Storage Permission Granted");
-  } else if (await Permission.storage.request().isGranted) {
-    // Permission granted for Android 9 and below
-    debugPrint("Storage Permission Granted");
-  } else {
-    // Handle permission denial
-    debugPrint("Storage Permission Denied");
+  Future<void> requestStoragePermission() async {
+    // Requesting MANAGE_EXTERNAL_STORAGE for Android 10+
+    if (await Permission.manageExternalStorage.request().isGranted) {
+      // Permission granted for Android 10+
+      debugPrint("Manage External Storage Permission Granted");
+    } else if (await Permission.storage.request().isGranted) {
+      // Permission granted for Android 9 and below
+      debugPrint("Storage Permission Granted");
+    } else {
+      // Handle permission denial
+      debugPrint("Storage Permission Denied");
+    }
   }
-}
 
-  
+  String epochTimeToFormattedDate(int epochTime) {
+    // Convert epoch time to DateTime object
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(epochTime);
 
-String epochTimeToFormattedDate (int epochTime) {
-  // Convert epoch time to DateTime object
-  final dateTime = DateTime.fromMillisecondsSinceEpoch(epochTime);
+    // Use DateFormat to format the date string
+    final formattedDate = DateFormat('dd MMM yy').format(dateTime);
 
-  // Use DateFormat to format the date string
-  final formattedDate = DateFormat('dd MMM yy').format(dateTime);
+    return formattedDate;
+  }
 
-  return formattedDate;
-}
+  String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
 
-String capitalizeFirstLetter(String text) {
-  if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
 
-  return text[0].toUpperCase() + text.substring(1).toLowerCase();
-}
-
-  
   //  list uploaded user documents with Pagination
   Future<void> listUserDocumentsPagination(int pageKey) async {
     try {
@@ -135,16 +135,16 @@ String capitalizeFirstLetter(String text) {
 
         final request = DocumentsListRequest(
           field: "",
-          sortOfOrder:"" ,
+          sortOfOrder: "",
           page: pageKey,
           size: _pageSize,
-          userId: userId,);
+          userId: userId,
+        );
 
-        final response =
-            await ApiRepository.to.listDocuments(request: request);
+        final response = await ApiRepository.to.listDocuments(request: request);
 
-        if (response.status == 200 ) {
-           final isLastPage = response.pagination?.totalPages == pageKey;
+        if (response.status == 200) {
+          final isLastPage = response.pagination?.totalPages == pageKey;
           if (isLastPage) {
             pagingController.appendLastPage(response.data);
           } else {
@@ -154,7 +154,6 @@ String capitalizeFirstLetter(String text) {
           // pagingController.appendPage(response.data , pageKey+1);
           _listEmployeDocuments.addAll(response.data);
           update();
-         
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
@@ -165,7 +164,6 @@ String capitalizeFirstLetter(String text) {
       pagingController.error = e.toString();
       update();
       return catchErrorSection(e);
-      
     }
   }
 
@@ -199,78 +197,74 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
-   Future<void> uploadFiles(List<PlatformFile> files, BuildContext context)  async{
-    for (var file in files){
-          await uploadImage(file, context);
-        }
+  Future<void> uploadFiles(
+      List<PlatformFile> files, BuildContext context) async {
+    for (var file in files) {
+      await uploadImage(file, context);
+    }
+  }
 
-     }
-
-   // upload image api function
+  // upload image api function
   Future<void> uploadImage(PlatformFile imageFile, BuildContext context) async {
     String defaultMessage = '';
 
     try {
-
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
-       final userId = decodedToken["userId"];
-         File fileFromPath = File(imageFile.xFile.path );
-          // File fileFromPath =
-      final request =
-          FileUploadRequest(
-            userId: userId, 
+        final userId = decodedToken["userId"];
+        File fileFromPath = File(imageFile.xFile.path);
+        // File fileFromPath =
+        final request = FileUploadRequest(
+            userId: userId,
             file: fileFromPath,
             // category: 'PERSONAL',
-            category: selectedCategory.value
-            );
-            print('request:${request.toString()}');
-        
+            category: selectedCategory.value);
+        print('request:${request.toString()}');
 
-      final response = await ApiRepository.to.fileUpload(request: request);
-       print('response:${response.toString()}');
+        final response = await ApiRepository.to.fileUpload(request: request);
+        print('response:${response.toString()}');
 
-      if (response.status == 200) {
-        _userFileUpload.value = response.data ;
-        print(userFileUpload!.fileUrl);
-        showSuccessSnackbar(title: 'Success', message: 'File Upload Successfully');
-        await Future.delayed(Duration(seconds: 5));
-        Navigator.pop(context);
-        onInit();
-       
-      //   final response1 = await response.stream.bytesToString();
-      //   final parsedJson = json.decode(response1);
-      //   var datas = FileUploadModel.fromJson(parsedJson);
-      //   var message = datas.fileUrl;
-        
-      //   // uploadedImageMessage.value = message;
-      //   if (uploadedImagevalue.length < 3) {
-      //     uploadedImagevalue.add(_extractLastSegment(message));
-      //     _extractedFirstPart.value = _extractFirstSegment(message);
-      //   } else {
-      //     showErrorSnackbar(message: "Maximum 3 images can be uploaded");
-          
-      //   }
+        if (response.status == 200) {
+          _userFileUpload.value = response.data;
+          print(userFileUpload!.fileUrl);
+          showSuccessSnackbar(
+              title: 'Success', message: 'File Upload Successfully');
+          await Future.delayed(Duration(seconds: 5));
+          Navigator.pop(context);
+          onInit();
 
-      //   // print(uploadedImagevalue);
+          //   final response1 = await response.stream.bytesToString();
+          //   final parsedJson = json.decode(response1);
+          //   var datas = FileUploadModel.fromJson(parsedJson);
+          //   var message = datas.fileUrl;
 
-      //   debugPrint('-----Stored file name :$message-----');
-      //   update();
-      // } else {
-      //   debugPrint('fail');
-      //   uploadedImageMessage.value = defaultMessage;
+          //   // uploadedImageMessage.value = message;
+          //   if (uploadedImagevalue.length < 3) {
+          //     uploadedImagevalue.add(_extractLastSegment(message));
+          //     _extractedFirstPart.value = _extractFirstSegment(message);
+          //   } else {
+          //     showErrorSnackbar(message: "Maximum 3 images can be uploaded");
+
+          //   }
+
+          //   // print(uploadedImagevalue);
+
+          //   debugPrint('-----Stored file name :$message-----');
+          //   update();
+          // } else {
+          //   debugPrint('fail');
+          //   uploadedImageMessage.value = defaultMessage;
+        }
       }
-      }
-    } 
-   catch (e) {
+    } catch (e) {
       showErrorSnackbar(message: e.toString());
-           uploadedImageMessage.value = defaultMessage;
+      uploadedImageMessage.value = defaultMessage;
       debugPrint(e.toString());
     }
   }
 
-   deleteFileByName(String name) async {
+  deleteFileByName(String name) async {
     // _isLoading.value = true;
     try {
       final request = DeleteFileByNameRequest(fileName: name);
@@ -295,68 +289,59 @@ String capitalizeFirstLetter(String text) {
     }
   }
 
-
   Future<void> downloadFile(String fileName) async {
-     await requestStoragePermission();
+    await requestStoragePermission();
     try {
-          final request = FileDownloadRequest(
-            fileName: fileName);
-          final response =
-            await ApiRepository.to.fileDownload(request: request);
+      final request = FileDownloadRequest(fileName: fileName);
+      final response = await ApiRepository.to.fileDownload(request: request);
 
-        print(response.toString());
-        showSuccessSnackbar(title: 'Success', message: 'File Downloaded Successfully');
-
-        
-    
+      print(response.toString());
+      showSuccessSnackbar(
+          title: 'Success', message: 'File Downloaded Successfully');
     } catch (e) {
-     
       update();
       return catchErrorSection(e);
-      
     }
   }
 
   List<PlatformFile> files = [];
 
-void pickFiles() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
-    allowMultiple: true,
-    type: FileType.custom,
-    allowedExtensions: ['jpg', 'jpeg', 'pdf'],
-  );
+  void pickFiles() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'pdf'],
+    );
 
-  if (result != null) {
-    for (var file in result.files) {
-      final fileExtension = file.extension?.toLowerCase();
-      final fileSizeInMB = file.size / (1024 * 1024);
+    if (result != null) {
+      for (var file in result.files) {
+        final fileExtension = file.extension?.toLowerCase();
+        final fileSizeInMB = file.size / (1024 * 1024);
 
-      if (!(fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'pdf')) {
-        showErrorSnackbar(message: 'Please select a JPEG, JPG, or PDF file.');
-        
-      } else if (fileSizeInMB > 5) {
-        showErrorSnackbar(message: 'The file size should not exceed 5MB.');
-      } else {
+        if (!(fileExtension == 'jpg' ||
+            fileExtension == 'jpeg' ||
+            fileExtension == 'pdf')) {
+          showErrorSnackbar(message: 'Please select a JPEG, JPG, or PDF file.');
+        } else if (fileSizeInMB > 5) {
+          showErrorSnackbar(message: 'The file size should not exceed 5MB.');
+        } else {
           files.add(file);
 
           if (files.length > 3) {
             files = files.sublist(0, 3); // Limit to 3 files
           }
           update();
-        
+        }
       }
     }
   }
-}
 
-void removeFile(int index) {
-      files.removeAt(index);
-      update();
-    
+  void removeFile(int index) {
+    files.removeAt(index);
+    update();
   }
 
-  void showCustomDialog(
-      BuildContext context, int index) {
+  void showCustomDialog(BuildContext context, int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -384,7 +369,7 @@ void removeFile(int index) {
                 SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
-                   removeFile(index);
+                    removeFile(index);
                     Navigator.of(context).pop();
                   },
                   child: Container(
@@ -438,8 +423,4 @@ void removeFile(int index) {
       },
     );
   }
-
-
-
-
 }
