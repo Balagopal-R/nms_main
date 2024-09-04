@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/leave_balance/balances/balance_screen.dart';
 import 'approvals_leave/approvals_leave.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LeaveBalanceScreen extends StatefulWidget {
   const LeaveBalanceScreen({super.key});
@@ -19,6 +20,18 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
   void initState() {
     super.initState();
     _controller = TabController(length: 2, vsync: this, initialIndex: 0);
+    _controller?.addListener(_handleTabSelection); // Add listener
+  }
+
+    void _handleTabSelection() {
+    setState(() {}); // Update the UI when the tab changes
+  }
+
+    @override
+  void dispose() {
+    _controller?.removeListener(_handleTabSelection);
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override
@@ -29,14 +42,27 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
         backgroundColor: Color(0xffFFAFAFA),
         title: Text('Leave Balance'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Image.asset('assets/png/calendar.png', height: 24, width: 24),
-            onPressed: () {},
-          ),
-        ],
+        actions: _controller?.index == 1 // Check if the ApprovalsLeaveScreen is selected
+            ? [
+                IconButton(
+                   icon: Padding(
+                     padding: const EdgeInsets.only(right: 8.0),
+                     child: SvgPicture.asset('assets/svg/filter.svg', height: 24, width: 24),
+                   ),
+                  onPressed: () {},
+                ),
+              ]
+            : [], // No actions if BalancesScreen is selected
 
       ),
+      floatingActionButton: FloatingActionButton(
+  onPressed: () {
+
+  },
+   backgroundColor: Color(0xFF3BBCA0),
+   foregroundColor: Colors.white,
+   child: const Icon(Icons.add),
+),
       body: Padding(
         padding: const EdgeInsets.only(left: 22, right: 22, bottom: 8),
         child: Column(
@@ -50,8 +76,9 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
                 child: Container(
                   width: 250,
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
                     color: Color(0xffF1F1F1),
-                    border: Border.all(color: Color(0xFFB7B7B7), width: .3 )),
+                    border: Border.all(color: Color(0xFFB7B7B7), width: .1 )),
                   child: TabBar(
                     controller: _controller,
                     indicator: BoxDecoration(

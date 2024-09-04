@@ -1,14 +1,163 @@
 import 'package:flutter/material.dart';
+import 'package:nms/features/nms_main_layout/leave_balance/approvals_leave/approvals_leave_controller.dart';
+import 'package:nms/features/nms_main_layout/leave_balance/approvals_leave/widgets/leave_approvals_bottomsheet.dart';
+import 'package:nms/features/nms_main_layout/leave_balance/approvals_leave/widgets/leave_approvals_widget.dart';
+import 'package:nms/models/punch_approvals_model/punch_approvals_model.dart';
+import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ApprovalsLeaveScreen extends StatelessWidget {
-  const ApprovalsLeaveScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Approvals Leave Screen'),
-      ),
+    return GetBuilder<ApprovalsLeaveController>(
+      init: ApprovalsLeaveController(),
+      builder: (controller) {
+        return Scaffold(
+          backgroundColor: Color(0xffFFAFAFA),
+          body: PagedListView<int, PunchApprovalsModel>(
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<PunchApprovalsModel>(
+              itemBuilder: (context, item, index) => LeaveApprovalsWidget(
+                date: '',
+                statusText: '',
+                statusColor: Colors.amber,
+                containerColor: Colors.amber,
+                leaveType: '',
+                appliedOn: '',
+                approvedRejectedBy: '',
+                index: index,
+                onCancelTap: () async {
+                  // _showCustomDialog(context, controller, item.id);
+                },
+
+                viewRequestTap: () async {
+                  // await controller.userPunchApprovalViewRequest(item.id);
+                  await Get.bottomSheet(
+                    LeaveApprovalsBottomSheet(
+                      appliedDate: '',
+                      statusColor: Colors.lightGreen,
+                      containerColor:Colors.lightGreen,
+                      statusText: '',
+                      dateFrom: '',
+                      leaveType: '',
+                      by: '',
+                      admin: '',
+                      dateTo: '',
+                      reqBreakTime: '',
+                      comments: '',
+                      onTap: () {
+                        //  if (controller.punchApprovals[index].status == 'PENDING') {
+                        //   _showCustomDialog(context, controller,
+                        //     controller.punchApprovalsViewRequest!.id);
+                        //     }
+                        //     else {
+                              
+                        //     }
+                        
+                      },
+                    ),
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                  );
+                },
+              ),
+              firstPageErrorIndicatorBuilder: (context) => Center(
+                child: Text('Error occurred, please try again.'),
+              ),
+              noItemsFoundIndicatorBuilder: (context) => Center(
+                child: Text('No punch approvals found.'),
+              ),
+              newPageProgressIndicatorBuilder: (context) => Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showCustomDialog(
+      BuildContext context, ApprovalsLeaveController controller, int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          backgroundColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Are you sure you want to cancel this request?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF212121),
+                    fontFamily: 'Satoshi',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    height: 1.4, // 140% line height
+                  ),
+                ),
+                SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () {
+                    // controller.userPunchRequestCancel(id);
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFA5B5B),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Yes, cancel this request',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Satoshi',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {
+                    // Handle 'No, go back' action
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(
+                        color: Color(0xFF3BBCA0),
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No, go back',
+                      style: TextStyle(
+                        color: Color(0xFF3BBCA0),
+                        fontFamily: 'Satoshi',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
