@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nms/features/nms_main_layout/punch/approvals/approvals_controller.dart';
 import 'package:get/get.dart';
+import '../approvals_leave.dart';
 
 class LeaveApprovalsWidget extends StatelessWidget {
 
@@ -35,8 +35,8 @@ class LeaveApprovalsWidget extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return GetBuilder<ApprovalsController>(
-      init: ApprovalsController(),
+    return GetBuilder<ApprovalsLeaveController>(
+      init: ApprovalsLeaveController(),
       builder: (controller) {
         return SingleChildScrollView(
           child: Padding(
@@ -137,27 +137,27 @@ class LeaveApprovalsWidget extends StatelessWidget {
         
                         SizedBox(width: 8),
 
-                      // if (controller.punchApprovals[index].status == 'PENDING')
-                      //   Expanded(
-                      //     child: GestureDetector(
-                      //       onTap: onCancelTap,
-                      //       child: Container(
-                      //         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      //         decoration: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(4),
-                      //           border: Border.all(color: Color(0xFFFA5B5B)),
-                      //         ),
-                      //         child: Center(
-                      //           child: Text(
-                      //             'Cancel',
-                      //             style: TextStyle(
-                      //               color: Color(0xFFFA5B5B),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
+                      if (controller.leaveApprovals[index].status == 'PENDING' || controller.leaveApprovals[index].status == 'ACCEPTED')
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: onCancelTap,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: Color(0xFFFA5B5B)),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    color: Color(0xFFFA5B5B),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
 
                       ],
                     ),

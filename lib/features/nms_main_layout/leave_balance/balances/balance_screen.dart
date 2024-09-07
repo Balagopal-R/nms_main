@@ -1,53 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:nms/features/nms_main_layout/leave_balance/balances/balances.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:get/get.dart';
+
+import '../../../../models/get_remaining_leaves/get_remaining_leaves_model.dart';
 
 class BalancesScreen extends StatelessWidget {
   const BalancesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child:  Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GetBuilder<BalancesController>(
+      init: BalancesController(),
+      builder: (controller) {
+        return Scaffold(
+          body: Center(
+            child:  Column(
                   children: [
-                    IconButton(
-                      icon: Icon(Icons.chevron_left),
-                      onPressed: () {},
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.chevron_left),
+                          onPressed: () {},
+                        ),
+                        Text('01 Apr 2023 to 31 Mar 2024'),
+                        IconButton(
+                          icon: Icon(Icons.chevron_right),
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
-                    Text('01 Apr 2023 to 31 Mar 2024'),
-                    IconButton(
-                      icon: Icon(Icons.chevron_right),
-                      onPressed: () {},
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Leave Type'),
+                        Text('Taken'),
+                        Text('Remaining'),
+                      ],
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Leave Type'),
-                    Text('Taken'),
-                    Text('Remaining'),
-                  ],
-                ),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      _leaveContainer("CL", [4, 6, 5], 0.8,10),
-                      _leaveContainer("SL", [2, 4, 6], 0.8,12),
-                      _leaveContainer("PL", [3, 5, 7], 0.8,12),
-                      _leaveContainer("ML", [0, 0, 0], 0.8,8),
-                      _leaveContainer("VL", [1, 20, 0], 0.8,15),
-                      _leaveContainer("SPL", [3, 4, 5], 0.8,10),
-                    ],
-                  ),
-                ),
-              ],
+                    Expanded(
+                      child: PagedListView<int, GetRemainingLeavesModel>(
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<GetRemainingLeavesModel>(
+              itemBuilder: (context, item, index) =>  _leaveContainer(controller.getEmployeRemainingLeaves[index].nameAbbr,
+                                                                     [4, 6, 5],  
+                                                                     controller.getEmployeRemainingLeaves[index].balanceLeaves/controller.getEmployeRemainingLeaves[index].totalLeaves,
+                                                                     controller.getEmployeRemainingLeaves[index].totalLeaves),
+              
+              firstPageErrorIndicatorBuilder: (context) => Center(
+                child: Text('Error occurred, please try again.'),
+              ),
+              noItemsFoundIndicatorBuilder: (context) => Center(
+                child: Text('No team listing found.'),
+              ),
+              newPageProgressIndicatorBuilder: (context) => Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
-      ),
+          ),
+                      
+                      
+                      
+                      // ListView(
+                      //   children: [
+                      //     _leaveContainer("CL", [4, 6, 5], 0.8,10),
+                      //     _leaveContainer("SL", [2, 4, 6], 0.8,12),
+                      //     _leaveContainer("PL", [3, 5, 7], 0.8,12),
+                      //     _leaveContainer("ML", [0, 0, 0], 0.8,8),
+                      //     _leaveContainer("VL", [1, 20, 0], 0.8,15),
+                      //     _leaveContainer("SPL", [3, 4, 5], 0.8,10),
+                       
+
+                      //   ],
+                      // ),
+                    ),
+                  ],
+                ),
+          ),
+        );
+      }
     );
   }
 

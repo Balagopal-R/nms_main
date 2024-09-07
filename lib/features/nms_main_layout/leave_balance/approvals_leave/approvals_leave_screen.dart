@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/leave_balance/approvals_leave/approvals_leave_controller.dart';
 import 'package:nms/features/nms_main_layout/leave_balance/approvals_leave/widgets/leave_approvals_bottomsheet.dart';
 import 'package:nms/features/nms_main_layout/leave_balance/approvals_leave/widgets/leave_approvals_widget.dart';
-import 'package:nms/models/punch_approvals_model/punch_approvals_model.dart';
+import 'package:nms/models/leave_approvals_model/leave_approvals_model.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -14,32 +14,31 @@ class ApprovalsLeaveScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           backgroundColor: Color(0xffFFAFAFA),
-          body: PagedListView<int, PunchApprovalsModel>(
+          body: PagedListView<int, LeaveApprovalsModel>(
             pagingController: controller.pagingController,
-            builderDelegate: PagedChildBuilderDelegate<PunchApprovalsModel>(
+            builderDelegate: PagedChildBuilderDelegate<LeaveApprovalsModel>(
               itemBuilder: (context, item, index) => LeaveApprovalsWidget(
-                date: '',
-                statusText: '',
-                statusColor: Colors.amber,
-                containerColor: Colors.amber,
-                leaveType: '',
-                appliedOn: '',
+                date: '${controller.formatDate(item.leaveStartDate)} - ${controller.formatDate(item.leaveEndDate)}',
+                statusText: item.status,
+                statusColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
+                containerColor: controller.getColorBasedOnApprovalStatus(item.status),
+                leaveType: '${item.leaveType.name}/${item.duration}',
+                appliedOn: controller.formatEpochToDateString(item.createdAt),
                 approvedRejectedBy: '',
                 index: index,
                 onCancelTap: () async {
-                  // _showCustomDialog(context, controller, item.id);
+                  _showCustomDialog(context, controller, item.id);
                 },
 
                 viewRequestTap: () async {
-                  // await controller.userPunchApprovalViewRequest(item.id);
                   await Get.bottomSheet(
                     LeaveApprovalsBottomSheet(
                       appliedDate: '',
-                      statusColor: Colors.lightGreen,
-                      containerColor:Colors.lightGreen,
-                      statusText: '',
+                      statusColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
+                      containerColor: controller.getColorBasedOnApprovalStatus(item.status),
+                      statusText: item.status,
                       dateFrom: '',
-                      leaveType: '',
+                      leaveType: '${item.leaveType.name}/${item.duration}' ,
                       by: '',
                       admin: '',
                       dateTo: '',
@@ -106,7 +105,7 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
-                    // controller.userPunchRequestCancel(id);
+                    controller.userLeaveRequestCancel(id);
                     Navigator.of(context).pop();
                   },
                   child: Container(

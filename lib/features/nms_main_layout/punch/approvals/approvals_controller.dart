@@ -188,7 +188,7 @@ class ApprovalsController extends GetxController with SnackbarMixin {
       if (response.status == 200) {
         _punchRequestCancel.value = response.data;
         showSuccessSnackbar(
-            title: 'Success', message: 'Approval Request Cancelled');
+            title: 'Success', message: 'Punch Approval Request Cancelled');
 
         update();
         onInit();

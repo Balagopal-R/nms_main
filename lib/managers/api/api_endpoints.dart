@@ -22,6 +22,9 @@ class ApiEndPoints {
   static const String punchApprovals = 'punch/punchReqGetAll';
   static const String punchApprovalsPendingRequest = 'punch/getPendingRequest';
   static const String punchApprovalsCancel = 'punch/cancel';
+  static const String leaveApprovals = 'leaveRequest/listEmployeeLeaveRequest';
+  static const String leaveApprovalsCancel = 'leaveRequest/updateByUser';
+
   static const String deleteFileByName = 'file/delete';
   static const String downloadFileByName = 'file/download';
 }

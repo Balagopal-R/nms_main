@@ -2,8 +2,8 @@ import 'package:nms/dtos/api_response.dart';
 import 'package:nms/models/get_remaining_leaves/get_remaining_leaves_model.dart';
 
 class GetLeavesResponse extends ApiResponse {
-  GetLeavesResponse({message, status, data,errors})
-      : super(message: message, status: status, data: data, errors: errors);
+  GetLeavesResponse({message, status, data,errors, pagination})
+      : super(message: message, status: status, data: data, errors: errors, pagination: pagination);
 
   factory GetLeavesResponse.fromJson(Map<String, dynamic> json) {
     return GetLeavesResponse(
@@ -11,8 +11,7 @@ class GetLeavesResponse extends ApiResponse {
       status: json["status"],
       data: List<GetRemainingLeavesModel>.from(
           json["data"].map((x) => GetRemainingLeavesModel.fromJson(x))),
-      // data: GetEmployModel.fromJson(json["data"]),
-      // data:json["data"] == null ? null : GetRemainingLeavesModel.fromJson(json["data"]),
+      pagination: json["pagination"] == null ? null : Pagination.fromJson(json["pagination"]),
     );
   }
 }

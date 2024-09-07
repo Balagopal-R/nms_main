@@ -20,6 +20,8 @@ import '../dtos/nms_dtos/file_download_dtos/file_download.dart';
 import '../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
 import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
+import '../dtos/nms_dtos/leave_approvals_dtos/leave_approvals.dart';
+import '../dtos/nms_dtos/leave_request_cancel_dtos/leave_request_cancel.dart';
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
@@ -107,7 +109,17 @@ abstract class ApiRepository extends GetxController {
 
   // File Download
   Future<File> fileDownload({required FileDownloadRequest request});
+
+    // Leave Approvals Card
+  Future<LeaveApprovalsResponse> leaveApprovals({required LeaveApprovalsRequest request});
+
+    // Leave Request Cancel
+  Future<LeaveRequestCancelResponse> leaveRequestCancel(
+      {required LeaveRequestCancelRequest request});
+
 }
+
+
 
 class ApiRepositoryImpl extends GetxController implements ApiRepository {
   final _helper = ApiBaseHelper();
@@ -341,6 +353,32 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     return PunchRequestCancelResponse.fromJson(response);
   }
 
+   //  Listing of Leave Approvals
+  @override
+  Future<LeaveApprovalsResponse> leaveApprovals(
+      {required LeaveApprovalsRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.leaveApprovals,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return LeaveApprovalsResponse.fromJson(response);
+  }
+
+   // Leave Request Cancel
+  @override
+  Future<LeaveRequestCancelResponse> leaveRequestCancel(
+      {required LeaveRequestCancelRequest request}) async {
+    final response = await _helper.postWithBodyParamsHasNoString(
+      endpoint: ApiEndPoints.punchApprovalsCancel,
+      body: {},
+      params: request.toMap(),
+    );
+    print(response);
+    return LeaveRequestCancelResponse.fromJson(response);
+  }
+
   //edit_item_screen - deletefilebyname api
   @override
   Future<DeleteFileByNameResponse> deleteFileByName(
@@ -385,4 +423,5 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
   // Return the file
   return file;
 }
+ 
 }
