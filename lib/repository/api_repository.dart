@@ -18,8 +18,10 @@ import 'package:path_provider/path_provider.dart';
 import '../dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import '../dtos/nms_dtos/file_download_dtos/file_download.dart';
 import '../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
+import '../dtos/nms_dtos/get_all_min_leave_dtos/get_all_min_leave.dart';
 import '../dtos/nms_dtos/get_attendance/get_attendance_response.dart';
 import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
+import '../dtos/nms_dtos/get_leave_year_by_date_dtos/get_leave_year_by_date.dart';
 import '../dtos/nms_dtos/leave_approvals_dtos/leave_approvals.dart';
 import '../dtos/nms_dtos/leave_request_cancel_dtos/leave_request_cancel.dart';
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
@@ -116,6 +118,14 @@ abstract class ApiRepository extends GetxController {
     // Leave Request Cancel
   Future<LeaveRequestCancelResponse> leaveRequestCancel(
       {required LeaveRequestCancelRequest request});
+
+      // Get leave year by Leave Date
+  Future<GetLeaveYearByDateResponse> leaveYearByLeaveDate(
+      {required GetLeaveYearByDateRequest request});
+
+        // Get All Minimum Leave
+  Future<GetAllMinLeaveResponse> getAllMin(
+      {required GetAllMinLeaveRequest request});
 
 }
 
@@ -377,6 +387,32 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     print(response);
     return LeaveRequestCancelResponse.fromJson(response);
+  }
+
+    //  Get leave year by Leave Date
+  @override
+  Future<GetLeaveYearByDateResponse> leaveYearByLeaveDate(
+      {required GetLeaveYearByDateRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.leaveYearByLeaveDate,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return GetLeaveYearByDateResponse.fromJson(response);
+  }
+
+      //  Get All Minimum Leave
+  @override
+  Future<GetAllMinLeaveResponse> getAllMin(
+      {required GetAllMinLeaveRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.getAllMin,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return GetAllMinLeaveResponse.fromJson(response);
   }
 
   //edit_item_screen - deletefilebyname api

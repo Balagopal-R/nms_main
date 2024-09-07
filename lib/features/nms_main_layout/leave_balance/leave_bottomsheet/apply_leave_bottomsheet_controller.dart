@@ -1,7 +1,15 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
+import 'package:nms/repository/api_repository.dart';
+import 'package:nms/utils/helpers/validation.dart';
+
+import '../../../../dtos/nms_dtos/get_all_min_leave_dtos/get_all_min_leave.dart';
+import '../../../../dtos/nms_dtos/get_leave_year_by_date_dtos/get_leave_year_by_date.dart';
+import '../../../../models/get_all_min_leave_model/get_all_min_leave_model.dart';
+import '../../../../models/get_leave_year_by_date_model/get_leave_year_by_date_model.dart';
 
 class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
 
@@ -12,7 +20,84 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
     var isCommentValid = true.obs;
   var comment = ''.obs;
 
+    final _getLeaveYearByDate = (List<GetLeaveYearByLeaveDateModel>.empty()).obs;
+  List<GetLeaveYearByLeaveDateModel> get getLeaveYearByDate => _getLeaveYearByDate;
+
+  final _getAllMinLeav = (List<GetAllMinLeaveModel>.empty()).obs;
+  List<GetAllMinLeaveModel> get getAllMinLeav => _getAllMinLeav;
+
   List<PlatformFile> files = [];
+
+    //  Get leave year by Leave Date
+  getLeaveYearByLeaveDate() async {
+
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+
+      if (decodedToken != null) {
+      final userId = decodedToken["userId"];
+      final request = GetLeaveYearByDateRequest(
+      userId: userId,
+      leaveStartDate: 1,
+      leaveEndDate: 2,
+      );
+
+      final response = await ApiRepository.to.leaveYearByLeaveDate(request: request);
+
+      if (response.status == 200) {
+        _getLeaveYearByDate.value = response.data;
+
+        update();
+      } else if (response.message == "Failed") {
+
+        debugPrint(response.errors['errorMessage']);
+        showErrorSnackbar(message: errorOccuredText);
+        update();
+      }
+      }
+    } catch (e) {
+
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
+      update();
+    }
+  }
+
+    //  Get All Min Leaves
+  getAllMinLeave() async {
+
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+
+      if (decodedToken != null) {
+      final userId = decodedToken["userId"];
+      final request = GetAllMinLeaveRequest(
+      id: 1,
+      userId: userId,
+      );
+
+      final response = await ApiRepository.to.getAllMin(request: request);
+
+      if (response.status == 200) {
+        _getAllMinLeav.value = response.data;
+
+        update();
+      } else if (response.message == "Failed") {
+
+        debugPrint(response.errors['errorMessage']);
+        showErrorSnackbar(message: errorOccuredText);
+        update();
+      }
+      }
+    } catch (e) {
+
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
+      update();
+    }
+  }
 
   
 void pickFiles() async {

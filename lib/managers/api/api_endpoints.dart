@@ -24,6 +24,8 @@ class ApiEndPoints {
   static const String punchApprovalsCancel = 'punch/cancel';
   static const String leaveApprovals = 'leaveRequest/listEmployeeLeaveRequest';
   static const String leaveApprovalsCancel = 'leaveRequest/updateByUser';
+  static const String leaveYearByLeaveDate = 'leaveRequest/getLeaveYearByLeaveDate';
+  static const String getAllMin = 'leave/getAllMin';
 
   static const String deleteFileByName = 'file/delete';
   static const String downloadFileByName = 'file/download';
