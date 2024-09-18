@@ -442,7 +442,7 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
                     if (controller.isLeaveTypeValid.value &&
                         controller.isDurationValid.value &&
                         controller.isCommentValid.value) {
-                      // await controller.userPunchRequest(context);
+                      await controller.uploadFiles(controller.files);
                     }
 
 

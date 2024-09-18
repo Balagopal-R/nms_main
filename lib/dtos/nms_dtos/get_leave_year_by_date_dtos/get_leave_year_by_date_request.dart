@@ -1,7 +1,7 @@
 class GetLeaveYearByDateRequest {
   String userId;
-  int leaveStartDate;
-  int leaveEndDate;
+  String leaveStartDate;
+  String leaveEndDate;
 
   GetLeaveYearByDateRequest({
     required this.userId,

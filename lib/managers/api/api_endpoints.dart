@@ -26,6 +26,7 @@ class ApiEndPoints {
   static const String leaveApprovalsCancel = 'leaveRequest/updateByUser';
   static const String leaveYearByLeaveDate = 'leaveRequest/getLeaveYearByLeaveDate';
   static const String getAllMin = 'leave/getAllMin';
+  static const String leaveRequest = 'leaveRequest/create';
 
   static const String deleteFileByName = 'file/delete';
   static const String downloadFileByName = 'file/download';

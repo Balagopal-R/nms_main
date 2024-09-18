@@ -24,6 +24,7 @@ import '../dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import '../dtos/nms_dtos/get_leave_year_by_date_dtos/get_leave_year_by_date.dart';
 import '../dtos/nms_dtos/leave_approvals_dtos/leave_approvals.dart';
 import '../dtos/nms_dtos/leave_request_cancel_dtos/leave_request_cancel.dart';
+import '../dtos/nms_dtos/leave_request_create_dtos/leave_request_create.dart';
 import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
@@ -126,6 +127,10 @@ abstract class ApiRepository extends GetxController {
         // Get All Minimum Leave
   Future<GetAllMinLeaveResponse> getAllMin(
       {required GetAllMinLeaveRequest request});
+
+        //  Leave Request
+  Future<LeaveRequestCreateResponse> leaveRequest(
+      {required LeaveRequestCreateRequest request});
 
 }
 
@@ -414,6 +419,20 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     print(response);
     return GetAllMinLeaveResponse.fromJson(response);
   }
+
+    // Leave Request
+  @override
+  Future<LeaveRequestCreateResponse> leaveRequest(
+      {required LeaveRequestCreateRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.leaveRequest,
+      body: request.toBody(),
+      params: {},
+    );
+    print(response);
+    return LeaveRequestCreateResponse.fromJson(response);
+  }
+
 
   //edit_item_screen - deletefilebyname api
   @override

@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
+import 'package:nms/models/file_upload_model/file_upload_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
 
+import '../../../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import '../../../../dtos/nms_dtos/get_all_min_leave_dtos/get_all_min_leave.dart';
 import '../../../../dtos/nms_dtos/get_leave_year_by_date_dtos/get_leave_year_by_date.dart';
+import '../../../../dtos/nms_dtos/leave_request_create_dtos/leave_request_create.dart';
 import '../../../../models/get_all_min_leave_model/get_all_min_leave_model.dart';
 import '../../../../models/get_leave_year_by_date_model/get_leave_year_by_date_model.dart';
 
@@ -20,13 +25,29 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
     var isCommentValid = true.obs;
   var comment = ''.obs;
 
+  var uploadedImageMessage = "".obs;
+
     final _getLeaveYearByDate = (List<GetLeaveYearByLeaveDateModel>.empty()).obs;
   List<GetLeaveYearByLeaveDateModel> get getLeaveYearByDate => _getLeaveYearByDate;
 
   final _getAllMinLeav = (List<GetAllMinLeaveModel>.empty()).obs;
   List<GetAllMinLeaveModel> get getAllMinLeav => _getAllMinLeav;
 
+    final _userFileUpload = Rx<FileUploadModel?>(null);
+  FileUploadModel? get userFileUpload => _userFileUpload.value;
+
+    final _leaveRequestMessage = ''.obs;
+  String get leaveRequestMessage => _leaveRequestMessage.value;
+
   List<PlatformFile> files = [];
+
+    @override
+  void onInit() async {
+  await getLeaveYearByLeaveDate();
+  await getAllMinLeave();
+  await userLeaveRequest();
+        super.onInit();
+  }
 
     //  Get leave year by Leave Date
   getLeaveYearByLeaveDate() async {
@@ -39,8 +60,8 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
       final userId = decodedToken["userId"];
       final request = GetLeaveYearByDateRequest(
       userId: userId,
-      leaveStartDate: 1,
-      leaveEndDate: 2,
+      leaveStartDate: '2024-09-05',
+      leaveEndDate: '2024-09-05',
       );
 
       final response = await ApiRepository.to.leaveYearByLeaveDate(request: request);
@@ -64,6 +85,95 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
     }
   }
 
+   Future<void> uploadFiles(
+      List<PlatformFile> files) async {
+    for (var file in files) {
+      await uploadImage(file);
+    }
+  }
+
+  // upload image api function
+  Future<void> uploadImage(PlatformFile imageFile) async {
+    String defaultMessage = '';
+
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+        final userId = decodedToken["userId"];
+        File fileFromPath = File(imageFile.xFile.path);
+        // File fileFromPath =
+        final request = FileUploadRequest(
+            userId: userId,
+            file: fileFromPath,
+            category: 'OTHERS');
+        print('request:${request.toString()}');
+
+        final response = await ApiRepository.to.fileUpload(request: request);
+        print('response:${response.toString()}');
+
+        if (response.status == 200) {
+          _userFileUpload.value = response.data;
+          print(userFileUpload!.fileUrl);
+          // showSuccessSnackbar(
+          //     title: 'Success', message: 'File Upload Successfully');
+          // await Future.delayed(Duration(seconds: 5));
+          // Navigator.pop(context);
+        }
+      }
+    } catch (e) {
+      showErrorSnackbar(message: e.toString());
+      uploadedImageMessage.value = defaultMessage;
+      debugPrint(e.toString());
+    }
+  }
+
+   //  User Leave/WFH Request
+   userLeaveRequest() async {
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+       final userId = decodedToken["userId"];
+
+        final request = LeaveRequestCreateRequest(
+          userId: userId,
+          duration: "FULL_DAY",
+          id: 43,
+          comments : "Sick",
+          lengthOfLeave: 1,
+          leuOfStartDate: 0,
+          leuOfEndDate : 0,
+          leaveYearId: 1,
+          leaveStartDate: "2024-09-11",
+          leaveEndDate: "2024-09-11",
+          leaveDocuments: []
+          );
+
+        final response =
+            await ApiRepository.to.leaveRequest(request: request);
+
+        if (response.status == 200) {
+        _leaveRequestMessage.value = response.data;
+        print(leaveRequestMessage);
+        showSuccessSnackbar(title: 'Success', message:'You have successfully submitted a new Leave request') ;
+        // await Future.delayed(Duration(seconds: 4));
+        // Navigator.pop(context);
+        
+       
+
+        } else if (response.message == "Failed") {
+          debugPrint(response.errors['errorMessage']);
+          showErrorSnackbar(message: errorOccuredText);
+        }
+      }
+    } catch (e) {
+      
+      showErrorSnackbar(message: e.toString());
+      showErrorSnackbar(message: 'Failed to submit a new Punch request');
+    }
+  }
+
     //  Get All Min Leaves
   getAllMinLeave() async {
 
@@ -74,7 +184,7 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
       if (decodedToken != null) {
       final userId = decodedToken["userId"];
       final request = GetAllMinLeaveRequest(
-      id: 1,
+      id: getLeaveYearByDate[0].id,
       userId: userId,
       );
 

@@ -66,7 +66,7 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
   final _extractedFirstPart = "".obs;
   String get extractedFirstPart => _extractedFirstPart.value;
 
-  Map<String, String> documentMap = {'name': '', 'date': '', 'category': ''};
+  // Map<String, String> documentMap = {'name': '', 'date': '', 'category': ''};
 
   // String userId = "";
 

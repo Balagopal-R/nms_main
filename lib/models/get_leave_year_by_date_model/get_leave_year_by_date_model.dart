@@ -1,45 +1,63 @@
-// To parse this JSON data, do
-//
-//     final getLeaveYearByLeaveDateModel = getLeaveYearByLeaveDateModelFromJson(jsonString);
-
-import 'dart:convert';
-
-GetLeaveYearByLeaveDateModel getLeaveYearByLeaveDateModelFromJson(String str) => GetLeaveYearByLeaveDateModel.fromJson(json.decode(str));
-
-String getLeaveYearByLeaveDateModelToJson(GetLeaveYearByLeaveDateModel data) => json.encode(data.toJson());
-
 class GetLeaveYearByLeaveDateModel {
-    String timestamp;
-    String requestId;
-    int status;
-    String message;
-    List<dynamic> data;
-    List<dynamic> warnings;
+    int id;
+    String year;
+    int startMonth;
+    Config config;
+    String orgId;
 
     GetLeaveYearByLeaveDateModel({
-        required this.timestamp,
-        required this.requestId,
-        required this.status,
-        required this.message,
-        required this.data,
-        required this.warnings,
+        required this.id,
+        required this.year,
+        required this.startMonth,
+        required this.config,
+        required this.orgId,
     });
 
     factory GetLeaveYearByLeaveDateModel.fromJson(Map<String, dynamic> json) => GetLeaveYearByLeaveDateModel(
-        timestamp: json["timestamp"],
-        requestId: json["requestId"],
-        status: json["status"],
-        message: json["message"],
-        data: List<dynamic>.from(json["data"].map((x) => x)),
-        warnings: List<dynamic>.from(json["warnings"].map((x) => x)),
+        id: json["id"],
+        year: json["year"],
+        startMonth: json["startMonth"],
+        config: Config.fromJson(json["config"]),
+        orgId: json["orgId"],
     );
 
     Map<String, dynamic> toJson() => {
-        "timestamp": timestamp,
-        "requestId": requestId,
-        "status": status,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x)),
-        "warnings": List<dynamic>.from(warnings.map((x) => x)),
+        "id": id,
+        "year": year,
+        "startMonth": startMonth,
+        "config": config.toJson(),
+        "orgId": orgId,
+    };
+}
+
+class Config {
+    int id;
+    String leaveYearName;
+    int startMonth;
+    String orgId;
+    bool isActive;
+
+    Config({
+        required this.id,
+        required this.leaveYearName,
+        required this.startMonth,
+        required this.orgId,
+        required this.isActive,
+    });
+
+    factory Config.fromJson(Map<String, dynamic> json) => Config(
+        id: json["id"],
+        leaveYearName: json["leaveYearName"],
+        startMonth: json["startMonth"],
+        orgId: json["orgId"],
+        isActive: json["isActive"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "leaveYearName": leaveYearName,
+        "startMonth": startMonth,
+        "orgId": orgId,
+        "isActive": isActive,
     };
 }
