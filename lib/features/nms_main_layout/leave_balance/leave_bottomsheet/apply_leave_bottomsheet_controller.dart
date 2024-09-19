@@ -50,11 +50,23 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
 
     @override
   void onInit() async {
-  // await getLeaveYearByLeaveDate();
-  // await getAllMinLeave();
-  // await userLeaveRequest();
         super.onInit();
   }
+
+  bool validateDates() {
+  if (leaveFromDate == null || toDate == null) {
+    print('Please select both dates');
+    return false;
+  }
+
+  if (toDate!.isBefore(leaveFromDate!)) {
+    print('To Date must not precede From Date');
+    return false;
+  }
+
+  print('Both dates are valid');
+  return true;
+}
 
     //  Get leave year by Leave Date
   getLeaveYearByLeaveDate() async {
