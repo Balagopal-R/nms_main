@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
@@ -405,13 +406,15 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
             padding: EdgeInsets.all(12.0), // Padding inside the container
             child: Row(
               children: [
-                Icon(Icons.notifications, color: Colors.black), // Notification icon
+
+                SvgPicture.asset('assets/svg/info.svg'), // Notification icon
                 SizedBox(width: 8.0), // Spacing between icon and text
                 Text(
                   '${controller.selectedDays} day${controller.selectedDays! > 1 ? 's' : ''} selected', // Show n days selected
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xff7A7A7A),
                     fontSize: 14.0,
+                    fontWeight: FontWeight.w400
                   ),
                 ),
               ],

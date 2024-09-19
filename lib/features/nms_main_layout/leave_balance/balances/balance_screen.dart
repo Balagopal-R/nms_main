@@ -4,6 +4,7 @@ import 'package:nms/features/nms_main_layout/leave_balance/balances/balances.dar
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../models/get_remaining_leaves/get_remaining_leaves_model.dart';
 
@@ -19,26 +20,72 @@ class BalancesScreen extends StatelessWidget {
           body: Center(
             child:  Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.chevron_left),
-                          onPressed: () {},
-                        ),
-                        Text('01 Apr 2023 to 31 Mar 2024'),
-                        IconButton(
-                          icon: Icon(Icons.chevron_right),
-                          onPressed: () {},
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // IconButton(
+                          //   icon: Icon(Icons.chevron_left),
+                          //   onPressed: () {},
+                          // ),
+                      
+                          Container(
+                            width: 25,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                      
+                              border: Border.fromBorderSide(
+                                BorderSide(
+                                  color: Color(0xFFF1F1F1), // Replace with your actual --Grey-Grey-200 color
+                                  width: 0.75,
+                                ),
+                              ),
+                              color: Color(0xFFFFFFFF), // Replace with your actual --White color
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                              },
+                              child: SvgPicture.asset('assets/svg/chevron_left.svg'),
+                            ),
+                          ),
+                          Text('01 Apr 2023 to 31 Mar 2024',style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500,color: Color(0xff7A7A7A)),),
+                         Container(
+                            width: 25,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                      
+                              border: Border.fromBorderSide(
+                                BorderSide(
+                                  color: Color(0xFFF1F1F1), // Replace with your actual --Grey-Grey-200 color
+                                  width: 0.75,
+                                ),
+                              ),
+                              color: Color(0xFFFFFFFF), // Replace with your actual --White color
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                              },
+                              child: SvgPicture.asset('assets/svg/chevron_right.svg'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Leave Type'),
-                        Text('Taken'),
-                        Text('Remaining'),
+                        Text('Leave Type',style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xff7A7A7A)),),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: Text('Taken',style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xff7A7A7A)),),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: Text('Remaining',style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xff7A7A7A)),),
+                        ),
                       ],
                     ),
                     Expanded(
@@ -62,20 +109,6 @@ class BalancesScreen extends StatelessWidget {
             ),
           ),
                       
-                      
-                      
-                      // ListView(
-                      //   children: [
-                      //     _leaveContainer("CL", [4, 6, 5], 0.8,10),
-                      //     _leaveContainer("SL", [2, 4, 6], 0.8,12),
-                      //     _leaveContainer("PL", [3, 5, 7], 0.8,12),
-                      //     _leaveContainer("ML", [0, 0, 0], 0.8,8),
-                      //     _leaveContainer("VL", [1, 20, 0], 0.8,15),
-                      //     _leaveContainer("SPL", [3, 4, 5], 0.8,10),
-                       
-
-                      //   ],
-                      // ),
                     ),
                   ],
                 ),
@@ -90,7 +123,7 @@ Widget _leaveContainer(String leaveType, List<int> barValues, double percent, do
   return Container(
     height: 100,
     width: double.infinity,
-    margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+    margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 6.0),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(8.0),
