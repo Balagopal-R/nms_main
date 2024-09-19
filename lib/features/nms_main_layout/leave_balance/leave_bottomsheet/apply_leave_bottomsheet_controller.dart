@@ -25,6 +25,13 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
     var isCommentValid = true.obs;
   var comment = ''.obs;
 
+  
+  var leaveTypes = ['Casual', 'Sick', 'Family', 'Vacation'];
+  var duration = ['Full Day', 'First half', 'Second half'];
+
+  final FocusNode commentsFocusNode = FocusNode();
+  final commentController = TextEditingController();
+
   var uploadedImageMessage = "".obs;
 
     final _getLeaveYearByDate = (List<GetLeaveYearByLeaveDateModel>.empty()).obs;
@@ -43,9 +50,9 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
 
     @override
   void onInit() async {
-  await getLeaveYearByLeaveDate();
-  await getAllMinLeave();
-  await userLeaveRequest();
+  // await getLeaveYearByLeaveDate();
+  // await getAllMinLeave();
+  // await userLeaveRequest();
         super.onInit();
   }
 
@@ -68,6 +75,41 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
 
       if (response.status == 200) {
         _getLeaveYearByDate.value = response.data;
+
+        update();
+      } else if (response.message == "Failed") {
+
+        debugPrint(response.errors['errorMessage']);
+        showErrorSnackbar(message: errorOccuredText);
+        update();
+      }
+      }
+    } catch (e) {
+
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
+      update();
+    }
+  }
+
+   //  Get All Min Leaves
+  getAllMinLeave() async {
+
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+
+      if (decodedToken != null) {
+      final userId = decodedToken["userId"];
+      final request = GetAllMinLeaveRequest(
+      id: getLeaveYearByDate[0].id,
+      userId: userId,
+      );
+
+      final response = await ApiRepository.to.getAllMin(request: request);
+
+      if (response.status == 200) {
+        _getAllMinLeav.value = response.data;
 
         update();
       } else if (response.message == "Failed") {
@@ -174,40 +216,7 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
     }
   }
 
-    //  Get All Min Leaves
-  getAllMinLeave() async {
-
-    try {
-      final authService = NMSJWTDecoder();
-      final decodedToken = await authService.decodeAuthToken();
-
-      if (decodedToken != null) {
-      final userId = decodedToken["userId"];
-      final request = GetAllMinLeaveRequest(
-      id: getLeaveYearByDate[0].id,
-      userId: userId,
-      );
-
-      final response = await ApiRepository.to.getAllMin(request: request);
-
-      if (response.status == 200) {
-        _getAllMinLeav.value = response.data;
-
-        update();
-      } else if (response.message == "Failed") {
-
-        debugPrint(response.errors['errorMessage']);
-        showErrorSnackbar(message: errorOccuredText);
-        update();
-      }
-      }
-    } catch (e) {
-
-      showErrorSnackbar(message: e.toString());
-      debugPrint(e.toString());
-      update();
-    }
-  }
+   
 
   
 void pickFiles() async {
@@ -240,32 +249,28 @@ void pickFiles() async {
   }
 }
 
-
-  var leaveTypes = ['Casual', 'Sick', 'Family', 'Vacation'];
-  var duration = ['Full Day', 'First half', 'Second half'];
-
-  final FocusNode commentsFocusNode = FocusNode();
-  final commentController = TextEditingController();
-
   void validateForm() {
    isLeaveTypeValid.value = selectedLeaveType.isNotEmpty;
    isDurationValid.value = selectedDuration.isNotEmpty;
    isCommentValid.value = comment.isNotEmpty;
      }
 
-  DateTime selectedDate = DateTime.now().subtract(Duration(days: 1)); // Set initial date to yesterday
+  DateTime? leaveFromDate; // Date selected in "Leave From"
+  DateTime? toDate;        // Date selected in "To"
+  String? validationMessage; // To hold the validation message
+  int? selectedDays; // To hold the number of days selected
 
-  Future<void> selectDate(BuildContext context) async {
+ Future<void> selectLeaveFromDate(BuildContext context) async {
   final DateTime? picked = await showDatePicker(
     context: context,
-    initialDate: selectedDate,
-    firstDate: DateTime(2018, 1, 1), // Earliest selectable date (you can adjust this)
-    lastDate: DateTime.now().subtract(Duration(days: 1)), // Restrict to dates before today
+    initialDate: leaveFromDate ?? DateTime.now(), // Default to today if no date selected
+    firstDate: DateTime(2018, 1, 1), // Earliest selectable date
+    lastDate: DateTime(2100), // Allow selecting any future date
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.light().copyWith(
           colorScheme: ColorScheme.light(
-            primary: Colors.green, // Selection color (e.g., selected date circle)
+            primary: Colors.green, // Selection color
             onPrimary: Colors.white, // Text color inside the selected date circle
             surface: Colors.white, // Background color of the date picker
             onSurface: Colors.black, // Text color for dates
@@ -277,8 +282,59 @@ void pickFiles() async {
     },
   );
 
-  if (picked != null && picked != selectedDate) {
-    selectedDate = picked;
+  if (picked != null && picked != leaveFromDate) {
+    leaveFromDate = picked;
+     // Reset validation message when leave from date changes
+    validationMessage = null;
+    selectedDays = null; // Reset selected days
+  }
+  updateSelectedDays(); // Call function to update selected days after date change
+  update(); // Update UI
+}
+
+Future<void> selectToDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: toDate ?? DateTime.now(), // Default to today if no date selected
+    firstDate: DateTime(2018, 1, 1), // Earliest selectable date
+    lastDate: DateTime(2100), // Allow selecting any future date
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.light(
+            primary: Colors.green, // Selection color
+            onPrimary: Colors.white, // Text color inside the selected date circle
+            surface: Colors.white, // Background color of the date picker
+            onSurface: Colors.black, // Text color for dates
+          ),
+          dialogBackgroundColor: Colors.white, // Background color of the dialog
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  if (picked != null && picked != toDate) {
+    toDate = picked;
+
+     // Validation: Check if "To" date precedes "Leave From" date
+    if (leaveFromDate != null && toDate!.isBefore(leaveFromDate!)) {
+      validationMessage = 'To Date precedes From-date'; // Set validation message
+    } else {
+      validationMessage = null; // Clear validation message if valid
+    }
+  }
+  updateSelectedDays(); // Call function to update selected days after date change
+  update(); // Update UI
+}
+
+// Function to calculate and update the selected days
+void updateSelectedDays() {
+  if (leaveFromDate != null && toDate != null && validationMessage == null) {
+    // Calculate the difference in days and add 1 to include both dates
+    selectedDays = toDate!.difference(leaveFromDate!).inDays + 1;
+  } else {
+    selectedDays = null; // Reset if dates are invalid
   }
   update();
 }

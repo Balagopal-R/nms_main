@@ -2,7 +2,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nms/features/punch_request_bottomsheet/punch_request_bottomsheet_controller.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/cornered_button.dart';
 
@@ -55,7 +54,7 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
                 // Row 1: Grey line
                 Center(
                   child: Container(
-                    width: 40,
+                    width: 60,
                     height: 4,
                     decoration: BoxDecoration(
                       color: Color(0xFF7A7A7A),
@@ -70,12 +69,26 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
                   child: Text(
                     'Apply Leave/WFH',
                     style: TextStyle(
+                      color: Colors.black,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 SizedBox(height: 8.0),
+
+                Container(
+      height: 1,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            width: 1,
+          ),
+        ),
+      ),
+    ),
+
+    SizedBox(height: 8),
         
                 // Row 3: Headings
 
@@ -125,7 +138,7 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
                   height: componentsHeight, // Increased height for Date Picker
                   child: GestureDetector(
                     onTap: () {
-                     controller.selectDate(context);
+                     controller.selectLeaveFromDate(context);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 12.0),
@@ -137,11 +150,20 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(DateFormat('dd/MM/yyyy').format(controller.selectedDate),
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
+                          // Text(DateFormat('dd/MM/yyyy').format(controller.selectedDate),
+                          //   style: TextStyle(
+                          //     color: Colors.black,
+                          //   ),
+                          // ),
+
+                           Text(
+                    controller.leaveFromDate != null
+                        ? DateFormat('dd/MM/yyyy').format(controller.leaveFromDate!) // Show selected date
+                        : 'Select', // Hint text before selection
+                    style: TextStyle(
+                      color: controller.leaveFromDate != null ? Colors.black : Colors.grey, // Change text color
+                    ),
+                  ),
                           Icon(Icons.calendar_today, color: Colors.grey),
                         ],
                       ),
@@ -157,7 +179,7 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
                   height: componentsHeight, // Increased height for Date Picker
                   child: GestureDetector(
                     onTap: () {
-                     controller.selectDate(context);
+                     controller.selectToDate(context);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 12.0),
@@ -169,11 +191,19 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(DateFormat('dd/MM/yyyy').format(controller.selectedDate),
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
+                          // Text(DateFormat('dd/MM/yyyy').format(controller.selectedDate),
+                          //   style: TextStyle(
+                          //     color: Colors.black,
+                          //   ),
+                          // ),
+                          Text(
+                    controller.toDate != null
+                        ? DateFormat('dd/MM/yyyy').format(controller.toDate!) // Show selected date
+                        : 'Select', // Hint text before selection
+                    style: TextStyle(
+                      color: controller.toDate != null ? Colors.black : Colors.grey, // Change text color
+                    ),
+                  ),
                           Icon(Icons.calendar_today, color: Colors.grey),
                         ],
                       ),
@@ -185,7 +215,17 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
 
                 ],
               ),
-
+               // Validation message below "To" date picker
+      if (controller.validationMessage != null) 
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0), // Add some spacing before the message
+          child: Text(controller.validationMessage!,
+            style: TextStyle(
+              color: Colors.red, // Red color for the validation message
+              fontSize: 12.0,
+            ),
+          ),
+        ),
                 SizedBox(height: 8.0),
         
                 // Row 5: Location
@@ -352,6 +392,32 @@ class _ApplyLeaveBottomSheetScreenState extends State<ApplyLeaveBottomSheetScree
               }, 
             ),
                               ),
+
+                              // Show selected days container
+      if (controller.selectedDays != null)
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0), // Add spacing above the container
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color: Color(0xFFF1F1F1), // Grey background color (#F1F1F1)
+            ),
+            padding: EdgeInsets.all(12.0), // Padding inside the container
+            child: Row(
+              children: [
+                Icon(Icons.notifications, color: Colors.black), // Notification icon
+                SizedBox(width: 8.0), // Spacing between icon and text
+                Text(
+                  '${controller.selectedDays} day${controller.selectedDays! > 1 ? 's' : ''} selected', // Show n days selected
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
 
                               SizedBox(height: 8,),
         
