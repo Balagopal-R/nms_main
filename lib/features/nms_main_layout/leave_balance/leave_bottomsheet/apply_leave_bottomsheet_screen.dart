@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -102,7 +100,7 @@ class _ApplyLeaveBottomSheetScreenState
                     children: [
                       Expanded(
                         child: Text(
-                          'Leave From',
+                          'Leave From*',
                           style: TextStyle(
                             color: Color(0xFF7A7A7A),
                             fontFamily: 'Satoshi',
@@ -114,7 +112,7 @@ class _ApplyLeaveBottomSheetScreenState
                       SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'To',
+                          'To*',
                           style: TextStyle(
                             color: Color(0xFF7A7A7A),
                             fontFamily: 'Satoshi',
@@ -152,14 +150,9 @@ class _ApplyLeaveBottomSheetScreenState
                             onTap: () async {
                               // Trigger date picker on tap
                               await controller.selectLeaveFromDate(context);
-                            },
-                            onChanged: (value) {
-                              debugPrint('Baluu${value.toString()}');
                               if (controller.validateDates()) {
-                                controller.getLeaveYearByLeaveDate();
+                                await controller.getLeaveYearByLeaveDate();
                               }
-
-                              print('Date changed: $value');
                             },
                             decoration: InputDecoration(
                               hintText: 'Select',
@@ -198,12 +191,9 @@ class _ApplyLeaveBottomSheetScreenState
                             onTap: () async {
                               // Trigger date picker on tap
                               await controller.selectToDate(context);
-                            },
-                            onChanged: (value) {
                               if (controller.validateDates()) {
-                                controller.getLeaveYearByLeaveDate();
+                                await controller.getLeaveYearByLeaveDate();
                               }
-                              print('Date changed: $value');
                             },
                             decoration: InputDecoration(
                               hintText: 'Select',
@@ -303,7 +293,7 @@ class _ApplyLeaveBottomSheetScreenState
                         ),
                       ),
                       items: controller
-                          .leaveTypes // Replace with your list of leaves
+                          .leaveNames // Replace with your list of leaves
                           .map((item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Padding(
@@ -336,7 +326,7 @@ class _ApplyLeaveBottomSheetScreenState
 
                   // Row 5: Location
                   Text(
-                    'Duration',
+                    'Duration*',
                     style: TextStyle(
                       color: Color(0xFF7A7A7A),
                       fontFamily: 'Satoshi',
@@ -456,6 +446,153 @@ class _ApplyLeaveBottomSheetScreenState
                         ),
                       ),
                     ),
+
+                  // In case of Compensatory Off
+                  // if (controller.selectedLeaveType.value == 'Test Leave')
+                  Obx(
+  () => controller.selectedLeaveType.value == 'Test Leave'?
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16.0), // Add spacing above the container
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'In Lieu of*',
+                                    style: TextStyle(
+                                      color: Color(0xFF7A7A7A),
+                                      fontFamily: 'Satoshi',
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    'To*',
+                                    style: TextStyle(
+                                      color: Color(0xFF7A7A7A),
+                                      fontFamily: 'Satoshi',
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 8.0),
+
+                            // Lieu Date Picker
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      border:
+                                          Border.all(color: Color(0xFFB7B7B7)),
+                                      color: Colors.white,
+                                    ),
+                                    child: TextField(
+                                      controller: TextEditingController(
+                                        text: controller.lieuOfDate != null
+                                            ? DateFormat('dd/MM/yyyy').format(
+                                                controller.lieuOfDate!)
+                                            : 'Select',
+                                      ),
+                                      readOnly:
+                                          true, // Disable direct editing to force the user to select a date
+                                      onTap: () async {
+                                        // Trigger date picker on tap
+                                        await controller
+                                            .selectLieuFromDate(context);
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: 'Select',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        border: InputBorder.none,
+                                        suffixIcon: Icon(Icons.calendar_today),
+                                      ),
+                                      style: TextStyle(
+                                        color: controller.lieuOfDate != null
+                                            ? Colors.black
+                                            : Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      border:
+                                          Border.all(color: Color(0xFFB7B7B7)),
+                                      color: Colors.white,
+                                    ),
+                                    child: TextField(
+                                      controller: TextEditingController(
+                                        text: controller.lieuToDate != null
+                                            ? DateFormat('dd/MM/yyyy')
+                                                .format(controller.lieuToDate!)
+                                            : 'Select',
+                                      ),
+                                      readOnly:
+                                          true, // Disable direct editing to force the user to select a date
+                                      onTap: () async {
+                                        // Trigger date picker on tap
+                                        await controller.selectLieuToDate(context);
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: 'Select',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        border: InputBorder.none,
+                                        suffixIcon: Icon(Icons.calendar_today),
+                                      ),
+                                      style: TextStyle(
+                                        color: controller.lieuToDate != null
+                                            ? Colors.black
+                                            : Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+
+                            // Validation message below "To" date picker
+                            if (controller.lieuValidationMessage != null)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top:
+                                        8.0), // Add some spacing before the message
+                                child: Text(
+                                  controller.lieuValidationMessage!,
+                                  style: TextStyle(
+                                    color: Colors
+                                        .red, // Red color for the validation message
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        )
+                        ): SizedBox.shrink(), // Empty widget if "Test Leave" is not selected
+              ),
 
                   SizedBox(
                     height: 8,
@@ -592,7 +729,7 @@ class CommentsInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Comments',
+          'Reason*',
           style: TextStyle(
             color: Color(0xFF7A7A7A),
             fontFamily: 'Satoshi',
@@ -608,7 +745,7 @@ class CommentsInput extends StatelessWidget {
             maxLines: 5,
             controller: controller.commentController,
             decoration: InputDecoration(
-              hintText: 'Enter comments',
+              hintText: 'Enter reason here',
               hintStyle: const TextStyle(
                   fontSize: 16.0,
                   fontStyle: FontStyle.normal,
@@ -616,7 +753,7 @@ class CommentsInput extends StatelessWidget {
                   color: Color(0xffB7B7B7)),
               errorText: controller.isCommentValid.value
                   ? null
-                  : 'Please enter a comment',
+                  : 'Please enter a reason',
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               border: OutlineInputBorder(

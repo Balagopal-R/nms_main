@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/file_upload_model/file_upload_model.dart';
@@ -22,12 +23,13 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
   var isDurationValid = true.obs;
   final selectedLeaveType = ''.obs;
   final selectedDuration = ''.obs;
-    var isCommentValid = true.obs;
+  var isCommentValid = true.obs;
   var comment = ''.obs;
 
   
   var leaveTypes = ['Casual', 'Sick', 'Family', 'Vacation'];
   var duration = ['Full Day', 'First half', 'Second half'];
+  List<String> leaveNames = ['No results found'];
 
   final FocusNode commentsFocusNode = FocusNode();
   final commentController = TextEditingController();
@@ -68,6 +70,15 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
   return true;
 }
 
+String formatDate(DateTime? date) {
+  if (date == null) {
+    return ''; // Or return a default value if needed
+  }
+
+  final formatter = DateFormat('yyyy-MM-dd');
+  return formatter.format(date);
+}
+
     //  Get leave year by Leave Date
   getLeaveYearByLeaveDate() async {
 
@@ -79,16 +90,18 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
       final userId = decodedToken["userId"];
       final request = GetLeaveYearByDateRequest(
       userId: userId,
-      leaveStartDate: '2024-09-05',
-      leaveEndDate: '2024-09-05',
+      leaveStartDate: formatDate(leaveFromDate),
+      leaveEndDate: formatDate(toDate),
       );
+      print(formatDate(leaveFromDate));
+      print(formatDate(toDate));
 
       final response = await ApiRepository.to.leaveYearByLeaveDate(request: request);
 
       if (response.status == 200) {
         _getLeaveYearByDate.value = response.data;
-
         update();
+        await getAllMinLeave();
       } else if (response.message == "Failed") {
 
         debugPrint(response.errors['errorMessage']);
@@ -122,6 +135,7 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
 
       if (response.status == 200) {
         _getAllMinLeav.value = response.data;
+        leaveNames = getAllMinLeav.map((leave) => leave.name).toList();
 
         update();
       } else if (response.message == "Failed") {
@@ -347,6 +361,96 @@ void updateSelectedDays() {
     selectedDays = toDate!.difference(leaveFromDate!).inDays + 1;
   } else {
     selectedDays = null; // Reset if dates are invalid
+  }
+  update();
+}
+
+
+  DateTime? lieuOfDate; // Date selected in "Leave From"
+  DateTime? lieuToDate;        // Date selected in "To"
+  String? lieuValidationMessage; // To hold the validation message
+  int? selectedLieuDays; // To hold the number of days selected
+
+
+Future<void> selectLieuFromDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: lieuOfDate ?? DateTime.now(), // Default to today if no date selected
+    firstDate: DateTime(2018, 1, 1), // Earliest selectable date
+    lastDate: DateTime(2100), // Allow selecting any future date
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.light(
+            primary: Colors.green, // Selection color
+            onPrimary: Colors.white, // Text color inside the selected date circle
+            surface: Colors.white, // Background color of the date picker
+            onSurface: Colors.black, // Text color for dates
+          ),
+          dialogBackgroundColor: Colors.white, // Background color of the dialog
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  if (picked != null && picked != lieuOfDate) {
+    lieuOfDate = picked;
+     // Reset validation message when leave from date changes
+    lieuValidationMessage = null;
+    selectedLieuDays = null; // Reset selected days
+  }
+
+  update(); // Update UI
+}
+
+Future<void> selectLieuToDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: lieuToDate ?? DateTime.now(), // Default to today if no date selected
+    firstDate: DateTime(2018, 1, 1), // Earliest selectable date
+    lastDate: DateTime(2100), // Allow selecting any future date
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.light(
+            primary: Colors.green, // Selection color
+            onPrimary: Colors.white, // Text color inside the selected date circle
+            surface: Colors.white, // Background color of the date picker
+            onSurface: Colors.black, // Text color for dates
+          ),
+          dialogBackgroundColor: Colors.white, // Background color of the dialog
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  if (picked != null && picked != lieuToDate) {
+    lieuToDate = picked;
+
+     // Validation: Check if "To" date precedes "Leave From" date
+    if (lieuOfDate != null && lieuToDate!.isBefore(lieuOfDate!)) {
+      lieuValidationMessage = 'Lieu of Date precedes to-date'; // Set validation message
+    } else if (selectedDays != selectedLieuDays){
+      lieuValidationMessage = 'Please select the correct date duration'; // Set validation message
+    }
+    
+    else {
+      lieuValidationMessage = null; // Clear validation message if valid
+    }
+  }
+  updateLieuSelectedDays(); // Call function to update selected days after date change
+  update(); // Update UI
+}
+
+// Function to calculate and update the selected Lieu days
+void updateLieuSelectedDays() {
+  if (lieuOfDate != null && lieuToDate != null && lieuValidationMessage == null) {
+    // Calculate the difference in days and add 1 to include both dates
+    selectedLieuDays = lieuToDate!.difference(lieuOfDate!).inDays + 1;
+  } else {
+    selectedLieuDays = null; // Reset if dates are invalid
   }
   update();
 }
