@@ -35,7 +35,7 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height * 0.75;
+    double height = MediaQuery.of(context).size.height * 0.6;
     return GetBuilder<ApprovalsLeaveController>(
       init: ApprovalsLeaveController(),
       builder: (controller) {

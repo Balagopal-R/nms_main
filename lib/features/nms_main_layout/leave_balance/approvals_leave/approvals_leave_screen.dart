@@ -24,7 +24,7 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                 containerColor: controller.getColorBasedOnApprovalStatus(item.status),
                 leaveType: '${item.leaveType.name}/${item.duration}',
                 appliedOn: controller.formatEpochToDateString(item.createdAt),
-                approvedRejectedBy: '',
+                approvedRejectedBy: controller.getStatusText(item.status, item.updatedBy.firstname, item.updatedBy.lastname),
                 index: index,
                 onCancelTap: () async {
                   _showCustomDialog(context, controller, item.id);
@@ -33,17 +33,17 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                 viewRequestTap: () async {
                   await Get.bottomSheet(
                     LeaveApprovalsBottomSheet(
-                      appliedDate: '',
+                      appliedDate: controller.formatEpochToDateString(item.createdAt),
                       statusColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
                       containerColor: controller.getColorBasedOnApprovalStatus(item.status),
                       statusText: item.status,
-                      dateFrom: '',
+                      dateFrom: controller.formatDate(item.leaveStartDate),
                       leaveType: '${item.leaveType.name}/${item.duration}' ,
-                      by: '',
-                      admin: '',
-                      dateTo: '',
+                      by: 'Approved',
+                      admin: controller.getStatusText(item.status, item.updatedBy.firstname, item.updatedBy.lastname),
+                      dateTo: controller.formatDate(item.leaveEndDate),
                       reqBreakTime: '',
-                      comments: '',
+                      comments: item.comments,
                       onTap: () {
                         //  if (controller.punchApprovals[index].status == 'PENDING') {
                         //   _showCustomDialog(context, controller,

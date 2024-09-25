@@ -33,6 +33,16 @@ class ApprovalsLeaveController extends GetxController with SnackbarMixin {
     pagingController.refresh();
   }
 
+  String getStatusText(String status, String nameOne, String nameTwo) {
+  if (status == 'PENDING') {
+    return '-';
+  } else {
+    return '$nameOne $nameTwo';
+  }
+}
+
+  
+
   // listing leave approvals with Pagination
   Future<void> userLeaveApprovals(int pageKey) async {
     try {
