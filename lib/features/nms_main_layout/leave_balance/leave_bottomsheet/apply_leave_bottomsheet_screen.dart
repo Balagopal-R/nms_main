@@ -450,7 +450,7 @@ class _ApplyLeaveBottomSheetScreenState
                   // In case of Compensatory Off
                   // if (controller.selectedLeaveType.value == 'Test Leave')
                   Obx(
-  () => controller.selectedLeaveType.value == 'Test Leave'?
+  () => controller.selectedLeaveType.value == 'Compensation leave'?
                     Padding(
                         padding: const EdgeInsets.only(
                             top: 16.0), // Add spacing above the container
@@ -681,7 +681,8 @@ class _ApplyLeaveBottomSheetScreenState
                       if (controller.isLeaveTypeValid.value &&
                           controller.isDurationValid.value &&
                           controller.isCommentValid.value) {
-                        await controller.uploadFiles(controller.files);
+                        // await controller.uploadFiles(controller.files);
+                        await controller.userLeaveRequest(context);
                       }
                     },
                   )

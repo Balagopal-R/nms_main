@@ -10,7 +10,7 @@ class LeaveApprovalsModel {
     String status;
     int createdAt;
     int updatedAt;
-    List<dynamic>? leaveDocuments;
+    List<LeaveDocument>? leaveDocuments;
     CreatedBy createdBy;
     CreatedBy updatedBy;
 
@@ -43,7 +43,7 @@ class LeaveApprovalsModel {
         status: json["status"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
-        leaveDocuments: json["leaveDocuments"] == null ? [] : List<dynamic>.from(json["leaveDocuments"]!.map((x) => x)),
+        leaveDocuments: json["leaveDocuments"] == null ? [] : List<LeaveDocument>.from(json["leaveDocuments"]!.map((x) => x)),
         createdBy: CreatedBy.fromJson(json["createdBy"]),
         updatedBy: CreatedBy.fromJson(json["updatedBy"]),
     );
@@ -60,7 +60,7 @@ class LeaveApprovalsModel {
         "status": status,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
-        "leaveDocuments": leaveDocuments == null ? [] : List<dynamic>.from(leaveDocuments!.map((x) => x)),
+        "leaveDocuments": leaveDocuments == null ? [] : List<LeaveDocument>.from(leaveDocuments!.map((x) => x)),
         "createdBy": createdBy.toJson(),
         "updatedBy": updatedBy.toJson(),
     };
@@ -156,4 +156,24 @@ class LeaveYear {
         "leaveYearName": leaveYearName,
         "startMonth": startMonth,
     };
+}
+
+class LeaveDocument {
+  String filename;
+  String displayName;
+  String url;
+
+  LeaveDocument({
+    required this.filename,
+    required this.displayName,
+    required this.url,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "filename": filename,
+      "displayName": displayName,
+      "url": url,
+    };
+  }
 }

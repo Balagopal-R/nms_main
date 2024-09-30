@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +8,6 @@ import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/file_upload_model/file_upload_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
-
 import '../../../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import '../../../../dtos/nms_dtos/get_all_min_leave_dtos/get_all_min_leave.dart';
 import '../../../../dtos/nms_dtos/get_leave_year_by_date_dtos/get_leave_year_by_date.dart';
@@ -28,7 +26,7 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
 
   
   var leaveTypes = ['Casual', 'Sick', 'Family', 'Vacation'];
-  var duration = ['Full Day', 'First half', 'Second half'];
+  var duration = ['FULL_DAY', 'FIRST_HALF', 'SECOND_HALF'];
   List<String> leaveNames = ['No results found'];
 
   final FocusNode commentsFocusNode = FocusNode();
@@ -36,7 +34,7 @@ class ApplyLeaveBottomSheetController extends GetxController with SnackbarMixin{
 
   var uploadedImageMessage = "".obs;
 
-    final _getLeaveYearByDate = (List<GetLeaveYearByLeaveDateModel>.empty()).obs;
+  final _getLeaveYearByDate = (List<GetLeaveYearByLeaveDateModel>.empty()).obs;
   List<GetLeaveYearByLeaveDateModel> get getLeaveYearByDate => _getLeaveYearByDate;
 
   final _getAllMinLeav = (List<GetAllMinLeaveModel>.empty()).obs;
@@ -197,7 +195,7 @@ String formatDate(DateTime? date) {
   }
 
    //  User Leave/WFH Request
-   userLeaveRequest() async {
+   userLeaveRequest(BuildContext context) async {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
@@ -206,15 +204,15 @@ String formatDate(DateTime? date) {
 
         final request = LeaveRequestCreateRequest(
           userId: userId,
-          duration: "FULL_DAY",
-          id: 43,
-          comments : "Sick",
-          lengthOfLeave: 1,
-          leuOfStartDate: 0,
-          leuOfEndDate : 0,
+          duration: selectedDuration.value,
+          id: 113,
+          comments : comment.value,
+          lengthOfLeave: selectedDays!.toInt(),
+          leuOfStartDate: formatDate(lieuOfDate),
+          leuOfEndDate : formatDate(lieuToDate),
           leaveYearId: 1,
-          leaveStartDate: "2024-09-11",
-          leaveEndDate: "2024-09-11",
+          leaveStartDate: formatDate(leaveFromDate),
+          leaveEndDate: formatDate(toDate),
           leaveDocuments: []
           );
 
@@ -225,11 +223,10 @@ String formatDate(DateTime? date) {
         _leaveRequestMessage.value = response.data;
         print(leaveRequestMessage);
         showSuccessSnackbar(title: 'Success', message:'You have successfully submitted a new Leave request') ;
-        // await Future.delayed(Duration(seconds: 4));
-        // Navigator.pop(context);
+        await Future.delayed(Duration(seconds: 4));
+        Navigator.pop(context);
         
-       
-
+      
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
           showErrorSnackbar(message: errorOccuredText);
@@ -238,7 +235,7 @@ String formatDate(DateTime? date) {
     } catch (e) {
       
       showErrorSnackbar(message: e.toString());
-      showErrorSnackbar(message: 'Failed to submit a new Punch request');
+      // showErrorSnackbar(message: 'Failed to submit a new Leave request');
     }
   }
 
@@ -432,7 +429,7 @@ Future<void> selectLieuToDate(BuildContext context) async {
      // Validation: Check if "To" date precedes "Leave From" date
     if (lieuOfDate != null && lieuToDate!.isBefore(lieuOfDate!)) {
       lieuValidationMessage = 'Lieu of Date precedes to-date'; // Set validation message
-    } else if (selectedDays != selectedLieuDays){
+    } else if (selectedDays == selectedLieuDays){
       lieuValidationMessage = 'Please select the correct date duration'; // Set validation message
     }
     

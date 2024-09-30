@@ -94,8 +94,11 @@ class BalancesScreen extends StatelessWidget {
             builderDelegate: PagedChildBuilderDelegate<GetRemainingLeavesModel>(
               itemBuilder: (context, item, index) =>  _leaveContainer(controller.getEmployeRemainingLeaves[index].nameAbbr,
                                                                      [4, 6, 5],  
-                                                                     controller.getEmployeRemainingLeaves[index].balanceLeaves/controller.getEmployeRemainingLeaves[index].totalLeaves,
+                                                                     controller.getEmployeRemainingLeaves[index].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[index].balanceLeaves / controller.getEmployeRemainingLeaves[index].totalLeaves,
                                                                      controller.getEmployeRemainingLeaves[index].totalLeaves),
+
+                                                                     
               
               firstPageErrorIndicatorBuilder: (context) => Center(
                 child: Text('Error occurred, please try again.'),

@@ -588,12 +588,24 @@ Widget _buildChartPage(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                 _buildCircularPercentIndicator('SPL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
-                _buildCircularPercentIndicator('WL', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
-                _buildCircularPercentIndicator('SL', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
-                _buildCircularPercentIndicator('LEA', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
-                _buildCircularPercentIndicator('TL', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-                _buildCircularPercentIndicator('PL', controller.getEmployeRemainingLeaves[5].balanceLeaves/controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
+                 _buildCircularPercentIndicator('SPL',  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
+    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
+                _buildCircularPercentIndicator('WL',  controller.getEmployeRemainingLeaves[1].totalLeaves == 0
+    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
+                _buildCircularPercentIndicator('SL',  controller.getEmployeRemainingLeaves[2].totalLeaves == 0
+    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
+                _buildCircularPercentIndicator('LEA',  controller.getEmployeRemainingLeaves[3].totalLeaves == 0
+    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
+                _buildCircularPercentIndicator('TL',  controller.getEmployeRemainingLeaves[4].totalLeaves == 0
+    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
+                _buildCircularPercentIndicator('PL',  controller.getEmployeRemainingLeaves[5].totalLeaves == 0
+    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
               ],
             ),
             if (!isExpanded)
@@ -615,12 +627,18 @@ Widget _buildChartPage(
             if (isExpanded)
               Column(
                 children: [
-                   _buildLinearPercentIndicator('SPECIAL', controller.getEmployeRemainingLeaves[0].balanceLeaves/controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
-                  _buildLinearPercentIndicator('WOMENS ', controller.getEmployeRemainingLeaves[1].balanceLeaves/controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
-                  _buildLinearPercentIndicator('SICK', controller.getEmployeRemainingLeaves[2].balanceLeaves/controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
-                 _buildLinearPercentIndicator('LEAVES ', controller.getEmployeRemainingLeaves[3].balanceLeaves/controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
-                  _buildLinearPercentIndicator('TEST ', controller.getEmployeRemainingLeaves[4].balanceLeaves/controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-                   _buildLinearPercentIndicator('PERSONAL ', controller.getEmployeRemainingLeaves[5].balanceLeaves/controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
+                   _buildLinearPercentIndicator('SPECIAL',  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
+                  _buildLinearPercentIndicator('WOMENS ',controller.getEmployeRemainingLeaves[1].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
+                  _buildLinearPercentIndicator('SICK', controller.getEmployeRemainingLeaves[2].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
+                 _buildLinearPercentIndicator('LEAVES ', controller.getEmployeRemainingLeaves[3].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
+                  _buildLinearPercentIndicator('TEST ', controller.getEmployeRemainingLeaves[4].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
+                   _buildLinearPercentIndicator('PERSONAL ', controller.getEmployeRemainingLeaves[5].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
                   // _buildLinearPercentIndicator('Maternity Leave', 0.4),
                   // _buildLinearPercentIndicator('Vacation Leave', 0.3),
                   IconButton(

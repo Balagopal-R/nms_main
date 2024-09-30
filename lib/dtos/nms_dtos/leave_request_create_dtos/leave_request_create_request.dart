@@ -4,8 +4,8 @@ class LeaveRequestCreateRequest {
   int id;
   String comments;
   int lengthOfLeave;
-  int leuOfStartDate;
-  int leuOfEndDate;
+  String? leuOfStartDate;
+  String? leuOfEndDate;
   int leaveYearId;
   String leaveStartDate;
   String leaveEndDate;
@@ -17,8 +17,8 @@ class LeaveRequestCreateRequest {
     required this.id,
     required this.comments,
     required this.lengthOfLeave,
-    required this.leuOfStartDate,
-    required this.leuOfEndDate,
+    this.leuOfStartDate,
+    this.leuOfEndDate,
     required this.leaveYearId,
     required this.leaveStartDate,
     required this.leaveEndDate,
