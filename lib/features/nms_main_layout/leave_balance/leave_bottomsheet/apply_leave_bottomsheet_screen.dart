@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/cornered_button.dart';
-
 import 'apply_leave_bottomsheet.dart';
 
 class ApplyLeaveBottomSheetScreen extends StatefulWidget {
@@ -149,6 +148,7 @@ class _ApplyLeaveBottomSheetScreenState
                                 true, // Disable direct editing to force the user to select a date
                             onTap: () async {
                               // Trigger date picker on tap
+                              await controller.clearDurationDropdown();
                               await controller.selectLeaveFromDate(context);
                               if (controller.validateDates()) {
                                 await controller.getLeaveYearByLeaveDate();
@@ -190,10 +190,12 @@ class _ApplyLeaveBottomSheetScreenState
                                 true, // Disable direct editing to force the user to select a date
                             onTap: () async {
                               // Trigger date picker on tap
+                              await controller.clearDurationDropdown();
                               await controller.selectToDate(context);
                               if (controller.validateDates()) {
                                 await controller.getLeaveYearByLeaveDate();
                               }
+                             
                             },
                             decoration: InputDecoration(
                               hintText: 'Select',
@@ -241,7 +243,7 @@ class _ApplyLeaveBottomSheetScreenState
                   ),
                   SizedBox(height: 8.0),
 
-                  // Row 6: Location Dropdown
+                  // Row 6: Leave Dropdown
 
                   Obx(
                     () => DropdownButtonFormField2<String>(
@@ -318,13 +320,14 @@ class _ApplyLeaveBottomSheetScreenState
                       onChanged: (value) {
                         controller.selectedLeaveType.value = value!;
                         controller.isLeaveTypeValid.value = true;
+                        controller.selectedId.value = controller.getAllMinLeav.firstWhere((element) => element.name == value).id;
                       },
                     ),
                   ),
 
                   SizedBox(height: 8.0),
 
-                  // Row 5: Location
+                  // Row 5: Duration
                   Text(
                     'Duration*',
                     style: TextStyle(
@@ -336,7 +339,7 @@ class _ApplyLeaveBottomSheetScreenState
                   ),
                   SizedBox(height: 8.0),
 
-                  // Row 6: Duration
+                  // Row 6: Duration Dropdown
 
                   Obx(
                     () => DropdownButtonFormField2<String>(
@@ -387,7 +390,7 @@ class _ApplyLeaveBottomSheetScreenState
                               color: Color(0xffB7B7B7)),
                         ),
                       ),
-                      items: controller.duration // Replace with your duration
+                      items: controller.getDurationList() // Replace with your duration
                           .map((item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Padding(
@@ -412,6 +415,7 @@ class _ApplyLeaveBottomSheetScreenState
                       onChanged: (value) {
                         controller.selectedDuration.value = value!;
                         controller.isDurationValid.value = true;
+                        controller.updateSelectedDays();
                       },
                     ),
                   ),
