@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/file_upload_model/file_upload_model.dart';
+import 'package:nms/models/leave_approvals_model/leave_approvals_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
 import '../../../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
@@ -53,6 +54,7 @@ class ApplyLeaveBottomSheetController extends GetxController
   @override
   void onInit() async {
     super.onInit();
+    leaveDocumentsUser = [];
   }
 
   List<String> getDurationList() {
@@ -166,6 +168,8 @@ class ApplyLeaveBottomSheetController extends GetxController
     }
   }
 
+  List<LeaveDocument> leaveDocumentsUser = []; // List to hold leaveDocuments
+
   // upload image api function
   Future<void> uploadImage(PlatformFile imageFile) async {
     String defaultMessage = '';
@@ -186,7 +190,25 @@ class ApplyLeaveBottomSheetController extends GetxController
 
         if (response.status == 200) {
           _userFileUpload.value = response.data;
-          print(userFileUpload!.fileUrl);
+
+           // Create a new LeaveDocument object
+        LeaveDocument document = LeaveDocument(
+          filename: userFileUpload!.fileName,
+          displayName: userFileUpload!.displayName,
+          url: userFileUpload!.fileUrl,
+        );
+
+        // Add the document to the leaveDocuments list
+        leaveDocumentsUser.add(document);
+        for(int i = 0; i< leaveDocumentsUser.length; i++) {
+          print("------------");
+         print(leaveDocumentsUser[i].url);
+         print(leaveDocumentsUser[i].displayName);
+         print(leaveDocumentsUser[i].filename);
+         print("------------");
+        }
+        
+          
           // showSuccessSnackbar(
           //     title: 'Success', message: 'File Upload Successfully');
           // await Future.delayed(Duration(seconds: 5));
@@ -219,7 +241,8 @@ class ApplyLeaveBottomSheetController extends GetxController
             leaveYearId: 1,
             leaveStartDate: formatDate(leaveFromDate),
             leaveEndDate: formatDate(toDate),
-            leaveDocuments: []);
+            leaveDocuments: leaveDocumentsUser
+            );
 
         final response = await ApiRepository.to.leaveRequest(request: request);
 
@@ -357,17 +380,6 @@ class ApplyLeaveBottomSheetController extends GetxController
     updateSelectedDays(); // Call function to update selected days after date change
     update(); // Update UI
   }
-
-// Function to calculate and update the selected days
-// void updateSelectedDays() {
-//   if (leaveFromDate != null && toDate != null && validationMessage == null) {
-//     // Calculate the difference in days and add 1 to include both dates
-//     selectedDays = toDate!.difference(leaveFromDate!).inDays + 1;
-//   } else {
-//     selectedDays = null; // Reset if dates are invalid
-//   }
-//   update();
-// }
 
   void updateSelectedDays() {
     // Check if dates are valid
@@ -572,3 +584,15 @@ class ApplyLeaveBottomSheetController extends GetxController
     );
   }
 }
+
+// class LeaveDocument {
+//   String filename;
+//   String displayName;
+//   String url;
+
+//   LeaveDocument({
+//     required this.filename,
+//     required this.displayName,
+//     required this.url,
+//   });
+// }

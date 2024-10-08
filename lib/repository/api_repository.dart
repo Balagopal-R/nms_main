@@ -386,7 +386,7 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
   Future<LeaveRequestCancelResponse> leaveRequestCancel(
       {required LeaveRequestCancelRequest request}) async {
     final response = await _helper.postWithBodyParamsHasNoString(
-      endpoint: ApiEndPoints.punchApprovalsCancel,
+      endpoint: ApiEndPoints.leaveApprovalsCancel,
       body: {},
       params: request.toMap(),
     );

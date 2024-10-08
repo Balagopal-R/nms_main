@@ -1,3 +1,5 @@
+import 'package:nms/models/leave_approvals_model/leave_approvals_model.dart';
+
 class LeaveRequestCreateRequest {
   String userId;
   String duration;
@@ -44,22 +46,22 @@ class LeaveRequestCreateRequest {
   }
 }
 
-class LeaveDocument {
-  String filename;
-  String displayName;
-  String url;
+// class LeaveDocument {
+//   String filename;
+//   String displayName;
+//   String url;
 
-  LeaveDocument({
-    required this.filename,
-    required this.displayName,
-    required this.url,
-  });
+//   LeaveDocument({
+//     required this.filename,
+//     required this.displayName,
+//     required this.url,
+//   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      "filename": filename,
-      "displayName": displayName,
-      "url": url,
-    };
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     return {
+//       "filename": filename,
+//       "displayName": displayName,
+//       "url": url,
+//     };
+//   }
+// }

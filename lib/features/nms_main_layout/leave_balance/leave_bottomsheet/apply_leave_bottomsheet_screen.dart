@@ -685,7 +685,7 @@ class _ApplyLeaveBottomSheetScreenState
                       if (controller.isLeaveTypeValid.value &&
                           controller.isDurationValid.value &&
                           controller.isCommentValid.value) {
-                        // await controller.uploadFiles(controller.files);
+                        await controller.uploadFiles(controller.files);
                         await controller.userLeaveRequest(context);
                       }
                     },

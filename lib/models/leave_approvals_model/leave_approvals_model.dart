@@ -43,9 +43,12 @@ class LeaveApprovalsModel {
         status: json["status"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
-        leaveDocuments: json["leaveDocuments"] == null ? [] : List<LeaveDocument>.from(json["leaveDocuments"]!.map((x) => x)),
+        // leaveDocuments: json["leaveDocuments"] == null ? [] : List<LeaveDocument>.from(json["leaveDocuments"]!.map((x) => x)),
+        leaveDocuments: json["leaveDocuments"] == null ? [] : List<LeaveDocument>.from(json["leaveDocuments"].map((x) => LeaveDocument.fromJson(x))),
+       
         createdBy: CreatedBy.fromJson(json["createdBy"]),
         updatedBy: CreatedBy.fromJson(json["updatedBy"]),
+
     );
 
     Map<String, dynamic> toJson() => {
@@ -110,6 +113,31 @@ class CreatedBy {
     };
 }
 
+class LeaveDocument {
+    String filename;
+    String displayName;
+    String url;
+
+    LeaveDocument({
+        required this.filename,
+        required this.displayName,
+        required this.url,
+    });
+
+    factory LeaveDocument.fromJson(Map<String, dynamic> json) => LeaveDocument(
+        filename: json["filename"],
+        displayName: json["displayName"],
+        url: json["url"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "filename": filename,
+        "displayName": displayName,
+        "url": url,
+    };
+}
+
+
 class LeaveType {
     int id;
     String name;
@@ -158,22 +186,22 @@ class LeaveYear {
     };
 }
 
-class LeaveDocument {
-  String filename;
-  String displayName;
-  String url;
+// class LeaveDocument {
+//   String filename;
+//   String displayName;
+//   String url;
 
-  LeaveDocument({
-    required this.filename,
-    required this.displayName,
-    required this.url,
-  });
+//   LeaveDocument({
+//     required this.filename,
+//     required this.displayName,
+//     required this.url,
+//   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      "filename": filename,
-      "displayName": displayName,
-      "url": url,
-    };
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     return {
+//       "filename": filename,
+//       "displayName": displayName,
+//       "url": url,
+//     };
+//   }
+// }

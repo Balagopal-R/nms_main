@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../approvals_leave_controller.dart';
 
 class LeaveApprovalsBottomSheet extends StatelessWidget {
@@ -16,6 +15,7 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
   final String reqBreakTime;
   final String comments;
   final VoidCallback onTap;
+  final int index;
   // final int? documentLength;
   // final String? documentName;
 
@@ -33,6 +33,7 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
     required this.reqBreakTime,
     required this.comments,
     required this.onTap,
+    required this.index
     // this.documentLength,
     // this.documentName ,
   }) : super(key: key); 
@@ -116,6 +117,8 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
                       SizedBox(height: 16),
                       
                       // _buildFileList(documentLength!, documentName!),
+
+                      if (controller.leaveApprovals[index].status == 'PENDING' || controller.leaveApprovals[index].status == 'ACCEPTED')
                       
                       GestureDetector(
                         onTap: onTap,

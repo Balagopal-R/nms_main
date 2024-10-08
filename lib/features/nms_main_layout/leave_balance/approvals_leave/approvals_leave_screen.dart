@@ -45,15 +45,16 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                       reqBreakTime: '',
                       comments: item.comments,
                       onTap: () {
-                        //  if (controller.punchApprovals[index].status == 'PENDING') {
-                        //   _showCustomDialog(context, controller,
-                        //     controller.punchApprovalsViewRequest!.id);
-                        //     }
-                        //     else {
+                         if (item.status == 'PENDING' || item.status == 'ACCEPTED') {
+                          _showCustomDialog(context, controller,item.id);
+                          // Navigator.pop(context);
+                            }
+                            else {
                               
-                        //     }
+                            }
                         
                       },
+                      index: index,
                       // documentLength: item.leaveDocuments?.length,
                       // documentName: item.leaveDocuments?[index].displayName,
                     ),
