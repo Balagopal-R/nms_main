@@ -52,7 +52,7 @@ class ApprovalsLeaveController extends GetxController with SnackbarMixin {
         final userId = decodedToken["userId"];
         final request = LeaveApprovalsRequest(
           field: "createdAt",
-          sortOfOrder: "ASC",
+          sortOfOrder: "DESC",
           page: pageKey,
           size: _pageSize,
           userId: userId,

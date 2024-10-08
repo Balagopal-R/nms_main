@@ -584,15 +584,3 @@ class ApplyLeaveBottomSheetController extends GetxController
     );
   }
 }
-
-// class LeaveDocument {
-//   String filename;
-//   String displayName;
-//   String url;
-
-//   LeaveDocument({
-//     required this.filename,
-//     required this.displayName,
-//     required this.url,
-//   });
-// }

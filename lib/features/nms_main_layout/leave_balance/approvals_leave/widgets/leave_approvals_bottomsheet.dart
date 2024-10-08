@@ -16,8 +16,8 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
   final String comments;
   final VoidCallback onTap;
   final int index;
-  // final int? documentLength;
-  // final String? documentName;
+  final int? documentLength;
+  final String? documentName;
 
      const LeaveApprovalsBottomSheet({
     Key? key,
@@ -33,9 +33,9 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
     required this.reqBreakTime,
     required this.comments,
     required this.onTap,
-    required this.index
-    // this.documentLength,
-    // this.documentName ,
+    required this.index,
+    this.documentLength,
+    this.documentName ,
   }) : super(key: key); 
 
   @override
@@ -115,8 +115,10 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(comments,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
                       SizedBox(height: 16),
-                      
-                      // _buildFileList(documentLength!, documentName!),
+
+                      // Modify the call to _buildFileList
+                      if (documentLength != null && documentLength != 0 && documentName != null)
+                        _buildFileList(documentLength!, documentName!),
 
                       if (controller.leaveApprovals[index].status == 'PENDING' || controller.leaveApprovals[index].status == 'ACCEPTED')
                       
@@ -148,25 +150,50 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
     );
   }
 
-   Widget _buildFileList(int length, String name) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: length,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(vertical: 5.0),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFAFAFA),
-            borderRadius: BorderRadius.circular(2.0),
-          ),
-          child: ListTile(
-            leading: const Icon(Icons.insert_drive_file),
-            title: Text(name),
-          ),
-        );
-      },
-    );
+  //  Widget _buildFileList(int length, String name) {
+  //   return ListView.builder(
+  //     shrinkWrap: true,
+  //     itemCount: length,
+  //     itemBuilder: (context, index) {
+  //       return Container(
+  //         margin: const EdgeInsets.symmetric(vertical: 5.0),
+  //         decoration: BoxDecoration(
+  //           color: const Color(0xFFFAFAFA),
+  //           borderRadius: BorderRadius.circular(2.0),
+  //         ),
+  //         child: ListTile(
+  //           leading: const Icon(Icons.insert_drive_file),
+  //           title: Text(name),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  Widget _buildFileList(int length, String? name) {
+  if (name == null || name.isEmpty) {
+    return SizedBox.shrink(); // If no documents, return an empty SizedBox
   }
+
+  return ListView.builder(
+    shrinkWrap: true,
+    itemCount: length,
+    itemBuilder: (context, index) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 5.0),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFAFAFA),
+          borderRadius: BorderRadius.circular(2.0),
+        ),
+        child: ListTile(
+          leading: const Icon(Icons.insert_drive_file),
+          title: Text(name), // Use the provided name directly
+        ),
+      );
+    },
+  );
+}
+
 
   Widget _buildRow(String leftTitle, String rightTitle, String leftValue, String rightValue) {
     return Padding(
