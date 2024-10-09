@@ -55,9 +55,6 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                         
                       },
                       index: index,
-                      // documentLength: item.leaveDocuments?.length,
-                      // documentName: item.leaveDocuments?[index].displayName,
- // Ensure length is valid and documentName is not null
                     documentLength: item.leaveDocuments?.length ?? 0,
                     documentName: (item.leaveDocuments != null && 
                  item.leaveDocuments!.isNotEmpty && 
