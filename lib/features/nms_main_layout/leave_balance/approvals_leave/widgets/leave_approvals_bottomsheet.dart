@@ -19,6 +19,7 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
   final int index;
   final int? documentLength;
   final String? documentName;
+  final String? fileName;
 
   const LeaveApprovalsBottomSheet({
     Key? key,
@@ -37,6 +38,7 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
     required this.index,
     this.documentLength,
     this.documentName,
+    this.fileName
   }) : super(key: key);
 
   @override
@@ -145,7 +147,12 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
 
                           // Adjust height dynamically based on _buildFileList content
                           if (documentLength != null && documentLength != 0 && documentName != null)
-                            _buildFileList(documentLength!, documentName!),
+                            _buildFileList(documentLength!, documentName!,  onTapDownload: (int index) {
+    // Handle the tap action here
+                            //  print('Tapped file at index $index');
+                            //  print('-------------@@@@ $fileName');
+                             controller.downloadFile(fileName!);
+  },),
 
                           if (controller.leaveApprovals[index].status == 'PENDING' ||
                               controller.leaveApprovals[index].status == 'ACCEPTED')
@@ -182,7 +189,32 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildFileList(int length, String? name) {
+  // Widget _buildFileList(int length, String? name) {
+  //   if (name == null || name.isEmpty) {
+  //     return SizedBox.shrink(); // If no documents, return an empty SizedBox
+  //   }
+
+  //   return ListView.builder(
+  //     shrinkWrap: true,
+  //     physics: NeverScrollableScrollPhysics(), // Disable internal scrolling
+  //     itemCount: length,
+  //     itemBuilder: (context, index) {
+  //       return Container(
+  //         margin: const EdgeInsets.symmetric(vertical: 5.0),
+  //         decoration: BoxDecoration(
+  //           color: const Color(0xFFFAFAFA),
+  //           borderRadius: BorderRadius.circular(2.0),
+  //         ),
+  //         child: ListTile(
+  //           leading: const Icon(Icons.insert_drive_file),
+  //           title: Text(name), // Use the provided name directly
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+    Widget _buildFileList(int length, String? name, {required void Function(int) onTapDownload}) {
     if (name == null || name.isEmpty) {
       return SizedBox.shrink(); // If no documents, return an empty SizedBox
     }
@@ -192,20 +224,26 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(), // Disable internal scrolling
       itemCount: length,
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(vertical: 5.0),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFAFAFA),
-            borderRadius: BorderRadius.circular(2.0),
-          ),
-          child: ListTile(
-            leading: const Icon(Icons.insert_drive_file),
-            title: Text(name), // Use the provided name directly
+        return GestureDetector(
+          onTap: () => onTapDownload(index), // Trigger the provided onTap function
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 5.0),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFAFAFA),
+              borderRadius: BorderRadius.circular(2.0),
+            ),
+            child: ListTile(
+              leading: const Icon(Icons.insert_drive_file),
+              title: Text(name), // Use the provided name directly
+            ),
           ),
         );
       },
     );
   }
+
+
+
 
   Widget _buildRow(String leftTitle, String rightTitle, String leftValue, String rightValue) {
     return Padding(

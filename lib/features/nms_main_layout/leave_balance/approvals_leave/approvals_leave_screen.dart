@@ -19,9 +19,9 @@ class ApprovalsLeaveScreen extends StatelessWidget {
             builderDelegate: PagedChildBuilderDelegate<LeaveApprovalsModel>(
               itemBuilder: (context, item, index) => LeaveApprovalsWidget(
                 date: '${controller.formatDate(item.leaveStartDate)} - ${controller.formatDate(item.leaveEndDate)}',
-                statusText: item.status,
-                statusColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
-                containerColor: controller.getColorBasedOnApprovalStatus(item.status),
+                statusText: controller.capitalizeFirstLetter(item.status),
+                statusColor: controller.getColorBasedOnApprovalStatus(item.status),
+                containerColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
                 leaveType: '${item.leaveType.name}/${item.duration}',
                 appliedOn: controller.formatEpochToDateString(item.createdAt),
                 approvedRejectedBy: controller.getStatusText(item.status, item.updatedBy.firstname, item.updatedBy.lastname),
@@ -34,9 +34,9 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                   await Get.bottomSheet(
                     LeaveApprovalsBottomSheet(
                       appliedDate: controller.formatEpochToDateString(item.createdAt),
-                      statusColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
-                      containerColor: controller.getColorBasedOnApprovalStatus(item.status),
-                      statusText: item.status,
+                      statusColor: controller.getColorBasedOnApprovalStatus(item.status),
+                      containerColor: controller.getContainerColorBasedOnApprovalStatus(item.status),
+                      statusText: controller.capitalizeFirstLetter(item.status),
                       dateFrom: controller.formatDate(item.leaveStartDate),
                       leaveType: '${item.leaveType.name}/${item.duration}' ,
                       by: 'Approved',
@@ -61,6 +61,12 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                  index >= 0 && 
                  index < item.leaveDocuments!.length)
       ? item.leaveDocuments![index].displayName
+      : null,
+      fileName: (item.leaveDocuments != null && 
+                 item.leaveDocuments!.isNotEmpty && 
+                 index >= 0 && 
+                 index < item.leaveDocuments!.length)
+      ? item.leaveDocuments![index].filename
       : null,
                     ),
                     isScrollControlled: true,

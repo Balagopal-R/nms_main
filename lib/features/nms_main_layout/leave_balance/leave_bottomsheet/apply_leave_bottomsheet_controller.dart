@@ -51,10 +51,12 @@ class ApplyLeaveBottomSheetController extends GetxController
 
   List<PlatformFile> files = [];
 
+   List<LeaveDocument> leaveDocumentsUser = []; // List to hold leaveDocuments
+
   @override
   void onInit() async {
     super.onInit();
-    leaveDocumentsUser = [];
+    leaveDocumentsUser.clear();
   }
 
   List<String> getDurationList() {
@@ -167,8 +169,6 @@ class ApplyLeaveBottomSheetController extends GetxController
       await uploadImage(file);
     }
   }
-
-  List<LeaveDocument> leaveDocumentsUser = []; // List to hold leaveDocuments
 
   // upload image api function
   Future<void> uploadImage(PlatformFile imageFile) async {

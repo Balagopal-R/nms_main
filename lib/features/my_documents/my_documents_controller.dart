@@ -35,6 +35,8 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
     'OTHERS'
   ];
 
+  List<PlatformFile> files = [];
+
   void validateForm() {
     isCategoryValid.value = selectedCategory.isNotEmpty;
   }
@@ -303,8 +305,6 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
       return catchErrorSection(e);
     }
   }
-
-  List<PlatformFile> files = [];
 
   void pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(

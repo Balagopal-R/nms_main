@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:nms/dtos/nms_dtos/file_download_dtos/file_download_request.dart';
 import 'package:nms/dtos/nms_dtos/leave_request_cancel_dtos/leave_request_cancel.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/leave_approvals_model/leave_approvals_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../../dtos/nms_dtos/leave_approvals_dtos/leave_approvals.dart';
 
 class ApprovalsLeaveController extends GetxController with SnackbarMixin {
@@ -31,6 +33,7 @@ class ApprovalsLeaveController extends GetxController with SnackbarMixin {
       userLeaveApprovals(pageKey);
     });
     pagingController.refresh();
+    requestStoragePermission();
   }
 
   String getStatusText(String status, String nameOne, String nameTwo) {
@@ -111,6 +114,38 @@ class ApprovalsLeaveController extends GetxController with SnackbarMixin {
     }
   }
 
+    Future<void> requestStoragePermission() async {
+    // Requesting MANAGE_EXTERNAL_STORAGE for Android 10+
+    if (await Permission.manageExternalStorage.request().isGranted) {
+      // Permission granted for Android 10+
+      debugPrint("Manage External Storage Permission Granted");
+    } else if (await Permission.storage.request().isGranted) {
+      // Permission granted for Android 9 and below
+      debugPrint("Storage Permission Granted");
+    } else {
+      // Handle permission denial
+      debugPrint("Storage Permission Denied");
+    }
+  }
+
+     Future<void> downloadFile(String fileName) async {
+    await requestStoragePermission();
+    try {
+      final request = FileDownloadRequest(fileName: fileName);
+      final response = await ApiRepository.to.fileDownload(request: request);
+
+      print(response.toString());
+      showSuccessSnackbar(
+          title: 'Success', message: 'File Downloaded Successfully');
+    } catch (e) {
+      update();
+      showErrorSnackbar(
+          message: e.toString(),
+        );
+    }
+  }
+
+
     String formatEpochToDateString(int epoch) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch);
     final formatter = DateFormat('dd MMM yyyy');
@@ -156,6 +191,12 @@ class ApprovalsLeaveController extends GetxController with SnackbarMixin {
     } else {
       return Color(0XFFFF4646);
     }
+  }
+
+    String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
+
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
   }
 
 
