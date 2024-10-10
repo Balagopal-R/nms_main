@@ -25,6 +25,7 @@ class ApplyLeaveBottomSheetController extends GetxController
   var isCommentValid = true.obs;
   var comment = ''.obs;
   final selectedId = 0.obs;
+  final isEnforceAdjHoliday = false.obs;
 
   var leaveTypes = ['Casual', 'Sick', 'Family', 'Vacation'];
   var duration = ['FULL_DAY', 'FIRST_HALF', 'SECOND_HALF'];
@@ -56,8 +57,8 @@ class ApplyLeaveBottomSheetController extends GetxController
   @override
   void onInit() async {
     super.onInit();
-    leaveDocumentsUser.clear();
-  }
+    clearLeaveDocuments();
+    }
 
   List<String> getDurationList() {
     if (selectedDays != null && selectedDays! > 1) {
@@ -69,6 +70,10 @@ class ApplyLeaveBottomSheetController extends GetxController
 
   clearDurationDropdown(){
     selectedDuration.value = '';
+  }
+
+  clearLeaveDocuments(){
+    leaveDocumentsUser.clear();
   }
 
   bool validateDates() {
@@ -200,19 +205,13 @@ class ApplyLeaveBottomSheetController extends GetxController
 
         // Add the document to the leaveDocuments list
         leaveDocumentsUser.add(document);
-        for(int i = 0; i< leaveDocumentsUser.length; i++) {
-          print("------------");
-         print(leaveDocumentsUser[i].url);
-         print(leaveDocumentsUser[i].displayName);
-         print(leaveDocumentsUser[i].filename);
-         print("------------");
-        }
-        
-          
-          // showSuccessSnackbar(
-          //     title: 'Success', message: 'File Upload Successfully');
-          // await Future.delayed(Duration(seconds: 5));
-          // Navigator.pop(context);
+        // for(int i = 0; i< leaveDocumentsUser.length; i++) {
+        //   print("------------");
+        //  print(leaveDocumentsUser[i].url);
+        //  print(leaveDocumentsUser[i].displayName);
+        //  print(leaveDocumentsUser[i].filename);
+        //  print("------------");
+        // }
         }
       }
     } catch (e) {
@@ -382,23 +381,41 @@ class ApplyLeaveBottomSheetController extends GetxController
   }
 
   void updateSelectedDays() {
-    // Check if dates are valid
-    if (leaveFromDate != null && toDate != null && validationMessage == null) {
-      // Check if selectedDuration is FIRST_HALF or SECOND_HALF
-      if (selectedDuration.value == 'FIRST_HALF' ||
-          selectedDuration.value == 'SECOND_HALF') {
-        selectedDays = 0.5; // Set selectedDays to 0.5
-      } else {
-        // Calculate the difference in days and add 1 to include both dates
-        selectedDays = toDate!.difference(leaveFromDate!).inDays + 1;
+  // Check if dates are valid
+  if (leaveFromDate != null && toDate != null && validationMessage == null) {
+    // Calculate total days between leaveFromDate and toDate
+    int totalDays = toDate!.difference(leaveFromDate!).inDays + 1;
+
+    if (isEnforceAdjHoliday.value) {
+      // Exclude Saturdays and Sundays from total days
+      int weekendsCount = 0;
+      for (int i = 0; i < totalDays; i++) {
+        DateTime currentDate = leaveFromDate!.add(Duration(days: i));
+        if (currentDate.weekday == DateTime.saturday ||
+            currentDate.weekday == DateTime.sunday) {
+          weekendsCount++;
+        }
       }
+      selectedDays = totalDays - weekendsCount.toDouble();
     } else {
-      selectedDays = null; // Reset if dates are invalid
+      selectedDays = totalDays.toDouble(); // Include all days
     }
 
-    // Update the UI or any necessary state
-    update();
+    // Check if selectedDuration is FIRST_HALF or SECOND_HALF
+    if (selectedDuration.value == 'FIRST_HALF' ||
+        selectedDuration.value == 'SECOND_HALF') {
+      selectedDays = 0.5; // Set selectedDays to 0.5 for half days
+    }
+  } else {
+    selectedDays = null; // Reset if dates are invalid
   }
+
+  // Update the UI or any necessary state
+  update();
+}
+
+
+
 
   DateTime? lieuOfDate; // Date selected in "Leave From"
   DateTime? lieuToDate; // Date selected in "To"
@@ -464,6 +481,26 @@ class ApplyLeaveBottomSheetController extends GetxController
         );
       },
     );
+
+//      if (picked != null && picked != lieuToDate) {
+//     lieuToDate = picked;
+
+//     // Validation: Check if "To" date precedes "Leave From" date
+//     if (lieuOfDate != null && lieuToDate!.isBefore(lieuOfDate!)) {
+//       lieuValidationMessage = 'Lieu of Date precedes to-date'; // Set validation message
+//     } 
+//     // Validation: Check if the selectedLieuDays differs from selectedDays
+//     else if (selectedDays != null && selectedLieuDays != null && selectedDays != selectedLieuDays) {
+//       lieuValidationMessage = 'Please select the correct date duration'; // Set validation message
+//     } 
+//     else {
+//       lieuValidationMessage = null; // Clear validation message if valid
+//     }
+//   }
+
+//   updateLieuSelectedDays(); // Call function to update selected lieu days after date change
+//   update(); // Update UI
+// }
 
     if (picked != null && picked != lieuToDate) {
       lieuToDate = picked;

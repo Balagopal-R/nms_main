@@ -320,7 +320,10 @@ class _ApplyLeaveBottomSheetScreenState
                       onChanged: (value) {
                         controller.selectedLeaveType.value = value!;
                         controller.isLeaveTypeValid.value = true;
+                        controller.clearLeaveDocuments();
                         controller.selectedId.value = controller.getAllMinLeav.firstWhere((element) => element.name == value).id;
+                        controller.isEnforceAdjHoliday.value = controller.getAllMinLeav.firstWhere((element) => element.name == value).isEnforceAdjHoliday;
+                        controller.updateSelectedDays();
                       },
                     ),
                   ),
@@ -415,6 +418,7 @@ class _ApplyLeaveBottomSheetScreenState
                       onChanged: (value) {
                         controller.selectedDuration.value = value!;
                         controller.isDurationValid.value = true;
+                        controller.clearLeaveDocuments();
                         controller.updateSelectedDays();
                       },
                     ),
