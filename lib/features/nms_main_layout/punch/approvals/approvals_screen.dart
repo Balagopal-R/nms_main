@@ -77,29 +77,14 @@ class ApprovalsScreen extends StatelessWidget {
                           controller.getContainerColorBasedOnApprovalStatus(
                               controller.punchApprovalsViewRequest!.status),
                       statusText: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.status),
-                      inTime: controller.formatEpochToTimeString(controller
-                          .punchApprovalsViewRequest!
-                          .punchLog[0]
-                          .punchInDateTime),
-                      breakTime: controller.formatEpochToTimeString(controller
-                          .punchApprovalsViewRequest!
-                          .punchLog[1]
-                          .punchInDateTime),
-                      resumeTime: controller.formatEpochToTimeString(controller
-                          .punchApprovalsViewRequest!
-                          .punchLog[1]
-                          .punchOutDateTime),
-                      outTime: controller.formatEpochToTimeString(controller
-                          .punchApprovalsViewRequest!
-                          .punchLog[controller
+                      inTime: controller.checkPunchLogIn(controller.punchApprovalsViewRequest, 0),
+                      breakTime: controller.checkPunchLogBreak(controller.punchApprovalsViewRequest),
+                      resumeTime: controller.checkPunchLogResume(controller.punchApprovalsViewRequest),
+                      outTime: controller.checkPunchLogOut(controller.punchApprovalsViewRequest, controller
                                   .punchApprovalsViewRequest!.punchLog.length -
-                              1]
-                          .punchOutDateTime),
-                      location: controller
-                          .punchApprovalsViewRequest!.punchLog[0].punchLocation
-                          .toString(),
-                      by: controller.capitalizeFirstLetter(
-                          controller.punchApprovalsViewRequest!.status),
+                              1),
+                      location: controller.capitalizeFirstLetter(controller.checkPunchLocation(controller.punchApprovalsViewRequest)),
+                      by: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.status),
                       admin: controller.punchApprovalsViewRequest?.managers
                                   ?.isNotEmpty ==
                               true
@@ -112,8 +97,7 @@ class ApprovalsScreen extends StatelessWidget {
                       reqBreakTime: "13:00",
                       reqResumeTime: "13:30",
                       reqOutTime: "18:00",
-                      reqLocation:
-                          controller.punchApprovalsViewRequest!.punchLocation,
+                      reqLocation: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.punchLocation),
                       onTap: () {
                          if (controller.punchApprovals[index].status == 'PENDING') {
                           _showCustomDialog(context, controller,

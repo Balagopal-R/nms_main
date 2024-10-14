@@ -24,7 +24,7 @@ class WorkStatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: replyMessageColor,
+        color: secondaryTextColor,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(

@@ -68,7 +68,7 @@ class TeamListingCard extends StatelessWidget {
               ],
             ),
             const Divider(
-              color: replyMessageColor,
+              color: secondaryTextColor,
             )
           ],
         ),

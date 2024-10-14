@@ -7,7 +7,7 @@ class AppTheme {
       textSelectionTheme: const TextSelectionThemeData(
         selectionHandleColor: Colors.transparent,
       ),
-      fontFamily: "DMSans",
+      fontFamily: "Satoshi",
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       textTheme: const TextTheme(

@@ -44,12 +44,16 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height * 0.75;
     return GetBuilder<ApprovalsController>(
       init: ApprovalsController(),
       builder: (controller) {
+       double dynamicHeight = MediaQuery.of(context).size.height *
+            (controller.punchApprovalsViewRequest!.status == 'PENDING'
+                ? 0.75 // if button visible
+                : 0.65); // if button hidden
+
         return Container(
-          height: height,
+          height: dynamicHeight,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -116,6 +120,8 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(admin,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
                       SizedBox(height: 16),
+
+                      if (controller.punchApprovalsViewRequest!.status == 'PENDING')
                       
                       GestureDetector(
                         onTap: onTap,

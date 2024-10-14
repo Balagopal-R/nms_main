@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
 import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
@@ -202,6 +203,73 @@ class ApprovalsController extends GetxController with SnackbarMixin {
       update();
     }
   }
+
+  String checkPunchLogIn(punchApprovalsViewRequest, int index) {
+  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
+    // Return underscore if punchLog is empty or null
+    return '_';
+  } else {
+    // Return the punchInDateTime of the first entry
+    return formatEpochToTimeString(punchApprovalsViewRequest.punchLog[index].punchInDateTime) ;
+  }
+}
+
+  String checkPunchLogOut(punchApprovalsViewRequest, int index) {
+  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
+    // Return underscore if punchLog is empty or null
+    return '_';
+  } else {
+    // Return the punchInDateTime of the first entry
+    return formatEpochToTimeString(punchApprovalsViewRequest.punchLog[index].punchOutDateTime) ;
+  }
+}
+
+String checkPunchLogBreak(punchApprovalsViewRequest) { 
+  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
+    // Return underscore if punchLog is empty or null
+    return '_';
+  } else {
+    // Loop through punchLog to find the entry where isOnBreak is true
+    for (var log in punchApprovalsViewRequest.punchLog) {
+      if (log.isOnBreak) {
+        // Return the punchInDateTime of the entry where isOnBreak is true
+        return formatEpochToTimeString(log.punchInDateTime);
+      }
+    }
+
+    // If no entry with isOnBreak is found, return underscore
+    return '_';
+  }
+}
+
+String checkPunchLogResume(punchApprovalsViewRequest) { 
+  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
+    // Return underscore if punchLog is empty or null
+    return '_';
+  } else {
+    // Loop through punchLog to find the entry where isOnBreak is true
+    for (var log in punchApprovalsViewRequest.punchLog) {
+      if (log.isOnBreak) {
+        // Return the punchInDateTime of the entry where isOnBreak is true
+        return formatEpochToTimeString(log.punchOutDateTime);
+      }
+    }
+
+    // If no entry with isOnBreak is found, return underscore
+    return '_';
+  }
+}
+
+String checkPunchLocation(punchApprovalsViewRequest) {
+  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
+    // Return underscore if punchLog is empty or null
+    return '_';
+  } else {
+    // Return the punchInDateTime of the first entry
+    return punchApprovalsViewRequest!.punchLog[0].punchLocation.toString() ;
+  }
+}
+
 
   Color getContainerColorBasedOnApprovalStatus(String condition1) {
     if (condition1 == 'ACCEPTED') {

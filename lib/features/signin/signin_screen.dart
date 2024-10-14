@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../constants/app_texts.dart';
@@ -68,12 +67,14 @@ class SignInScreen extends StatelessWidget {
                                 style: AppTheme
                                     .lightTheme.textTheme.headlineLarge
                                     ?.copyWith(
-                                        color: Colors.black, fontSize: 32)),
+                                        color: Colors.black, fontSize: 32)
+                                        ),
                             Text('Welcome.',
                                 style: AppTheme
                                     .lightTheme.textTheme.headlineLarge
                                     ?.copyWith(
-                                        color: Colors.black, fontSize: 32)),
+                                        color: Colors.black, fontSize: 32)
+                                        ),
                           ],
                         ),
                       ),
