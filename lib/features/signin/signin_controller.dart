@@ -12,14 +12,10 @@ import '../../utils/utils.dart';
 
 class SignInController extends GetxController with SnackbarMixin {
   @override
+  // ignore: unnecessary_overrides
   void onInit() async {
-    // await getEmployDetails();
     super.onInit();
   }
-  // final JBSharedPreferences authService = JBSharedPreferences();
-
-  // final _getEmployData = (List<CorporateDetails>.empty()).obs;
-  // List<CorporateDetails> get getEmployData => _getEmployData;
 
   final _getEmployData = Rx<EmployeeData?>(null);
   EmployeeData? get getEmployData => _getEmployData.value;
@@ -33,8 +29,6 @@ class SignInController extends GetxController with SnackbarMixin {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  // final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   var otpController = TextEditingController().obs;
   
@@ -50,14 +44,6 @@ class SignInController extends GetxController with SnackbarMixin {
   //password hide
   final _obsecureText = true.obs;
   bool get obsecureText => _obsecureText.value;
-
-  // Future<void> loadUserDataFromSharedPreferences() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final savedEmail = prefs.getString('email') ?? '';
-  //   final savedPassword = prefs.getString('password') ?? '';
-  //   emailController.text = savedEmail;
-  //   passwordController.text = savedPassword;
-  // }
 
   onPasswordVisible() {
     isObscure = !isObscure;
@@ -214,7 +200,6 @@ class SignInController extends GetxController with SnackbarMixin {
       final decodedToken = await authService.decodeAuthToken();
       if (decodedToken != null) {
         final userId = decodedToken["userId"];
-        print("-----------manu,,,$userId");
         final request = GetEmpoyRequest(userId: userId);
         final response =
             await ApiRepository.to.getEmployDetails(request: request);

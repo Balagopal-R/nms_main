@@ -62,19 +62,11 @@ class ResetPasswordScreen extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            // SvgPicture.asset(
-                            //   "assets/svg/NMS.svg",
-                            // ),
                             Text(resetPassword,
                                 style: AppTheme
                                     .lightTheme.textTheme.headlineLarge
                                     ?.copyWith(
-                                        color: Colors.black, fontSize: 32)),
-                            // Text('Welcome.',
-                            //     style: AppTheme
-                            //         .lightTheme.textTheme.headlineLarge
-                            //         ?.copyWith(
-                            //             color: Colors.black, fontSize: 32)),
+                                        color: primaryTextColor, fontSize: 32)),
                           ],
                         ),
                       ),
@@ -109,32 +101,6 @@ class ResetPasswordScreen extends StatelessWidget {
                                             ),
                               ),
 
-
-                              // CustomLoginTextField(
-                              //   context: context,
-                              //   labelText: passwordLabel,
-                              //   obscureText: controller.isObscure,
-                              //   controller: controller.passwordController,
-                              //   keyboardType: TextInputType.visiblePassword,
-                              //   suffixIcon: IconButton(
-                              //       icon: Icon(
-                              //         controller.isObscure
-                              //             ? Icons.visibility_outlined
-                              //             : Icons.visibility_off_outlined,
-                              //         color: secondaryMediumColor,
-                              //         size: 24,
-                              //       ),
-                              //       onPressed: () {
-                              //         controller.onPasswordVisible();
-                              //       }),
-                              //   autovalidateMode: controller.validationDisplay
-                              //       ? AutovalidateMode.always
-                              //       : AutovalidateMode.disabled,
-                              //   validator: (password) {
-                              //     return controller
-                              //         .passwordValidator(password!);
-                              //   },
-                              // ),
                               const SizedBox(
                                 height: 16,
                               ),
@@ -144,8 +110,6 @@ class ResetPasswordScreen extends StatelessWidget {
                                 title: resetPassword,
                                 textcolor: backgroundColor,
                                 onPress: () async {
-                                  // await controller.login();
-                                  // await controller.getEmployDetails();
                                 },
                               )
                             ],

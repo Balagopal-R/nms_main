@@ -60,20 +60,17 @@ class SignInScreen extends StatelessWidget {
                             const SizedBox(
                               height: 30,
                             ),
-                            // SvgPicture.asset(
-                            //   "assets/svg/NMS.svg",
-                            // ),
                             Text('Hi there!',
                                 style: AppTheme
                                     .lightTheme.textTheme.headlineLarge
                                     ?.copyWith(
-                                        color: Colors.black, fontSize: 32)
+                                        color: primaryTextColor, fontSize: 32)
                                         ),
                             Text('Welcome.',
                                 style: AppTheme
                                     .lightTheme.textTheme.headlineLarge
                                     ?.copyWith(
-                                        color: Colors.black, fontSize: 32)
+                                        color: primaryTextColor, fontSize: 32)
                                         ),
                           ],
                         ),
@@ -138,7 +135,7 @@ class SignInScreen extends StatelessWidget {
                                       Get.offAndToNamed('/reset_password_screen');
                                     },
                                     child: const Text('Forgot Password ?',
-                                    style: TextStyle(color: Color(0xff3BBCA0),
+                                    style: TextStyle(color: lightGreenTextColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400),),
                                   ),
@@ -156,7 +153,6 @@ class SignInScreen extends StatelessWidget {
                                 textcolor: backgroundColor,
                                 onPress: () async {
                                   await controller.login();
-                                  // await controller.getEmployDetails();
                                 },
                               )
                             ],
