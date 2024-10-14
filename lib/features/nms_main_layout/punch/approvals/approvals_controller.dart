@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:just_the_tooltip/just_the_tooltip.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
-import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
-import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/punch_approvals_model/punch_approvals_model.dart';
@@ -37,31 +33,21 @@ class ApprovalsController extends GetxController with SnackbarMixin {
   final PagingController<int, PunchApprovalsModel> pagingController =
       PagingController(firstPageKey: 0);
 
-      // String userId = "";
-
   @override
   void onInit() async {
     super.onInit();
-    // await getIdFromToken();
     pagingController.addPageRequestListener((pageKey) {
       userPunchApprovals(pageKey);
     });
     // Trigger the initial page load
     pagingController.refresh();
-    // await getLastPunchIn();
   }
 
-  //     getIdFromToken() async {
-  //   await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
-  //   await RefreshTokenApiCall().checkTokenExpiration();
-  //   final authToken = await NMSSharedPreferences().getTokenFromPrefs();
-  //   if (authToken != null) {
-  //     Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
-  //     String uid = decodedToken["userId"];
-  //     userId = uid;
-  //     debugPrint("user id is ------$userId");
-  //   }
-  // }
+  String formatDate(String dateString) {
+    final DateTime dateTime = DateTime.parse(dateString);
+    final DateFormat formatter = DateFormat('MMM dd');
+    return formatter.format(dateTime);
+  }
 
   String formatEpochToDateString(int epoch) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch);
@@ -77,7 +63,7 @@ class ApprovalsController extends GetxController with SnackbarMixin {
   }
 
   String formatEpochToTimeStringIN(int epoch, String method) {
-    final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch*1000);
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch * 1000);
     final formatter = DateFormat('HH:mm');
     return '$method - ${formatter.format(dateTime)}';
   }
@@ -87,7 +73,7 @@ class ApprovalsController extends GetxController with SnackbarMixin {
       return "--:--";
     }
 
-    final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch*1000);
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(epoch * 1000);
     final formatter = DateFormat('HH:mm');
     return formatter.format(dateTime);
   }
@@ -204,106 +190,90 @@ class ApprovalsController extends GetxController with SnackbarMixin {
     }
   }
 
-  String checkPunchLogIn(punchApprovalsViewRequest, int index) {
-  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
-    // Return underscore if punchLog is empty or null
-    return '_';
-  } else {
-    // Return the punchInDateTime of the first entry
-    return formatEpochToTimeString(punchApprovalsViewRequest.punchLog[index].punchInDateTime) ;
-  }
-}
-
-  String checkPunchLogOut(punchApprovalsViewRequest, int index) {
-  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
-    // Return underscore if punchLog is empty or null
-    return '_';
-  } else {
-    // Return the punchInDateTime of the first entry
-    return formatEpochToTimeString(punchApprovalsViewRequest.punchLog[index].punchOutDateTime) ;
-  }
-}
-
-String checkPunchLogBreak(punchApprovalsViewRequest) { 
-  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
-    // Return underscore if punchLog is empty or null
-    return '_';
-  } else {
-    // Loop through punchLog to find the entry where isOnBreak is true
-    for (var log in punchApprovalsViewRequest.punchLog) {
-      if (log.isOnBreak) {
-        // Return the punchInDateTime of the entry where isOnBreak is true
-        return formatEpochToTimeString(log.punchInDateTime);
+  String checkPunchLogInOut(
+      punchApprovalsViewRequest, int index, bool isPunchIn) {
+    if (punchApprovalsViewRequest.punchLog == null ||
+        punchApprovalsViewRequest.punchLog.isEmpty) {
+      // Return underscore if punchLog is empty or null
+      return '_';
+    } else {
+      // Check whether to return punchInDateTime or punchOutDateTime
+      if (isPunchIn) {
+        return formatEpochToTimeString(
+            punchApprovalsViewRequest.punchLog[index].punchInDateTime);
+      } else {
+        return formatEpochToTimeString(
+            punchApprovalsViewRequest.punchLog[index].punchOutDateTime);
       }
     }
-
-    // If no entry with isOnBreak is found, return underscore
-    return '_';
   }
-}
 
-String checkPunchLogResume(punchApprovalsViewRequest) { 
-  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
-    // Return underscore if punchLog is empty or null
-    return '_';
-  } else {
-    // Loop through punchLog to find the entry where isOnBreak is true
-    for (var log in punchApprovalsViewRequest.punchLog) {
-      if (log.isOnBreak) {
-        // Return the punchInDateTime of the entry where isOnBreak is true
-        return formatEpochToTimeString(log.punchOutDateTime);
+  String checkPunchLogBreakOrResume(
+      punchApprovalsViewRequest, bool isBreakStart) {
+    if (punchApprovalsViewRequest.punchLog == null ||
+        punchApprovalsViewRequest.punchLog.isEmpty) {
+      // Return underscore if punchLog is empty or null
+      return '_';
+    } else {
+      // Loop through punchLog to find the entry where isOnBreak is true
+      for (var log in punchApprovalsViewRequest.punchLog) {
+        if (log.isOnBreak) {
+          // Return punchInDateTime if isBreakStart is true, otherwise return punchOutDateTime
+          return isBreakStart
+              ? formatEpochToTimeString(log.punchInDateTime)
+              : formatEpochToTimeString(log.punchOutDateTime);
+        }
       }
+
+      // If no entry with isOnBreak is found, return underscore
+      return '_';
     }
-
-    // If no entry with isOnBreak is found, return underscore
-    return '_';
   }
-}
 
-String checkPunchLocation(punchApprovalsViewRequest) {
-  if (punchApprovalsViewRequest.punchLog == null || punchApprovalsViewRequest.punchLog.isEmpty) {
-    // Return underscore if punchLog is empty or null
-    return '_';
-  } else {
-    // Return the punchInDateTime of the first entry
-    return punchApprovalsViewRequest!.punchLog[0].punchLocation.toString() ;
+  String checkPunchLocation(punchApprovalsViewRequest) {
+    if (punchApprovalsViewRequest.punchLog == null ||
+        punchApprovalsViewRequest.punchLog.isEmpty) {
+      // Return underscore if punchLog is empty or null
+      return '_';
+    } else {
+      // Return the punchInDateTime of the first entry
+      return punchApprovalsViewRequest!.punchLog[0].punchLocation.toString();
+    }
   }
-}
-
 
   Color getContainerColorBasedOnApprovalStatus(String condition1) {
     if (condition1 == 'ACCEPTED') {
-      return Color(0XFFBEFFE8);
+      return const Color(0XFFBEFFE8);
     } else if (condition1 == 'PENDING') {
-      return Color(0XFFFFF0F0);
+      return const Color(0XFFFFF0F0);
     } else if (condition1 == 'REJECTED') {
-      return Color(0XFFFEFAF3);
+      return const Color(0XFFFEFAF3);
     } else if (condition1 == 'REGULARIZED') {
-      return Color(0XFFF1F1F1);
+      return const Color(0XFFF1F1F1);
     } else if (condition1 == 'CANCELLED') {
-      return Color(0XFFDFDFFB);
+      return const Color(0XFFDFDFFB);
     } else if (condition1 == 'REVOKED') {
-      return Color(0XFFFFF0F0);
+      return const Color(0XFFFFF0F0);
     } else {
-      return Color(0XFFFFF0F0);
+      return const Color(0XFFFFF0F0);
     }
   }
 
   Color getColorBasedOnApprovalStatus(String condition1) {
     if (condition1 == 'ACCEPTED') {
-      return Color(0XFF2F9680);
+      return const Color(0XFF2F9680);
     } else if (condition1 == 'PENDING') {
-      return Color(0XFFFF4646);
+      return const Color(0XFFFF4646);
     } else if (condition1 == 'REJECTED') {
-      return Color(0XFFECB35D);
+      return const Color(0XFFECB35D);
     } else if (condition1 == 'REGULARIZED') {
-      return Color(0XFFB7B7B7);
+      return const Color(0XFFB7B7B7);
     } else if (condition1 == 'CANCELLED') {
-      return Color(0XFF605DEC);
+      return const Color(0XFF605DEC);
     } else if (condition1 == 'REVOKED') {
-      return Color(0XFFFF4646);
+      return const Color(0XFFFF4646);
     } else {
-      return Color(0XFFFF4646);
+      return const Color(0XFFFF4646);
     }
   }
 

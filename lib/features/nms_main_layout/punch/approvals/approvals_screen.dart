@@ -9,13 +9,15 @@ import 'approvals_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ApprovalsScreen extends StatelessWidget {
+  const ApprovalsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ApprovalsController>(
       init: ApprovalsController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Color(0xffFFAFAFA),
+          backgroundColor: const Color(0xFFFAFAFA),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await controller.getLastPunchIn();
@@ -35,10 +37,10 @@ class ApprovalsScreen extends StatelessWidget {
                 );
               }
             },
-            child: Image(
+            backgroundColor: const Color(0xFF3BBCA0),
+            child: const Image(
               image: AssetImage('assets/png/plus.png'),
             ),
-            backgroundColor: Color(0xFF3BBCA0),
           ),
           body: PagedListView<int, PunchApprovalsModel>(
             pagingController: controller.pagingController,
@@ -50,21 +52,21 @@ class ApprovalsScreen extends StatelessWidget {
                     controller.getColorBasedOnApprovalStatus(item.status),
                 containerColor: controller
                     .getContainerColorBasedOnApprovalStatus(item.status),
-                reqDate: item.shiftDate,
-                reqTime:
-                    controller.formatEpochToTimeStringIN(item.punchInDatetime, 'IN'),
-                reqTimeOne:
-                    controller.formatEpochToTimeStringIN(item.punchOutDatetime, 'OUT'),
-                reqTimeTwo:
-                    controller.formatEpochToTimeStringIN(item.resumeDateTime, 'RES'),
-                reqTimeThree:
-                    controller.formatEpochToTimeStringIN(item.breakDateTime, 'BRK'),
-                reqWorkMode: item.punchLocation,
+                reqDate: controller.formatDate(item.shiftDate),
+                reqTime: controller.formatEpochToTimeStringIN(
+                    item.punchInDatetime, 'IN'),
+                reqTimeOne: controller.formatEpochToTimeStringIN(
+                    item.punchOutDatetime, 'OUT'),
+                reqTimeTwo: controller.formatEpochToTimeStringIN(
+                    item.resumeDateTime, 'RES'),
+                reqTimeThree: controller.formatEpochToTimeStringIN(
+                    item.breakDateTime, 'BRK'),
+                reqWorkMode:
+                    controller.capitalizeFirstLetter(item.punchLocation),
                 index: index,
                 onCancelTap: () async {
                   _showCustomDialog(context, controller, item.id);
                 },
-
                 viewRequestTap: () async {
                   await controller.userPunchApprovalViewRequest(item.id);
                   await Get.bottomSheet(
@@ -76,37 +78,44 @@ class ApprovalsScreen extends StatelessWidget {
                       containerColor:
                           controller.getContainerColorBasedOnApprovalStatus(
                               controller.punchApprovalsViewRequest!.status),
-                      statusText: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.status),
-                      inTime: controller.checkPunchLogIn(controller.punchApprovalsViewRequest, 0),
-                      breakTime: controller.checkPunchLogBreak(controller.punchApprovalsViewRequest),
-                      resumeTime: controller.checkPunchLogResume(controller.punchApprovalsViewRequest),
-                      outTime: controller.checkPunchLogOut(controller.punchApprovalsViewRequest, controller
+                      statusText: controller.capitalizeFirstLetter(
+                          controller.punchApprovalsViewRequest!.status),
+                      inTime: controller.checkPunchLogInOut(
+                          controller.punchApprovalsViewRequest, 0, true),
+                      breakTime: controller.checkPunchLogBreakOrResume(
+                          controller.punchApprovalsViewRequest, true),
+                      resumeTime: controller.checkPunchLogBreakOrResume(
+                          controller.punchApprovalsViewRequest, false),
+                      outTime: controller.checkPunchLogInOut(
+                          controller.punchApprovalsViewRequest,
+                          controller
                                   .punchApprovalsViewRequest!.punchLog.length -
-                              1),
-                      location: controller.capitalizeFirstLetter(controller.checkPunchLocation(controller.punchApprovalsViewRequest)),
-                      by: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.status),
+                              1,
+                          false),
+                      location: controller.capitalizeFirstLetter(
+                          controller.checkPunchLocation(
+                              controller.punchApprovalsViewRequest)),
+                      by: controller.capitalizeFirstLetter(
+                          controller.punchApprovalsViewRequest!.status),
                       admin: controller.punchApprovalsViewRequest?.managers
-                                  ?.isNotEmpty ==
+                                  .isNotEmpty ==
                               true
-                          ? controller.punchApprovalsViewRequest!.managers[0]
-                                  .firstname
-                                  ?.toString() ??
-                              '_'
+                          ? controller
+                              .punchApprovalsViewRequest!.managers[0].firstname
+                              .toString()
                           : '_',
                       reqInTime: "09:00",
                       reqBreakTime: "13:00",
                       reqResumeTime: "13:30",
                       reqOutTime: "18:00",
-                      reqLocation: controller.capitalizeFirstLetter(controller.punchApprovalsViewRequest!.punchLocation),
+                      reqLocation: controller.capitalizeFirstLetter(
+                          controller.punchApprovalsViewRequest!.punchLocation),
                       onTap: () {
-                         if (controller.punchApprovals[index].status == 'PENDING') {
+                        if (controller.punchApprovals[index].status ==
+                            'PENDING') {
                           _showCustomDialog(context, controller,
-                            controller.punchApprovalsViewRequest!.id);
-                            }
-                            else {
-                              
-                            }
-                        
+                              controller.punchApprovalsViewRequest!.id);
+                        } else {}
                       },
                     ),
                     isScrollControlled: true,
@@ -114,13 +123,13 @@ class ApprovalsScreen extends StatelessWidget {
                   );
                 },
               ),
-              firstPageErrorIndicatorBuilder: (context) => Center(
+              firstPageErrorIndicatorBuilder: (context) => const Center(
                 child: Text('Error occurred, please try again.'),
               ),
-              noItemsFoundIndicatorBuilder: (context) => Center(
+              noItemsFoundIndicatorBuilder: (context) => const Center(
                 child: Text('No punch approvals found.'),
               ),
-              newPageProgressIndicatorBuilder: (context) => Center(
+              newPageProgressIndicatorBuilder: (context) => const Center(
                 child: CircularProgressIndicator(),
               ),
             ),
@@ -141,11 +150,11 @@ class ApprovalsScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
+                const Text(
                   'Are you sure you want to cancel this request?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -156,7 +165,7 @@ class ApprovalsScreen extends StatelessWidget {
                     height: 1.4, // 140% line height
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
                     controller.userPunchRequestCancel(id);
@@ -164,12 +173,12 @@ class ApprovalsScreen extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFFA5B5B),
+                      color: const Color(0xFFFA5B5B),
                       borderRadius: BorderRadius.circular(4.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Yes, cancel this request',
                       style: TextStyle(
                         color: Colors.white,
@@ -180,7 +189,7 @@ class ApprovalsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () {
                     // Handle 'No, go back' action
@@ -193,9 +202,9 @@ class ApprovalsScreen extends StatelessWidget {
                         color: Color(0xFF3BBCA0),
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'No, go back',
                       style: TextStyle(
                         color: Color(0xFF3BBCA0),

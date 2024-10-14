@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/utils.dart';
-
 class BasicInfoCard extends StatelessWidget {
   const BasicInfoCard({
     super.key,
@@ -18,7 +16,7 @@ class BasicInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: secondaryTextColor,
+        color: const Color(0xffF1F1F1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(

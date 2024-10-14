@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/utils.dart';
-
 class WorkStatusCard extends StatelessWidget {
   const WorkStatusCard({
     super.key,
@@ -24,7 +22,7 @@ class WorkStatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: secondaryTextColor,
+        color: const Color(0xffF1F1F1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
