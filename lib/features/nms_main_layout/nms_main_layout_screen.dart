@@ -5,6 +5,7 @@ import 'package:nms/features/nms_main_layout/dashboard/dashboard.dart';
 import 'package:nms/features/nms_main_layout/leave_balance/leave_balance_screen.dart';
 import 'package:nms/features/nms_main_layout/punch/punch_screen.dart';
 import 'package:nms/features/nms_main_layout/team_listing/team_listing.dart';
+import 'package:nms/utils/theme/theme_constants.dart';
 
 class NmsMainLayoutScreen extends StatefulWidget {
   const NmsMainLayoutScreen({super.key});
@@ -15,7 +16,7 @@ class NmsMainLayoutScreen extends StatefulWidget {
 
 class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
   int _selectedIndex = 0;
-  final Color selectedColor = Color(0xff3BBCA0);
+  final Color selectedColor = lightGreenTextColor;
 
   static List<Widget> _widgetOptions = <Widget>[
     DashboardScreen(),
@@ -92,8 +93,8 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
           if (index == 4) {
             showModalBottomSheet(
                 context: context,
-                builder: (context) => CustomBottomSheet(),
-                shape: RoundedRectangleBorder(
+                builder: (context) => const CustomBottomSheet(),
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
@@ -105,19 +106,21 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
             _onItemTapped(index);
           }
         },
-        selectedIconTheme: IconThemeData(color: Color(0xff3BBCA0)),
-        unselectedIconTheme: IconThemeData(color: Colors.transparent), 
+        selectedIconTheme: const IconThemeData(color: lightGreenTextColor),
+        unselectedIconTheme: const IconThemeData(color: Colors.transparent), 
       ),
     );
   }
 }
 
 class CustomBottomSheet extends StatelessWidget {
+  const CustomBottomSheet({super.key});
+
   
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
@@ -132,7 +135,7 @@ class CustomBottomSheet extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -140,11 +143,11 @@ class CustomBottomSheet extends StatelessWidget {
             height: 5,
             width: 50,
             decoration: BoxDecoration(
-              color: Color(0xFF7A7A7A),
+              color: iconColor,
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -154,8 +157,8 @@ class CustomBottomSheet extends StatelessWidget {
                 onTap: () {
                   
                 },
-                textColor: Colors.black,
-                textStyle: TextStyle(fontFamily: 'Satoshi'),
+                textColor: primaryTextColor,
+                textStyle: const TextStyle(fontFamily: 'Satoshi'),
               ),
               BottomSheetColumn(
                 iconPath: 'assets/png/profile.png',
@@ -164,8 +167,8 @@ class CustomBottomSheet extends StatelessWidget {
                   Navigator.pop(context);
                    Get.toNamed('/profile_screen');
                 },
-                textColor: Colors.black,
-                textStyle: TextStyle(fontFamily: 'Satoshi'),
+                textColor: primaryTextColor,
+                textStyle: const TextStyle(fontFamily: 'Satoshi'),
               ),
               BottomSheetColumn(
                 iconPath: 'assets/png/settings.png',
@@ -173,8 +176,8 @@ class CustomBottomSheet extends StatelessWidget {
                 onTap: () {
                   
                 },
-                textColor: Colors.black,
-                textStyle: TextStyle(fontFamily: 'Satoshi'),
+                textColor: primaryTextColor,
+                textStyle: const TextStyle(fontFamily: 'Satoshi'),
               ),
             ],
           ),
@@ -207,7 +210,7 @@ class BottomSheetColumn extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(iconPath, width: 30, height: 30),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             label,
             style: textStyle.copyWith(color: textColor),

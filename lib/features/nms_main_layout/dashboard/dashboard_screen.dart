@@ -32,15 +32,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         init: DashboardController(),
         builder: (controller) {
           return Scaffold(
-            backgroundColor: const Color(0xffFAFAFA),
+            backgroundColor: scaffoldBackgroundColor,
             appBar: AppBar(
-              backgroundColor: const Color(0xffFAFAFA),
+              backgroundColor: scaffoldBackgroundColor,
               title: InkWell(
                 onTap: () {
-                  // Get.to(const LeaveBalanceScreen());
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(left: 1.0),
+                  padding: const EdgeInsets.only(left: 1.0),
                   child: controller.getEmployData != null ?
                    Row(
                      children: [
@@ -55,8 +54,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         const SizedBox(width:5),
                                          Text(
                         '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}!',
-                        style: TextStyle(
-                            color: Colors.black,
+                        style: const TextStyle(
+                            color: primaryTextColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w700),
                                          )
@@ -91,7 +90,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         color: backgroundColor,
@@ -99,7 +98,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(
                                 0.05), // Slight grey shadow with 5% opacity
-                            offset: Offset(0, 4), // Shadow offset 4px down
+                            offset: const Offset(0, 4), // Shadow offset 4px down
                             blurRadius: 18.0, // Blur radius of the shadow
                           ),
                         ],
@@ -114,28 +113,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 Text(
                                   "You're Punched ${controller.punchStatus}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
-                                      color: Colors.black),
+                                      color: primaryTextColor),
                                 ),
                                 Row(
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(2.667),
-                                    color: Color(0xffFFF0F0),
+                                    color: lightRed,
                                   ),
-                                  child: Row(
+                                  child: const Row(
                                     children: [
                                       CircleAvatar(
                                         radius: 4,
-                                        backgroundColor: Colors.red,
+                                        backgroundColor: primaryRed,
                                       ),
                                       SizedBox(width: 4),
                                       Text(
                                         'Late',
-                                        style: TextStyle(color: Colors.red),
+                                        style: TextStyle(color: primaryRed),
                                       ),
                                     ],
                                   ),
@@ -154,11 +153,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             backgroundColor: Colors.grey[300]!,
                             linearGradient: const LinearGradient(
                               colors: [
-                                Color(0xff3DC5A2),
-                                Color(0xff3DC5A2),
-                                Color(0xffF0C27D),
-                                Color(0xffF0C27D),
-                                Color(0xff3DC5A2)
+                                primaryLightColor,
+                                primaryLightColor,
+                                darkShadeYellow,
+                                darkShadeYellow,
+                                primaryLightColor
                               ],
                               stops: [
                                 0.0,
@@ -168,31 +167,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 0.60
                               ], // Adjust the stops for the amber section
                             ),
-                            barRadius: Radius.circular(20),
+                            barRadius: const Radius.circular(20),
                             // clipLinearGradient: true,
                           ),
                     
-                          // LinearPercentIndicator(
-                          //   lineHeight: 8.0,
-                          //   percent: 0.7, // Example value
-                          //   backgroundColor: Colors.grey[300]!,
-                          //   linearGradient: LinearGradient(
-                          //     colors: [Colors.green, Colors.amber],
-                          //     stops: [0.5, 1.0], // Example values
-                          //   ),
-                          // ),
-                          SizedBox(height: 8),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                          const SizedBox(height: 8),
+
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: Row(
                               children: [
                                 CircleAvatar(
-                                    radius: 3, backgroundColor: Colors.green),
+                                    radius: 3, backgroundColor: lightGreenTextColor),
                                 SizedBox(width: 4),
                                 Text('5 hours 25 minutes'),
                                 SizedBox(width: 16),
                                 CircleAvatar(
-                                    radius: 3, backgroundColor: Colors.amber),
+                                    radius: 3, backgroundColor: darkShadeYellow),
                                 SizedBox(width: 4),
                                 Text('23 minutes'),
                               ],
@@ -208,7 +199,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
                     
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       decoration: BoxDecoration(
                         
                         borderRadius: BorderRadius.circular(8.0),
@@ -217,7 +208,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(
                                 0.05), // Slight grey shadow with 5% opacity
-                            offset: Offset(0, 4), // Shadow offset 4px down
+                            offset: const Offset(0, 4), // Shadow offset 4px down
                             blurRadius: 18.0, // Blur radius of the shadow
                           ),
                         ],
@@ -239,12 +230,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 controller.getEmployeAveragePunchTime[0].clockedBreakMinutes.toDouble()/3600,
                                 controller.getEmployeAveragePunchTime[1].clockedBreakMinutes.toDouble()/3600,
                                 controller.getEmployeAveragePunchTime[2].clockedBreakMinutes.toDouble()/3600,],
-                                // '1.0 hours',
                                 '${controller.formatDoubleWithTwoDecimals(controller.avgBreakTime)} hrs',
                                 'Last 7 days',
                                 'assets/svg/ph_coffee_bold.svg',
-                                Color(0xffFFEECC),
-                                Color(0xffF0C27D),
+                                lightShadeYellow,
+                                darkShadeYellow,
                                 controller.daysOfWeek
                                 ),
                             _buildChartPage(
@@ -260,8 +250,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 // '8.6 Hrs',
                                 ' Last 7 days',
                                 'assets/svg/clock.svg',
-                                Color(0xffBEFFE8),
-                                Color(0xff3DC5A2),
+                                veryLightGreenColor,
+                                primaryLightColor,
                                 controller.daysOfWeek
                                 ),
                             _buildChartPage('Attendance',
@@ -269,8 +259,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                  controller.getAttendance.toString(),
                                   'This Month',
                                 'assets/svg/attendance.svg',
-                                Color(0xffDFDFFB),
-                                Color(0xff807DF0),
+                                veryLightShadeBlue,
+                                primaryblue,
                                 controller.monthsInYear),
                                             
                                             
@@ -279,7 +269,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 controller.birthdayName,
                                 controller.daysToBirthday,
                                 'assets/svg/cake.svg',
-                                Color(0xffFFEECC),
+                                lightShadeYellow,
                                 controller.imageOfBirthdays),
                                             
                                 
@@ -288,7 +278,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
                                 ['Tomorrow', 'May 19, 2024', 'May 17, 2024'],
                                 'assets/svg/upcoming_leaves.svg',
-                                Color(0xffBEFFE8),
+                                veryLightGreenColor,
                                 ['','','']
                                 ),
                         
@@ -297,7 +287,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
                                 ['Yesterday', 'Feb 19, 2024', 'Feb 17, 2024'],
                                 'assets/svg/calendar_remove.svg',
-                                Color(0xffDFDFFB),
+                                veryLightShadeBlue,
                                 ['','','']),
                           ].map((i) {
                             return Builder(
@@ -315,7 +305,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         color: backgroundColor,
@@ -323,7 +313,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(
                                 0.05), // Slight grey shadow with 5% opacity
-                            offset: Offset(0, 4), // Shadow offset 4px down
+                            offset: const Offset(0, 4), // Shadow offset 4px down
                             blurRadius: 18.0, // Blur radius of the shadow
                           ),
                         ],
@@ -412,13 +402,13 @@ Widget _buildChartPage(
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.05), // Slight gray shadow
-          offset: Offset(0, 4), // Shadow slightly below the container
+          offset: const Offset(0, 4), // Shadow slightly below the container
           blurRadius: 18.0, // Blur the shadow for a softer effect
         ),
       ],
     ),
     child: Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -427,7 +417,7 @@ Widget _buildChartPage(
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: primaryTextColor),
               ),
               CircleAvatar(
                 radius: 20,
@@ -440,27 +430,28 @@ Widget _buildChartPage(
               ),
             ],
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           Text(
             time,
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: Colors.black),
+            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: primaryTextColor),
           ),
           Text(
             period,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xff7A7A7A)),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: secondaryTextColor),
           ),
-          SizedBox(height: 10),
-          Container(
+          const SizedBox(height: 10),
+
+          SizedBox(
             height: 150,
             child: SfCartesianChart(
               plotAreaBorderWidth: 0,
               borderWidth: 0,
-              primaryXAxis: CategoryAxis(
+              primaryXAxis: const CategoryAxis(
                 majorGridLines: MajorGridLines(width: 0), // Disable gridlines
                 axisLine: AxisLine(width: 0), // Hide the x-axis line
                 majorTickLines: MajorTickLines(size: 0), // Hide the tick marks
               ),
-              primaryYAxis: NumericAxis(
+              primaryYAxis: const NumericAxis(
                 majorGridLines: MajorGridLines(width: 0), // Disable gridlines
                 axisLine: AxisLine(width: 0), // Hide the y-axis line
                 isVisible: false, // Hide y-axis labels
@@ -475,8 +466,8 @@ Widget _buildChartPage(
                   ),
                   xValueMapper: (ChartData sales, _) => sales.x,
                   yValueMapper: (ChartData sales, _) => sales.y,
-                  markerSettings: MarkerSettings(isVisible: false), // Hide data markers
-                  dataLabelSettings: DataLabelSettings(
+                  markerSettings: const MarkerSettings(isVisible: false), // Hide data markers
+                  dataLabelSettings: const DataLabelSettings(
                     isVisible: false, // Hide data labels
                   ),
                 ),
@@ -500,18 +491,18 @@ Widget _buildChartPage(
       {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white, // Equivalent to #FFF
+        color: backgroundColor, // Equivalent to #FFF
         borderRadius: BorderRadius.circular(8.0), // 8px rounded corners
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.05), // Slight gray shadow
-            offset: Offset(0, 4), // Shadow slightly below the container
+            offset: const Offset(0, 4), // Shadow slightly below the container
             blurRadius: 18.0, // Blur the shadow for a softer effect
           ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -522,7 +513,7 @@ Widget _buildChartPage(
                   padding: const EdgeInsets.only(left: 12),
                   child: Text(
                     title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: Colors.black),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: primaryTextColor),
                   ),
                 ),
                CircleAvatar(
@@ -565,7 +556,7 @@ Widget _buildChartPage(
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.05), // Slight gray shadow
-            offset: Offset(0, 4), // Shadow slightly below the container
+            offset: const Offset(0, 4), // Shadow slightly below the container
             blurRadius: 18.0, // Blur the shadow for a softer effect
           ),
         ],
@@ -575,35 +566,35 @@ Widget _buildChartPage(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
+            const Text(
               'Remaining leaves',
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  color: primaryTextColor),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             GridView.count(
               crossAxisCount: 3,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
-                 _buildCircularPercentIndicator('SPL',  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
+                 _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[0].nameAbbr,  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
     ? 0.0  // Set the quotient to 0 if totalLeaves is 0
     : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
-                _buildCircularPercentIndicator('WL',  controller.getEmployeRemainingLeaves[1].totalLeaves == 0
+                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[1].nameAbbr,  controller.getEmployeRemainingLeaves[1].totalLeaves == 0
     ? 0.0  // Set the quotient to 0 if totalLeaves is 0
     : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
-                _buildCircularPercentIndicator('SL',  controller.getEmployeRemainingLeaves[2].totalLeaves == 0
+                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[2].nameAbbr,  controller.getEmployeRemainingLeaves[2].totalLeaves == 0
     ? 0.0  // Set the quotient to 0 if totalLeaves is 0
     : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
-                _buildCircularPercentIndicator('LEA',  controller.getEmployeRemainingLeaves[3].totalLeaves == 0
+                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[3].nameAbbr,  controller.getEmployeRemainingLeaves[3].totalLeaves == 0
     ? 0.0  // Set the quotient to 0 if totalLeaves is 0
     : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
-                _buildCircularPercentIndicator('TL',  controller.getEmployeRemainingLeaves[4].totalLeaves == 0
+                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[4].nameAbbr,  controller.getEmployeRemainingLeaves[4].totalLeaves == 0
     ? 0.0  // Set the quotient to 0 if totalLeaves is 0
     : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-                _buildCircularPercentIndicator('PL',  controller.getEmployeRemainingLeaves[5].totalLeaves == 0
+                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[5].nameAbbr,  controller.getEmployeRemainingLeaves[5].totalLeaves == 0
     ? 0.0  // Set the quotient to 0 if totalLeaves is 0
     : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
               ],
@@ -612,7 +603,7 @@ Widget _buildChartPage(
               Column(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.expand_more),
+                    icon: const Icon(Icons.expand_more),
                     onPressed: toggleExpanded,
                   ),
                   CorneredButton(
@@ -627,28 +618,29 @@ Widget _buildChartPage(
             if (isExpanded)
               Column(
                 children: [
-                   _buildLinearPercentIndicator('SPECIAL',  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
+                   _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[0].leaveTypeName) ,  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
-                  _buildLinearPercentIndicator('WOMENS ',controller.getEmployeRemainingLeaves[1].totalLeaves == 0
+                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[1].leaveTypeName) ,controller.getEmployeRemainingLeaves[1].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
-                  _buildLinearPercentIndicator('SICK', controller.getEmployeRemainingLeaves[2].totalLeaves == 0
+                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[2].leaveTypeName), controller.getEmployeRemainingLeaves[2].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
-                 _buildLinearPercentIndicator('LEAVES ', controller.getEmployeRemainingLeaves[3].totalLeaves == 0
+                 _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[3].leaveTypeName), controller.getEmployeRemainingLeaves[3].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
-                  _buildLinearPercentIndicator('TEST ', controller.getEmployeRemainingLeaves[4].totalLeaves == 0
+                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[4].leaveTypeName), controller.getEmployeRemainingLeaves[4].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-                   _buildLinearPercentIndicator('PERSONAL ', controller.getEmployeRemainingLeaves[5].totalLeaves == 0
+                   _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[5].leaveTypeName), controller.getEmployeRemainingLeaves[5].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
-                  // _buildLinearPercentIndicator('Maternity Leave', 0.4),
-                  // _buildLinearPercentIndicator('Vacation Leave', 0.3),
+                 _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[6].leaveTypeName), controller.getEmployeRemainingLeaves[6].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[6].balanceLeaves / controller.getEmployeRemainingLeaves[6].totalLeaves, controller.getEmployeRemainingLeaves[6].totalLeaves),
+                 _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[7].leaveTypeName), controller.getEmployeRemainingLeaves[7].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[7].balanceLeaves / controller.getEmployeRemainingLeaves[7].totalLeaves, controller.getEmployeRemainingLeaves[7].totalLeaves),
+                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[8].leaveTypeName), controller.getEmployeRemainingLeaves[8].totalLeaves == 0
+    ? 0.0 : controller.getEmployeRemainingLeaves[8].balanceLeaves / controller.getEmployeRemainingLeaves[8].totalLeaves, controller.getEmployeRemainingLeaves[8].totalLeaves),
                   IconButton(
-                    icon: Icon(Icons.expand_less),
+                    icon: const Icon(Icons.expand_less),
                     onPressed: toggleExpanded,
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {},
-                  //   child: Text('Apply for Leave'),
-                  // ),
+
                   CorneredButton(
                     height: 40,
                     color: primaryColor,
@@ -674,21 +666,21 @@ Widget _buildChartPage(
         children: <Widget>[
           Text(
             '${(percent * totalLeaves).toInt()}',
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.black), // Adjusted the font size
+                color: primaryTextColor), // Adjusted the font size
           ),
           Text(
             leaveType,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 12.0,
-                color: Color(0xff3BBCA0)), // Adjusted the font size
+                color: lightGreenTextColor), // Adjusted the font size
           ),
         ],
       ),
-      progressColor: Color(0xff35A990),
-      backgroundColor: Color(0xffE3E3E3),
+      progressColor: primaryColor,
+      backgroundColor: lightGray,
       circularStrokeCap: CircularStrokeCap.round, // This makes the ends rounded
     );
   }
@@ -708,19 +700,19 @@ Widget _buildChartPage(
           Expanded(
             flex: 3,
             child: LinearPercentIndicator(
-              barRadius: Radius.circular(20), // Adjust the radius as needed
+              barRadius: const Radius.circular(20), // Adjust the radius as needed
               clipLinearGradient: true,
               lineHeight: 10.0,
               percent: percent,
-              backgroundColor: Colors.grey[200],
-              progressColor: Color(0xff35A990),
+              backgroundColor: lightGray,
+              progressColor: primaryColor,
             ),
           ),
           Expanded(
             flex: 1,
             child: Text(
               '${(percent * totalLeaves).toInt()}',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               textAlign: TextAlign.right,
             ),
           ),

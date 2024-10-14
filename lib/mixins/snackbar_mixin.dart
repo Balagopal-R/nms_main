@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:another_flushbar/flushbar.dart';
-
 import '../utils/utils.dart';
 
 mixin SnackbarMixin on GetxController {
@@ -10,7 +9,7 @@ mixin SnackbarMixin on GetxController {
     Flushbar(
       padding: const EdgeInsets.fromLTRB(20, 18, 18, 18),
       titleColor: secondaryColor,
-      messageColor: errorColorText,
+      messageColor: errorColor,
       icon: SvgPicture.asset(
         "assets/svg/error.svg",
       ),
@@ -31,8 +30,8 @@ mixin SnackbarMixin on GetxController {
   showSuccessSnackbar({required String title, required String message}) {
     Flushbar(
       padding: const EdgeInsets.fromLTRB(20, 16, 16, 16),
-      titleColor: Color(0xff3BBCA0),
-      messageColor: Color(0xff3BBCA0),
+      titleColor: lightGreenTextColor,
+      messageColor: lightGreenTextColor,
       icon: SvgPicture.asset(
         "assets/svg/success.svg",
       ),

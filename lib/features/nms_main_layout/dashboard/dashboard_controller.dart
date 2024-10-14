@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
@@ -22,8 +21,7 @@ import '../../../repository/api_repository.dart';
 import '../../../utils/utils.dart';
 
 class DashboardController extends GetxController with SnackbarMixin {
-  // late List<String> birthdayName;
-  // late List<String> daysToBirthday;
+
 
   @override
   void onInit() async {
@@ -45,13 +43,6 @@ class DashboardController extends GetxController with SnackbarMixin {
 
   final _imageOfBirthdays = (List<String?>.empty()).obs;
   List<String?> get imageOfBirthdays => _imageOfBirthdays;
-  // final JBSharedPreferences authService = JBSharedPreferences();
-
-  // final _getEmployData = (List<CorporateDetails>.empty()).obs;
-  // List<CorporateDetails> get getEmployData => _getEmployData;
-
-  // final _getEmployData = Rx<EmployeeData?>(null);
-  // EmployeeData? get getEmployData => _getEmployData.value;
 
   final _getEmployeBirthday = (List<GetBirthdayModel>.empty()).obs;
   List<GetBirthdayModel> get getEmployeBirthday => _getEmployeBirthday;
@@ -64,9 +55,6 @@ class DashboardController extends GetxController with SnackbarMixin {
 
   final _getEmployData = Rx<EmployeeData?>(null);
   EmployeeData? get getEmployData => _getEmployData.value;
-
-  // final _getEmployeBirthday = Rx<GetBirthdayModel?>(null);
-  // GetBirthdayModel? get getEmployeBirthday => _getEmployeBirthday.value;
 
   final _isLoadingOverlay = false.obs;
   bool get isLoadingOverlay => _isLoadingOverlay.value;
@@ -94,26 +82,23 @@ class DashboardController extends GetxController with SnackbarMixin {
  final List<String> daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
  final List<String> monthsInYear = ['JAN','MAR','MAY','JUL','SEP','NOV','DEC'];
 
-
- int getTodaysEpochTime() {
-  // Get current date without time
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
-
-  // Convert to seconds since epoch
-  return today.millisecondsSinceEpoch ~/ 1000;
-}
-
-String getTodaysDate() {
-  final now = DateTime.now();
-  final formatter = DateFormat('yyyy-MM-dd');
-  final formattedDate = formatter.format(now);
-  return formattedDate;
+ String getFormattedDate(int daysBefore) {
+  final DateTime now = DateTime.now();
+  final DateTime targetDate = now.subtract(Duration(days: daysBefore));
+  return targetDate.toString().substring(0, 10);
 }
 
 String formatDoubleWithTwoDecimals(double value) {
   final formattedValue = value.toStringAsFixed(2);
   return formattedValue;
+}
+
+String processLeaveType(String leaveType) {
+  final List<String> words = leaveType.split(' ');
+  if (words.isEmpty) {
+    return "";
+  }
+  return words.first.toUpperCase();
 }
 
   getIdFromToken() async {
@@ -135,13 +120,12 @@ String formatDoubleWithTwoDecimals(double value) {
     try {
       final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
-      final todaysEpoch = getTodaysEpochTime();
+      // final todaysEpoch = getTodaysEpochTime();
       if (decodedToken != null) {
         userId = decodedToken["userId"];
 
         final request = GetEmployePunchTimeRequest(
-            userId: userId, startDate: '2024-08-28', endDate: '2024-09-03');
-
+            userId: userId, startDate: getFormattedDate(7), endDate: getFormattedDate(0));
         final response =
             await ApiRepository.to.getEmployePunchTime(request: request);
 
@@ -300,10 +284,6 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
           await ApiRepository.to.getEmployeBirthdays(request: request);
 
       if (response.status == 200) {
-        // print(response.data);
-        // _punchStatus.value = response.data ;
-        // update();
-        // print(punchStatus);
         _getEmployeBirthday.value = response.data;
 
         _birthdayName.value = [
@@ -343,7 +323,6 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
        final authService = NMSJWTDecoder();
       final decodedToken = await authService.decodeAuthToken();
       userId = decodedToken!["userId"];
-      String today = getTodaysDate();
 
       final request = GetLeavesRequest(
           userId: userId,
@@ -352,22 +331,14 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
           size: 10,
           field: "leaveBalance",
           sortOfOrder: "ASC",
-          asOfDate: today,
+          asOfDate: getFormattedDate(0),
           status: ["ACTIVE"],
           );
 
       final response = await ApiRepository.to.getLeaves(request: request);
 
       if (response.status == 200) {
-        print(response.data);
         _getEmployeRemainingLeaves.value = response.data;
-
-        print(getEmployeRemainingLeaves[0].balanceLeaves/getEmployeRemainingLeaves[0].totalLeaves);
-         print(getEmployeRemainingLeaves[1].balanceLeaves/getEmployeRemainingLeaves[1].totalLeaves);          
-          print(getEmployeRemainingLeaves[2].balanceLeaves/getEmployeRemainingLeaves[2].totalLeaves);
-         print(getEmployeRemainingLeaves[3].balanceLeaves/getEmployeRemainingLeaves[3].totalLeaves);
-          print(getEmployeRemainingLeaves[4].balanceLeaves/getEmployeRemainingLeaves[4].totalLeaves);
-        // print('${getEmployeRemainingLeaves[0].balanceLeaves}');
         update();
       } else if (response.message == "Failed") {
         debugPrint(response.errors['errorMessage']);
