@@ -92,7 +92,7 @@ class BalancesScreen extends StatelessWidget {
                       child: PagedListView<int, GetRemainingLeavesModel>(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<GetRemainingLeavesModel>(
-              itemBuilder: (context, item, index) =>  _leaveContainer(controller.getEmployeRemainingLeaves[index].nameAbbr,
+              itemBuilder: (context, item, index) =>  _leaveContainer(controller.processLeaveType(controller.getEmployeRemainingLeaves[index].leaveTypeName),
                                                                      [4, 6, 5],  
                                                                      controller.getEmployeRemainingLeaves[index].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[index].balanceLeaves / controller.getEmployeRemainingLeaves[index].totalLeaves,

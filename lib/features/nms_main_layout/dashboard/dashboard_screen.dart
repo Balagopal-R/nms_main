@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:nms/models/get_remaining_leaves/get_remaining_leaves_model.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/cornered_button.dart';
 import 'dashboard_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'dart:math';
+
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -574,31 +578,50 @@ Widget _buildChartPage(
                   color: primaryTextColor),
             ),
             const SizedBox(height: 8),
-            GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                 _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[0].nameAbbr,  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
-    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
-                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[1].nameAbbr,  controller.getEmployeRemainingLeaves[1].totalLeaves == 0
-    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
-                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[2].nameAbbr,  controller.getEmployeRemainingLeaves[2].totalLeaves == 0
-    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
-                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[3].nameAbbr,  controller.getEmployeRemainingLeaves[3].totalLeaves == 0
-    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
-                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[4].nameAbbr,  controller.getEmployeRemainingLeaves[4].totalLeaves == 0
-    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-                _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[5].nameAbbr,  controller.getEmployeRemainingLeaves[5].totalLeaves == 0
-    ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
-              ],
-            ),
+    //         GridView.count(
+    //           crossAxisCount: 3,
+    //           shrinkWrap: true,
+    //           physics: const NeverScrollableScrollPhysics(),
+    //           children: <Widget>[
+    //              _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[0].nameAbbr,  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
+    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    // : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
+    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[1].nameAbbr,  controller.getEmployeRemainingLeaves[1].totalLeaves == 0
+    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    // : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
+    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[2].nameAbbr,  controller.getEmployeRemainingLeaves[2].totalLeaves == 0
+    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    // : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
+    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[3].nameAbbr,  controller.getEmployeRemainingLeaves[3].totalLeaves == 0
+    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    // : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
+    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[4].nameAbbr,  controller.getEmployeRemainingLeaves[4].totalLeaves == 0
+    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    // : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
+    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[5].nameAbbr,  controller.getEmployeRemainingLeaves[5].totalLeaves == 0
+    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+    // : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
+    //           ],
+    //         ),
+
+    GridView.count(
+  crossAxisCount: 3,
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  children: List.generate(
+    // Ensure not to exceed 6 elements
+    min(controller.getEmployeRemainingLeaves.length, 6),
+    (index) => _buildCircularPercentIndicator(
+      controller.getEmployeRemainingLeaves[index].nameAbbr,
+      controller.getEmployeRemainingLeaves[index].totalLeaves == 0
+          ? 0.0
+          : controller.getEmployeRemainingLeaves[index].balanceLeaves /
+              controller.getEmployeRemainingLeaves[index].totalLeaves,
+      controller.getEmployeRemainingLeaves[index].totalLeaves,
+    ),
+  ),
+),
+
             if (!isExpanded)
               Column(
                 children: [
@@ -636,6 +659,36 @@ Widget _buildChartPage(
     ? 0.0 : controller.getEmployeRemainingLeaves[7].balanceLeaves / controller.getEmployeRemainingLeaves[7].totalLeaves, controller.getEmployeRemainingLeaves[7].totalLeaves),
                   _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[8].leaveTypeName), controller.getEmployeRemainingLeaves[8].totalLeaves == 0
     ? 0.0 : controller.getEmployeRemainingLeaves[8].balanceLeaves / controller.getEmployeRemainingLeaves[8].totalLeaves, controller.getEmployeRemainingLeaves[8].totalLeaves),
+//                   Expanded(
+//   child: PagedListView<int, GetRemainingLeavesModel>(
+//     pagingController: controller.pagingController,
+//     builderDelegate: PagedChildBuilderDelegate<GetRemainingLeavesModel>(
+//       itemBuilder: (context, item, index) {
+//         return _buildLinearPercentIndicator(
+//           controller.processLeaveType(controller.getEmployeRemainingLeaves[index].leaveTypeName),
+//           controller.getEmployeRemainingLeaves[index].totalLeaves == 0
+//               ? 0.0
+//               : controller.getEmployeRemainingLeaves[index].balanceLeaves /
+//                   controller.getEmployeRemainingLeaves[index].totalLeaves,
+//           controller.getEmployeRemainingLeaves[index].totalLeaves,
+//         );
+//       },
+//       // Display when an error occurs during pagination
+//       firstPageErrorIndicatorBuilder: (context) => Center(
+//         child: Text('Error occurred, please try again.'),
+//       ),
+//       // Display when there are no items found
+//       noItemsFoundIndicatorBuilder: (context) => Center(
+//         child: Text('No leave records found.'),
+//       ),
+//       // Display progress indicator for loading the next page
+//       newPageProgressIndicatorBuilder: (context) => Center(
+//         child: CircularProgressIndicator(),
+//       ),
+//     ),
+//   ),
+// ),
+                  
                   IconButton(
                     icon: const Icon(Icons.expand_less),
                     onPressed: toggleExpanded,

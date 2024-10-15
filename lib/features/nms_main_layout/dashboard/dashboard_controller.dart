@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
@@ -32,6 +33,10 @@ class DashboardController extends GetxController with SnackbarMixin {
     await getEmployeeLeaves();
     await getEmployeAttendance();
     await getEmployDetails();
+    // pagingController.addPageRequestListener((pageKey) {
+    //   getEmployeeLeavesPagination(pageKey);
+    // });
+    // pagingController.refresh();
     super.onInit();
   }
 
@@ -52,6 +57,9 @@ class DashboardController extends GetxController with SnackbarMixin {
 
   final _getEmployeRemainingLeaves = (List<GetRemainingLeavesModel>.empty()).obs;
   List<GetRemainingLeavesModel> get getEmployeRemainingLeaves => _getEmployeRemainingLeaves;
+
+  final _getEmployeRemainingLeavesPagination = (List<GetRemainingLeavesModel>.empty()).obs;
+  List<GetRemainingLeavesModel> get getEmployeRemainingLeavesPagination => _getEmployeRemainingLeavesPagination;
 
   final _getEmployData = Rx<EmployeeData?>(null);
   EmployeeData? get getEmployData => _getEmployData.value;
@@ -81,6 +89,10 @@ class DashboardController extends GetxController with SnackbarMixin {
 
  final List<String> daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
  final List<String> monthsInYear = ['JAN','MAR','MAY','JUL','SEP','NOV','DEC'];
+
+  static const _pageSize = 10;
+  final PagingController<int, GetRemainingLeavesModel> pagingController =
+      PagingController(firstPageKey: 0);
 
  String getFormattedDate(int daysBefore) {
   final DateTime now = DateTime.now();
@@ -317,7 +329,6 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
 // get remaining leaves
 
   getEmployeeLeaves() async {
-    //String platform = (Platform.isAndroid || Platform.isIOS) ? "MOBILE" : "WEB";
 
     try {
        final authService = NMSJWTDecoder();
@@ -346,6 +357,48 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
       }
     } catch (e) {
       return catchErrorSection(e);
+    }
+  }
+
+    getEmployeeLeavesPagination(int pageKey) async {
+
+    try {
+       final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      userId = decodedToken!["userId"];
+
+      final request = GetLeavesRequest(
+          userId: userId,
+          keyword: '',
+          page: pageKey,
+          size: _pageSize,
+          field: "leaveBalance",
+          sortOfOrder: "ASC",
+          asOfDate: getFormattedDate(0),
+          status: ["ACTIVE"],
+          );
+
+      final response = await ApiRepository.to.getLeaves(request: request);
+
+      if (response.status == 200) {
+
+        final isLastPage = response.pagination?.totalPages == pageKey;
+        if (isLastPage) {
+          pagingController.appendLastPage(response.data);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(response.data, nextPageKey);
+        }
+        _getEmployeRemainingLeavesPagination.addAll(response.data);
+        update();
+      } 
+      else if (response.message == "Failed") {
+        debugPrint(response.errors['errorMessage']);
+        showErrorSnackbar(message: errorOccuredText);
+      }
+    } catch (e) {
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
     }
   }
 

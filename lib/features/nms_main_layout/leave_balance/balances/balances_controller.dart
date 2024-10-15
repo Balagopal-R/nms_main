@@ -42,6 +42,14 @@ class BalancesController extends GetxController with SnackbarMixin {
   return formattedDate;
 }
 
+String processLeaveType(String leaveType) {
+  final List<String> words = leaveType.split(' ');
+  if (words.isEmpty) {
+    return "";
+  }
+  return words.first.toUpperCase();
+}
+
 
 
   
