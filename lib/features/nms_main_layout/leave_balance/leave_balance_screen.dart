@@ -108,7 +108,7 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
                       fontWeight: FontWeight.w400,
                       // color: Color(0xFF7A7A7A),  // Set color to #7A7A7A
                     ),
-                    dividerColor: messageColor,
+                    dividerColor: primaryGray,
                     indicatorSize: TabBarIndicatorSize.tab,
                     unselectedLabelColor: Color(0xFF7A7A7A), // Not needed anymore
                     tabs: const [

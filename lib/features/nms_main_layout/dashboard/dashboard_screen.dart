@@ -486,11 +486,6 @@ Widget _buildChartPage(
 }
 
 
-
-
-
-  // Widget _buildTextPage(String title, List<String> items, List<String> subtexts,
-  //     DashboardController controller) 
    Widget _buildTextPage(String title, List<String> items, List<String> subtexts, String eventImageName, Color avatarColor,List<String?> networkImage)
       {
     return Container(
@@ -551,6 +546,8 @@ Widget _buildChartPage(
       ),
     );
   }
+
+  
 
   Widget buildRemainingLeavesCard(DashboardController controller) {
     return Container(

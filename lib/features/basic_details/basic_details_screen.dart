@@ -30,7 +30,7 @@ class BasicDetailsScreen extends StatelessWidget {
                              Center(
                               child: CircleAvatar(
                                   radius: 44,
-                                  backgroundColor: Colors.blueGrey,
+                                  backgroundColor: backgroundColor,
                                   backgroundImage:
                                       NetworkImage(controller.getEmployData!.profileImgUrl!),)
                             ),
@@ -40,14 +40,14 @@ class BasicDetailsScreen extends StatelessWidget {
                             Text(
                               ' ${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}',
                               style: const TextStyle(
-                                  color: Colors.black,
+                                  color: primaryTextColor,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700),
                             ),
                             Text(
                               controller.getEmployData!.employeeCode,
                               style: const TextStyle(
-                                  color: iconColor,
+                                  color: secondaryTextColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -59,7 +59,7 @@ class BasicDetailsScreen extends StatelessWidget {
                                 Text(
                                   "Basic Information",
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: primaryTextColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700),
                                 ),
@@ -85,7 +85,7 @@ class BasicDetailsScreen extends StatelessWidget {
                                 Text(
                                   "Work Details",
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: primaryTextColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700),
                                 ),

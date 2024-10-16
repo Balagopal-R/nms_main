@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/utils/utils.dart';
 import 'package:nms/widgets/appbar_main_widget.dart';
-
 import 'profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -21,10 +20,10 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Container(
   decoration: BoxDecoration(
-    color: const Color(0xFFF1F1F1),
+    color: veryLightGray,
     borderRadius: BorderRadius.circular(4.0),
   ),
   padding: const EdgeInsets.only(top: 48.0, left: 16.0, right: 16.0, bottom: 16.0),
@@ -34,42 +33,42 @@ class ProfileScreen extends StatelessWidget {
     children: [
       Column(
         children: [
-          SizedBox(height: 10), // This creates space for the CircleAvatar
+          const SizedBox(height: 10), // This creates space for the CircleAvatar
           Text(
             '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryTextColor),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             controller.getEmployData!.employeeCode,
-            style: TextStyle(color: Color(0xff7A7A7A)),
+            style: const TextStyle(color: secondaryTextColor),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             controller.getEmployData!.personalDetails.personalEmail,
-            style: TextStyle(color: Color(0xff7A7A7A)),
+            style: const TextStyle(color: secondaryTextColor),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 controller.getEmployData!.corporateDetails.department.departmentName,
-                style: TextStyle(color: Color(0xff7A7A7A)),
+                style: const TextStyle(color: secondaryTextColor),
               ),
-              SizedBox(width: 4),
-              Icon(Icons.circle, size: 5, color: Colors.green),
-              SizedBox(width: 4),
+              const SizedBox(width: 4),
+              const Icon(Icons.circle, size: 5, color: lightGreenTextColor),
+              const SizedBox(width: 4),
               Text(
                 controller.getEmployData!.corporateDetails.designation.designationName,
-                style: TextStyle(color: Color(0xff7A7A7A)),
+                style: const TextStyle(color: secondaryTextColor),
               ),
-              SizedBox(width: 4),
-              Icon(Icons.circle, size: 5, color: Colors.green),
-              SizedBox(width: 4),
+              const SizedBox(width: 4),
+              const Icon(Icons.circle, size: 5, color: lightGreenTextColor),
+              const SizedBox(width: 4),
               Text(
                 controller.getEmployData!.corporateDetails.dateOfFirstJoining.toString(),
-                style: TextStyle(color: Color(0xff7A7A7A)),
+                style: const TextStyle(color: secondaryTextColor),
               ),
             ],
           ),
@@ -133,7 +132,7 @@ class ProfileButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: Color(0xFFF1F1F1))),
+          border: Border(bottom: BorderSide(color: veryLightGray)),
         ),
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
         child: Row(
@@ -160,7 +159,7 @@ class LogoutButton extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(top: 16.0),
         decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFFFFC1C1)),
+          border: Border.all(color: veryLightRed),
           borderRadius: BorderRadius.circular(4.0),
         ),
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
@@ -169,14 +168,14 @@ class LogoutButton extends StatelessWidget {
           children: [
             Text(
               'Logout',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: primaryRed),
             ),
             
             // Icon(Icons.logout, color: Colors.red),
 
             Image(
   image: AssetImage('assets/png/logout.png'), // Adjust the path if needed
-  color: Colors.red, // Apply desired color (optional)
+  color: primaryRed, // Apply desired color (optional)
 )
           ],
         ),

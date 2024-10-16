@@ -25,7 +25,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Color(0xffFAFAFA),
+              backgroundColor: backgroundColor,
               leading: IconButton(
                 icon: Image.asset('assets/png/arrow_left.png',
                     height: 24, width: 24),
@@ -63,16 +63,16 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4.0),
                                     border: Border.all(
-                                        color: const Color(0xFFB7B7B7)),
+                                        color: primaryGray),
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   child: const Row(
                                     children: [
-                                      Icon(Icons.search, color: Colors.grey),
+                                      Icon(Icons.search, color: primaryGray),
                                       SizedBox(width: 8.0),
                                       Text('My Documents',
-                                          style: TextStyle(color: Colors.grey)),
+                                          style: TextStyle(color: primaryGray)),
                                     ],
                                   ),
                                 ),
@@ -86,7 +86,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4.0),
                                   border: Border.all(
-                                      color: const Color(0xFFB7B7B7)),
+                                      color: primaryGray),
                                 ),
                                 padding: const EdgeInsets.all(8.0),
                                 child: Image.asset('assets/png/slider.png'),
@@ -118,7 +118,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                         const SizedBox(width: 10.0),
                         const CircleAvatar(
                           radius: 2.0,
-                          backgroundColor: Color(0xFFE3E3E3),
+                          backgroundColor: lightGray,
                         ),
                         const SizedBox(width: 5.0),
                         Text(controller.capitalizeFirstLetter(item.category)),
@@ -130,19 +130,19 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                         controller.downloadFile(item.fileName);
                       },
                     ),
-                    tileColor: const Color(0xFFFAFAFA),
+                    tileColor: scaffoldBackgroundColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(2.0),
                     ),
                   ),
                 ),
-                firstPageErrorIndicatorBuilder: (context) => Center(
+                firstPageErrorIndicatorBuilder: (context) => const Center(
                   child: Text('Error occurred, please try again.'),
                 ),
-                noItemsFoundIndicatorBuilder: (context) => Center(
+                noItemsFoundIndicatorBuilder: (context) => const Center(
                   child: Text('No Documents found.'),
                 ),
-                newPageProgressIndicatorBuilder: (context) => Center(
+                newPageProgressIndicatorBuilder: (context) => const Center(
                   child: CircularProgressIndicator(),
                 ),
               ),
@@ -152,7 +152,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                 controller.clearFields();
                 _showBottomSheet(context);
               },
-              backgroundColor: const Color(0xFF3BBCA0),
+              backgroundColor: lightGreenTextColor,
               child: const Image(
                 image: AssetImage('assets/png/plus.png'),
               ),
@@ -166,7 +166,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return AddDocumentBottomSheet();
+        return const AddDocumentBottomSheet();
       },
     );
   }
@@ -221,7 +221,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                       height: 4,
                       margin: const EdgeInsets.symmetric(vertical: 8.0),
                       decoration: BoxDecoration(
-                        color: Color(0xFF7A7A7A),
+                        color: secondaryTextColor,
                         borderRadius: BorderRadius.circular(2.0),
                       ),
                     ),
@@ -230,11 +230,11 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                       style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w700,
-                          color: Colors.black),
+                          color: primaryTextColor),
                     ),
                     const SizedBox(height: 6.0),
                     const Divider(
-                      color: Color(0xFFF1F1F1),
+                      color: veryLightGray,
                       thickness: 2.0,
                     ),
                     const SizedBox(height: 12.0),
@@ -245,19 +245,19 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w400,
-                            color: Color(0xff7A7A7A)),
+                            color: secondaryTextColor),
                       ),
                     ),
                     const SizedBox(height: 8.0),
 
                     Obx(
                       () => DropdownButtonFormField2<String>(
-                        iconStyleData:const IconStyleData(icon: const SizedBox()),
+                        iconStyleData:const IconStyleData(icon: SizedBox()),
                         
-                        dropdownStyleData: DropdownStyleData(
+                        dropdownStyleData: const DropdownStyleData(
                           maxHeight: 150
                         ),
-                        menuItemStyleData: MenuItemStyleData(),
+                        menuItemStyleData: const MenuItemStyleData(),
 
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(0),
@@ -267,20 +267,20 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4),
                             borderSide:
-                                const BorderSide(color: Color(0xFFB7B7B7)),
+                                const BorderSide(color: primaryGray),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4),
                             borderSide:
-                                const BorderSide(color: Color(0xFFB7B7B7)),
+                                const BorderSide(color: primaryGray),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4),
                             borderSide:
-                                const BorderSide(color: Color(0xFF3BBCA0)),
+                                const BorderSide(color: lightGreenTextColor),
                           ),
                           filled: true,
-                          fillColor: const Color(0xFFFFFFFF),
+                          fillColor: backgroundColor,
                           suffixIcon: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Image.asset(
@@ -296,7 +296,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                           child: Text(
                             'Select',
                             style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
+          fontWeight: FontWeight.w500,color: primaryGray),
                           ),
                         ),
                         items: controller.category
@@ -307,7 +307,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                                     child: Text(
                                       item,
                                       style: const TextStyle(
-                                          fontSize: 16, color: Colors.black),
+                                          fontSize: 16, color: primaryTextColor),
                                     ),
                                   ),
                                 ))
@@ -339,8 +339,8 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                           color: controller.files.length == 3
-                              ? Colors.grey.shade400
-                              : const Color(0xff7A7A7A),
+                              ? lightestGray
+                              : secondaryTextColor,
                         ),
                       ),
                     ),
@@ -354,8 +354,8 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
                           color: controller.files.length == 3
-                              ? Color(0xFFF1F1F1)
-                              : Color(0xFFD9D9D9), // Use theme color
+                              ? veryLightGray
+                              : lightestGray, // Use theme color
                         ),
                         child: Center(
                           child: Row(
@@ -372,7 +372,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                               const Text(
                                 'Choose File',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: primaryTextColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -389,8 +389,8 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
                         style: TextStyle(
                           fontSize: 12.0,
                           color: controller.files.length == 3
-                              ? Colors.grey.shade400
-                              : const Color(0xFF7A7A7A),
+                              ? lightShadeYellow
+                              : secondaryTextColor,
                         ),
                       ),
                     ),
@@ -426,7 +426,7 @@ class _AddDocumentBottomSheetState extends State<AddDocumentBottomSheet> {
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 5.0),
           decoration: BoxDecoration(
-            color: const Color(0xFFFAFAFA),
+            color: scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(2.0),
           ),
           child: ListTile(

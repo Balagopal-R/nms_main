@@ -13,6 +13,7 @@ import 'package:nms/models/documents_list_model/documensts_list_model.dart';
 import 'package:nms/models/file_upload_model/file_upload_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:nms/utils/theme/theme.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../dtos/nms_dtos/documents_list_dtos/documents_list_request.dart';
 import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
@@ -20,9 +21,9 @@ import '../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 class MyDocumentsController extends GetxController with SnackbarMixin {
   var uploadedImageMessage = "".obs;
 
-  late File? imageFile = null;
-  late String? imageName = null;
-  late double? imageSize = null;
+  // late File? imageFile = null;
+  // late String? imageName = null;
+  // late double? imageSize = null;
 
   var isCategoryValid = true.obs;
   var selectedCategory = ''.obs;
@@ -59,23 +60,14 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
   List<Map<String, String>> get employeDocumentDetails =>
       _employeDocumentDetails;
 
-  // final _employeDocumentDetailsMap = (Map<String, String>.empty()).obs;
-  // Map<String, String> get employeDocumentDetailsMap => _employeDocumentDetailsMap;
-
   final _userFileUpload = Rx<FileUploadModel?>(null);
   FileUploadModel? get userFileUpload => _userFileUpload.value;
 
   final _extractedFirstPart = "".obs;
   String get extractedFirstPart => _extractedFirstPart.value;
 
-  // Map<String, String> documentMap = {'name': '', 'date': '', 'category': ''};
-
-  // String userId = "";
-
   @override
   void onInit() async {
-    // await listUserDocuments();
-    // await getIdFromToken();
     pagingController.addPageRequestListener((pageKey) {
       listUserDocumentsPagination(pageKey);
     });
@@ -84,18 +76,6 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
     super.onInit();
     requestStoragePermission();
   }
-
-  //       getIdFromToken() async {
-  //   await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
-  //   await RefreshTokenApiCall().checkTokenExpiration();
-  //   final authToken = await NMSSharedPreferences().getTokenFromPrefs();
-  //   if (authToken != null) {
-  //     Map<String, dynamic> decodedToken = JwtDecoder.decode(authToken);
-  //     String uid = decodedToken["userId"];
-  //     userId = uid;
-  //     debugPrint("user id is ------$userId");
-  //   }
-  // }
 
   Future<void> requestStoragePermission() async {
     // Requesting MANAGE_EXTERNAL_STORAGE for Android 10+
@@ -222,41 +202,17 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
             file: fileFromPath,
             // category: 'PERSONAL',
             category: selectedCategory.value);
-        print('request:${request.toString()}');
 
         final response = await ApiRepository.to.fileUpload(request: request);
-        print('response:${response.toString()}');
 
         if (response.status == 200) {
           _userFileUpload.value = response.data;
-          print(userFileUpload!.fileUrl);
           showSuccessSnackbar(
               title: 'Success', message: 'File Upload Successfully');
-          await Future.delayed(Duration(seconds: 5));
+          await Future.delayed(const Duration(seconds: 5));
           Navigator.pop(context);
           onInit();
 
-          //   final response1 = await response.stream.bytesToString();
-          //   final parsedJson = json.decode(response1);
-          //   var datas = FileUploadModel.fromJson(parsedJson);
-          //   var message = datas.fileUrl;
-
-          //   // uploadedImageMessage.value = message;
-          //   if (uploadedImagevalue.length < 3) {
-          //     uploadedImagevalue.add(_extractLastSegment(message));
-          //     _extractedFirstPart.value = _extractFirstSegment(message);
-          //   } else {
-          //     showErrorSnackbar(message: "Maximum 3 images can be uploaded");
-
-          //   }
-
-          //   // print(uploadedImagevalue);
-
-          //   debugPrint('-----Stored file name :$message-----');
-          //   update();
-          // } else {
-          //   debugPrint('fail');
-          //   uploadedImageMessage.value = defaultMessage;
         }
       }
     } catch (e) {
@@ -351,22 +307,22 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
           ),
           backgroundColor: Colors.white,
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
+                const Text(
                   'Are you sure you want to delete this document?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: primaryTextColor,
                     fontFamily: 'Satoshi',
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 1.4, // 140% line height
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
                     removeFile(index);
@@ -374,15 +330,15 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFFA5B5B),
+                      color: darkRed,
                       borderRadius: BorderRadius.circular(4.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Delete',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: backgroundColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -390,7 +346,7 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () {
                     // Handle 'No, go back' action
@@ -400,15 +356,15 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       border: Border.all(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

@@ -4,7 +4,6 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
 import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
-
 import '../../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../../managers/sharedpreferences/sharedpreferences.dart';
 import '../../models/login_screen/get_employee_model.dart';

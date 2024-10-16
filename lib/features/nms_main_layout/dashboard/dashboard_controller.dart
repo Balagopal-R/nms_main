@@ -301,20 +301,20 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
         _birthdayName.value = [
           getEmployeBirthday[0].employee.firstname  +getEmployeBirthday[0].employee.lastname,
           getEmployeBirthday[1].employee.firstname  +getEmployeBirthday[1].employee.lastname,
-          getEmployeBirthday[2].employee.firstname  +getEmployeBirthday[2].employee.lastname,
+          // getEmployeBirthday[2].employee.firstname  +getEmployeBirthday[2].employee.lastname,
         ];
 
         _daysToBirthday.value = [
           "In ${getEmployeBirthday[0].daysToBirthday} days",
           "In ${getEmployeBirthday[1].daysToBirthday} days",
-          "In ${getEmployeBirthday[2].daysToBirthday} days"
+          // "In ${getEmployeBirthday[2].daysToBirthday} days"
         ];
 
-       _imageOfBirthdays.value = [
-        getEmployeBirthday[0].employee.profileImgUrl,
-        getEmployeBirthday[1].employee.profileImgUrl,
-        getEmployeBirthday[2].employee.profileImgUrl
-       ];
+      _imageOfBirthdays.value = [
+  getEmployeBirthday[0].employee.profileImgUrl ?? 'default_profile_image.png',
+  getEmployeBirthday[1].employee.profileImgUrl ?? 'default_profile_image.png',
+  // getEmployeBirthday[2].employee.profileImgUrl ?? 'default_profile_image.png'
+];
 
         update();
       } else if (response.message == "Failed") {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nms/utils/theme/theme.dart';
 
 
 class WorkDetailsCard extends StatelessWidget {
@@ -19,7 +20,7 @@ class WorkDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xffF1F1F1),
+        color: veryLightGray,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
@@ -28,16 +29,16 @@ class WorkDetailsCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Salary',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
-              Text(salary,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
+              children: [const Text('Salary',style: TextStyle(color: secondaryTextColor,fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(salary,style: const TextStyle(color: primaryTextColor,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Project',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
-              Text(project,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
+              children: [const Text('Project',style: TextStyle(color: secondaryTextColor,fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(project,style: const TextStyle(color: primaryTextColor,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
@@ -45,8 +46,8 @@ class WorkDetailsCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16,),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Buddy',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
-              Text(buddy,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
+              children: [const Text('Buddy',style: TextStyle(color: secondaryTextColor,fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(buddy,style: const TextStyle(color: primaryTextColor,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           ),
           Padding(
@@ -54,8 +55,8 @@ class WorkDetailsCard extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 16, right: 16,bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Manager',style: TextStyle(color: Color(0xff7A7A7A),fontSize: 12,fontWeight: FontWeight.w500),), 
-              Text(manager,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
+              children: [const Text('Manager',style: TextStyle(color: secondaryTextColor,fontSize: 12,fontWeight: FontWeight.w500),), 
+              Text(manager,style: const TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500),)],
             ),
           )
         ],

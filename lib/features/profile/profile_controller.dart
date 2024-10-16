@@ -10,6 +10,7 @@ import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/login_screen/get_employee_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:nms/utils/theme/theme.dart';
 import '../../dtos/nms_dtos/logout_dtos/logout_request.dart';
 
 class ProfileController extends GetxController with SnackbarMixin {
@@ -122,44 +123,42 @@ class ProfileController extends GetxController with SnackbarMixin {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundColor,
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
+                const Text(
                   'Are you sure you want to log out?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: primaryTextColor,
                     fontFamily: 'Satoshi',
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 1.4, // 140% line height
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 GestureDetector(
                   onTap: () async{
                     //  Navigator.of(context).pop();
                      await userLogout();
                      await clearSharedPreferences();
                      Get.offAllNamed('/signin_screen');
-                     // ignore: use_build_context_synchronously
-                     
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFFA5B5B),
+                      color: darkRed,
                       borderRadius: BorderRadius.circular(4.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Logout',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: backgroundColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -167,7 +166,7 @@ class ProfileController extends GetxController with SnackbarMixin {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
@@ -176,15 +175,15 @@ class ProfileController extends GetxController with SnackbarMixin {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       border: Border.all(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
