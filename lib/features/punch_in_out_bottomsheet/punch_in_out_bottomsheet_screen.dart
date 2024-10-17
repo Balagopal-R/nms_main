@@ -52,7 +52,7 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF7A7A7A),
+                      color: secondaryTextColor,
                       borderRadius: BorderRadius.circular(2.0),
                     ),
                   ),
@@ -62,7 +62,7 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
                   child: Text(
                     title,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: primaryTextColor,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),
@@ -152,47 +152,7 @@ class DateAndTimePicker extends StatelessWidget {
             const Text(
               'Date',
               style: TextStyle(
-                color: Color(0xffD9D9D9),
-                fontFamily: 'Satoshi',
-                fontSize: 14.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Container(
-              height: componentsHeight,
-              width: screenWidth * 0.43,
-              padding: EdgeInsets.symmetric(horizontal: 12.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.0),
-                border: Border.all(color: Color(0xffD9D9D9)),
-                color: Colors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    controller.formattedDate,
-                    style: const TextStyle(
-                color: Color(0xffD9D9D9),
-                fontFamily: 'Satoshi',
-                fontSize: 14.0,
-                fontWeight: FontWeight.w400,
-              ),
-                  ),
-                  const Icon(Icons.calendar_today, color: Color(0xffD9D9D9)),
-                ],
-              ),
-            ),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Time',
-              style: TextStyle(
-                color: Color(0xffD9D9D9),
+                color: lightestGray,
                 fontFamily: 'Satoshi',
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
@@ -205,7 +165,47 @@ class DateAndTimePicker extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
-                border: Border.all(color: Color(0xffD9D9D9)),
+                border: Border.all(color: lightestGray),
+                color: Colors.white,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    controller.formattedDate,
+                    style: const TextStyle(
+                color: lightestGray,
+                fontFamily: 'Satoshi',
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+              ),
+                  ),
+                  const Icon(Icons.calendar_today, color: lightestGray),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Time',
+              style: TextStyle(
+                color: lightestGray,
+                fontFamily: 'Satoshi',
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Container(
+              height: componentsHeight,
+              width: screenWidth * 0.43,
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                border: Border.all(color: lightestGray),
                 color: Colors.white,
               ),
               child: Row(
@@ -214,13 +214,13 @@ class DateAndTimePicker extends StatelessWidget {
                   Text(
                     controller.formattedTime,
                     style: const TextStyle(
-                color: Color(0xffD9D9D9),
+                color: lightestGray,
                 fontFamily: 'Satoshi',
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
               ),
                   ),
-                  const Icon(Icons.access_time, color: Color(0xffD9D9D9)),
+                  const Icon(Icons.access_time, color: lightestGray),
                 ],
               ),
             ),
@@ -244,7 +244,7 @@ class LocationDropdown extends StatelessWidget {
         const Text(
           'Location*',
           style: TextStyle(
-            color: Color(0xFF7A7A7A),
+            color: secondaryTextColor,
             fontFamily: 'Satoshi',
             fontSize: 14.0,
             fontWeight: FontWeight.w400,
@@ -253,29 +253,29 @@ class LocationDropdown extends StatelessWidget {
         const SizedBox(height: 8.0),
 
         Obx(() => DropdownButtonFormField2<String>(
-          iconStyleData:const IconStyleData(icon: const SizedBox()),
+          iconStyleData:const IconStyleData(icon: SizedBox()),
                         
-                        dropdownStyleData: DropdownStyleData(
+                        dropdownStyleData: const DropdownStyleData(
                           maxHeight: 150
                         ),
-                        menuItemStyleData: MenuItemStyleData(),
+                        menuItemStyleData: const MenuItemStyleData(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(0),
              errorText: controller.isLocationValid.value ? null : 'Please select location',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+              borderSide: const BorderSide(color: lightGreenTextColor),
             ),
             filled: true,
-            fillColor: const Color(0xFFFFFFFF),
+            fillColor: backgroundColor,
                   suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Image.asset(
@@ -291,7 +291,7 @@ class LocationDropdown extends StatelessWidget {
         child: Text(
           'Select',
           style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
+          fontWeight: FontWeight.w500,color: primaryGray),
         ),
       ),
           items: controller.locations
@@ -301,7 +301,7 @@ class LocationDropdown extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 2.0),
                           child: Text(
                             item,
-                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                            style: const TextStyle(fontSize: 16, color: primaryTextColor),
                           ),
                         ),
                       ))
@@ -337,7 +337,7 @@ class ProjectDropdown extends StatelessWidget {
         const Text(
           'Select Project*',
           style: TextStyle(
-            color: Color(0xFF7A7A7A),
+            color: secondaryTextColor,
             fontFamily: 'Satoshi',
             fontSize: 14.0,
             fontWeight: FontWeight.w400,
@@ -346,29 +346,29 @@ class ProjectDropdown extends StatelessWidget {
         const SizedBox(height: 8.0),
 
         Obx(() => DropdownButtonFormField2<String>(
-           iconStyleData:const IconStyleData(icon: const SizedBox()),
+           iconStyleData:const IconStyleData(icon: SizedBox()),
                         
-                        dropdownStyleData: DropdownStyleData(
+                        dropdownStyleData: const DropdownStyleData(
                           maxHeight: 150
                         ),
-                        menuItemStyleData: MenuItemStyleData(),
+                        menuItemStyleData: const MenuItemStyleData(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(0),
             errorText: controller.isProjectValid.value ? null : 'Please select project',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+              borderSide: const BorderSide(color: lightGreenTextColor),
             ),
             filled: true,
-            fillColor: const Color(0xFFFFFFFF),
+            fillColor: backgroundColor,
             suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Image.asset(
@@ -384,7 +384,7 @@ class ProjectDropdown extends StatelessWidget {
         child: Text(
           'Select',
           style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
+          fontWeight: FontWeight.w500,color: primaryGray),
         ),
       ),
           items: controller.projects
@@ -394,7 +394,7 @@ class ProjectDropdown extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 2.0),
                           child: Text(
                             item,
-                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                            style: const TextStyle(fontSize: 16, color: primaryTextColor),
                           ),
                         ),
                       ))
@@ -424,7 +424,7 @@ class TaskInput extends StatelessWidget {
         const Text(
           'Task*',
           style: TextStyle(
-            color: Color(0xFF7A7A7A),
+            color: secondaryTextColor,
             fontFamily: 'Satoshi',
             fontSize: 14.0,
             fontWeight: FontWeight.w400,
@@ -439,23 +439,23 @@ class TaskInput extends StatelessWidget {
           decoration: InputDecoration(
             hintText: 'Enter task',
             hintStyle: const TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
+          fontWeight: FontWeight.w500,color: primaryGray),
             errorText: controller.isTaskValid.value ? null : 'Please enter task',
             contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+              borderSide: const BorderSide(color: lightGreenTextColor),
             ),
             filled: true,
-            fillColor: const Color(0xFFFFFFFF),
+            fillColor: backgroundColor,
           ),
           onChanged: (value) {
                 controller.task.value = value;
@@ -481,7 +481,7 @@ class DescriptionInput extends StatelessWidget {
         const Text(
           'Description',
           style: TextStyle(
-            color: Color(0xFF7A7A7A),
+            color: secondaryTextColor,
             fontFamily: 'Satoshi',
             fontSize: 14.0,
             fontWeight: FontWeight.w400,
@@ -496,22 +496,22 @@ class DescriptionInput extends StatelessWidget {
           decoration: InputDecoration(
             hintText: 'Enter description',
             hintStyle: const TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
+          fontWeight: FontWeight.w500,color: primaryGray),
             contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+              borderSide: const BorderSide(color: lightGreenTextColor),
             ),
             filled: true,
-            fillColor: const Color(0xFFFFFFFF),
+            fillColor: backgroundColor,
           ),
         ),
       ],

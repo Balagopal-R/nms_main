@@ -131,8 +131,7 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
 
   // Create a DateTime object
   DateTime parsedDateTime = DateTime(date[2], date[1], date[0], time[0], time[1]);
-  
-  print(parsedDateTime.millisecondsSinceEpoch ~/ 1000);
+
   // Convert to milliseconds since epoch and return seconds (divide by 1000)
   return parsedDateTime.millisecondsSinceEpoch ~/ 1000;
   
@@ -174,8 +173,8 @@ String unixEpochTimeTo24HourString(int epochTime) {
         
         showSuccessSnackbar(title: 'Success', message:'You have successfully Punched IN') ;
           _punchInMessage.value = response.data;
-          print(punchInMessage);
-         await Future.delayed(Duration(seconds: 4));
+         await Future.delayed(const Duration(seconds: 4));
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
 
         } else if (response.message == "Failed") {
@@ -212,9 +211,9 @@ String unixEpochTimeTo24HourString(int epochTime) {
 
         if (response.status == 200) {
           _punchOutMessage.value = response.data;
-          print(punchOutMessage);
           showSuccessSnackbar(title: 'Success', message:'You have successfully Punched OUT') ;
-       await Future.delayed(Duration(seconds: 4));
+       await Future.delayed(const Duration(seconds: 4));
+        // ignore: use_build_context_synchronously
         Navigator.pop(context); 
 
         } else if (response.message == "Failed") {

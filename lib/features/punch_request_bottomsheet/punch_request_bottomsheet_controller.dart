@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -8,7 +10,7 @@ import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:intl/intl.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
-
+import 'package:nms/utils/theme/theme.dart';
 import '../../dtos/nms_dtos/punch_request_dtos/punch_request.dart';
 
 class PunchRequestBottomSheetController extends GetxController with SnackbarMixin{
@@ -43,11 +45,10 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
   void onInit() async{
   super.onInit();
   await getIdFromToken();
-  print(DateFormat('yyyy-MM-dd').format(selectedDate));
 
   }
 
-          getIdFromToken() async {
+    getIdFromToken() async {
     await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
     await RefreshTokenApiCall().checkTokenExpiration();
     final authToken = await NMSSharedPreferences().getTokenFromPrefs();
@@ -81,9 +82,7 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
 
   // Create a DateTime object
   DateTime parsedDateTime = DateTime(date[2], date[1], date[0], time[0], time[1]);
-  
-  print(parsedDateTime.millisecondsSinceEpoch ~/ 1000);
-  // Convert to milliseconds since epoch and return seconds (divide by 1000)
+
   return parsedDateTime.millisecondsSinceEpoch ~/ 1000;
   
 }
@@ -117,9 +116,8 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
 
         if (response.status == 200) {
           _punchRequestMessage.value = response.data;
-          print(punchRequestMessage);
         showSuccessSnackbar(title: 'Success', message:'You have successfully submitted a new Punch request') ;
-        await Future.delayed(Duration(seconds: 4));
+        await Future.delayed(const Duration(seconds: 4));
         Navigator.pop(context);
         
        
@@ -136,18 +134,18 @@ class PunchRequestBottomSheetController extends GetxController with SnackbarMixi
     }
   }
 
-DateTime selectedDate = DateTime.now().subtract(Duration(days: 1)); // Set initial date to yesterday
+DateTime selectedDate = DateTime.now().subtract(const Duration(days: 1)); // Set initial date to yesterday
 
 Future<void> selectDate(BuildContext context) async {
   final DateTime? picked = await showDatePicker(
     context: context,
     initialDate: selectedDate,
     firstDate: DateTime(2018, 1, 1), // Earliest selectable date (you can adjust this)
-    lastDate: DateTime.now().subtract(Duration(days: 1)), // Restrict to dates before today
+    lastDate: DateTime.now().subtract(const Duration(days: 1)), // Restrict to dates before today
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.light().copyWith(
-          colorScheme: ColorScheme.light(
+          colorScheme: const ColorScheme.light(
             primary: Colors.green, // Selection color (e.g., selected date circle)
             onPrimary: Colors.white, // Text color inside the selected date circle
             surface: Colors.white, // Background color of the date picker
@@ -166,60 +164,60 @@ Future<void> selectDate(BuildContext context) async {
   update();
 }
 
-Future<void> selectDateTwo(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: selectedDate,
-    firstDate: DateTime(2018, 1, 1),
-    lastDate: DateTime.now().subtract(Duration(days: 1)), // Restrict to dates before today
-    builder: (BuildContext context, Widget? child) {
-      return Theme(
-        data: ThemeData.light().copyWith(
-          // Customizing the overall color scheme
-          colorScheme: ColorScheme.light(
-            primary: Colors.green, // Header background color, selection color (e.g., selected date circle)
-            onPrimary: Colors.white, // Text color inside the selected date circle
-            surface: Colors.white, // Background color of the calendar
-            onSurface: Colors.black, // Text color for unselected dates
+// Future<void> selectDateTwo(BuildContext context) async {
+//   final DateTime? picked = await showDatePicker(
+//     context: context,
+//     initialDate: selectedDate,
+//     firstDate: DateTime(2018, 1, 1),
+//     lastDate: DateTime.now().subtract(const Duration(days: 1)), // Restrict to dates before today
+//     builder: (BuildContext context, Widget? child) {
+//       return Theme(
+//         data: ThemeData.light().copyWith(
+//           // Customizing the overall color scheme
+//           colorScheme: const ColorScheme.light(
+//             primary: Colors.green, // Header background color, selection color (e.g., selected date circle)
+//             onPrimary: Colors.white, // Text color inside the selected date circle
+//             surface: Colors.white, // Background color of the calendar
+//             onSurface: Colors.black, // Text color for unselected dates
         
-          ),
-          // Customizing the dialog background color
-          dialogBackgroundColor: Colors.white, // Background color of the dialog
+//           ),
+//           // Customizing the dialog background color
+//           dialogBackgroundColor: Colors.white, // Background color of the dialog
           
-          // Customizing the header (e.g., the title bar at the top)
-          textTheme: TextTheme(
-            headline4: TextStyle(color: Colors.green), // Year selector text color
-            subtitle1: TextStyle(color: Colors.black), // Month and day text color in the header
-          ),
+//           // Customizing the header (e.g., the title bar at the top)
+//           textTheme: const TextTheme(
+//             headline4: TextStyle(color: Colors.green), // Year selector text color
+//             subtitle1: TextStyle(color: Colors.black), // Month and day text color in the header
+//           ),
           
-          // Customizing the buttons (OK/Cancel)
-          textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(
+//           // Customizing the buttons (OK/Cancel)
+//           textButtonTheme: TextButtonThemeData(
+//             style: TextButton.styleFrom(
              
-            ),
-          ),
+//             ),
+//           ),
 
-          // Customizing the day text style
-          datePickerTheme: DatePickerThemeData(
-            dayStyle: TextStyle(color: Colors.black), // Default day text color
-            todayForegroundColor: MaterialStateProperty.all(Colors.white), // Today date text color
-            todayBackgroundColor: MaterialStateProperty.all(Colors.green), // Today date background color
-            rangeSelectionBackgroundColor: Colors.green.withOpacity(0.2), // Background color for range selection
-          ),
+//           // Customizing the day text style
+//           datePickerTheme: DatePickerThemeData(
+//             dayStyle: const TextStyle(color: primaryTextColor), // Default day text color
+//             todayForegroundColor: MaterialStateProperty.all(Colors.white), // Today date text color
+//             todayBackgroundColor: MaterialStateProperty.all(Colors.green), // Today date background color
+//             rangeSelectionBackgroundColor: Colors.green.withOpacity(0.2), // Background color for range selection
+//           ),
 
-          // Customizing the calendar grid
+//           // Customizing the calendar grid
           
-        ),
-        child: child!,
-      );
-    },
-  );
+//         ),
+//         child: child!,
+//       );
+//     },
+//   );
 
-  if (picked != null && picked != selectedDate) {
-    selectedDate = picked;
-  }
-  update();
-}
+//   if (picked != null && picked != selectedDate) {
+//     selectedDate = picked;
+//   }
+//   update();
+// }
 
 String? punchOutValidationMessage;
 String? breakValidationMessage;
@@ -261,10 +259,10 @@ void validateTimes() {
   }
 
    List<TimeOfDay> selectedTimes = [
-    TimeOfDay(hour: 9, minute: 0), // Punch In Time
-    TimeOfDay(hour: 18, minute: 0), // Punch Out Time
-    TimeOfDay(hour: 13, minute: 0), // Break
-    TimeOfDay(hour: 14, minute: 0), // Resume
+    const TimeOfDay(hour: 9, minute: 0), // Punch In Time
+    const TimeOfDay(hour: 18, minute: 0), // Punch Out Time
+    const TimeOfDay(hour: 13, minute: 0), // Break
+    const TimeOfDay(hour: 14, minute: 0), // Resume
   ];
   
   //  void showTimePickers(int pickerNumber ,BuildContext context) async {
@@ -293,31 +291,31 @@ void validateTimes() {
             backgroundColor: Colors.white, // Background color
             hourMinuteShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: Color(0xff3BBCA0)), // Border color around hour/minute
+              side: const BorderSide(color: Color(0xff3BBCA0)), // Border color around hour/minute
             ),
             hourMinuteColor: MaterialStateColor.resolveWith((states) =>
                 states.contains(MaterialState.selected)
-                    ? Color(0xff3BBCA0) // Selected hour/minute background color
+                    ? const Color(0xff3BBCA0) // Selected hour/minute background color
                     : Colors.white), // Unselected hour/minute background color
             dialBackgroundColor: Colors.white, // Dial background color
             dayPeriodColor: MaterialStateColor.resolveWith((states) =>
                 states.contains(MaterialState.selected)
-                    ? Color(0xff3BBCA0) // Selected AM/PM background color
+                    ? const Color(0xff3BBCA0) // Selected AM/PM background color
                     : Colors.white), // Unselected AM/PM background color
             dayPeriodTextColor: MaterialStateColor.resolveWith((states) =>
                 states.contains(MaterialState.selected)
                     ? Colors.white // Selected AM/PM text color
                     : Colors.black), // Unselected AM/PM text color
-            dialHandColor: Color(0xff3BBCA0), // Dial hand color
+            dialHandColor: lightGreenTextColor, // Dial hand color
             dialTextColor: MaterialStateColor.resolveWith((states) =>
                 states.contains(MaterialState.selected)
                     ? Colors.white // Selected dial text color
                     : Colors.black), // Unselected dial text color
-            entryModeIconColor: Color(0xff3BBCA0), // Icon color in entry mode
+            entryModeIconColor: lightGreenTextColor, // Icon color in entry mode
           ),
           textTheme: const TextTheme(
             headlineMedium: TextStyle(color: Colors.black), // Text color
-            titleLarge: TextStyle(color: Color(0xff3BBCA0)), // AM/PM selector text color
+            titleLarge: TextStyle(color: lightGreenTextColor), // AM/PM selector text color
           ),
           colorScheme: const ColorScheme.light(
             primary: Color(0xff3BBCA0), // Selection color

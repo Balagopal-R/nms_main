@@ -30,9 +30,9 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         return Container(
           width: screenWidth,
           height: screenHeight*.80,
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
+          padding: const EdgeInsets.all(16.0),
+          decoration: const BoxDecoration(
+            color: backgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16.0),
               topRight: Radius.circular(16.0),
@@ -56,15 +56,15 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: Color(0xFF7A7A7A),
+                      color: secondaryTextColor,
                       borderRadius: BorderRadius.circular(2.0),
                     ),
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
         
                 // Row 2: Punch Request
-                Center(
+                const Center(
                   child: Text(
                     'Punch Request',
                     style: TextStyle(
@@ -73,88 +73,88 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                     ),
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
         
                 // Row 3: Date
-                Text(
+                const Text(
                   'Date*',
                   style: TextStyle(
-                    color: Color(0xFF7A7A7A),
+                    color: secondaryTextColor,
                     fontFamily: 'Satoshi',
                     fontSize: 14.0,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
         
                 // Row 4: Date Picker
-                Container(
+                SizedBox(
                   height: componentsHeight, // Increased height for Date Picker
                   child: GestureDetector(
                     onTap: () {
                      controller.selectDate(context);
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
-                        border: Border.all(color: Color(0xFFB7B7B7)),
-                        color: Colors.white,
+                        border: Border.all(color: primaryGray),
+                        color: backgroundColor,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(DateFormat('dd/MM/yyyy').format(controller.selectedDate),
-                            style: TextStyle(
-                              color: Colors.black,
+                            style: const TextStyle(
+                              color: primaryTextColor,
                             ),
                           ),
-                          Icon(Icons.calendar_today, color: Colors.grey),
+                          const Icon(Icons.calendar_today, color: primaryGray),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
         
                 // Row 5: Location
-                Text(
+                const Text(
                   'Location*',
                   style: TextStyle(
-                    color: Color(0xFF7A7A7A),
+                    color: secondaryTextColor,
                     fontFamily: 'Satoshi',
                     fontSize: 14.0,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
         
                 
                  // Row 6: Location Dropdown
 
-                              Obx(() =>   DropdownButtonFormField2<String>(iconStyleData:const IconStyleData(icon: const SizedBox()),
+                              Obx(() =>   DropdownButtonFormField2<String>(iconStyleData:const IconStyleData(icon: SizedBox()),
                         
-                        dropdownStyleData: DropdownStyleData(
+                        dropdownStyleData: const DropdownStyleData(
                           maxHeight: 150
                         ),
-                        menuItemStyleData: MenuItemStyleData(),
+                        menuItemStyleData: const MenuItemStyleData(),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(0),
                 errorText: controller.isLocationValid.value ? null : 'Please select project',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                  borderSide: const BorderSide(color: primaryGray),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                  borderSide: const BorderSide(color: primaryGray),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+                  borderSide: const BorderSide(color: lightGreenTextColor),
                 ),
                 filled: true,
-                fillColor: const Color(0xFFFFFFFF),
+                fillColor: backgroundColor,
                 suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Image.asset(
@@ -170,7 +170,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         child: Text(
           'Select',
           style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
+          fontWeight: FontWeight.w500,color: primaryGray),
         ),
       ),
               items: controller.locations // Replace with your list of locations
@@ -180,7 +180,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                           padding: const EdgeInsets.only(left: 2.0),
                           child: Text(
                             item,
-                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                            style: const TextStyle(fontSize: 16, color: primaryTextColor),
                           ),
                         ),
                       ))
@@ -199,7 +199,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
             ),
                               ),
         
-         SizedBox(height: 8.0),
+         const SizedBox(height: 8.0),
           
                    Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,16 +208,16 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Punch In Time*',
                                 style: TextStyle(
-                                  color: Color(0xFF7A7A7A),
+                                  color: secondaryTextColor,
                                   fontFamily: 'Satoshi',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(height: 8.0),
+                              const SizedBox(height: 8.0),
                               GestureDetector(
                                 onTap: () {
                                   controller.showTimePickers(0, context);
@@ -225,37 +225,37 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                 child: Container(
                                   height: componentsHeight,
                                   width: screenWidth*0.41,
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4.0),
-                                    border: Border.all(color: Color(0xFFB7B7B7)),
-                                    color: Colors.white,
+                                    border: Border.all(color: primaryGray),
+                                    color: backgroundColor,
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                        controller.formatTime24Hour(controller.selectedTimes[0]),
-                                        style: TextStyle(
-                                          color: Colors.black,
+                                        style: const TextStyle(
+                                          color: primaryTextColor,
                                         ),
                                       ),
-                                      Icon(Icons.access_time, color: Colors.grey),
+                                      const Icon(Icons.access_time, color: primaryGray),
                                     ],
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 16.0),
-                              Text(
+                              const SizedBox(height: 16.0),
+                              const Text(
                                 'Break*',
                                 style: TextStyle(
-                                  color: Color(0xFF7A7A7A),
+                                  color: secondaryTextColor,
                                   fontFamily: 'Satoshi',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(height: 8.0),
+                              const SizedBox(height: 8.0),
                               GestureDetector(
                                 onTap: () {
                                  controller.showTimePickers(2, context);
@@ -263,10 +263,10 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                 child: Container(
                                   height: componentsHeight,
                                   width: screenWidth*0.41,
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4.0),
-                                    border: Border.all(color: Color(0xFFB7B7B7)),
+                                    border: Border.all(color: secondaryTextColor),
                                     color: Colors.white,
                                   ),
                                   child: Row(
@@ -274,11 +274,11 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                     children: [
                                       Text(
                                         controller.formatTime24Hour(controller.selectedTimes[2]),
-                                        style: TextStyle(
-                                          color: Colors.black,
+                                        style: const TextStyle(
+                                          color: primaryTextColor,
                                         ),
                                       ),
-                                      Icon(Icons.access_time, color: Colors.grey),
+                                      const Icon(Icons.access_time, color: primaryGray),
                                     ],
                                   ),
                                 ),
@@ -288,27 +288,27 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         padding: const EdgeInsets.only(top: 4.0),
         child: Text(
           controller.breakValidationMessage!,
-          style: TextStyle(color: Colors.red, fontSize: 12.0),
+          style: const TextStyle(color: Colors.red, fontSize: 12.0),
         ),
       ),
                             ],
                           ),
                    
-                      SizedBox(width: 16.0),
+                      const SizedBox(width: 16.0),
                       
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Punch Out Time*',
                                 style: TextStyle(
-                                  color: Color(0xFF7A7A7A),
+                                  color: secondaryTextColor,
                                   fontFamily: 'Satoshi',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(height: 8.0),
+                              const SizedBox(height: 8.0),
                               GestureDetector(
                                 onTap: () {
                                  controller.showTimePickers(1, context);
@@ -316,10 +316,10 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                 child: Container(
                                   height: componentsHeight,
                                   width: screenWidth*0.41,
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4.0),
-                                    border: Border.all(color: Color(0xFFB7B7B7)),
+                                    border: Border.all(color: primaryGray),
                                     color: Colors.white,
                                   ),
                                   child: Row(
@@ -327,11 +327,11 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                     children: [
                                       Text(
                                         controller.formatTime24Hour(controller.selectedTimes[1]),
-                                        style: TextStyle(
-                                          color: Colors.black,
+                                        style: const TextStyle(
+                                          color: primaryTextColor,
                                         ),
                                       ),
-                                      Icon(Icons.access_time, color: Colors.grey),
+                                      const Icon(Icons.access_time, color: primaryGray),
                                     ],
                                   ),
                                 ),
@@ -341,21 +341,21 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         padding: const EdgeInsets.only(top: 4.0),
         child: Text(
           controller.punchOutValidationMessage!,
-          style: TextStyle(color: Colors.red, fontSize: 12.0),
+          style: const TextStyle(color: Colors.red, fontSize: 12.0),
         ),
       ),
 
-                              SizedBox(height: 16.0),
-                              Text(
+                              const SizedBox(height: 16.0),
+                              const Text(
                                 'Resume*',
                                 style: TextStyle(
-                                  color: Color(0xFF7A7A7A),
+                                  color: secondaryTextColor,
                                   fontFamily: 'Satoshi',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(height: 8.0),
+                              const SizedBox(height: 8.0),
                               GestureDetector(
                                 onTap: () {
                                 controller.showTimePickers(3, context);
@@ -363,10 +363,10 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                 child: Container(
                                   height: componentsHeight,
                                   width: screenWidth*0.41,
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4.0),
-                                    border: Border.all(color: Color(0xFFB7B7B7)),
+                                    border: Border.all(color: primaryGray),
                                     color: Colors.white,
                                   ),
                                   child: Row(
@@ -374,11 +374,11 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                                     children: [
                                       Text(
                                          controller.formatTime24Hour(controller.selectedTimes[3]),
-                                        style: TextStyle(
-                                          color: Colors.black,
+                                        style: const TextStyle(
+                                          color: primaryTextColor,
                                         ),
                                       ),
-                                      Icon(Icons.access_time, color: Colors.grey),
+                                      const Icon(Icons.access_time, color: primaryGray),
                                     ],
                                   ),
                                 ),
@@ -388,7 +388,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
         padding: const EdgeInsets.only(top: 4.0),
         child: Text(
           controller.resumeValidationMessage!,
-          style: TextStyle(color: Colors.red, fontSize: 12.0),
+          style: const TextStyle(color: Colors.red, fontSize: 12.0),
         ),
       ),
 
@@ -397,7 +397,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                     ],
                   ),
             
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
 
                 ReasonInput(controller: controller),
         
@@ -410,7 +410,7 @@ class _PunchRequestBottomSheetScreenState extends State<PunchRequestBottomSheetS
                 //     color: Colors.grey,
                 //   ),
                 // ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
         
                 // Row 11: Submit Button
         
@@ -452,7 +452,7 @@ class ReasonInput extends StatelessWidget {
         const Text(
           'Reason*',
           style: TextStyle(
-            color: Color(0xFF7A7A7A),
+            color: secondaryTextColor,
             fontFamily: 'Satoshi',
             fontSize: 14.0,
             fontWeight: FontWeight.w400,
@@ -467,23 +467,23 @@ class ReasonInput extends StatelessWidget {
           decoration: InputDecoration(
             hintText: 'Enter task',
             hintStyle: const TextStyle(fontSize: 16.0,fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w500,color: Color(0xffB7B7B7)),
+          fontWeight: FontWeight.w500,color: primaryGray),
             errorText: controller.isReasonValid.value ? null : 'Please enter a reason',
             contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+              borderSide: const BorderSide(color: primaryGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+              borderSide: const BorderSide(color: lightGreenTextColor),
             ),
             filled: true,
-            fillColor: const Color(0xFFFFFFFF),
+            fillColor: backgroundColor,
           ),
           onChanged: (value) {
                 controller.reason.value = value;
