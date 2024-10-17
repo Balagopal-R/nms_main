@@ -16,17 +16,22 @@ const Color lightRed = Color(0xffFFF0F0);
 const Color darkRed = Color(0xffFA5B5B);
 const Color veryLightRed = Color(0xffFFC1C1);
 
-
+const Color veryDarkShadeYellow = Color(0xffECB35D);
 const Color darkShadeYellow = Color(0xffF0C27D);
 const Color lightShadeYellow = Color(0xffFFEECC);
+const Color containerYellow = Color(0xffFEFAF3);
 
 const Color veryLightShadeBlue = Color(0xffDFDFFB);
 const Color primaryblue = Color(0xff807DF0);
+const Color lightShadeBlue = Color(0xff605DEC);
 
 const Color lightGray = Color(0xffE3E3E3);
 const Color veryLightGray = Color(0xffF1F1F1);
 const Color primaryGray = Color(0xffB7B7B7);
 const Color lightestGray = Color(0xffD9D9D9);
+const Color darkGray = Color(0xff888888);
+
+const Color darkShadeGreen = Color(0xff2F9680);
 
 
 

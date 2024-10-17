@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/features/nms_main_layout/team_listing/team_listing_controller.dart';
+import 'package:nms/utils/theme/theme.dart';
 import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
 import 'package:nms/widgets/punch_out_request_bottomsheet.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../models/team_list_model/team_list_model.dart';
 
+// ignore: use_key_in_widget_constructors
 class TeamListingScreen extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _TeamListingScreenState createState() => _TeamListingScreenState();
 }
 
@@ -20,10 +23,10 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
       init: TeamListingController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Color(0xffFAFAFA),
+          backgroundColor: scaffoldBackgroundColor,
           appBar: AppBar(
-            backgroundColor: Color(0xffFAFAFA),
-            title: Text('Team Listing'),
+            backgroundColor: scaffoldBackgroundColor,
+            title: const Text('Team Listing'),
             centerTitle: true,
             actions: [
               IconButton(
@@ -39,7 +42,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
             ],
             bottom: isSearching
                 ? PreferredSize(
-                    preferredSize: Size.fromHeight(60.0),
+                    preferredSize: const Size.fromHeight(60.0),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
@@ -52,30 +55,31 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                 height: 48.0,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  border: Border.all(color: Color(0xFFB7B7B7)),
+                                  border: Border.all(color: primaryGray),
                                 ),
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Row(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: const Row(
                                   children: [
-                                    Icon(Icons.search, color: Colors.grey),
+                                    Icon(Icons.search, color: primaryGray),
                                     SizedBox(width: 8.0),
                                     Text('Search Employee',
-                                        style: TextStyle(color: Colors.grey)),
+                                        style: TextStyle(color: primaryGray)),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 8.0),
+                          const SizedBox(width: 8.0),
                           GestureDetector(
                             onTap: () {},
                             child: Container(
                               height: 48.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4.0),
-                                border: Border.all(color: Color(0xFFB7B7B7)),
+                                border: Border.all(color: primaryGray),
                               ),
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Image.asset('assets/png/slider.png'),
                             ),
                           ),
@@ -85,12 +89,12 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                   )
                 : null,
           ),
-         
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await controller.getLastPunchIn();
               if (controller.getEmployPunchIn?.punchOutDateTime != null) {
                 await showModalBottomSheet(
+                  // ignore: use_build_context_synchronously
                   context: context,
                   builder: (context) {
                     return PunchInRequestSheetContent();
@@ -98,6 +102,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                 );
               } else {
                 await showModalBottomSheet(
+                  // ignore: use_build_context_synchronously
                   context: context,
                   builder: (context) {
                     return PunchOutRequestSheetContent();
@@ -105,7 +110,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                 );
               }
             },
-            backgroundColor: Color(0xFF3BBCA0),
+            backgroundColor: lightGreenTextColor,
             child: const Image(
               image: AssetImage('assets/png/plus.png'),
             ),
@@ -116,11 +121,13 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
               itemBuilder: (context, item, index) => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.0),
-                  border: Border(bottom: BorderSide(color: Color(0xFFF1F1F1))),
+                  border:
+                      const Border(bottom: BorderSide(color: veryLightGray)),
                   color: Colors.white,
                 ),
-                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                padding: EdgeInsets.all(8.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Stack(
                   children: [
                     Column(
@@ -147,40 +154,40 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(item.firstname,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.black,
+                                        color: primaryTextColor,
                                         fontSize: 14)),
                                 Text(item.designation.toString(),
-                                    style: TextStyle(
-                                        color: Color(0xff7A7A7A),
+                                    style: const TextStyle(
+                                        color: secondaryTextColor,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400)),
                               ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage('assets/png/punch_in.png'),
                                   height: 20.0,
                                   width: 20.0,
                                 ),
-                                SizedBox(width: 4.0),
+                                const SizedBox(width: 4.0),
                                 Text(
                                   controller.epochToTimeString(item.punchIn),
-                                  style: TextStyle(
-                                      color: Color(0xff888888),
+                                  style: const TextStyle(
+                                      color: darkGray,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -188,31 +195,31 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                             ),
                             Row(
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage('assets/png/punch_out.png'),
                                   height: 20.0,
                                   width: 20.0,
                                 ),
-                                SizedBox(width: 4.0),
+                                const SizedBox(width: 4.0),
                                 Text(
                                     controller.epochToTimeString(item.punchOut),
-                                    style: TextStyle(
-                                        color: Color(0xff888888),
+                                    style: const TextStyle(
+                                        color: darkGray,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500)),
                               ],
                             ),
                             Row(
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage('assets/png/location.png'),
                                   height: 20.0,
                                   width: 20.0,
                                 ),
-                                SizedBox(width: 4.0),
+                                const SizedBox(width: 4.0),
                                 Text(item.punchLocation.toString(),
-                                    style: TextStyle(
-                                        color: Color(0xff888888),
+                                    style: const TextStyle(
+                                        color: darkGray,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500)),
                               ],
@@ -225,7 +232,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                       top: 0,
                       right: 0,
                       child: Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: 6.0, vertical: 2.0),
                         decoration: BoxDecoration(
                           color: controller.getContainerColorBasedOnPunchStatus(
@@ -240,7 +247,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                                   controller.getColorBasedOnPunchStatus(
                                       item.status.toString()),
                             ),
-                            SizedBox(width: 4.0),
+                            const SizedBox(width: 4.0),
                             Text(
                                 controller.capitalizeFirstLetter(
                                     item.status.toString()),
@@ -257,13 +264,13 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                   ],
                 ),
               ),
-              firstPageErrorIndicatorBuilder: (context) => Center(
+              firstPageErrorIndicatorBuilder: (context) => const Center(
                 child: Text('Error occurred, please try again.'),
               ),
-              noItemsFoundIndicatorBuilder: (context) => Center(
+              noItemsFoundIndicatorBuilder: (context) => const Center(
                 child: Text('No team listing found.'),
               ),
-              newPageProgressIndicatorBuilder: (context) => Center(
+              newPageProgressIndicatorBuilder: (context) => const Center(
                 child: CircularProgressIndicator(),
               ),
             ),

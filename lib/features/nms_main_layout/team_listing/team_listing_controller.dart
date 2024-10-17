@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
-import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
-import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/last_punch_in_model/last_punch_in_model.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:nms/utils/theme/theme_constants.dart';
 import '../../../dtos/nms_dtos/team_listing_dtos/team_listing.dart';
 import '../../../models/team_list_model/team_list_model.dart';
 import '../../../repository/api_repository.dart';
@@ -27,18 +25,13 @@ class TeamListingController extends GetxController with SnackbarMixin {
 
   @override
   void onInit() async {
-    // await teamListingScreen();
-    // await getIdFromToken();
     pagingController.addPageRequestListener((pageKey) {
       teamListingScreenPagination(pageKey);
     });
     // Trigger the initial page load
     pagingController.refresh();
-    // await getLastPunchIn();
     super.onInit();
   }
-
-  // String userId = "";
 
   RxBool isSearching = false.obs;
   void toggleSearch() {
@@ -145,45 +138,45 @@ class TeamListingController extends GetxController with SnackbarMixin {
     bool condition2,
   ) {
     if (condition1 && condition2) {
-      return Colors.green;
+      return lightGreenTextColor;
     } else {
-      return Colors.red;
+      return darkRed;
     }
   }
 
   Color getContainerColorBasedOnPunchStatus(String condition1) {
     if (condition1 == 'ON_TIME') {
-      return Color(0XFFBEFFE8);
+      return veryLightGreenColor;
     } else if (condition1 == 'LATE') {
-      return Color(0XFFFFF0F0);
+      return lightRed;
     } else if (condition1 == 'BREAK') {
-      return Color(0XFFFEFAF3);
+      return containerYellow;
     } else if (condition1 == 'ABSENT') {
-      return Color(0XFFF1F1F1);
+      return veryLightGray;
     } else if (condition1 == 'LEAVE') {
-      return Color(0XFFDFDFFB);
+      return veryLightShadeBlue;
     } else if (condition1 == 'OUT') {
-      return Color(0XFFFFF0F0);
+      return lightRed;
     } else {
-      return Color(0XFFFFF0F0);
+      return lightRed;
     }
   }
 
   Color getColorBasedOnPunchStatus(String condition1) {
     if (condition1 == 'ON_TIME') {
-      return Color(0XFF2F9680);
+      return darkShadeGreen;
     } else if (condition1 == 'LATE') {
-      return Color(0XFFFF4646);
+      return primaryRed;
     } else if (condition1 == 'BREAK') {
-      return Color(0XFFECB35D);
+      return veryDarkShadeYellow;
     } else if (condition1 == 'ABSENT') {
-      return Color(0XFFB7B7B7);
+      return primaryGray;
     } else if (condition1 == 'LEAVE') {
-      return Color(0XFF605DEC);
+      return lightShadeBlue;
     } else if (condition1 == 'OUT') {
-      return Color(0XFFFF4646);
+      return primaryRed;
     } else {
-      return Color(0XFFFF4646);
+      return primaryRed;
     }
   }
 
