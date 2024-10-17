@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nms/utils/theme/theme_constants.dart';
 import '../approvals_controller.dart';
 
 class ApprovalsBottomSheetContent extends StatelessWidget {
@@ -55,20 +56,20 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
         return Container(
           height: dynamicHeight,
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Container(
                   height: 4,
                   width: 40,
-                  color: Color(0xFFB7B7B7),
+                  color: primaryGray,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
@@ -77,9 +78,9 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Applied Date', style: TextStyle(fontSize: 16)),
+                          const Text('Applied Date', style: TextStyle(fontSize: 16)),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                               color: containerColor,
                               borderRadius: BorderRadius.circular(4),
@@ -94,18 +95,18 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                                     shape: BoxShape.circle,
                                   ),
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(statusText, style: TextStyle(color: statusColor),)
                               ],
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
-                      Text(appliedDate,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
-                      SizedBox(height: 12),
-                      Divider(color: Color(0xFFF1F1F1), thickness: 2),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 8),
+                      Text(appliedDate,style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: primaryTextColor),),
+                      const SizedBox(height: 12),
+                      const Divider(color: veryLightGray, thickness: 2),
+                      const SizedBox(height: 12),
                       Column(
                         children: [
                           _buildRow('IN Time', 'Req IN Time', inTime, reqInTime),
@@ -115,27 +116,27 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
                           _buildRow('Location', 'Req Location', location, reqLocation),
                         ],
                       ),
-                      SizedBox(height: 16),
-                      Text('$by by', style: TextStyle(fontSize: 16)),
-                      SizedBox(height: 4),
-                      Text(admin,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
+                      Text('$by by', style: const TextStyle(fontSize: 16)),
+                      const SizedBox(height: 4),
+                      Text(admin,style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),),
+                      const SizedBox(height: 16),
 
                       if (controller.punchApprovalsViewRequest!.status == 'PENDING')
                       
                       GestureDetector(
                         onTap: onTap,
                         child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 16),
-                          padding: EdgeInsets.symmetric(vertical: 12),
+                          margin: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFFF0F0),
+                            color: lightRed,
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'Cancel Leave',
-                              style: TextStyle(color: Color(0xffFA5B5B), fontSize: 16),
+                              style: TextStyle(color: darkRed, fontSize: 16),
                             ),
                           ),
                         ),
@@ -162,9 +163,9 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(leftTitle, style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, color: Colors.black54)),
-                SizedBox(height: 4),
-                Text(leftValue,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+                Text(leftTitle, style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w400, color: primaryTextColor)),
+                const SizedBox(height: 4),
+                Text(leftValue,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: primaryTextColor),),
               ],
             ),
           ),
@@ -173,9 +174,9 @@ class ApprovalsBottomSheetContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(rightTitle, style: TextStyle(fontSize: 14, color: Colors.black54)),
-                SizedBox(height: 4),
-                Text(rightValue,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+                Text(rightTitle, style: const TextStyle(fontSize: 14, color: primaryTextColor)),
+                const SizedBox(height: 4),
+                Text(rightValue,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: primaryTextColor),),
               ],
             ),
           ),

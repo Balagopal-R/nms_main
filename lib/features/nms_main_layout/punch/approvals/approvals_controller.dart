@@ -7,6 +7,7 @@ import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/punch_approvals_model/punch_approvals_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:nms/utils/theme/theme.dart';
 import '../../../../dtos/nms_dtos/punch_approval_pending_request_dtos/punch_approval_pending_request.dart';
 import '../../../../dtos/nms_dtos/punch_approvals_dtos/punch_approvals.dart';
 import '../../../../dtos/nms_dtos/punch_request_cancel_dtos/punch_request_cancel.dart';
@@ -243,37 +244,37 @@ class ApprovalsController extends GetxController with SnackbarMixin {
 
   Color getContainerColorBasedOnApprovalStatus(String condition1) {
     if (condition1 == 'ACCEPTED') {
-      return const Color(0XFFBEFFE8);
+      return veryLightGreenColor;
     } else if (condition1 == 'PENDING') {
-      return const Color(0XFFFFF0F0);
+      return lightRed;
     } else if (condition1 == 'REJECTED') {
-      return const Color(0XFFFEFAF3);
+      return containerYellow;
     } else if (condition1 == 'REGULARIZED') {
-      return const Color(0XFFF1F1F1);
+      return veryLightGray;
     } else if (condition1 == 'CANCELLED') {
-      return const Color(0XFFDFDFFB);
+      return veryLightShadeBlue;
     } else if (condition1 == 'REVOKED') {
-      return const Color(0XFFFFF0F0);
+      return lightRed;
     } else {
-      return const Color(0XFFFFF0F0);
+      return lightRed;
     }
   }
 
   Color getColorBasedOnApprovalStatus(String condition1) {
     if (condition1 == 'ACCEPTED') {
-      return const Color(0XFF2F9680);
+      return darkShadeGreen;
     } else if (condition1 == 'PENDING') {
-      return const Color(0XFFFF4646);
+      return primaryRed;
     } else if (condition1 == 'REJECTED') {
-      return const Color(0XFFECB35D);
+      return veryDarkShadeYellow;
     } else if (condition1 == 'REGULARIZED') {
-      return const Color(0XFFB7B7B7);
+      return primaryGray;
     } else if (condition1 == 'CANCELLED') {
-      return const Color(0XFF605DEC);
+      return lightShadeBlue;
     } else if (condition1 == 'REVOKED') {
-      return const Color(0XFFFF4646);
+      return primaryRed;
     } else {
-      return const Color(0XFFFF4646);
+      return primaryRed;
     }
   }
 

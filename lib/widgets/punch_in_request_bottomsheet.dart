@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:nms/utils/theme/theme.dart';
 import '../features/punch_in_out_bottomsheet/punch_in_out_bottomsheet.dart';
 import '../features/punch_request_bottomsheet/punch_request_bottomsheet.dart';
 
 class PunchInRequestSheetContent extends StatelessWidget {
+  const PunchInRequestSheetContent({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       height: 150.0, // Increased height for the bottom sheet
       child: Column(
         children: [
@@ -14,10 +17,10 @@ class PunchInRequestSheetContent extends StatelessWidget {
             height: 6.0,
             width: 70.0, // Increased length for the gray line
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: secondaryTextColor,
               borderRadius: BorderRadius.circular(3.0), // Rounded edges
             ),
-            margin: EdgeInsets.only(bottom: 16.0),
+            margin: const EdgeInsets.only(bottom: 16.0),
           ),
           GestureDetector(
             onTap: () {
@@ -26,7 +29,7 @@ class PunchInRequestSheetContent extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) {
-                  return PunchInOutBottomSheetScreen(title: 'Punch IN');
+                  return const PunchInOutBottomSheetScreen(title: 'Punch IN');
                 },
               );
             },
@@ -34,13 +37,13 @@ class PunchInRequestSheetContent extends StatelessWidget {
               children: [
                 Image.asset('assets/png/punch_in_green.png'),
                 // Icon(Icons.arrow_back, color: Colors.teal),
-                SizedBox(width: 16.0),
-                Text('Punch In', style: TextStyle(color: Colors.black)), // Black text
+                const SizedBox(width: 16.0),
+                const Text('Punch In',
+                    style: TextStyle(color: primaryTextColor)), // Black text
               ],
             ),
           ),
-
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -48,16 +51,17 @@ class PunchInRequestSheetContent extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (context) {
-                  return PunchRequestBottomSheetScreen();
+                  return const PunchRequestBottomSheetScreen();
                 },
               );
             },
             child: Row(
               children: [
-                 Image.asset('assets/png/edit.png'),
+                Image.asset('assets/png/edit.png'),
                 // Icon(Icons.arrow_back, color: Colors.teal),
-                SizedBox(width: 16.0),
-                Text('Punch Request', style: TextStyle(color: Colors.black)), // Black text
+                const SizedBox(width: 16.0),
+                const Text('Punch Request',
+                    style: TextStyle(color: primaryTextColor)), // Black text
               ],
             ),
           ),

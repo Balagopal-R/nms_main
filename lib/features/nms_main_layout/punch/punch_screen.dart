@@ -25,14 +25,14 @@ class _PunchScreenState extends State<PunchScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFFAFAFA),
+      backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Color(0xffFFAFAFA),
+        backgroundColor: scaffoldBackgroundColor,
         leading: IconButton(
           icon: Image.asset('assets/png/arrow_left.png', height: 24, width: 24),
           onPressed: () {},
         ),
-        title: Text('Punch Records'),
+        title: const Text('Punch Records'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -51,7 +51,7 @@ class _PunchScreenState extends State<PunchScreen>
         ],
         bottom: isSearching
             ? PreferredSize(
-                preferredSize: Size.fromHeight(60.0),
+                preferredSize: const Size.fromHeight(60.0),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 8.0),
@@ -64,10 +64,11 @@ class _PunchScreenState extends State<PunchScreen>
                             height: 48.0,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4.0),
-                              border: Border.all(color: Color(0xFFB7B7B7)),
+                              border: Border.all(color: primaryGray),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: const Row(
                               children: [
                                 Icon(Icons.search, color: Colors.grey),
                                 SizedBox(width: 8.0),
@@ -78,16 +79,16 @@ class _PunchScreenState extends State<PunchScreen>
                           ),
                         ),
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       GestureDetector(
                         onTap: () {},
                         child: Container(
                           height: 48.0,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            border: Border.all(color: Color(0xFFB7B7B7)),
+                            border: Border.all(color: primaryGray),
                           ),
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Image.asset('assets/png/slider.png'),
                         ),
                       ),
@@ -109,15 +110,14 @@ class _PunchScreenState extends State<PunchScreen>
                 child: Container(
                   width: 320,
                   decoration: BoxDecoration(
-                    color: Color(0xffF1F1F1),
-                    border: Border.all(color: Color(0xFFB7B7B7), width: .3 )),
+                      color: veryLightGray,
+                      border: Border.all(color: primaryGray, width: .3)),
                   child: TabBar(
                     controller: _controller,
                     indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(color: Color(0xFFB7B7B7), width: .2),
+                      border: Border.all(color: primaryGray, width: .2),
                       color: Colors.white,
-                    
                     ),
                     labelColor: primaryColor,
                     labelStyle: const TextStyle(
@@ -132,7 +132,8 @@ class _PunchScreenState extends State<PunchScreen>
                     ),
                     dividerColor: primaryGray,
                     indicatorSize: TabBarIndicatorSize.tab,
-                    unselectedLabelColor: Color(0xFF7A7A7A), // Not needed anymore
+                    unselectedLabelColor:
+                        secondaryTextColor, // Not needed anymore
                     tabs: const [
                       Tab(text: 'History'),
                       Tab(text: 'Approvals'),
@@ -146,10 +147,11 @@ class _PunchScreenState extends State<PunchScreen>
               // Use Expanded for flexible content area
               child: TabBarView(
                 controller: _controller,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  HistoryScreen(),
-                  ApprovalsScreen(),
-                  SummaryScreen(),
+                  const HistoryScreen(),
+                  const ApprovalsScreen(),
+                  const SummaryScreen(),
                 ],
               ),
             ),

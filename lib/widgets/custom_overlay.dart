@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nms/utils/theme/theme.dart';
  
 class CustomOverlay {
   static OverlayEntry createOverlayEntry(BuildContext context,
@@ -23,7 +24,7 @@ class CustomOverlay {
             right: MediaQuery.of(context).size.width * 0.08,
             child: Material(
               color: Colors.transparent,
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 // height: MediaQuery.of(context).size.height * 0.25,
                 height: height,
@@ -39,7 +40,7 @@ class CustomOverlay {
                       Text(
                         text,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        style: const TextStyle(fontSize: 16, color: backgroundColor),
                       ),
                       const SizedBox(
                         height: 20,
@@ -60,7 +61,7 @@ class CustomOverlay {
                           child:  Center(
                             child: Text(
                               firstButtontext,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: backgroundColor),
                             ),
                           ),
                         ),
@@ -82,7 +83,7 @@ class CustomOverlay {
                           ),
                           child: const Center(
                             child: Text("Cancel",
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(color: backgroundColor)),
                           ),
                         ),
                       )

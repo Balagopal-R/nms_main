@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_bottomsheet.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_widget.dart';
 import 'package:nms/models/punch_approvals_model/punch_approvals_model.dart';
+import 'package:nms/utils/theme/theme.dart';
 import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
 import 'package:nms/widgets/punch_out_request_bottomsheet.dart';
 import 'package:get/get.dart';
@@ -17,7 +20,7 @@ class ApprovalsScreen extends StatelessWidget {
       init: ApprovalsController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: const Color(0xFFFAFAFA),
+          backgroundColor: scaffoldBackgroundColor,
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await controller.getLastPunchIn();
@@ -25,19 +28,19 @@ class ApprovalsScreen extends StatelessWidget {
                 await showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return PunchInRequestSheetContent();
+                    return const PunchInRequestSheetContent();
                   },
                 );
               } else {
                 await showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return PunchOutRequestSheetContent();
+                    return const PunchOutRequestSheetContent();
                   },
                 );
               }
             },
-            backgroundColor: const Color(0xFF3BBCA0),
+            backgroundColor: lightGreenTextColor,
             child: const Image(
               image: AssetImage('assets/png/plus.png'),
             ),
@@ -158,7 +161,7 @@ class ApprovalsScreen extends StatelessWidget {
                   'Are you sure you want to cancel this request?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: primaryTextColor,
                     fontFamily: 'Satoshi',
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -173,7 +176,7 @@ class ApprovalsScreen extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFA5B5B),
+                      color: darkRed,
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -199,7 +202,7 @@ class ApprovalsScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       border: Border.all(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -207,7 +210,7 @@ class ApprovalsScreen extends StatelessWidget {
                     child: const Text(
                       'No, go back',
                       style: TextStyle(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/approvals_controller.dart';
 import 'package:get/get.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
+import 'package:nms/utils/theme/theme.dart';
 
 class ApprovalsWidget extends StatelessWidget {
 
@@ -53,7 +54,7 @@ class ApprovalsWidget extends StatelessWidget {
               width: screenWidth,
               height: screenHeight * 0.33,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: backgroundColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Padding(
@@ -64,9 +65,9 @@ class ApprovalsWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Applied Date'),
+                        const Text('Applied Date'),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: containerColor,
                             borderRadius: BorderRadius.circular(2.667),
@@ -77,7 +78,7 @@ class ApprovalsWidget extends StatelessWidget {
                                 radius: 4,
                                 backgroundColor: statusColor,
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Text(
                                 statusText,
                                 style: TextStyle(
@@ -89,29 +90,29 @@ class ApprovalsWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
-                    Text(appliedDate,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
-                    Divider(
+                    const SizedBox(height: 8),
+                    Text(appliedDate,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: primaryTextColor),),
+                   const Divider(
                       height: 16,
-                      color: Color(0xFFF1F1F1),
+                      color: veryLightGray,
                       thickness: 1,
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Req Date'),
                         Text('Req Time'),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(reqDate,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
+                        Text(reqDate,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: primaryTextColor),),
                         Row(
                           children: [
-                            Text(reqTime,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
-                            SizedBox(width: 4),
+                            Text(reqTime,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: primaryTextColor),),
+                            const SizedBox(width: 4),
 
                            JustTheTooltip(
           controller: tooltipController,
@@ -126,15 +127,15 @@ class ApprovalsWidget extends StatelessWidget {
               children: [
                 Text(
                   reqTimeOne,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: primaryTextColor),
                 ),
                 Text(
                   reqTimeTwo,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: primaryTextColor),
                 ),
                 Text(
                   reqTimeThree,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: primaryTextColor),
                 ),
               ],
             ),
@@ -143,10 +144,10 @@ class ApprovalsWidget extends StatelessWidget {
             onTap: () {
               tooltipController.showTooltip();
             },
-            child: Text(
+            child: const Text(
               '+3',
               style: TextStyle(
-                color: Colors.green,
+                color: lightGreenTextColor,
               ),
             ),
           ),
@@ -157,10 +158,10 @@ class ApprovalsWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
-                    Text('Req Work Mode'),
-                    Text(reqWorkMode,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.black),),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 8),
+                    const Text('Req Work Mode'),
+                    Text(reqWorkMode,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: primaryTextColor),),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -168,16 +169,16 @@ class ApprovalsWidget extends StatelessWidget {
                           child: GestureDetector(
                           onTap: viewRequestTap,
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: Color(0xFF3BBCA0)),
+                                border: Border.all(color: lightGreenTextColor),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'View Request',
                                   style: TextStyle(
-                                    color: Color(0xFF3BBCA0),
+                                    color: lightGreenTextColor,
                                   ),
                                 ),
                               ),
@@ -185,23 +186,23 @@ class ApprovalsWidget extends StatelessWidget {
                           ),
                         ),
         
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
 
                       if (controller.punchApprovals[index].status == 'PENDING')
                         Expanded(
                           child: GestureDetector(
                             onTap: onCancelTap,
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: Color(0xFFFA5B5B)),
+                                border: Border.all(color: darkRed),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Cancel',
                                   style: TextStyle(
-                                    color: Color(0xFFFA5B5B),
+                                    color: darkRed,
                                   ),
                                 ),
                               ),
