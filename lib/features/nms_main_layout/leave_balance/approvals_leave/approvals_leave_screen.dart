@@ -5,15 +5,18 @@ import 'package:nms/features/nms_main_layout/leave_balance/approvals_leave/widge
 import 'package:nms/models/leave_approvals_model/leave_approvals_model.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:nms/utils/theme/theme_constants.dart';
 
 class ApprovalsLeaveScreen extends StatelessWidget {
+  const ApprovalsLeaveScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ApprovalsLeaveController>(
       init: ApprovalsLeaveController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Color(0xffFFAFAFA),
+          backgroundColor: scaffoldBackgroundColor,
           body: PagedListView<int, LeaveApprovalsModel>(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<LeaveApprovalsModel>(
@@ -74,13 +77,13 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                   );
                 },
               ),
-              firstPageErrorIndicatorBuilder: (context) => Center(
+              firstPageErrorIndicatorBuilder: (context) => const Center(
                 child: Text('Error occurred, please try again.'),
               ),
-              noItemsFoundIndicatorBuilder: (context) => Center(
+              noItemsFoundIndicatorBuilder: (context) => const Center(
                 child: Text('No punch approvals found.'),
               ),
-              newPageProgressIndicatorBuilder: (context) => Center(
+              newPageProgressIndicatorBuilder: (context) => const Center(
                 child: CircularProgressIndicator(),
               ),
             ),
@@ -101,22 +104,22 @@ class ApprovalsLeaveScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
+                const Text(
                   'Are you sure you want to cancel this request?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: primaryTextColor,
                     fontFamily: 'Satoshi',
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 1.4, // 140% line height
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
                     controller.userLeaveRequestCancel(id);
@@ -124,15 +127,15 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFFA5B5B),
+                      color: darkRed,
                       borderRadius: BorderRadius.circular(4.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Yes, cancel this request',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: backgroundColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -140,7 +143,7 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () {
                     // Handle 'No, go back' action
@@ -150,15 +153,15 @@ class ApprovalsLeaveScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       border: Border.all(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'No, go back',
                       style: TextStyle(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

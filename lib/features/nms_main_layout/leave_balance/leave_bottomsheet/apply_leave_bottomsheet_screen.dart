@@ -30,9 +30,9 @@ class _ApplyLeaveBottomSheetScreenState
           return Container(
             width: screenWidth,
             height: screenHeight * .80,
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
+            padding: const EdgeInsets.all(16.0),
+            decoration: const BoxDecoration(
+              color: backgroundColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16.0),
                 topRight: Radius.circular(16.0),
@@ -56,25 +56,25 @@ class _ApplyLeaveBottomSheetScreenState
                       width: 60,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: Color(0xFF7A7A7A),
+                        color: secondaryTextColor,
                         borderRadius: BorderRadius.circular(2.0),
                       ),
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
 
                   // Row 2: Apply Leave/WFH
-                  Center(
+                  const Center(
                     child: Text(
                       'Apply Leave/WFH',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: primaryTextColor,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
 
                   Container(
                     height: 1,
@@ -91,17 +91,17 @@ class _ApplyLeaveBottomSheetScreenState
                     ),
                   ),
 
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
                   // Row 3: Headings
 
-                  Row(
+                  const Row(
                     children: [
                       Expanded(
                         child: Text(
                           'Leave From*',
                           style: TextStyle(
-                            color: Color(0xFF7A7A7A),
+                            color: secondaryTextColor,
                             fontFamily: 'Satoshi',
                             fontSize: 14.0,
                             fontWeight: FontWeight.w400,
@@ -113,7 +113,7 @@ class _ApplyLeaveBottomSheetScreenState
                         child: Text(
                           'To*',
                           style: TextStyle(
-                            color: Color(0xFF7A7A7A),
+                            color: secondaryTextColor,
                             fontFamily: 'Satoshi',
                             fontSize: 14.0,
                             fontWeight: FontWeight.w400,
@@ -123,7 +123,7 @@ class _ApplyLeaveBottomSheetScreenState
                     ],
                   ),
 
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
 
                   // Row 4: Date Picker
 
@@ -131,11 +131,11 @@ class _ApplyLeaveBottomSheetScreenState
                     children: [
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            border: Border.all(color: Color(0xFFB7B7B7)),
-                            color: Colors.white,
+                            border: Border.all(color: primaryGray),
+                            color: backgroundColor,
                           ),
                           child: TextField(
                             controller: TextEditingController(
@@ -154,7 +154,7 @@ class _ApplyLeaveBottomSheetScreenState
                                 await controller.getLeaveYearByLeaveDate();
                               }
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Select',
                               hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -164,20 +164,20 @@ class _ApplyLeaveBottomSheetScreenState
                             ),
                             style: TextStyle(
                               color: controller.leaveFromDate != null
-                                  ? Colors.black
+                                  ? primaryTextColor
                                   : Colors.grey,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            border: Border.all(color: Color(0xFFB7B7B7)),
-                            color: Colors.white,
+                            border: Border.all(color: primaryGray),
+                            color: backgroundColor,
                           ),
                           child: TextField(
                             controller: TextEditingController(
@@ -195,9 +195,8 @@ class _ApplyLeaveBottomSheetScreenState
                               if (controller.validateDates()) {
                                 await controller.getLeaveYearByLeaveDate();
                               }
-                             
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Select',
                               hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -222,35 +221,35 @@ class _ApplyLeaveBottomSheetScreenState
                           top: 8.0), // Add some spacing before the message
                       child: Text(
                         controller.validationMessage!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors
                               .red, // Red color for the validation message
                           fontSize: 12.0,
                         ),
                       ),
                     ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
 
                   // Row 5: Location
-                  Text(
+                  const Text(
                     'Leave Type*',
                     style: TextStyle(
-                      color: Color(0xFF7A7A7A),
+                      color: secondaryTextColor,
                       fontFamily: 'Satoshi',
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
 
                   // Row 6: Leave Dropdown
 
                   Obx(
                     () => DropdownButtonFormField2<String>(
-                      iconStyleData:
-                          const IconStyleData(icon: const SizedBox()),
-                      dropdownStyleData: DropdownStyleData(maxHeight: 150),
-                      menuItemStyleData: MenuItemStyleData(),
+                      iconStyleData: const IconStyleData(icon: SizedBox()),
+                      dropdownStyleData:
+                          const DropdownStyleData(maxHeight: 150),
+                      menuItemStyleData: const MenuItemStyleData(),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(0),
                         errorText: controller.isLeaveTypeValid.value
@@ -258,21 +257,19 @@ class _ApplyLeaveBottomSheetScreenState
                             : 'Please select leave type',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFB7B7B7)),
+                          borderSide: const BorderSide(color: primaryGray),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFB7B7B7)),
+                          borderSide: const BorderSide(color: primaryGray),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
                           borderSide:
-                              const BorderSide(color: Color(0xFF3BBCA0)),
+                              const BorderSide(color: lightGreenTextColor),
                         ),
                         filled: true,
-                        fillColor: const Color(0xFFFFFFFF),
+                        fillColor: backgroundColor,
                         suffixIcon: Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Image.asset(
@@ -291,7 +288,7 @@ class _ApplyLeaveBottomSheetScreenState
                               fontSize: 16.0,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xffB7B7B7)),
+                              color: primaryGray),
                         ),
                       ),
                       items: controller
@@ -303,7 +300,7 @@ class _ApplyLeaveBottomSheetScreenState
                                   child: Text(
                                     item,
                                     style: const TextStyle(
-                                        fontSize: 16, color: Colors.black),
+                                        fontSize: 16, color: primaryTextColor),
                                   ),
                                 ),
                               ))
@@ -321,35 +318,40 @@ class _ApplyLeaveBottomSheetScreenState
                         controller.selectedLeaveType.value = value!;
                         controller.isLeaveTypeValid.value = true;
                         controller.clearLeaveDocuments();
-                        controller.selectedId.value = controller.getAllMinLeav.firstWhere((element) => element.name == value).id;
-                        controller.isEnforceAdjHoliday.value = controller.getAllMinLeav.firstWhere((element) => element.name == value).isEnforceAdjHoliday;
+                        controller.selectedId.value = controller.getAllMinLeav
+                            .firstWhere((element) => element.name == value)
+                            .id;
+                        controller.isEnforceAdjHoliday.value = controller
+                            .getAllMinLeav
+                            .firstWhere((element) => element.name == value)
+                            .isEnforceAdjHoliday;
                         controller.updateSelectedDays();
                       },
                     ),
                   ),
 
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
 
                   // Row 5: Duration
-                  Text(
+                  const Text(
                     'Duration*',
                     style: TextStyle(
-                      color: Color(0xFF7A7A7A),
+                      color: secondaryTextColor,
                       fontFamily: 'Satoshi',
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
 
                   // Row 6: Duration Dropdown
 
                   Obx(
                     () => DropdownButtonFormField2<String>(
-                      iconStyleData:
-                          const IconStyleData(icon: const SizedBox()),
-                      dropdownStyleData: DropdownStyleData(maxHeight: 150),
-                      menuItemStyleData: MenuItemStyleData(),
+                      iconStyleData: const IconStyleData(icon: SizedBox()),
+                      dropdownStyleData:
+                          const DropdownStyleData(maxHeight: 150),
+                      menuItemStyleData: const MenuItemStyleData(),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(0),
                         errorText: controller.isDurationValid.value
@@ -357,21 +359,19 @@ class _ApplyLeaveBottomSheetScreenState
                             : 'Please select duration',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFB7B7B7)),
+                          borderSide: const BorderSide(color: primaryGray),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFB7B7B7)),
+                          borderSide: const BorderSide(color: primaryGray),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
                           borderSide:
-                              const BorderSide(color: Color(0xFF3BBCA0)),
+                              const BorderSide(color: lightGreenTextColor),
                         ),
                         filled: true,
-                        fillColor: const Color(0xFFFFFFFF),
+                        fillColor: backgroundColor,
                         suffixIcon: Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Image.asset(
@@ -390,10 +390,11 @@ class _ApplyLeaveBottomSheetScreenState
                               fontSize: 16.0,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xffB7B7B7)),
+                              color: primaryGray),
                         ),
                       ),
-                      items: controller.getDurationList() // Replace with your duration
+                      items: controller
+                          .getDurationList() // Replace with your duration
                           .map((item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Padding(
@@ -401,7 +402,7 @@ class _ApplyLeaveBottomSheetScreenState
                                   child: Text(
                                     item,
                                     style: const TextStyle(
-                                        fontSize: 16, color: Colors.black),
+                                        fontSize: 16, color: primaryTextColor),
                                   ),
                                 ),
                               ))
@@ -432,21 +433,21 @@ class _ApplyLeaveBottomSheetScreenState
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
-                          color: Color(
-                              0xFFF1F1F1), // Grey background color (#F1F1F1)
+                          color:
+                              veryLightGray, // Grey background color (#F1F1F1)
                         ),
-                        padding: EdgeInsets.all(
+                        padding: const EdgeInsets.all(
                             12.0), // Padding inside the container
                         child: Row(
                           children: [
                             SvgPicture.asset(
                                 'assets/svg/info.svg'), // Notification icon
-                            SizedBox(
+                            const SizedBox(
                                 width: 8.0), // Spacing between icon and text
                             Text(
                               '${controller.selectedDays} day${controller.selectedDays! > 1 ? 's' : ''} selected', // Show n days selected
-                              style: TextStyle(
-                                  color: Color(0xff7A7A7A),
+                              style: const TextStyle(
+                                  color: secondaryTextColor,
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -458,157 +459,165 @@ class _ApplyLeaveBottomSheetScreenState
                   // In case of Compensatory Off
                   // if (controller.selectedLeaveType.value == 'Test Leave')
                   Obx(
-  () => controller.selectedLeaveType.value == 'Compensation leave'?
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16.0), // Add spacing above the container
-                        child: Column(
-                          children: [
-                            Row(
+                    () => controller.selectedLeaveType.value ==
+                            'Compensation leave'
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                                top: 16.0), // Add spacing above the container
+                            child: Column(
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    'In Lieu of*',
-                                    style: TextStyle(
-                                      color: Color(0xFF7A7A7A),
-                                      fontFamily: 'Satoshi',
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    'To*',
-                                    style: TextStyle(
-                                      color: Color(0xFF7A7A7A),
-                                      fontFamily: 'Satoshi',
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(height: 8.0),
-
-                            // Lieu Date Picker
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 12.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      border:
-                                          Border.all(color: Color(0xFFB7B7B7)),
-                                      color: Colors.white,
-                                    ),
-                                    child: TextField(
-                                      controller: TextEditingController(
-                                        text: controller.lieuOfDate != null
-                                            ? DateFormat('dd/MM/yyyy').format(
-                                                controller.lieuOfDate!)
-                                            : 'Select',
-                                      ),
-                                      readOnly:
-                                          true, // Disable direct editing to force the user to select a date
-                                      onTap: () async {
-                                        // Trigger date picker on tap
-                                        await controller
-                                            .selectLieuFromDate(context);
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: 'Select',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey,
+                                const Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'In Lieu of*',
+                                        style: TextStyle(
+                                          color: secondaryTextColor,
+                                          fontFamily: 'Satoshi',
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        border: InputBorder.none,
-                                        suffixIcon: Icon(Icons.calendar_today),
-                                      ),
-                                      style: TextStyle(
-                                        color: controller.lieuOfDate != null
-                                            ? Colors.black
-                                            : Colors.grey,
                                       ),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 12.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      border:
-                                          Border.all(color: Color(0xFFB7B7B7)),
-                                      color: Colors.white,
-                                    ),
-                                    child: TextField(
-                                      controller: TextEditingController(
-                                        text: controller.lieuToDate != null
-                                            ? DateFormat('dd/MM/yyyy')
-                                                .format(controller.lieuToDate!)
-                                            : 'Select',
-                                      ),
-                                      readOnly:
-                                          true, // Disable direct editing to force the user to select a date
-                                      onTap: () async {
-                                        // Trigger date picker on tap
-                                        await controller.selectLieuToDate(context);
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: 'Select',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey,
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        'To*',
+                                        style: TextStyle(
+                                          color: secondaryTextColor,
+                                          fontFamily: 'Satoshi',
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        border: InputBorder.none,
-                                        suffixIcon: Icon(Icons.calendar_today),
                                       ),
-                                      style: TextStyle(
-                                        color: controller.lieuToDate != null
-                                            ? Colors.black
-                                            : Colors.grey,
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 8.0),
+
+                                // Lieu Date Picker
+
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          border:
+                                              Border.all(color: primaryGray),
+                                          color: Colors.white,
+                                        ),
+                                        child: TextField(
+                                          controller: TextEditingController(
+                                            text: controller.lieuOfDate != null
+                                                ? DateFormat('dd/MM/yyyy')
+                                                    .format(
+                                                        controller.lieuOfDate!)
+                                                : 'Select',
+                                          ),
+                                          readOnly:
+                                              true, // Disable direct editing to force the user to select a date
+                                          onTap: () async {
+                                            // Trigger date picker on tap
+                                            await controller
+                                                .selectLieuFromDate(context);
+                                          },
+                                          decoration: const InputDecoration(
+                                            hintText: 'Select',
+                                            hintStyle: TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                            border: InputBorder.none,
+                                            suffixIcon:
+                                                Icon(Icons.calendar_today),
+                                          ),
+                                          style: TextStyle(
+                                            color: controller.lieuOfDate != null
+                                                ? primaryTextColor
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          border: Border.all(
+                                              color: primaryGray),
+                                          color: backgroundColor,
+                                        ),
+                                        child: TextField(
+                                          controller: TextEditingController(
+                                            text: controller.lieuToDate != null
+                                                ? DateFormat('dd/MM/yyyy')
+                                                    .format(
+                                                        controller.lieuToDate!)
+                                                : 'Select',
+                                          ),
+                                          readOnly:
+                                              true, // Disable direct editing to force the user to select a date
+                                          onTap: () async {
+                                            // Trigger date picker on tap
+                                            await controller
+                                                .selectLieuToDate(context);
+                                          },
+                                          decoration: const InputDecoration(
+                                            hintText: 'Select',
+                                            hintStyle: TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                            border: InputBorder.none,
+                                            suffixIcon:
+                                                Icon(Icons.calendar_today),
+                                          ),
+                                          style: TextStyle(
+                                            color: controller.lieuToDate != null
+                                                ? primaryTextColor
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                // Validation message below "To" date picker
+                                if (controller.lieuValidationMessage != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top:
+                                            8.0), // Add some spacing before the message
+                                    child: Text(
+                                      controller.lieuValidationMessage!,
+                                      style: const TextStyle(
+                                        color: Colors
+                                            .red, // Red color for the validation message
+                                        fontSize: 12.0,
                                       ),
                                     ),
                                   ),
-                                ),
                               ],
-                            ),
+                            ))
+                        : const SizedBox
+                            .shrink(), // Empty widget if "Test Leave" is not selected
+                  ),
 
-
-                            // Validation message below "To" date picker
-                            if (controller.lieuValidationMessage != null)
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top:
-                                        8.0), // Add some spacing before the message
-                                child: Text(
-                                  controller.lieuValidationMessage!,
-                                  style: TextStyle(
-                                    color: Colors
-                                        .red, // Red color for the validation message
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        )
-                        ): SizedBox.shrink(), // Empty widget if "Test Leave" is not selected
-              ),
-
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
 
                   CommentsInput(controller: controller),
 
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
 
                   Align(
                     alignment: Alignment.centerLeft,
@@ -619,7 +628,7 @@ class _ApplyLeaveBottomSheetScreenState
                         fontWeight: FontWeight.w400,
                         color: controller.files.length == 3
                             ? Colors.grey.shade400
-                            : const Color(0xff7A7A7A),
+                            : secondaryTextColor,
                       ),
                     ),
                   ),
@@ -633,8 +642,8 @@ class _ApplyLeaveBottomSheetScreenState
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
                         color: controller.files.length == 3
-                            ? Color(0xFFF1F1F1)
-                            : Color(0xFFD9D9D9), // Use theme color
+                            ? veryLightGray
+                            : lightestGray, // Use theme color
                       ),
                       child: Center(
                         child: Row(
@@ -651,7 +660,7 @@ class _ApplyLeaveBottomSheetScreenState
                             const Text(
                               'Choose File',
                               style: TextStyle(
-                                  color: Colors.black,
+                                  color: primaryTextColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -669,7 +678,7 @@ class _ApplyLeaveBottomSheetScreenState
                         fontSize: 12.0,
                         color: controller.files.length == 3
                             ? Colors.grey.shade400
-                            : const Color(0xFF7A7A7A),
+                            : secondaryTextColor,
                       ),
                     ),
                   ),
@@ -709,7 +718,7 @@ class _ApplyLeaveBottomSheetScreenState
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 5.0),
           decoration: BoxDecoration(
-            color: const Color(0xFFFAFAFA),
+            color: scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(2.0),
           ),
           child: ListTile(
@@ -740,7 +749,7 @@ class CommentsInput extends StatelessWidget {
         const Text(
           'Reason*',
           style: TextStyle(
-            color: Color(0xFF7A7A7A),
+            color: secondaryTextColor,
             fontFamily: 'Satoshi',
             fontSize: 14.0,
             fontWeight: FontWeight.w400,
@@ -759,7 +768,7 @@ class CommentsInput extends StatelessWidget {
                   fontSize: 16.0,
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xffB7B7B7)),
+                  color: primaryGray),
               errorText: controller.isCommentValid.value
                   ? null
                   : 'Please enter a reason',
@@ -767,18 +776,18 @@ class CommentsInput extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                borderSide: const BorderSide(color: primaryGray),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Color(0xFFB7B7B7)),
+                borderSide: const BorderSide(color: primaryGray),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Color(0xFF3BBCA0)),
+                borderSide: const BorderSide(color: lightGreenTextColor),
               ),
               filled: true,
-              fillColor: const Color(0xFFFFFFFF),
+              fillColor: backgroundColor,
             ),
             onChanged: (value) {
               controller.comment.value = value;

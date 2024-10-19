@@ -3,7 +3,6 @@ import 'package:nms/features/nms_main_layout/leave_balance/balances/balance_scre
 import 'approvals_leave/approvals_leave.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'leave_bottomsheet/apply_leave_bottomsheet.dart';
 
 class LeaveBalanceScreen extends StatefulWidget {
@@ -39,10 +38,10 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFFAFAFA),
+      backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Color(0xffFFAFAFA),
-        title: Text('Leave Balance'),
+        backgroundColor: scaffoldBackgroundColor,
+        title: const Text('Leave Balance'),
         centerTitle: true,
         actions: _controller?.index == 1 // Check if the ApprovalsLeaveScreen is selected
             ? [
@@ -64,13 +63,13 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return ApplyLeaveBottomSheetScreen();
+        return const ApplyLeaveBottomSheetScreen();
       },
     );
 
   },
-   backgroundColor: Color(0xFF3BBCA0),
-   foregroundColor: Colors.white,
+   backgroundColor: lightGreenTextColor,
+   foregroundColor: backgroundColor,
    child: const Icon(Icons.add),
 ),
       body: Padding(
@@ -87,14 +86,14 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
                   width: 250,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    color: Color(0xffF1F1F1),
-                    border: Border.all(color: Color(0xFFB7B7B7), width: .1 )),
+                    color: veryLightGray,
+                    border: Border.all(color: primaryGray, width: .1 )),
                   child: TabBar(
                     controller: _controller,
                     indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(color: Color(0xFFB7B7B7), width: .2),
-                      color: Colors.white,
+                      border: Border.all(color: primaryGray, width: .2),
+                      color: backgroundColor,
                     
                     ),
                     labelColor: primaryColor,
@@ -110,7 +109,7 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
                     ),
                     dividerColor: primaryGray,
                     indicatorSize: TabBarIndicatorSize.tab,
-                    unselectedLabelColor: Color(0xFF7A7A7A), // Not needed anymore
+                    unselectedLabelColor: secondaryTextColor, // Not needed anymore
                     tabs: const [
                       Tab(text: 'Balances'),
                       Tab(text: 'Approvals'),
@@ -123,7 +122,7 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen>
               // Use Expanded for flexible content area
               child: TabBarView(
                 controller: _controller,
-                children: [
+                children: const [
                   BalancesScreen(),
                   ApprovalsLeaveScreen(),
                  

@@ -9,6 +9,7 @@ import 'package:nms/models/file_upload_model/file_upload_model.dart';
 import 'package:nms/models/leave_approvals_model/leave_approvals_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:nms/utils/theme/theme.dart';
 import '../../../../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
 import '../../../../dtos/nms_dtos/get_all_min_leave_dtos/get_all_min_leave.dart';
 import '../../../../dtos/nms_dtos/get_leave_year_by_date_dtos/get_leave_year_by_date.dart';
@@ -78,16 +79,16 @@ class ApplyLeaveBottomSheetController extends GetxController
 
   bool validateDates() {
     if (leaveFromDate == null || toDate == null) {
-      print('Please select both dates');
+      // print('Please select both dates');
       return false;
     }
 
     if (toDate!.isBefore(leaveFromDate!)) {
-      print('To Date must not precede From Date');
+      // print('To Date must not precede From Date');
       return false;
     }
 
-    print('Both dates are valid');
+    // print('Both dates are valid');
     return true;
   }
 
@@ -113,9 +114,7 @@ class ApplyLeaveBottomSheetController extends GetxController
           leaveStartDate: formatDate(leaveFromDate),
           leaveEndDate: formatDate(toDate),
         );
-        print(formatDate(leaveFromDate));
-        print(formatDate(toDate));
-
+       
         final response =
             await ApiRepository.to.leaveYearByLeaveDate(request: request);
 
@@ -188,10 +187,7 @@ class ApplyLeaveBottomSheetController extends GetxController
         // File fileFromPath =
         final request = FileUploadRequest(
             userId: userId, file: fileFromPath, category: 'OTHERS');
-        print('request:${request.toString()}');
-
         final response = await ApiRepository.to.fileUpload(request: request);
-        print('response:${response.toString()}');
 
         if (response.status == 200) {
           _userFileUpload.value = response.data;
@@ -247,11 +243,11 @@ class ApplyLeaveBottomSheetController extends GetxController
 
         if (response.status == 200) {
           _leaveRequestMessage.value = response.data;
-          print(leaveRequestMessage);
           showSuccessSnackbar(
               title: 'Success',
               message: 'You have successfully submitted a new Leave request');
-          await Future.delayed(Duration(seconds: 4));
+          await Future.delayed(const Duration(seconds: 4));
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         } else if (response.message == "Failed") {
           debugPrint(response.errors['errorMessage']);
@@ -315,7 +311,7 @@ class ApplyLeaveBottomSheetController extends GetxController
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.green, // Selection color
               onPrimary:
                   Colors.white, // Text color inside the selected date circle
@@ -350,7 +346,7 @@ class ApplyLeaveBottomSheetController extends GetxController
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.green, // Selection color
               onPrimary:
                   Colors.white, // Text color inside the selected date circle
@@ -432,7 +428,7 @@ class ApplyLeaveBottomSheetController extends GetxController
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.green, // Selection color
               onPrimary:
                   Colors.white, // Text color inside the selected date circle
@@ -467,7 +463,7 @@ class ApplyLeaveBottomSheetController extends GetxController
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.green, // Selection color
               onPrimary:
                   Colors.white, // Text color inside the selected date circle
@@ -546,24 +542,24 @@ class ApplyLeaveBottomSheetController extends GetxController
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundColor,
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
+                const Text(
                   'Are you sure you want to delete this document?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: primaryTextColor,
                     fontFamily: 'Satoshi',
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 1.4, // 140% line height
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
                     removeFile(index);
@@ -571,12 +567,12 @@ class ApplyLeaveBottomSheetController extends GetxController
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFFA5B5B),
+                      color: darkRed,
                       borderRadius: BorderRadius.circular(4.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Delete',
                       style: TextStyle(
                         color: Colors.white,
@@ -587,7 +583,7 @@ class ApplyLeaveBottomSheetController extends GetxController
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () {
                     // Handle 'No, go back' action
@@ -597,15 +593,15 @@ class ApplyLeaveBottomSheetController extends GetxController
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       border: Border.all(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        color: Color(0xFF3BBCA0),
+                        color: lightGreenTextColor,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
