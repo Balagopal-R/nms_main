@@ -18,11 +18,11 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
   int _selectedIndex = 0;
   final Color selectedColor = lightGreenTextColor;
 
-  static List<Widget> _widgetOptions = <Widget>[
-    DashboardScreen(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const DashboardScreen(),
     TeamListingScreen(),
-    PunchScreen(),
-    LeaveBalanceScreen()
+    const PunchScreen(),
+    const LeaveBalanceScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -35,7 +35,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
+      backgroundColor: scaffoldBackgroundColor,
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

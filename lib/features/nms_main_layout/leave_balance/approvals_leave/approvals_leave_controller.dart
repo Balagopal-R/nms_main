@@ -9,6 +9,7 @@ import 'package:nms/mixins/snackbar_mixin.dart';
 import 'package:nms/models/leave_approvals_model/leave_approvals_model.dart';
 import 'package:nms/repository/api_repository.dart';
 import 'package:nms/utils/helpers/validation.dart';
+import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../dtos/nms_dtos/leave_approvals_dtos/leave_approvals.dart';
 
@@ -132,9 +133,9 @@ class ApprovalsLeaveController extends GetxController with SnackbarMixin {
     await requestStoragePermission();
     try {
       final request = FileDownloadRequest(fileName: fileName);
+      // ignore: unused_local_variable
       final response = await ApiRepository.to.fileDownload(request: request);
 
-      print(response.toString());
       showSuccessSnackbar(
           title: 'Success', message: 'File Downloaded Successfully');
     } catch (e) {
@@ -157,42 +158,42 @@ class ApprovalsLeaveController extends GetxController with SnackbarMixin {
   DateFormat format = DateFormat('d MMM yyyy');
   return format.format(dateTime);
 }
-   Color getContainerColorBasedOnApprovalStatus(String condition1) {
+  
+  Color getContainerColorBasedOnApprovalStatus(String condition1) {
     if (condition1 == 'ACCEPTED') {
-      return Color(0XFFBEFFE8);
+      return veryLightGreenColor;
     } else if (condition1 == 'PENDING') {
-      return Color(0XFFFFF0F0);
+      return lightRed;
     } else if (condition1 == 'REJECTED') {
-      return Color(0XFFFEFAF3);
+      return containerYellow;
     } else if (condition1 == 'REGULARIZED') {
-      return Color(0XFFF1F1F1);
+      return veryLightGray;
     } else if (condition1 == 'CANCELLED') {
-      return Color(0XFFDFDFFB);
+      return veryLightShadeBlue;
     } else if (condition1 == 'REVOKED') {
-      return Color(0XFFFFF0F0);
+      return lightRed;
     } else {
-      return Color(0XFFFFF0F0);
+      return lightRed;
     }
   }
 
   Color getColorBasedOnApprovalStatus(String condition1) {
     if (condition1 == 'ACCEPTED') {
-      return Color(0XFF2F9680);
+      return darkShadeGreen;
     } else if (condition1 == 'PENDING') {
-      return Color(0XFFFF4646);
+      return primaryRed;
     } else if (condition1 == 'REJECTED') {
-      return Color(0XFFECB35D);
+      return veryDarkShadeYellow;
     } else if (condition1 == 'REGULARIZED') {
-      return Color(0XFFB7B7B7);
+      return primaryGray;
     } else if (condition1 == 'CANCELLED') {
-      return Color(0XFF605DEC);
+      return lightShadeBlue;
     } else if (condition1 == 'REVOKED') {
-      return Color(0XFFFF4646);
+      return primaryRed;
     } else {
-      return Color(0XFFFF4646);
+      return primaryRed;
     }
   }
-
     String capitalizeFirstLetter(String text) {
     if (text.isEmpty) return text;
 

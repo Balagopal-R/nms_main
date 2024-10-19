@@ -251,9 +251,9 @@ class MyDocumentsController extends GetxController with SnackbarMixin {
     await requestStoragePermission();
     try {
       final request = FileDownloadRequest(fileName: fileName);
+      // ignore: unused_local_variable
       final response = await ApiRepository.to.fileDownload(request: request);
 
-      print(response.toString());
       showSuccessSnackbar(
           title: 'Success', message: 'File Downloaded Successfully');
     } catch (e) {

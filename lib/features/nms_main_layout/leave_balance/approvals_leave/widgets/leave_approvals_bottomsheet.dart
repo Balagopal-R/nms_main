@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nms/utils/theme/theme.dart';
 import '../approvals_leave_controller.dart';
-
 
 class LeaveApprovalsBottomSheet extends StatelessWidget {
   final String appliedDate;
@@ -21,25 +21,25 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
   final String? documentName;
   final String? fileName;
 
-  const LeaveApprovalsBottomSheet({
-    Key? key,
-    required this.appliedDate,
-    required this.statusColor,
-    required this.containerColor,
-    required this.statusText,
-    required this.dateFrom,
-    required this.leaveType,
-    required this.by,
-    required this.admin,
-    required this.dateTo,
-    required this.reqBreakTime,
-    required this.comments,
-    required this.onTap,
-    required this.index,
-    this.documentLength,
-    this.documentName,
-    this.fileName
-  }) : super(key: key);
+  const LeaveApprovalsBottomSheet(
+      {Key? key,
+      required this.appliedDate,
+      required this.statusColor,
+      required this.containerColor,
+      required this.statusText,
+      required this.dateFrom,
+      required this.leaveType,
+      required this.by,
+      required this.admin,
+      required this.dateTo,
+      required this.reqBreakTime,
+      required this.comments,
+      required this.onTap,
+      required this.index,
+      this.documentLength,
+      this.documentName,
+      this.fileName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +57,20 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
                 maxHeight: maxHeight,
               ),
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Container(
                       height: 4,
                       width: 40,
-                      color: Color(0xFFB7B7B7),
+                      color: primaryGray,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
@@ -79,9 +79,11 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Applied Date', style: TextStyle(fontSize: 16)),
+                              const Text('Applied Date',
+                                  style: TextStyle(fontSize: 16)),
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: containerColor,
                                   borderRadius: BorderRadius.circular(4),
@@ -96,80 +98,93 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
                                         shape: BoxShape.circle,
                                       ),
                                     ),
-                                    SizedBox(width: 4),
-                                    Text(statusText, style: TextStyle(color: statusColor)),
+                                    const SizedBox(width: 4),
+                                    Text(statusText,
+                                        style: TextStyle(color: statusColor)),
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             appliedDate,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: primaryTextColor,
                             ),
                           ),
-                          SizedBox(height: 12),
-                          Divider(color: Color(0xFFF1F1F1), thickness: 2),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
+                          const Divider(color: veryLightGray, thickness: 2),
+                          const SizedBox(height: 12),
                           Column(
                             children: [
-                              _buildRow('Date From', 'Date To', dateFrom, dateTo),
+                              _buildRow(
+                                  'Date From', 'Date To', dateFrom, dateTo),
                               _buildRow('Leave Type', '', leaveType, ''),
                             ],
                           ),
-                          SizedBox(height: 16),
-                          Text('$by by', style: TextStyle(fontSize: 16)),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 16),
+                          Text('$by by', style: const TextStyle(fontSize: 16)),
+                          const SizedBox(height: 4),
                           Text(
                             admin,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: primaryTextColor,
                             ),
                           ),
-                          SizedBox(height: 16),
-                          Text('Comments', style: TextStyle(fontSize: 16)),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 16),
+                          const Text('Comments',
+                              style: TextStyle(fontSize: 16)),
+                          const SizedBox(height: 4),
                           Text(
                             comments,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: primaryTextColor,
                             ),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
 
                           // Adjust height dynamically based on _buildFileList content
-                          if (documentLength != null && documentLength != 0 && documentName != null)
-                            _buildFileList(documentLength!, documentName!,  onTapDownload: (int index) {
-    // Handle the tap action here
-                            //  print('Tapped file at index $index');
-                            //  print('-------------@@@@ $fileName');
-                             controller.downloadFile(fileName!);
-  },),
+                          if (documentLength != null &&
+                              documentLength != 0 &&
+                              documentName != null)
+                            _buildFileList(
+                              documentLength!,
+                              documentName!,
+                              onTapDownload: (int index) {
+                                // Handle the tap action here
+                                //  print('Tapped file at index $index');
+                                //  print('-------------@@@@ $fileName');
+                                controller.downloadFile(fileName!);
+                              },
+                            ),
 
-                          if (controller.leaveApprovals[index].status == 'PENDING' ||
-                              controller.leaveApprovals[index].status == 'ACCEPTED')
+                          if (controller.leaveApprovals[index].status ==
+                                  'PENDING' ||
+                              controller.leaveApprovals[index].status ==
+                                  'ACCEPTED')
                             GestureDetector(
                               onTap: onTap,
                               child: Container(
-                                margin: EdgeInsets.symmetric(vertical: 16),
-                                padding: EdgeInsets.symmetric(vertical: 12),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFFFF0F0),
+                                  color: lightRed,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                child: Center(
+                                child: const Center(
                                   child: Text(
                                     'Cancel Leave',
                                     style: TextStyle(
-                                      color: Color(0xffFA5B5B),
+                                      color: darkRed,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -214,22 +229,26 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
   //   );
   // }
 
-    Widget _buildFileList(int length, String? name, {required void Function(int) onTapDownload}) {
+  Widget _buildFileList(int length, String? name,
+      {required void Function(int) onTapDownload}) {
     if (name == null || name.isEmpty) {
-      return SizedBox.shrink(); // If no documents, return an empty SizedBox
+      return const SizedBox
+          .shrink(); // If no documents, return an empty SizedBox
     }
 
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(), // Disable internal scrolling
+      physics:
+          const NeverScrollableScrollPhysics(), // Disable internal scrolling
       itemCount: length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => onTapDownload(index), // Trigger the provided onTap function
+          onTap: () =>
+              onTapDownload(index), // Trigger the provided onTap function
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 5.0),
             decoration: BoxDecoration(
-              color: const Color(0xFFFAFAFA),
+              color: scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(2.0),
             ),
             child: ListTile(
@@ -242,10 +261,8 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
     );
   }
 
-
-
-
-  Widget _buildRow(String leftTitle, String rightTitle, String leftValue, String rightValue) {
+  Widget _buildRow(String leftTitle, String rightTitle, String leftValue,
+      String rightValue) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -255,9 +272,17 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(leftTitle, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54)),
-                SizedBox(height: 4),
-                Text(leftValue, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black)),
+                Text(leftTitle,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: primaryTextColor)),
+                const SizedBox(height: 4),
+                Text(leftValue,
+                    style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: primaryTextColor)),
               ],
             ),
           ),
@@ -266,9 +291,15 @@ class LeaveApprovalsBottomSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(rightTitle, style: TextStyle(fontSize: 14, color: Colors.black54)),
-                SizedBox(height: 4),
-                Text(rightValue, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black)),
+                Text(rightTitle,
+                    style:
+                        const TextStyle(fontSize: 14, color: primaryTextColor)),
+                const SizedBox(height: 4),
+                Text(rightValue,
+                    style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: primaryTextColor)),
               ],
             ),
           ),

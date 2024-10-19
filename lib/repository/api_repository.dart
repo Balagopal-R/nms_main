@@ -14,7 +14,6 @@ import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
-import 'package:path_provider/path_provider.dart';
 import '../dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import '../dtos/nms_dtos/file_download_dtos/file_download.dart';
 import '../dtos/nms_dtos/file_upload_dtos/file_upload.dart';
@@ -181,7 +180,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return GetEmployePunchTimeResponse.fromJson(response);
   }
 
@@ -228,7 +226,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: request.toMap(),
     );
-    // print(response);
     return GetLeavesResponse.fromJson(response);
   }
 
@@ -250,7 +247,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return DocumentsListResponse.fromJson(response);
   }
 
@@ -263,7 +259,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: request.toMap(),
     );
-    print(response);
     return TeamListingResponse.fromJson(response);
   }
 
@@ -287,7 +282,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return PunchInResponse.fromJson(response);
   }
 
@@ -299,7 +293,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return PunchOutResponse.fromJson(response);
   }
 
@@ -312,7 +305,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return PunchRequestResponse.fromJson(response);
   }
 
@@ -325,7 +317,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: request.toMap(),
     );
-    print(response);
     return FileUploadResponse.fromJson(response);
   }
 
@@ -338,7 +329,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return PunchApprovalsResponse.fromJson(response);
   }
 
@@ -351,7 +341,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return PunchApprovalPendingResponse.fromJson(response);
   }
 
@@ -364,7 +353,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: {},
       params: request.toMap(),
     );
-    print(response);
     return PunchRequestCancelResponse.fromJson(response);
   }
 
@@ -377,7 +365,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return LeaveApprovalsResponse.fromJson(response);
   }
 
@@ -390,7 +377,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: {},
       params: request.toMap(),
     );
-    print(response);
     return LeaveRequestCancelResponse.fromJson(response);
   }
 
@@ -403,7 +389,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return GetLeaveYearByDateResponse.fromJson(response);
   }
 
@@ -416,7 +401,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return GetAllMinLeaveResponse.fromJson(response);
   }
 
@@ -429,7 +413,6 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       body: request.toBody(),
       params: {},
     );
-    print(response);
     return LeaveRequestCreateResponse.fromJson(response);
   }
 

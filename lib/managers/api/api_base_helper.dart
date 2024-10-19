@@ -129,7 +129,6 @@ class ApiBaseHelper {
         Uri.parse(completeUrl),
         headers: headers ?? await NMSAuthTokenHeader.to.getAuthTokenHeader(),
       );
-      print(response.body);
       if (isBlob) {
         // If the response is a blob, return the body bytes directly
         return response.bodyBytes ;
@@ -227,6 +226,7 @@ class ApiBaseHelper {
     return responseJson;
   }
 
+  // ignore: unused_element
   dynamic _returnResponseForMultipart(http.BaseResponse response) async {
     switch (response.statusCode) {
       case 200:

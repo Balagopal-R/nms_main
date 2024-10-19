@@ -40,7 +40,7 @@ mixin SnackbarMixin on GetxController {
       message: message,
       messageSize: 14,
       duration: const Duration(seconds: 3),
-      backgroundColor: Color(0xffE9FFF7),
+      backgroundColor: const Color(0xffE9FFF7),
       margin: const EdgeInsets.all(10),
       borderRadius: BorderRadius.circular(8),
       borderColor: Colors.green,

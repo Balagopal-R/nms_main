@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../refresh_token_expiry/refresh_token_expiry.dart';
 
 // import '../refresh_token_api/refresh_token_api.dart';
@@ -19,7 +18,7 @@ class NMSSharedPreferences {
 // Get access token from SharedPreferences
   Future<String?> getTokenFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('accessToken') ?? null;
+    return prefs.getString('accessToken');
   }
 
   // Get refresh token from SharedPreferences
@@ -47,7 +46,7 @@ class NMSJWTDecoder {
     // await RefreshTokenApiCall().checkTokenExpiration();
     final authToken = await NMSSharedPreferences().getTokenFromPrefs();
     if (authToken != null) {
-      print(
+      debugPrint(
           '******************************************************${JwtDecoder.decode(authToken)}++++++++++++');
       return JwtDecoder.decode(authToken);
     }

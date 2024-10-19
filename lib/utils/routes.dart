@@ -41,11 +41,11 @@ List<GetPage> routes() => [
           transition: Transition.cupertino),
       GetPage(
           name: "/my_documents_screen",
-          page: () => MyDocumentsScreen(),
+          page: () => const MyDocumentsScreen(),
           transition: Transition.cupertino),
       GetPage(
           name: "/approvals_screen",
-          page: () => ApprovalsScreen(),
+          page: () => const ApprovalsScreen(),
           transition: Transition.cupertino),
     ];
 
