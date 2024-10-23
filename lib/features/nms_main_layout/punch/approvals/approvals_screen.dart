@@ -1,12 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_bottomsheet.dart';
 import 'package:nms/features/nms_main_layout/punch/approvals/widgets/approvals_widget.dart';
 import 'package:nms/models/punch_approvals_model/punch_approvals_model.dart';
 import 'package:nms/utils/theme/theme.dart';
-import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
-import 'package:nms/widgets/punch_out_request_bottomsheet.dart';
 import 'package:get/get.dart';
 import 'approvals_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -21,30 +18,6 @@ class ApprovalsScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           backgroundColor: scaffoldBackgroundColor,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              await controller.getLastPunchIn();
-              if (controller.getEmployPunchIn!.punchOutDateTime != null) {
-                await showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return const PunchInRequestSheetContent();
-                  },
-                );
-              } else {
-                await showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return const PunchOutRequestSheetContent();
-                  },
-                );
-              }
-            },
-            backgroundColor: lightGreenTextColor,
-            child: const Image(
-              image: AssetImage('assets/png/plus.png'),
-            ),
-          ),
           body: PagedListView<int, PunchApprovalsModel>(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<PunchApprovalsModel>(
