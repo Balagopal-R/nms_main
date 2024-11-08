@@ -5,6 +5,7 @@ import 'package:nms/features/nms_main_layout/punch/approvals/approvals_screen.da
 import 'package:nms/features/profile/profile_screen.dart';
 import 'package:nms/features/reset_password/reset_password.dart';
 import 'package:nms/features/splash/splash_screen.dart';
+import 'package:nms/features/timesheet/timesheet_screen.dart';
 import '../features/nms_main_layout/nms_main_layout_screen.dart';
 import '../features/signin/signin.dart';
 
@@ -46,6 +47,10 @@ List<GetPage> routes() => [
       GetPage(
           name: "/approvals_screen",
           page: () => const ApprovalsScreen(),
+          transition: Transition.cupertino),
+      GetPage(
+          name: "/timesheet_screen",
+          page: () => const TimesheetScreen(),
           transition: Transition.cupertino),
     ];
 

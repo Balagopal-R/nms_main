@@ -76,6 +76,7 @@ class _PunchScreenState extends State<PunchScreen>
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: const Row(
+                                  
                                   children: [
                                     Icon(Icons.search, color: Colors.grey),
                                     SizedBox(width: 8.0),

@@ -30,6 +30,7 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
       _selectedIndex = index;
     });
   }
+
   final GlobalKey _moreIconKey = GlobalKey();
 
   @override
@@ -48,7 +49,9 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/home.svg',
               height: 24,
               width: 24,
-              colorFilter: _selectedIndex == 0 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
+              colorFilter: _selectedIndex == 0
+                  ? ColorFilter.mode(selectedColor, BlendMode.srcIn)
+                  : null,
             ),
             label: '',
           ),
@@ -57,7 +60,9 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/teamListing.svg',
               height: 24,
               width: 24,
-              colorFilter: _selectedIndex == 1 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
+              colorFilter: _selectedIndex == 1
+                  ? ColorFilter.mode(selectedColor, BlendMode.srcIn)
+                  : null,
             ),
             label: '',
           ),
@@ -66,7 +71,9 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/punch.svg',
               height: 24,
               width: 24,
-              colorFilter: _selectedIndex == 2 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
+              colorFilter: _selectedIndex == 2
+                  ? ColorFilter.mode(selectedColor, BlendMode.srcIn)
+                  : null,
             ),
             label: '',
           ),
@@ -75,7 +82,9 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
               'assets/svg/calendar_remove_colorless.svg',
               height: 24,
               width: 24,
-              colorFilter: _selectedIndex == 3 ? ColorFilter.mode(selectedColor, BlendMode.srcIn) : null,
+              colorFilter: _selectedIndex == 3
+                  ? ColorFilter.mode(selectedColor, BlendMode.srcIn)
+                  : null,
             ),
             label: '',
           ),
@@ -83,31 +92,32 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
             icon: SvgPicture.asset(
               'assets/svg/more.svg',
               height: 24,
-              width: 24,key: _moreIconKey ,
+              width: 24,
+              key: _moreIconKey,
             ),
             label: '',
           ),
         ],
         currentIndex: _selectedIndex,
-         onTap: (index) {
+        onTap: (index) {
           if (index == 4) {
             showModalBottomSheet(
-                context: context,
-                builder: (context) => const CustomBottomSheet(),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
+              context: context,
+              builder: (context) => const CustomBottomSheet(),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
-                backgroundColor: Colors.transparent,
-              );
+              ),
+              backgroundColor: Colors.transparent,
+            );
           } else {
             _onItemTapped(index);
           }
         },
         selectedIconTheme: const IconThemeData(color: lightGreenTextColor),
-        unselectedIconTheme: const IconThemeData(color: Colors.transparent), 
+        unselectedIconTheme: const IconThemeData(color: Colors.transparent),
       ),
     );
   }
@@ -116,7 +126,6 @@ class _NmsMainLayoutScreenState extends State<NmsMainLayoutScreen> {
 class CustomBottomSheet extends StatelessWidget {
   const CustomBottomSheet({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -155,7 +164,8 @@ class CustomBottomSheet extends StatelessWidget {
                 iconPath: 'assets/png/time_tracking_icon.png',
                 label: 'Timesheet',
                 onTap: () {
-                  
+                  Navigator.pop(context);
+                  Get.toNamed('/timesheet_screen');
                 },
                 textColor: primaryTextColor,
                 textStyle: const TextStyle(fontFamily: 'Satoshi'),
@@ -165,7 +175,7 @@ class CustomBottomSheet extends StatelessWidget {
                 label: 'Profile',
                 onTap: () {
                   Navigator.pop(context);
-                   Get.toNamed('/profile_screen');
+                  Get.toNamed('/profile_screen');
                 },
                 textColor: primaryTextColor,
                 textStyle: const TextStyle(fontFamily: 'Satoshi'),
@@ -173,9 +183,7 @@ class CustomBottomSheet extends StatelessWidget {
               BottomSheetColumn(
                 iconPath: 'assets/png/settings.png',
                 label: 'Settings',
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 textColor: primaryTextColor,
                 textStyle: const TextStyle(fontFamily: 'Satoshi'),
               ),
