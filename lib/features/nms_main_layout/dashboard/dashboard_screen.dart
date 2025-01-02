@@ -10,7 +10,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:math';
 
-
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -38,35 +37,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
             appBar: AppBar(
               backgroundColor: scaffoldBackgroundColor,
               title: InkWell(
-                onTap: () {
-                },
+                onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.only(left: 1.0),
-                  child: controller.getEmployData != null ?
-                   Row(
-                     children: [
-                       const Text(
-                        'Hello',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400),
-                                         ),
-
-                                        const SizedBox(width:5),
-                                         Text(
-                        '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}!',
-                        style: const TextStyle(
-                            color: primaryTextColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700),
-                                         )
-                     ],
-                   ) : const Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                      ),
-                    ),
+                  child: controller.getEmployData != null
+                      ? Row(
+                          children: [
+                            const Text(
+                              'Hello',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              '${controller.getEmployData!.personalDetails.firstname} ${controller.getEmployData!.personalDetails.lastname}!',
+                              style: const TextStyle(
+                                  color: primaryTextColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700),
+                            )
+                          ],
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        ),
                 ),
               ),
               actions: [
@@ -84,252 +82,323 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             ),
-            body:  controller.getEmployData != null
-                  ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  // First Container
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: backgroundColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(
-                                0.05), // Slight grey shadow with 5% opacity
-                            offset: const Offset(0, 4), // Shadow offset 4px down
-                            blurRadius: 18.0, // Blur radius of the shadow
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "You're Punched ${controller.punchStatus}",
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: primaryTextColor),
+            body: controller.getEmployData != null
+                ? SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        // First Container
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: backgroundColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(
+                                      0.05), // Slight grey shadow with 5% opacity
+                                  offset: const Offset(
+                                      0, 4), // Shadow offset 4px down
+                                  blurRadius: 18.0, // Blur radius of the shadow
                                 ),
-                                Row(
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(2.667),
-                                    color: lightRed,
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        controller.punchStatus == "ON_TIME" ||
+                                                controller.punchStatus == "LATE"
+                                            ? "You're Punched IN"
+                                            : "You're Punched OUT",
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                          color: primaryTextColor,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(2.667),
+                                              color: controller
+                                                  .getContainerColorBasedOnPunchStatus(
+                                                      controller.punchStatus),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: 4,
+                                                  backgroundColor: controller
+                                                      .getColorBasedOnPunchStatus(
+                                                          controller
+                                                              .punchStatus),
+                                                ),
+                                                const SizedBox(width: 4),
+                                                Text(
+                                                  controller.punchStatus,
+                                                  style: TextStyle(
+                                                      color: controller
+                                                          .getColorBasedOnPunchStatus(
+                                                              controller
+                                                                  .punchStatus)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                  child: const Row(
+                                ),
+                                const SizedBox(height: 8),
+                                LinearPercentIndicator(
+                                  lineHeight: 8.0,
+                                  percent: 0.7, // Example value
+                                  backgroundColor: Colors.grey[300]!,
+                                  linearGradient: const LinearGradient(
+                                    colors: [
+                                      primaryLightColor,
+                                      primaryLightColor,
+                                      darkShadeYellow,
+                                      darkShadeYellow,
+                                      primaryLightColor
+                                    ],
+                                    stops: [
+                                      0.0,
+                                      0.30,
+                                      0.3,
+                                      0.6,
+                                      0.60
+                                    ], // Adjust the stops for the amber section
+                                  ),
+                                  barRadius: const Radius.circular(20),
+                                  // clipLinearGradient: true,
+                                ),
+                                const SizedBox(height: 8),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                  child: Row(
                                     children: [
                                       CircleAvatar(
-                                        radius: 4,
-                                        backgroundColor: primaryRed,
-                                      ),
+                                          radius: 3,
+                                          backgroundColor: lightGreenTextColor),
                                       SizedBox(width: 4),
-                                      Text(
-                                        'Late',
-                                        style: TextStyle(color: primaryRed),
-                                      ),
+                                      Text('5 hours 25 minutes'),
+                                      SizedBox(width: 16),
+                                      CircleAvatar(
+                                          radius: 3,
+                                          backgroundColor: darkShadeYellow),
+                                      SizedBox(width: 4),
+                                      Text('23 minutes'),
                                     ],
                                   ),
                                 ),
                               ],
-                            )
-                            
-                              ],
                             ),
                           ),
-                          const SizedBox(height: 8),
-                    
-                          LinearPercentIndicator(
-                            lineHeight: 8.0,
-                            percent: 0.7, // Example value
-                            backgroundColor: Colors.grey[300]!,
-                            linearGradient: const LinearGradient(
-                              colors: [
-                                primaryLightColor,
-                                primaryLightColor,
-                                darkShadeYellow,
-                                darkShadeYellow,
-                                primaryLightColor
-                              ],
-                              stops: [
-                                0.0,
-                                0.30,
-                                0.3,
-                                0.6,
-                                0.60
-                              ], // Adjust the stops for the amber section
-                            ),
-                            barRadius: const Radius.circular(20),
-                            // clipLinearGradient: true,
-                          ),
-                    
-                          const SizedBox(height: 8),
-
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                    radius: 3, backgroundColor: lightGreenTextColor),
-                                SizedBox(width: 4),
-                                Text('5 hours 25 minutes'),
-                                SizedBox(width: 16),
-                                CircleAvatar(
-                                    radius: 3, backgroundColor: darkShadeYellow),
-                                SizedBox(width: 4),
-                                Text('23 minutes'),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Second Container
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                    
-                      padding: const EdgeInsets.all(0),
-                      decoration: BoxDecoration(
-                        
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: backgroundColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(
-                                0.05), // Slight grey shadow with 5% opacity
-                            offset: const Offset(0, 4), // Shadow offset 4px down
-                            blurRadius: 18.0, // Blur radius of the shadow
-                          ),
-                        ],
-                      ),
-                      child: Expanded(
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            viewportFraction: 1.0,
-                              height: 300.0,
-                              //  autoPlay: true
-                               ),
-                          items: [
-                            _buildChartPage(
-                                'Avg Break Time',
-                                [controller.getEmployeAveragePunchTime[3].clockedBreakMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[4].clockedBreakMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[5].clockedBreakMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[6].clockedBreakMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[0].clockedBreakMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[1].clockedBreakMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[2].clockedBreakMinutes.toDouble()/3600,],
-                                '${controller.formatDoubleWithTwoDecimals(controller.avgBreakTime)} hrs',
-                                'Last 7 days',
-                                'assets/svg/ph_coffee_bold.svg',
-                                lightShadeYellow,
-                                darkShadeYellow,
-                                controller.daysOfWeek
-                                ),
-                            _buildChartPage(
-                                'Avg Punch Time',
-                                [controller.getEmployeAveragePunchTime[0].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[1].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[2].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[3].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[4].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[5].clockedWorkingMinutes.toDouble()/3600,
-                                controller.getEmployeAveragePunchTime[6].clockedWorkingMinutes.toDouble()/3600,],
-                                '${controller.formatDoubleWithTwoDecimals(controller.avgPunchTime)} hrs',
-                                // '8.6 Hrs',
-                                ' Last 7 days',
-                                'assets/svg/clock.svg',
-                                veryLightGreenColor,
-                                primaryLightColor,
-                                controller.daysOfWeek
-                                ),
-                            _buildChartPage('Attendance',
-                                [17, 18, 16, 19, 20, 21, 17],
-                                 controller.getAttendance.toString(),
-                                  'This Month',
-                                'assets/svg/attendance.svg',
-                                veryLightShadeBlue,
-                                primaryblue,
-                                controller.monthsInYear),
-                                            
-                                            
-                            _buildTextPage(
-                                'Birthdays',
-                                controller.birthdayName,
-                                controller.daysToBirthday,
-                                'assets/svg/cake.svg',
-                                lightShadeYellow,
-                                controller.imageOfBirthdays),
-                                            
-                                
-                            _buildTextPage(
-                                'Upcoming Leaves',
-                                ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
-                                ['Tomorrow', 'May 19, 2024', 'May 17, 2024'],
-                                'assets/svg/upcoming_leaves.svg',
-                                veryLightGreenColor,
-                                ['','','']
-                                ),
-                        
-                            _buildTextPage(
-                                'Leave History',
-                                ['Sick Leave', 'Casual Leave', 'Privilege Leave'],
-                                ['Yesterday', 'Feb 19, 2024', 'Feb 17, 2024'],
-                                'assets/svg/calendar_remove.svg',
-                                veryLightShadeBlue,
-                                ['','','']),
-                          ].map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return i;
-                              },
-                            );
-                          }).toList(),
                         ),
-                      ),
-                    ),
-                  ),
 
-                  // Third Container
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: backgroundColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(
-                                0.05), // Slight grey shadow with 5% opacity
-                            offset: const Offset(0, 4), // Shadow offset 4px down
-                            blurRadius: 18.0, // Blur radius of the shadow
+                        // Second Container
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: backgroundColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(
+                                      0.05), // Slight grey shadow with 5% opacity
+                                  offset: const Offset(
+                                      0, 4), // Shadow offset 4px down
+                                  blurRadius: 18.0, // Blur radius of the shadow
+                                ),
+                              ],
+                            ),
+                            child: Expanded(
+                              child: CarouselSlider(
+                                options: CarouselOptions(
+                                  viewportFraction: 1.0,
+                                  height: 300.0,
+                                  //  autoPlay: true
+                                ),
+                                items: [
+                                  _buildChartPage(
+                                      'Avg Break Time',
+                                      [
+                                        controller.getEmployeAveragePunchTime[3]
+                                                .clockedBreakMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[4]
+                                                .clockedBreakMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[5]
+                                                .clockedBreakMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[6]
+                                                .clockedBreakMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[0]
+                                                .clockedBreakMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[1]
+                                                .clockedBreakMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[2]
+                                                .clockedBreakMinutes
+                                                .toDouble() /
+                                            3600,
+                                      ],
+                                      '${controller.formatDoubleWithTwoDecimals(controller.avgBreakTime)} hrs',
+                                      'Last 7 days',
+                                      'assets/svg/ph_coffee_bold.svg',
+                                      lightShadeYellow,
+                                      darkShadeYellow,
+                                      controller.daysOfWeek),
+                                  _buildChartPage(
+                                      'Avg Punch Time',
+                                      [
+                                        controller.getEmployeAveragePunchTime[0]
+                                                .clockedWorkingMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[1]
+                                                .clockedWorkingMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[2]
+                                                .clockedWorkingMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[3]
+                                                .clockedWorkingMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[4]
+                                                .clockedWorkingMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[5]
+                                                .clockedWorkingMinutes
+                                                .toDouble() /
+                                            3600,
+                                        controller.getEmployeAveragePunchTime[6]
+                                                .clockedWorkingMinutes
+                                                .toDouble() /
+                                            3600,
+                                      ],
+                                      '${controller.formatDoubleWithTwoDecimals(controller.avgPunchTime)} hrs',
+                                      // '8.6 Hrs',
+                                      ' Last 7 days',
+                                      'assets/svg/clock.svg',
+                                      veryLightGreenColor,
+                                      primaryLightColor,
+                                      controller.daysOfWeek),
+                                  _buildChartPage(
+                                      'Attendance',
+                                      [17, 18, 16, 19, 20, 21, 17],
+                                      controller.getAttendance.toString(),
+                                      'This Month',
+                                      'assets/svg/attendance.svg',
+                                      veryLightShadeBlue,
+                                      primaryblue,
+                                      controller.monthsInYear),
+                                  _buildTextPage(
+                                      'Birthdays',
+                                      controller.birthdayName,
+                                      controller.daysToBirthday,
+                                      'assets/svg/cake.svg',
+                                      lightShadeYellow,
+                                      controller.imageOfBirthdays),
+                                  _buildTextPage(
+                                      'Upcoming Leaves',
+                                      [
+                                        'Sick Leave',
+                                        'Casual Leave',
+                                        'Privilege Leave'
+                                      ],
+                                      [
+                                        'Tomorrow',
+                                        'May 19, 2024',
+                                        'May 17, 2024'
+                                      ],
+                                      'assets/svg/upcoming_leaves.svg',
+                                      veryLightGreenColor,
+                                      ['', '', '']),
+                                  _buildTextPage(
+                                      'Leave History',
+                                      [
+                                        'Sick Leave',
+                                        'Casual Leave',
+                                        'Privilege Leave'
+                                      ],
+                                      [
+                                        'Yesterday',
+                                        'Feb 19, 2024',
+                                        'Feb 17, 2024'
+                                      ],
+                                      'assets/svg/calendar_remove.svg',
+                                      veryLightShadeBlue,
+                                      ['', '', '']),
+                                ].map((i) {
+                                  return Builder(
+                                    builder: (BuildContext context) {
+                                      return i;
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                      child: buildRemainingLeavesCard(controller),
+                        ),
+
+                        // Third Container
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: backgroundColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(
+                                      0.05), // Slight grey shadow with 5% opacity
+                                  offset: const Offset(
+                                      0, 4), // Shadow offset 4px down
+                                  blurRadius: 18.0, // Blur radius of the shadow
+                                ),
+                              ],
+                            ),
+                            child: buildRemainingLeavesCard(controller),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
                     ),
                   ),
-                ],
-              ),
-            ) : const Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                      ),
-                    ),
             floatingActionButton: SpeedDial(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7)),
@@ -389,103 +458,119 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     label: 'Edit Punch'),
               ],
             ),
-            );
+          );
         });
   }
 
-Widget _buildChartPage(
-    String title, List<double> data, String time, String period, String imageName, Color avatarColor, Color lineColor, List<String> xAxis) {
-  // final List<String> daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  Widget _buildChartPage(
+      String title,
+      List<double> data,
+      String time,
+      String period,
+      String imageName,
+      Color avatarColor,
+      Color lineColor,
+      List<String> xAxis) {
+    // final List<String> daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white, // Equivalent to #FFF
-      borderRadius: BorderRadius.circular(8.0), // 8px rounded corners
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.05), // Slight gray shadow
-          offset: const Offset(0, 4), // Shadow slightly below the container
-          blurRadius: 18.0, // Blur the shadow for a softer effect
-        ),
-      ],
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: primaryTextColor),
-              ),
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: avatarColor,
-                child: SvgPicture.asset(
-                  imageName,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 2),
-          Text(
-            time,
-            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: primaryTextColor),
-          ),
-          Text(
-            period,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: secondaryTextColor),
-          ),
-          const SizedBox(height: 10),
-
-          SizedBox(
-            height: 150,
-            child: SfCartesianChart(
-              plotAreaBorderWidth: 0,
-              borderWidth: 0,
-              primaryXAxis: const CategoryAxis(
-                majorGridLines: MajorGridLines(width: 0), // Disable gridlines
-                axisLine: AxisLine(width: 0), // Hide the x-axis line
-                majorTickLines: MajorTickLines(size: 0), // Hide the tick marks
-              ),
-              primaryYAxis: const NumericAxis(
-                majorGridLines: MajorGridLines(width: 0), // Disable gridlines
-                axisLine: AxisLine(width: 0), // Hide the y-axis line
-                isVisible: false, // Hide y-axis labels
-              ),
-              series: <CartesianSeries>[
-                 SplineSeries<ChartData, String>(
-                  color: lineColor, // Set the line color to avatarColor
-                  width: 2, // Line thickness
-                  dataSource: List.generate(
-                    data.length,
-                    (index) => ChartData(xAxis[index % xAxis.length], data[index]),
-                  ),
-                  xValueMapper: (ChartData sales, _) => sales.x,
-                  yValueMapper: (ChartData sales, _) => sales.y,
-                  markerSettings: const MarkerSettings(isVisible: false), // Hide data markers
-                  dataLabelSettings: const DataLabelSettings(
-                    isVisible: false, // Hide data labels
-                  ),
-                ),
-
-              ],
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white, // Equivalent to #FFF
+        borderRadius: BorderRadius.circular(8.0), // 8px rounded corners
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.05), // Slight gray shadow
+            offset: const Offset(0, 4), // Shadow slightly below the container
+            blurRadius: 18.0, // Blur the shadow for a softer effect
           ),
         ],
       ),
-    ),
-  );
-}
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: primaryTextColor),
+                ),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: avatarColor,
+                  child: SvgPicture.asset(
+                    imageName,
+                    height: 24,
+                    width: 24,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 2),
+            Text(
+              time,
+              style: const TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w700,
+                  color: primaryTextColor),
+            ),
+            Text(
+              period,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: secondaryTextColor),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 150,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                borderWidth: 0,
+                primaryXAxis: const CategoryAxis(
+                  majorGridLines: MajorGridLines(width: 0), // Disable gridlines
+                  axisLine: AxisLine(width: 0), // Hide the x-axis line
+                  majorTickLines:
+                      MajorTickLines(size: 0), // Hide the tick marks
+                ),
+                primaryYAxis: const NumericAxis(
+                  majorGridLines: MajorGridLines(width: 0), // Disable gridlines
+                  axisLine: AxisLine(width: 0), // Hide the y-axis line
+                  isVisible: false, // Hide y-axis labels
+                ),
+                series: <CartesianSeries>[
+                  SplineSeries<ChartData, String>(
+                    color: lineColor, // Set the line color to avatarColor
+                    width: 2, // Line thickness
+                    dataSource: List.generate(
+                      data.length,
+                      (index) =>
+                          ChartData(xAxis[index % xAxis.length], data[index]),
+                    ),
+                    xValueMapper: (ChartData sales, _) => sales.x,
+                    yValueMapper: (ChartData sales, _) => sales.y,
+                    markerSettings: const MarkerSettings(
+                        isVisible: false), // Hide data markers
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: false, // Hide data labels
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-
-   Widget _buildTextPage(String title, List<String> items, List<String> subtexts, String eventImageName, Color avatarColor,List<String?> networkImage)
-      {
+  Widget _buildTextPage(String title, List<String> items, List<String> subtexts,
+      String eventImageName, Color avatarColor, List<String?> networkImage) {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor, // Equivalent to #FFF
@@ -510,17 +595,20 @@ Widget _buildChartPage(
                   padding: const EdgeInsets.only(left: 12),
                   child: Text(
                     title,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: primaryTextColor),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: primaryTextColor),
                   ),
                 ),
-               CircleAvatar(
+                CircleAvatar(
                   radius: 16,
-                  backgroundColor:avatarColor,
+                  backgroundColor: avatarColor,
                   child: SvgPicture.asset(
-              eventImageName,
-              height: 24,
-              width: 24,
-            ),
+                    eventImageName,
+                    height: 24,
+                    width: 24,
+                  ),
                 ),
               ],
             ),
@@ -544,8 +632,6 @@ Widget _buildChartPage(
       ),
     );
   }
-
-  
 
   Widget buildRemainingLeavesCard(DashboardController controller) {
     return Container(
@@ -573,87 +659,129 @@ Widget _buildChartPage(
                   color: primaryTextColor),
             ),
             const SizedBox(height: 8),
-    //         GridView.count(
-    //           crossAxisCount: 3,
-    //           shrinkWrap: true,
-    //           physics: const NeverScrollableScrollPhysics(),
-    //           children: <Widget>[
-    //              _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[0].nameAbbr,  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
-    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    // : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
-    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[1].nameAbbr,  controller.getEmployeRemainingLeaves[1].totalLeaves == 0
-    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    // : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
-    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[2].nameAbbr,  controller.getEmployeRemainingLeaves[2].totalLeaves == 0
-    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    // : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
-    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[3].nameAbbr,  controller.getEmployeRemainingLeaves[3].totalLeaves == 0
-    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    // : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
-    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[4].nameAbbr,  controller.getEmployeRemainingLeaves[4].totalLeaves == 0
-    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    // : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-    //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[5].nameAbbr,  controller.getEmployeRemainingLeaves[5].totalLeaves == 0
-    // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
-    // : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
-    //           ],
-    //         ),
+            //         GridView.count(
+            //           crossAxisCount: 3,
+            //           shrinkWrap: true,
+            //           physics: const NeverScrollableScrollPhysics(),
+            //           children: <Widget>[
+            //              _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[0].nameAbbr,  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
+            // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+            // : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
+            //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[1].nameAbbr,  controller.getEmployeRemainingLeaves[1].totalLeaves == 0
+            // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+            // : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
+            //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[2].nameAbbr,  controller.getEmployeRemainingLeaves[2].totalLeaves == 0
+            // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+            // : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
+            //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[3].nameAbbr,  controller.getEmployeRemainingLeaves[3].totalLeaves == 0
+            // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+            // : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
+            //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[4].nameAbbr,  controller.getEmployeRemainingLeaves[4].totalLeaves == 0
+            // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+            // : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
+            //             _buildCircularPercentIndicator(controller.getEmployeRemainingLeaves[5].nameAbbr,  controller.getEmployeRemainingLeaves[5].totalLeaves == 0
+            // ? 0.0  // Set the quotient to 0 if totalLeaves is 0
+            // : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
+            //           ],
+            //         ),
 
-    GridView.count(
-  crossAxisCount: 3,
-  shrinkWrap: true,
-  physics: const NeverScrollableScrollPhysics(),
-  children: List.generate(
-    // Ensure not to exceed 6 elements
-    min(controller.getEmployeRemainingLeaves.length, 6),
-    (index) => _buildCircularPercentIndicator(
-      controller.getEmployeRemainingLeaves[index].nameAbbr,
-      controller.getEmployeRemainingLeaves[index].totalLeaves == 0
-          ? 0.0
-          : controller.getEmployeRemainingLeaves[index].balanceLeaves /
-              controller.getEmployeRemainingLeaves[index].totalLeaves,
-      controller.getEmployeRemainingLeaves[index].totalLeaves,
-    ),
-  ),
-),
+            GridView.count(
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: List.generate(
+                // Ensure not to exceed 6 elements
+                min(controller.getEmployeRemainingLeaves.length, 6),
+                (index) => _buildCircularPercentIndicator(
+                  controller.getEmployeRemainingLeaves[index].nameAbbr,
+                  controller.getEmployeRemainingLeaves[index].totalLeaves == 0
+                      ? 0.0
+                      : controller
+                              .getEmployeRemainingLeaves[index].balanceLeaves /
+                          controller
+                              .getEmployeRemainingLeaves[index].totalLeaves,
+                  controller.getEmployeRemainingLeaves[index].totalLeaves,
+                ),
+              ),
+            ),
 
             if (!isExpanded)
               Column(
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.expand_more),
-                    onPressed: toggleExpanded,
+                  Center(
+                    child: IconButton(
+                      icon: const Icon(Icons.expand_more),
+                      onPressed: toggleExpanded,
+                    ),
                   ),
-                  CorneredButton(
-                    height: 40,
-                    color: primaryColor,
-                    title: 'Apply for Leave',
-                    textcolor: backgroundColor,
-                    onPress: () async {},
-                  )
+                  // CorneredButton(
+                  //   height: 40,
+                  //   color: primaryColor,
+                  //   title: 'Apply for Leave',
+                  //   textcolor: backgroundColor,
+                  //   onPress: () async {},
+                  // )
                 ],
               ),
             if (isExpanded)
               Column(
                 children: [
-                   _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[0].leaveTypeName) ,  controller.getEmployeRemainingLeaves[0].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[0].balanceLeaves / controller.getEmployeRemainingLeaves[0].totalLeaves, controller.getEmployeRemainingLeaves[0].totalLeaves),
-                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[1].leaveTypeName) ,controller.getEmployeRemainingLeaves[1].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[1].balanceLeaves / controller.getEmployeRemainingLeaves[1].totalLeaves, controller.getEmployeRemainingLeaves[1].totalLeaves),
-                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[2].leaveTypeName), controller.getEmployeRemainingLeaves[2].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[2].balanceLeaves / controller.getEmployeRemainingLeaves[2].totalLeaves, controller.getEmployeRemainingLeaves[2].totalLeaves),
-                 _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[3].leaveTypeName), controller.getEmployeRemainingLeaves[3].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[3].balanceLeaves / controller.getEmployeRemainingLeaves[3].totalLeaves, controller.getEmployeRemainingLeaves[3].totalLeaves),
-                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[4].leaveTypeName), controller.getEmployeRemainingLeaves[4].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[4].balanceLeaves / controller.getEmployeRemainingLeaves[4].totalLeaves, controller.getEmployeRemainingLeaves[4].totalLeaves),
-                   _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[5].leaveTypeName), controller.getEmployeRemainingLeaves[5].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[5].balanceLeaves / controller.getEmployeRemainingLeaves[5].totalLeaves, controller.getEmployeRemainingLeaves[5].totalLeaves),
-                 _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[6].leaveTypeName), controller.getEmployeRemainingLeaves[6].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[6].balanceLeaves / controller.getEmployeRemainingLeaves[6].totalLeaves, controller.getEmployeRemainingLeaves[6].totalLeaves),
-                 _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[7].leaveTypeName), controller.getEmployeRemainingLeaves[7].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[7].balanceLeaves / controller.getEmployeRemainingLeaves[7].totalLeaves, controller.getEmployeRemainingLeaves[7].totalLeaves),
-                  _buildLinearPercentIndicator(controller.processLeaveType(controller.getEmployeRemainingLeaves[8].leaveTypeName), controller.getEmployeRemainingLeaves[8].totalLeaves == 0
-    ? 0.0 : controller.getEmployeRemainingLeaves[8].balanceLeaves / controller.getEmployeRemainingLeaves[8].totalLeaves, controller.getEmployeRemainingLeaves[8].totalLeaves),
+//                  Column(
+//   children: controller.getEmployeRemainingLeaves
+//       .asMap()
+//       .entries
+//       .map((entry) {
+//         final index = entry.key;
+//         final leave = entry.value;
+
+//         return _buildLinearPercentIndicator(
+//           controller.processLeaveType(leave.leaveTypeName),
+//           leave.totalLeaves == 0
+//               ? 0.0
+//               : leave.balanceLeaves / leave.totalLeaves,
+//           leave.totalLeaves,
+//         );
+//       })
+//       .toList(),
+// ),
+
+Column(
+  children: controller.getEmployeRemainingLeaves
+      .map((leave) {
+        return _buildLinearPercentIndicator(
+          controller.processLeaveType(leave.leaveTypeName),
+          leave.totalLeaves == 0
+              ? 0.0
+              : leave.balanceLeaves / leave.totalLeaves,
+          leave.totalLeaves,
+        );
+      })
+      .toList(),
+),
+
+
+                  Column(
+                    children: [
+
+                      IconButton(
+                    icon: const Icon(Icons.expand_less),
+                    onPressed: toggleExpanded,
+                  ),
+
+                  CorneredButton(
+                    height: 40,
+                    color: backgroundColor,
+                    textcolor: primaryColor,
+                    buttonBorder: Border.all(
+                      color: primaryColor,
+                      width: 1,
+                    ),
+                    title: 'View All',
+                    onPress: () async {},
+                  )
+                    ],
+                  )
+
 //                   Expanded(
 //   child: PagedListView<int, GetRemainingLeavesModel>(
 //     pagingController: controller.pagingController,
@@ -683,19 +811,7 @@ Widget _buildChartPage(
 //     ),
 //   ),
 // ),
-                  
-                  IconButton(
-                    icon: const Icon(Icons.expand_less),
-                    onPressed: toggleExpanded,
-                  ),
 
-                  CorneredButton(
-                    height: 40,
-                    color: primaryColor,
-                    title: 'Apply for Leave',
-                    textcolor: backgroundColor,
-                    onPress: () async {},
-                  )
                 ],
               ),
           ],
@@ -704,7 +820,8 @@ Widget _buildChartPage(
     );
   }
 
-  Widget _buildCircularPercentIndicator(String leaveType, double percent, double totalLeaves) {
+  Widget _buildCircularPercentIndicator(
+      String leaveType, double percent, double totalLeaves) {
     return CircularPercentIndicator(
       radius: 40.0, // Reduced the radius size
       lineWidth: 10.0, // Reduced the line width
@@ -733,7 +850,8 @@ Widget _buildChartPage(
     );
   }
 
-  Widget _buildLinearPercentIndicator(String leaveType, double percent, double totalLeaves) {
+  Widget _buildLinearPercentIndicator(
+      String leaveType, double percent, double totalLeaves) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -748,7 +866,8 @@ Widget _buildChartPage(
           Expanded(
             flex: 3,
             child: LinearPercentIndicator(
-              barRadius: const Radius.circular(20), // Adjust the radius as needed
+              barRadius:
+                  const Radius.circular(20), // Adjust the radius as needed
               clipLinearGradient: true,
               lineHeight: 10.0,
               percent: percent,

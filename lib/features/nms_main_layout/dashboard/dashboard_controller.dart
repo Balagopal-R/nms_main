@@ -425,4 +425,46 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
       return catchErrorSection(e);
     }
   }
+
+    Color getContainerColorBasedOnPunchStatus(String condition1) {
+    if (condition1 == 'ON_TIME') {
+      return veryLightGreenColor;
+    } else if (condition1 == 'LATE') {
+      return lightRed;
+    } else if (condition1 == 'BREAK') {
+      return containerYellow;
+    } else if (condition1 == 'ABSENT') {
+      return veryLightGray;
+    } else if (condition1 == 'LEAVE') {
+      return veryLightShadeBlue;
+    } else if (condition1 == 'OUT') {
+      return lightRed;
+    } else {
+      return lightRed;
+    }
+  }
+
+  Color getColorBasedOnPunchStatus(String condition1) {
+    if (condition1 == 'ON_TIME') {
+      return darkShadeGreen;
+    } else if (condition1 == 'LATE') {
+      return primaryRed;
+    } else if (condition1 == 'BREAK') {
+      return veryDarkShadeYellow;
+    } else if (condition1 == 'ABSENT') {
+      return primaryGray;
+    } else if (condition1 == 'LEAVE') {
+      return lightShadeBlue;
+    } else if (condition1 == 'OUT') {
+      return primaryRed;
+    } else {
+      return primaryRed;
+    }
+  }
+
+  String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
+
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
 }
