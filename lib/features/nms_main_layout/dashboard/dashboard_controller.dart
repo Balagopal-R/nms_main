@@ -7,6 +7,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
+import 'package:nms/dtos/nms_dtos/punch_line_dtos/punch_line.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status_request.dart';
 import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
 import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
@@ -15,6 +16,7 @@ import 'package:nms/models/get_birthdays/get_birthdays_model.dart';
 import 'package:nms/models/get_employe_punch_time_model/get_employee_punch_time_model.dart';
 import 'package:nms/models/get_remaining_leaves/get_remaining_leaves_model.dart';
 import 'package:nms/models/login_screen/get_employee_model.dart';
+import 'package:nms/models/punch_line_model/punch_line_model.dart';
 import '../../../dtos/nms_dtos/get_attendance/get_attendance_request.dart';
 import '../../../dtos/nms_dtos/login/get_employ/get_employ_request.dart';
 import '../../../managers/sharedpreferences/sharedpreferences.dart';
@@ -48,6 +50,9 @@ class DashboardController extends GetxController with SnackbarMixin {
 
   final _imageOfBirthdays = (List<String?>.empty()).obs;
   List<String?> get imageOfBirthdays => _imageOfBirthdays;
+
+  final _employePunchLine = (List<PunchLineModel>.empty()).obs;
+  List<PunchLineModel> get employePunchLine => _employePunchLine;
 
   final _getEmployeBirthday = (List<GetBirthdayModel>.empty()).obs;
   List<GetBirthdayModel> get getEmployeBirthday => _getEmployeBirthday;
@@ -122,6 +127,39 @@ String processLeaveType(String leaveType) {
       String uid = decodedToken["userId"];
       userId = uid;
       debugPrint("user id is ------$userId");
+    }
+  }
+
+    getEmployePunchLine() async {
+
+    try {
+
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+
+      if (decodedToken != null) {
+        userId = decodedToken["userId"];
+      final request = PunchLineRequest(
+          userId: userId,
+          date: getFormattedDate(0),
+          );
+
+
+      final response =
+          await ApiRepository.to.getPunchLine(request: request);
+
+      if (response.status == 200) {
+        _employePunchLine.value = response.data;
+      //  print(employePunchLine[0].punchInDatetime); 
+
+        update();
+      } else if (response.message == "Failed") {
+        debugPrint(response.errors['errorMessage']);
+        showErrorSnackbar(message: errorOccuredText);
+      }
+    } 
+    }catch (e) {
+      return catchErrorSection(e);
     }
   }
 
@@ -301,19 +339,19 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
         _birthdayName.value = [
           getEmployeBirthday[0].employee.firstname  +getEmployeBirthday[0].employee.lastname,
           getEmployeBirthday[1].employee.firstname  +getEmployeBirthday[1].employee.lastname,
-          // getEmployeBirthday[2].employee.firstname  +getEmployeBirthday[2].employee.lastname,
+          getEmployeBirthday[2].employee.firstname  +getEmployeBirthday[2].employee.lastname,
         ];
 
         _daysToBirthday.value = [
           "In ${getEmployeBirthday[0].daysToBirthday} days",
           "In ${getEmployeBirthday[1].daysToBirthday} days",
-          // "In ${getEmployeBirthday[2].daysToBirthday} days"
+          "In ${getEmployeBirthday[2].daysToBirthday} days"
         ];
 
       _imageOfBirthdays.value = [
   getEmployeBirthday[0].employee.profileImgUrl ?? 'default_profile_image.png',
   getEmployeBirthday[1].employee.profileImgUrl ?? 'default_profile_image.png',
-  // getEmployeBirthday[2].employee.profileImgUrl ?? 'default_profile_image.png'
+  getEmployeBirthday[2].employee.profileImgUrl ?? 'default_profile_image.png'
 ];
 
         update();

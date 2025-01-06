@@ -175,7 +175,7 @@ class ProfileController extends GetxController with SnackbarMixin {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       border: Border.all(
-                        color: lightGreenTextColor,
+                        color: darkRed,
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -183,7 +183,7 @@ class ProfileController extends GetxController with SnackbarMixin {
                     child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        color: lightGreenTextColor,
+                        color: darkRed,
                         fontFamily: 'Satoshi',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

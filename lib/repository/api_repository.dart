@@ -11,6 +11,7 @@ import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_response.dart';
 import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
+import 'package:nms/dtos/nms_dtos/punch_line_dtos/punch_line.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
@@ -55,7 +56,7 @@ abstract class ApiRepository extends GetxController {
   Future<PunchStatusResponse> getPunchStatus(
       {required PunchStatusRequest request});
 
-  //       // employe_attendance
+        // employe_attendance
   Future<GetEmployeAttendanceResponse> getAttendance(
       {required GetEmployeAttendanceRequest request});
 
@@ -130,6 +131,10 @@ abstract class ApiRepository extends GetxController {
         //  Leave Request
   Future<LeaveRequestCreateResponse> leaveRequest(
       {required LeaveRequestCreateRequest request});
+
+              // Punch Line
+  Future<PunchLineResponse> getPunchLine(
+      {required PunchLineRequest request});
 
 }
 
@@ -211,8 +216,9 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
   @override
   Future<GetBirthdayResponse> getEmployeBirthdays(
       {required GetBirthdayRequest request}) async {
-    final response =
-        await _helper.get(endpoint: ApiEndPoints.getBirthdays, params: {});
+    final response = await _helper.get(
+      endpoint: ApiEndPoints.getBirthdays, 
+      params: {});
     debugPrint("response $response");
     return GetBirthdayResponse.fromJson(response);
   }
@@ -414,6 +420,18 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       params: {},
     );
     return LeaveRequestCreateResponse.fromJson(response);
+  }
+
+    // get employe Punch Line
+  @override
+  Future<PunchLineResponse> getPunchLine(
+      {required PunchLineRequest request}) async {
+    final response = await _helper.get(
+      endpoint: ApiEndPoints.punchLine,
+      params: request.toMap(),
+    );
+    debugPrint("response $response");
+    return PunchLineResponse.fromJson(response);
   }
 
 

@@ -27,6 +27,7 @@ class ApiEndPoints {
   static const String leaveYearByLeaveDate = 'leaveRequest/getLeaveYearByLeaveDate';
   static const String getAllMin = 'leave/getAllMin';
   static const String leaveRequest = 'leaveRequest/create';
+  static const String punchLine = 'punch/punchLine';
 
   static const String deleteFileByName = 'file/delete';
   static const String downloadFileByName = 'file/download';

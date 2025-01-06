@@ -17,6 +17,7 @@ class BasicDetailsScreen extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
             child: Scaffold(
+              backgroundColor: backgroundColor,
               appBar: appbarMain(context,'Basic Details'),
               body: controller.getEmployData != null
                   ? Padding(
