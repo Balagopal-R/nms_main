@@ -6,8 +6,8 @@ class LastPunchInModel {
     int punchInDateTime;
     int? punchOutDateTime;
     String punchLocation;
-    String projectCode;
-    String task;
+    String projectId;
+    String taskId;
     String description;
     bool isOnBreak;
 
@@ -19,8 +19,8 @@ class LastPunchInModel {
         required this.punchInDateTime,
         this.punchOutDateTime,
         required this.punchLocation,
-        required this.projectCode,
-        required this.task,
+        required this.projectId,
+        required this.taskId,
         required this.description,
         required this.isOnBreak,
     });
@@ -33,8 +33,8 @@ class LastPunchInModel {
         punchInDateTime: json["punchInDateTime"],
         punchOutDateTime: json["punchOutDateTime"],
         punchLocation: json["punchLocation"],
-        projectCode: json["projectCode"],
-        task: json["task"],
+        projectId: json["projectId"],
+        taskId: json["taskId"],
         description: json["description"],
         isOnBreak: json["isOnBreak"],
     );
@@ -47,8 +47,8 @@ class LastPunchInModel {
         "punchInDateTime": punchInDateTime,
         "punchOutDateTime": punchOutDateTime,
         "punchLocation": punchLocation,
-        "projectCode": projectCode,
-        "task": task,
+        "projectId": projectId,
+        "taskId": taskId,
         "description": description,
         "isOnBreak": isOnBreak,
     };

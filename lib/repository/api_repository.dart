@@ -29,6 +29,7 @@ import '../dtos/nms_dtos/login/get_employ/get_employ.dart';
 import '../dtos/nms_dtos/login/login_dtos/login.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_request.dart';
 import '../dtos/nms_dtos/logout_dtos/logout_response.dart';
+import '../dtos/nms_dtos/project_search_dtos/project_search.dart';
 import '../dtos/nms_dtos/punch_approval_pending_request_dtos/punch_approval_pending_request.dart';
 import '../dtos/nms_dtos/punch_approvals_dtos/punch_approvals.dart';
 import '../dtos/nms_dtos/punch_request_cancel_dtos/punch_request_cancel.dart';
@@ -135,6 +136,10 @@ abstract class ApiRepository extends GetxController {
               // Punch Line
   Future<PunchLineResponse> getPunchLine(
       {required PunchLineRequest request});
+
+        //  Project Search
+  Future<ProjectSearchResponse> projectSearch(
+      {required ProjectSearchRequest request});
 
 }
 
@@ -432,6 +437,18 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
     );
     debugPrint("response $response");
     return PunchLineResponse.fromJson(response);
+  }
+
+    //  Project search 
+  @override
+  Future<ProjectSearchResponse> projectSearch(
+      {required ProjectSearchRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.projectSearch,
+      body: request.toBody(),
+      params: {},
+    );
+    return ProjectSearchResponse.fromJson(response);
   }
 
 

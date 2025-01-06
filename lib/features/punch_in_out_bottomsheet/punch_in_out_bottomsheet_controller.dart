@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
 import 'package:nms/managers/refresh_token_expiry/refresh_token_expiry.dart';
 import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
+import 'package:nms/models/last_punch_in_model/last_punch_in_model.dart';
 import 'package:nms/repository/api_repository.dart';
+import '../../dtos/nms_dtos/project_search_dtos/project_search.dart';
 import '../../mixins/snackbar_mixin.dart';
+import '../../models/project_search_model/project_search_model.dart';
 import '../../utils/helpers/validation.dart';
 
 class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
@@ -47,6 +51,12 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
     selectedLocation.value = value;
     update(); // Update UI whenever selectedLocation changes
   }
+
+    final _getEmployPunchIn = Rx<LastPunchInModel?>(null);
+  LastPunchInModel? get getEmployPunchIn => _getEmployPunchIn.value;
+
+  final _projectSearch = (List<ProjectSearchModel>.empty()).obs;
+  List<ProjectSearchModel> get projectSearch => _projectSearch;
 
     final _punchInMessage = ''.obs;
   String get punchInMessage => _punchInMessage.value;
@@ -94,6 +104,8 @@ class PunchInOutBottomSheetController extends GetxController with SnackbarMixin{
   void onInit() async{
   super.onInit();
   await getIdFromToken();
+  await getLastPunchIn();
+  await getProjectSearch();
    clearErrors();
  
   }
@@ -145,6 +157,59 @@ String unixEpochTimeTo24HourString(int epochTime) {
   final formatter = DateFormat('HH:mm');
   return formatter.format(dateTime);
 }
+
+  getLastPunchIn() async {
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+        final userId = decodedToken["userId"];
+        final request = LastPunchInRequest(userId: userId);
+        final response = await ApiRepository.to.lastPunchIn(request: request);
+        if (response.status == 200) {
+          _getEmployPunchIn.value = response.data;
+          // print(getEmployPunchIn?.projectId);
+          // print(getEmployPunchIn?.taskId);
+          // print(getEmployPunchIn?.punchLocation);
+        }
+      }
+    } catch (e) {
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
+    }
+  }
+
+    getProjectSearch() async {
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+        final userId = decodedToken["userId"];
+
+        final request = ProjectSearchRequest(
+          field: "createdAt",
+          sortOfOrder: "ASC",
+          page: 0,
+          size: 100,
+          isArchived: false,
+          isDeleted: false,
+          userId: userId,
+          );
+
+        final response = await ApiRepository.to.projectSearch(request: request);
+        if (response.status == 200) {
+          _projectSearch.value = response.data;
+          print('Baluuu');
+
+        }
+      }
+    } catch (e) {
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
+    }
+  }
+
+
 
 
     //  user punch in
