@@ -14,6 +14,7 @@ import 'package:nms/dtos/nms_dtos/punch_in_dtos/punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_line_dtos/punch_line.dart';
 import 'package:nms/dtos/nms_dtos/punch_out_dtos/punch_out.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status.dart';
+import 'package:nms/dtos/nms_dtos/task_search_dtos/task_search.dart';
 import 'package:nms/dtos/nms_dtos/team_listing_dtos/team_listing.dart';
 import '../dtos/nms_dtos/delete_file_by_name_dtos/delete_file_by_name.dart';
 import '../dtos/nms_dtos/file_download_dtos/file_download.dart';
@@ -140,6 +141,10 @@ abstract class ApiRepository extends GetxController {
         //  Project Search
   Future<ProjectSearchResponse> projectSearch(
       {required ProjectSearchRequest request});
+
+              //  Project Search
+  Future<TaskSearchResponse> taskSearch(
+      {required TaskSearchRequest request});
 
 }
 
@@ -449,6 +454,18 @@ class ApiRepositoryImpl extends GetxController implements ApiRepository {
       params: {},
     );
     return ProjectSearchResponse.fromJson(response);
+  }
+
+      //  Task search 
+  @override
+  Future<TaskSearchResponse> taskSearch(
+      {required TaskSearchRequest request}) async {
+    final response = await _helper.postWithBody(
+      endpoint: ApiEndPoints.taskSearch,
+      body: request.toBody(),
+      params: {},
+    );
+    return TaskSearchResponse.fromJson(response);
   }
 
 

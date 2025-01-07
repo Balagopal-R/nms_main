@@ -1,17 +1,21 @@
-class ProjectSearchRequest {
+class TaskSearchRequest {
   String field;
   String sortOfOrder;
   int page;
   int size;
+  String keyword;
+  String projectId;
   bool isArchived;
   bool isDeleted;
   String userId;
 
-  ProjectSearchRequest({
+  TaskSearchRequest({
     required this.field,
     required this.sortOfOrder,
     required this.page,
     required this.size,
+    required this.keyword,
+    required this.projectId,
     required this.isArchived,
     required this.isDeleted,
     required this.userId,
@@ -21,7 +25,13 @@ class ProjectSearchRequest {
     final map = {
       "sortBy": {"field": field, "sortOrder": sortOfOrder},
       "pagination": {"page": page, "size": size},
-      "data": {"isArchived": isArchived, "isDeleted": isDeleted, "userId": userId},
+      "data": {
+        "keyword": keyword,
+        "projectId": projectId,
+        "userId": userId,
+        "isArchived": isArchived,
+        "isDeleted": isDeleted
+      },
       "filter": []
     };
     return map;
