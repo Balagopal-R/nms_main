@@ -255,18 +255,12 @@ class BalancesScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            '${(percent * totalLeaves).toInt()}',
+            '${(percent * totalLeaves).toDouble()}',
             style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
                 color: primaryTextColor), // Adjusted the font size
           ),
-          // Text(
-          //   leaveType,
-          //   style: TextStyle(
-          //       fontSize: 12.0,
-          //       color: Color(0xff3BBCA0)), // Adjusted the font size
-          // ),
         ],
       ),
       progressColor: primaryColor,

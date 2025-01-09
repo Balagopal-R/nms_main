@@ -23,6 +23,19 @@ class BasicDetailsController extends GetxController with SnackbarMixin {
     super.onInit();
   }
 
+  String formatDate(String date) {
+  try {
+    // Parse the input date string
+    DateTime parsedDate = DateTime.parse(date);
+    // Format the date to dd-mm-yyyy
+    return '${parsedDate.day.toString().padLeft(2, '0')}-${parsedDate.month.toString().padLeft(2, '0')}-${parsedDate.year}';
+  } catch (e) {
+    // Handle invalid date format
+    return 'Invalid date';
+  }
+}
+
+
       getIdFromToken() async {
     await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();
     await RefreshTokenApiCall().checkTokenExpiration();

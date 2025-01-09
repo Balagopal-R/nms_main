@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
-import 'package:nms/managers/sharedpreferences/sharedpreferences.dart';
 import 'package:nms/mixins/snackbar_mixin.dart';
-import 'package:nms/models/last_punch_in_model/last_punch_in_model.dart';
 import 'package:nms/utils/helpers/validation.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import '../../../dtos/nms_dtos/team_listing_dtos/team_listing.dart';
@@ -15,9 +12,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class TeamListingController extends GetxController with SnackbarMixin {
   final _teamListing = (List<TeamListingModel>.empty()).obs;
   List<TeamListingModel> get teamListing => _teamListing;
-
-  final _getEmployPunchIn = Rx<LastPunchInModel?>(null);
-  LastPunchInModel? get getEmployPunchIn => _getEmployPunchIn.value;
 
   static const _pageSize = 10;
   final PagingController<int, TeamListingModel> pagingController =
@@ -186,23 +180,4 @@ class TeamListingController extends GetxController with SnackbarMixin {
     return text[0].toUpperCase() + text.substring(1).toLowerCase();
   }
 
-  // last punch in
-
-  getLastPunchIn() async {
-    try {
-      final authService = NMSJWTDecoder();
-      final decodedToken = await authService.decodeAuthToken();
-      if (decodedToken != null) {
-        final userId = decodedToken["userId"];
-        final request = LastPunchInRequest(userId: userId);
-        final response = await ApiRepository.to.lastPunchIn(request: request);
-        if (response.status == 200) {
-          _getEmployPunchIn.value = response.data;
-        }
-      }
-    } catch (e) {
-      showErrorSnackbar(message: e.toString());
-      debugPrint(e.toString());
-    }
-  }
 }

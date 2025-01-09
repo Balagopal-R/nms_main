@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/cornered_button.dart';
+import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
+import 'package:nms/widgets/punch_out_request_bottomsheet.dart';
 import 'dashboard_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -235,44 +237,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   //  autoPlay: true
                                 ),
                                 items: [
-                                  _buildChartPage(
-                                      'Avg Break Time',
-                                      [
-                                        controller.getEmployeAveragePunchTime[3]
-                                                .clockedBreakMinutes
-                                                .toDouble() /
-                                            3600,
-                                        controller.getEmployeAveragePunchTime[4]
-                                                .clockedBreakMinutes
-                                                .toDouble() /
-                                            3600,
-                                        controller.getEmployeAveragePunchTime[5]
-                                                .clockedBreakMinutes
-                                                .toDouble() /
-                                            3600,
-                                        controller.getEmployeAveragePunchTime[6]
-                                                .clockedBreakMinutes
-                                                .toDouble() /
-                                            3600,
-                                        controller.getEmployeAveragePunchTime[0]
-                                                .clockedBreakMinutes
-                                                .toDouble() /
-                                            3600,
-                                        controller.getEmployeAveragePunchTime[1]
-                                                .clockedBreakMinutes
-                                                .toDouble() /
-                                            3600,
-                                        controller.getEmployeAveragePunchTime[2]
-                                                .clockedBreakMinutes
-                                                .toDouble() /
-                                            3600,
-                                      ],
-                                      '${controller.formatDoubleWithTwoDecimals(controller.avgBreakTime)} hrs',
-                                      'Last 7 days',
-                                      'assets/svg/ph_coffee_bold.svg',
-                                      lightShadeYellow,
-                                      darkShadeYellow,
-                                      controller.daysOfWeek),
+                                  // _buildChartPage(
+                                  //     'Avg Break Time',
+                                  //     [
+                                  //       controller.getEmployeAveragePunchTime[3]
+                                  //               .clockedBreakMinutes
+                                  //               .toDouble() /
+                                  //           3600,
+                                  //       controller.getEmployeAveragePunchTime[4]
+                                  //               .clockedBreakMinutes
+                                  //               .toDouble() /
+                                  //           3600,
+                                  //       controller.getEmployeAveragePunchTime[5]
+                                  //               .clockedBreakMinutes
+                                  //               .toDouble() /
+                                  //           3600,
+                                  //       controller.getEmployeAveragePunchTime[6]
+                                  //               .clockedBreakMinutes
+                                  //               .toDouble() /
+                                  //           3600,
+                                  //       controller.getEmployeAveragePunchTime[0]
+                                  //               .clockedBreakMinutes
+                                  //               .toDouble() /
+                                  //           3600,
+                                  //       controller.getEmployeAveragePunchTime[1]
+                                  //               .clockedBreakMinutes
+                                  //               .toDouble() /
+                                  //           3600,
+                                  //       controller.getEmployeAveragePunchTime[2]
+                                  //               .clockedBreakMinutes
+                                  //               .toDouble() /
+                                  //           3600,
+                                  //     ],
+                                  //     '${controller.formatDoubleWithTwoDecimals(controller.avgBreakTime)} hrs',
+                                  //     'Last 7 days',
+                                  //     'assets/svg/ph_coffee_bold.svg',
+                                  //     lightShadeYellow,
+                                  //     darkShadeYellow,
+                                  //     controller.daysOfWeek),
                                   _buildChartPage(
                                       'Avg Punch Time',
                                       [
@@ -312,52 +314,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       veryLightGreenColor,
                                       primaryLightColor,
                                       controller.daysOfWeek),
-                                  _buildChartPage(
-                                      'Attendance',
-                                      [17, 18, 16, 19, 20, 21, 17],
-                                      controller.getAttendance.toString(),
-                                      'This Month',
-                                      'assets/svg/attendance.svg',
-                                      veryLightShadeBlue,
-                                      primaryblue,
-                                      controller.monthsInYear),
-                                  _buildTextPage(
-                                      'Birthdays',
-                                      controller.birthdayName,
-                                      controller.daysToBirthday,
-                                      'assets/svg/cake.svg',
-                                      lightShadeYellow,
-                                      controller.imageOfBirthdays),
-                                  _buildTextPage(
-                                      'Upcoming Leaves',
-                                      [
-                                        'Sick Leave',
-                                        'Casual Leave',
-                                        'Privilege Leave'
-                                      ],
-                                      [
-                                        'Tomorrow',
-                                        'May 19, 2024',
-                                        'May 17, 2024'
-                                      ],
-                                      'assets/svg/upcoming_leaves.svg',
-                                      veryLightGreenColor,
-                                      ['', '', '']),
-                                  _buildTextPage(
-                                      'Leave History',
-                                      [
-                                        'Sick Leave',
-                                        'Casual Leave',
-                                        'Privilege Leave'
-                                      ],
-                                      [
-                                        'Yesterday',
-                                        'Feb 19, 2024',
-                                        'Feb 17, 2024'
-                                      ],
-                                      'assets/svg/calendar_remove.svg',
-                                      veryLightShadeBlue,
-                                      ['', '', '']),
+                                  // _buildChartPage(
+                                  //     'Attendance',
+                                  //     [17, 18, 16, 19, 20, 21, 17],
+                                  //     controller.getAttendance.toString(),
+                                  //     'This Month',
+                                  //     'assets/svg/attendance.svg',
+                                  //     veryLightShadeBlue,
+                                  //     primaryblue,
+                                  //     controller.monthsInYear),
+                                  // _buildTextPage(
+                                  //     'Birthdays',
+                                  //     controller.birthdayName,
+                                  //     controller.daysToBirthday,
+                                  //     'assets/svg/cake.svg',
+                                  //     lightShadeYellow,
+                                  //     controller.imageOfBirthdays),
+                                  // _buildTextPage(
+                                  //     'Upcoming Leaves',
+                                  //     [
+                                  //       'Sick Leave',
+                                  //       'Casual Leave',
+                                  //       'Privilege Leave'
+                                  //     ],
+                                  //     [
+                                  //       'Tomorrow',
+                                  //       'May 19, 2024',
+                                  //       'May 17, 2024'
+                                  //     ],
+                                  //     'assets/svg/upcoming_leaves.svg',
+                                  //     veryLightGreenColor,
+                                  //     ['', '', '']),
+                                  // _buildTextPage(
+                                  //     'Leave History',
+                                  //     [
+                                  //       'Sick Leave',
+                                  //       'Casual Leave',
+                                  //       'Privilege Leave'
+                                  //     ],
+                                  //     [
+                                  //       'Yesterday',
+                                  //       'Feb 19, 2024',
+                                  //       'Feb 17, 2024'
+                                  //     ],
+                                  //     'assets/svg/calendar_remove.svg',
+                                  //     veryLightShadeBlue,
+                                  //     ['', '', '']),
                                 ].map((i) {
                                   return Builder(
                                     builder: (BuildContext context) {
@@ -399,65 +401,93 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       color: primaryColor,
                     ),
                   ),
-            floatingActionButton: SpeedDial(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7)),
-              buttonSize: const Size(48, 48),
-              //animatedIcon: AnimatedIcons.add_event,
-              icon: Icons.arrow_upward_rounded,
-              childPadding: const EdgeInsets.only(right: 5, left: 5),
-              activeIcon: Icons.close,
-              childrenButtonSize: const Size(48, 38),
-              overlayColor: Colors.black,
-              overlayOpacity: 0.8,
-              spacing: 5,
-              spaceBetweenChildren: 8,
-              iconTheme: const IconThemeData(
-                color: Colors.white,
-                size: 24,
-              ),
-              backgroundColor: primaryColor,
-              children: [
-                SpeedDialChild(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7)),
-                    backgroundColor: Colors.white,
-                    labelBackgroundColor: Colors.transparent,
-                    labelShadow: [],
-                    labelStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),
-                    child: SvgPicture.asset(
-                      'assets/svg/edit.svg',
-                      height: 16,
-                      width: 16,
-                    ),
-                    label: 'Punch In',
-                    onTap: () {
-                      // Get.toNamed('new_group_screen');
-                    }),
-                SpeedDialChild(
-                    onTap: () {
-                      // Get.toNamed('/new_chat_screen');
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7)),
-                    backgroundColor: Colors.white,
-                    child: SvgPicture.asset(
-                      'assets/svg/received.svg',
-                      height: 16,
-                      width: 16,
-                    ),
-                    labelBackgroundColor: Colors.transparent,
-                    labelShadow: [],
-                    labelStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),
-                    label: 'Edit Punch'),
-              ],
+
+                            floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              await controller.getLastPunchIn();
+              if (controller.getEmployPunchIn?.punchOutDateTime != null) {
+                await showModalBottomSheet(
+                  // ignore: use_build_context_synchronously
+                  context: context,
+                  builder: (context) {
+                    return const PunchInRequestSheetContent();
+                  },
+                );
+              } else {
+                await showModalBottomSheet(
+                  // ignore: use_build_context_synchronously
+                  context: context,
+                  builder: (context) {
+                    return const PunchOutRequestSheetContent();
+                  },
+                );
+              }
+            },
+            backgroundColor: lightGreenTextColor,
+            child: const Image(
+              image: AssetImage('assets/png/plus.png'),
             ),
+          ),
+          
+            // floatingActionButton: SpeedDial(
+            //   shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(7)),
+            //   buttonSize: const Size(48, 48),
+            //   //animatedIcon: AnimatedIcons.add_event,
+            //   icon: Icons.arrow_upward_rounded,
+            //   childPadding: const EdgeInsets.only(right: 5, left: 5),
+            //   activeIcon: Icons.close,
+            //   childrenButtonSize: const Size(48, 38),
+            //   overlayColor: Colors.black,
+            //   overlayOpacity: 0.8,
+            //   spacing: 5,
+            //   spaceBetweenChildren: 8,
+            //   iconTheme: const IconThemeData(
+            //     color: Colors.white,
+            //     size: 24,
+            //   ),
+            //   backgroundColor: primaryColor,
+            //   children: [
+            //     SpeedDialChild(
+            //         shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(7)),
+            //         backgroundColor: Colors.white,
+            //         labelBackgroundColor: Colors.transparent,
+            //         labelShadow: [],
+            //         labelStyle: const TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 16,
+            //             fontWeight: FontWeight.w700),
+            //         child: SvgPicture.asset(
+            //           'assets/svg/edit.svg',
+            //           height: 16,
+            //           width: 16,
+            //         ),
+            //         label: 'Punch In',
+            //         onTap: () {
+            //           // Get.toNamed('new_group_screen');
+            //         }),
+            //     SpeedDialChild(
+            //         onTap: () {
+            //           // Get.toNamed('/new_chat_screen');
+            //         },
+            //         shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(7)),
+            //         backgroundColor: Colors.white,
+            //         child: SvgPicture.asset(
+            //           'assets/svg/received.svg',
+            //           height: 16,
+            //           width: 16,
+            //         ),
+            //         labelBackgroundColor: Colors.transparent,
+            //         labelShadow: [],
+            //         labelStyle: const TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 16,
+            //             fontWeight: FontWeight.w700),
+            //         label: 'Edit Punch'),
+            //   ],
+            // ),
           );
         });
   }
@@ -830,7 +860,7 @@ Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            '${(percent * totalLeaves).toInt()}',
+            '${(percent * totalLeaves).toDouble()}',
             style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
@@ -878,7 +908,7 @@ Column(
           Expanded(
             flex: 1,
             child: Text(
-              '${(percent * totalLeaves).toInt()}',
+              '${(percent * totalLeaves).toDouble()}',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               textAlign: TextAlign.right,
             ),

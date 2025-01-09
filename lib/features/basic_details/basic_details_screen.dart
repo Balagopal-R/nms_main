@@ -18,7 +18,7 @@ class BasicDetailsScreen extends StatelessWidget {
           return SafeArea(
             child: Scaffold(
               backgroundColor: backgroundColor,
-              appBar: appbarMain(context,'Basic Details'),
+              appBar: appbarMain(context, 'Basic Details'),
               body: controller.getEmployData != null
                   ? Padding(
                       padding: const EdgeInsets.only(left: 32, right: 32),
@@ -28,14 +28,14 @@ class BasicDetailsScreen extends StatelessWidget {
                             const SizedBox(
                               height: 24,
                             ),
-                             Center(
-                              child: CircleAvatar(
-                                  radius: 44,
-                                  backgroundColor: backgroundColor,
-                                  backgroundImage:
-                                      NetworkImage(controller.getEmployData!.profileImgUrl!),)
-                            ),
-                           const SizedBox(
+                            Center(
+                                child: CircleAvatar(
+                              radius: 44,
+                              backgroundColor: backgroundColor,
+                              backgroundImage: NetworkImage(
+                                  controller.getEmployData!.profileImgUrl!),
+                            )),
+                            const SizedBox(
                               height: 8,
                             ),
                             Text(
@@ -74,9 +74,9 @@ class BasicDetailsScreen extends StatelessWidget {
                                   .getEmployData!.personalDetails.personalEmail,
                               mobileNumber: controller.getEmployData!
                                   .personalDetails.personalMobileNumber,
-                              joiningDate: controller
+                              joiningDate: controller.formatDate(controller
                                   .getEmployData!.corporateDetails.joiningDate
-                                  .toString(),
+                                  .toString()),
                             ),
                             const SizedBox(
                               height: 16,
@@ -96,17 +96,29 @@ class BasicDetailsScreen extends StatelessWidget {
                               height: 16,
                             ),
                             WorkDetailsCard(
-                                salary: controller
-                                    .getEmployData!.corporateDetails.ctc.toString(),
-                                project: controller.getEmployData!
-                                    .corporateDetails.projects[0].projectName,
-                                buddy: "",
+                                salary: controller.getEmployData?.corporateDetails?.ctc?.toString() ?? '_',
+                                project: controller
+                                            .getEmployData
+                                            ?.corporateDetails
+                                            .projects
+                                            .isNotEmpty ==
+                                        true
+                                    ? controller.getEmployData!.corporateDetails
+                                        .projects[0].projectName
+                                    : '_',
+                                buddy: '',
                                 manager: controller
-                                    .getEmployData!
-                                    .corporateDetails
-                                    .managers![0]
-                                    .personalDetailsBuddy
-                                    .firstname),
+                                            .getEmployData
+                                            ?.corporateDetails
+                                            .managers!
+                                            .isNotEmpty == true
+                                    ? controller
+                                        .getEmployData!
+                                        .corporateDetails
+                                        .managers![0]
+                                        .personalDetailsBuddy
+                                        .firstname
+                                    : '_'),
                             const SizedBox(
                               height: 16,
                             ),
@@ -125,10 +137,8 @@ class BasicDetailsScreen extends StatelessWidget {
                               height: 16,
                             ),
                             WorkStatusCard(
-                              department: controller.getEmployData!
-                                  .corporateDetails.department.departmentName,
-                              designation: controller.getEmployData!
-                                  .corporateDetails.designation.designationName,
+                              department: controller.getEmployData?.corporateDetails.department.departmentName ?? '_',
+                              designation: controller.getEmployData?.corporateDetails.designation.designationName ?? '_',
                               employmentStatus: controller.getEmployData!
                                       .corporateDetails.employmentStatus ??
                                   'Status Not Updated',
@@ -138,8 +148,7 @@ class BasicDetailsScreen extends StatelessWidget {
                               workMode: controller.getEmployData!
                                       .corporateDetails.workMode ??
                                   'Not Updated',
-                                  shiftTime: "",
-                                  // shiftTime: controller.getEmployData!.corporateDetails.shiftTime,
+                              shiftTime: "",
                             ),
                             const SizedBox(
                               height: 16,

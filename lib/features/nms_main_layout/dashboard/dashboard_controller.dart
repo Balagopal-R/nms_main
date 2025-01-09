@@ -7,6 +7,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/get_birthdays_dtos/get_birthday_request.dart';
 import 'package:nms/dtos/nms_dtos/get_employe_punch_time/get_employe_punch_time_request.dart';
 import 'package:nms/dtos/nms_dtos/get_leaves_dtos/get_leaves_request.dart';
+import 'package:nms/dtos/nms_dtos/last_punch_in_dtos/last_punch_in.dart';
 import 'package:nms/dtos/nms_dtos/punch_line_dtos/punch_line.dart';
 import 'package:nms/dtos/nms_dtos/punch_status_dtos/punch_status_request.dart';
 import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
@@ -20,6 +21,7 @@ import 'package:nms/models/punch_line_model/punch_line_model.dart';
 import '../../../dtos/nms_dtos/get_attendance/get_attendance_request.dart';
 import '../../../dtos/nms_dtos/login/get_employ/get_employ_request.dart';
 import '../../../managers/sharedpreferences/sharedpreferences.dart';
+import '../../../models/last_punch_in_model/last_punch_in_model.dart';
 import '../../../repository/api_repository.dart';
 import '../../../utils/utils.dart';
 
@@ -31,9 +33,9 @@ class DashboardController extends GetxController with SnackbarMixin {
     await getIdFromToken();
     await getEmployePunchTime();
     await getEmployePunchStatus();
-    await getEmployeUpcomingBirthdays();
+    // await getEmployeUpcomingBirthdays();
     await getEmployeeLeaves();
-    await getEmployeAttendance();
+    // await getEmployeAttendance();
     await getEmployDetails();
     // pagingController.addPageRequestListener((pageKey) {
     //   getEmployeeLeavesPagination(pageKey);
@@ -65,6 +67,9 @@ class DashboardController extends GetxController with SnackbarMixin {
 
   final _getEmployeRemainingLeavesPagination = (List<GetRemainingLeavesModel>.empty()).obs;
   List<GetRemainingLeavesModel> get getEmployeRemainingLeavesPagination => _getEmployeRemainingLeavesPagination;
+
+  final _getEmployPunchIn = Rx<LastPunchInModel?>(null);
+  LastPunchInModel? get getEmployPunchIn => _getEmployPunchIn.value;
 
   final _getEmployData = Rx<EmployeeData?>(null);
   EmployeeData? get getEmployData => _getEmployData.value;
@@ -377,7 +382,7 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
           userId: userId,
           keyword: '',
           page: 0,
-          size: 10,
+          size: 30,
           field: "leaveBalance",
           sortOfOrder: "ASC",
           asOfDate: getFormattedDate(0),
@@ -461,6 +466,26 @@ _avgBreakTime.value = getAvgBreakTime / 3600;
       }
     } catch (e) {
       return catchErrorSection(e);
+    }
+  }
+
+    // last punch in
+
+  getLastPunchIn() async {
+    try {
+      final authService = NMSJWTDecoder();
+      final decodedToken = await authService.decodeAuthToken();
+      if (decodedToken != null) {
+        final userId = decodedToken["userId"];
+        final request = LastPunchInRequest(userId: userId);
+        final response = await ApiRepository.to.lastPunchIn(request: request);
+        if (response.status == 200) {
+          _getEmployPunchIn.value = response.data;
+        }
+      }
+    } catch (e) {
+      showErrorSnackbar(message: e.toString());
+      debugPrint(e.toString());
     }
   }
 

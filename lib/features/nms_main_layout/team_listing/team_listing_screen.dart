@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms/features/nms_main_layout/team_listing/team_listing_controller.dart';
 import 'package:nms/utils/theme/theme.dart';
-import 'package:nms/widgets/punch_in_request_bottomsheet.dart';
-import 'package:nms/widgets/punch_out_request_bottomsheet.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../models/team_list_model/team_list_model.dart';
 
@@ -89,32 +87,7 @@ class _TeamListingScreenState extends State<TeamListingScreen> {
                   )
                 : null,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              await controller.getLastPunchIn();
-              if (controller.getEmployPunchIn?.punchOutDateTime != null) {
-                await showModalBottomSheet(
-                  // ignore: use_build_context_synchronously
-                  context: context,
-                  builder: (context) {
-                    return const PunchInRequestSheetContent();
-                  },
-                );
-              } else {
-                await showModalBottomSheet(
-                  // ignore: use_build_context_synchronously
-                  context: context,
-                  builder: (context) {
-                    return const PunchOutRequestSheetContent();
-                  },
-                );
-              }
-            },
-            backgroundColor: lightGreenTextColor,
-            child: const Image(
-              image: AssetImage('assets/png/plus.png'),
-            ),
-          ),
+
           body: PagedListView<int, TeamListingModel>(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<TeamListingModel>(

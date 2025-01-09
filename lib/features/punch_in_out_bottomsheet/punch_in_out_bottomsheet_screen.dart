@@ -1,9 +1,9 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nms/features/punch_in_out_bottomsheet/punch_in_out_bottomsheet.dart';
 import 'package:nms/utils/theme/theme_constants.dart';
 import 'package:nms/widgets/cornered_button.dart';
-import 'package:get/get.dart';
 
 class PunchInOutBottomSheetScreen extends StatelessWidget {
   final String title;
@@ -18,120 +18,128 @@ class PunchInOutBottomSheetScreen extends StatelessWidget {
     return GetBuilder<PunchInOutBottomSheetController>(
       init: PunchInOutBottomSheetController(),
       builder: (controller) {
-        // return Container(
-        return Obx(() => Container(
-        // AnimatedContainer(
-        //   duration: Duration(milliseconds: 300),
-          width: screenWidth,
-          // height: screenHeight * 0.80,
-          height: controller.isTaskOrDescriptionFocused.value
-              ? screenHeight * 1.20 // Adjust the height when task or description is focused
-              : screenHeight * 0.80, // Normal height
-          padding: const EdgeInsets.all(16.0),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.0),
-              topRight: Radius.circular(16.0),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(24, 39, 75, 0.08),
-                offset: Offset(0, -5),
-                blurRadius: 8,
-                spreadRadius: -6,
-              ),
-            ],
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: secondaryTextColor,
-                      borderRadius: BorderRadius.circular(2.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                Center(
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      color: primaryTextColor,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                DateAndTimePicker(controller: controller),
-                const SizedBox(height: 8.0),
-                LocationDropdown(controller: controller),
-                const SizedBox(height: 8.0),
-                ProjectDropdown(controller: controller),
-                const SizedBox(height: 8.0),
-                TaskInput(controller: controller),
-                const SizedBox(height: 8.0),
-                DescriptionInput(controller: controller),
-                const SizedBox(height: 10.0),
-                CorneredButton(
-                  height: 47,
-                  color: primaryColor,
-                  title: 'Submit',
-                  textcolor: backgroundColor,
-                  onPress: () async {
+        return Obx(() {
+          // Adjust the height based on the checkbox state
+          double dynamicHeight = controller.isChecked.value
+              ? (controller.isTaskOrDescriptionFocused.value
+                  ? screenHeight * 1.20 // Focused height
+                  : screenHeight * 0.90) // Normal height with all fields
+              : screenHeight * 0.50; // Reduced height without certain fields
 
-                     controller.validateForm();
-                    if (controller.isLocationValid.value &&
-                        controller.isProjectValid.value &&
-                        controller.isTaskValid.value) {
-                      if (title == 'Punch IN') {
-                      await controller.userPunchIn(context);
-    
-                  
-                    } else {
-                      await controller.userPunchOut(context);
-                    }
-                    }
-                  },
-                )
+          return Container(
+            width: screenWidth,
+            height: dynamicHeight,
+            padding: const EdgeInsets.all(16.0),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.0),
+                topRight: Radius.circular(16.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(24, 39, 75, 0.08),
+                  offset: Offset(0, -5),
+                  blurRadius: 8,
+                  spreadRadius: -6,
+                ),
               ],
             ),
-          ),
-        // )
-      )
-      );
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: secondaryTextColor,
+                        borderRadius: BorderRadius.circular(2.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  Center(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        color: primaryTextColor,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  DateAndTimePicker(controller: controller),
+                  const SizedBox(height: 8.0),
+                  LocationDropdown(controller: controller),
+                  const SizedBox(height: 8.0),
+
+                  // Conditionally show Project, Task, and Description inputs
+                  if (controller.isChecked.value) ...[
+                    ProjectDropdown(controller: controller),
+                    const SizedBox(height: 8.0),
+                    TaskInput(controller: controller),
+                    const SizedBox(height: 8.0),
+                    DescriptionInput(controller: controller),
+                  ],
+
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: controller.isChecked.value,
+                        onChanged: (bool? value) {
+                          controller.isChecked.value = value ?? false;
+                        },
+                        checkColor: backgroundColor,
+                        activeColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        side: const BorderSide(
+                          color: primaryGray,
+                          width: 1.0,
+                        ),
+                      ),
+                      const Text('Enable Project and Task Tracking',
+                                     style: TextStyle(
+                                       color: secondaryTextColor,
+                                       fontFamily: 'Satoshi',
+                                       fontSize: 14.0,
+                                       fontWeight: FontWeight.w400,
+                                     ),),
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+
+                  CorneredButton(
+                    height: 47,
+                    color: primaryColor,
+                    title: 'Submit',
+                    textcolor: backgroundColor,
+                    onPress: () async {
+                      controller.validateForm();
+                      if (controller.isLocationValid.value &&
+                          controller.isProjectValid.value &&
+                          controller.isTaskValid.value) {
+                        if (title == 'Punch IN') {
+                          await controller.userPunchIn(context);
+                        } else {
+                          await controller.userPunchOut(context);
+                        }
+                      }
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        });
       },
     );
   }
 }
-
-// floatingActionButton: Container(
-//                 height: 60,
-//                 width: double.maxFinite,
-//                 decoration: const BoxDecoration(
-//                   color: Colors.white,
-//                 ),
-//                 child: Padding(
-//                   padding:
-//                       const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-//                   child: CorneredButton(
-//                     height: 40,
-//                     onPress: () async {
-//                       await controller.updateProduct();
-//                     },
-//                     color: primaryColor,
-//                     title: "Update",
-//                     textcolor: backgroundColor,
-//                   ),
-//                 )),
-//             floatingActionButtonLocation:
-//                 FloatingActionButtonLocation.centerDocked,
 
 class DateAndTimePicker extends StatelessWidget {
   final PunchInOutBottomSheetController controller;
@@ -152,7 +160,7 @@ class DateAndTimePicker extends StatelessWidget {
             const Text(
               'Date',
               style: TextStyle(
-                color: lightestGray,
+                color: secondaryTextColor,
                 fontFamily: 'Satoshi',
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
@@ -165,7 +173,7 @@ class DateAndTimePicker extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
-                border: Border.all(color: lightestGray),
+                border: Border.all(color: secondaryTextColor),
                 color: Colors.white,
               ),
               child: Row(
@@ -174,13 +182,13 @@ class DateAndTimePicker extends StatelessWidget {
                   Text(
                     controller.formattedDate,
                     style: const TextStyle(
-                color: lightestGray,
+                color: secondaryTextColor,
                 fontFamily: 'Satoshi',
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
               ),
                   ),
-                  const Icon(Icons.calendar_today, color: lightestGray),
+                  const Icon(Icons.calendar_today, color: secondaryTextColor),
                 ],
               ),
             ),
@@ -192,7 +200,7 @@ class DateAndTimePicker extends StatelessWidget {
             const Text(
               'Time',
               style: TextStyle(
-                color: lightestGray,
+                color: secondaryTextColor,
                 fontFamily: 'Satoshi',
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
@@ -205,7 +213,7 @@ class DateAndTimePicker extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
-                border: Border.all(color: lightestGray),
+                border: Border.all(color: secondaryTextColor),
                 color: Colors.white,
               ),
               child: Row(
@@ -214,13 +222,13 @@ class DateAndTimePicker extends StatelessWidget {
                   Text(
                     controller.formattedTime,
                     style: const TextStyle(
-                color: lightestGray,
+                color: secondaryTextColor,
                 fontFamily: 'Satoshi',
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
               ),
                   ),
-                  const Icon(Icons.access_time, color: lightestGray),
+                  const Icon(Icons.access_time, color: secondaryTextColor),
                 ],
               ),
             ),

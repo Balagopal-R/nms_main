@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nms/dtos/nms_dtos/login/get_employ/get_employ_request.dart';
 import 'package:nms/managers/refresh_token_api/refresh_token_api.dart';
@@ -30,6 +31,16 @@ class ProfileController extends GetxController with SnackbarMixin {
   
     super.onInit();
   }
+
+   String extractYear(String date) {
+  try {
+    DateTime parsedDate = DateTime.parse(date);
+    return parsedDate.year.toString();
+  } catch (e) {
+    return 'Invalid date';
+  }
+}
+
 
     getIdFromToken() async {
     await RefreshTokenExpiryChecker().refreshTokenExpiryChecker();

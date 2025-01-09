@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
               const Icon(Icons.circle, size: 5, color: lightGreenTextColor),
               const SizedBox(width: 4),
               Text(
-                controller.getEmployData!.corporateDetails.dateOfFirstJoining.toString(),
+                'Joined ${controller.extractYear(controller.getEmployData!.corporateDetails.dateOfFirstJoining.toString())}',
                 style: const TextStyle(color: secondaryTextColor),
               ),
             ],

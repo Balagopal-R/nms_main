@@ -27,6 +27,8 @@ class PunchInOutBottomSheetController extends GetxController
   var isProjectValid = true.obs;
   var isTaskValid = true.obs;
 
+  var isChecked = true.obs;
+
   RxBool isTaskOrDescriptionFocused = false.obs;
   final FocusNode taskFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
@@ -183,7 +185,7 @@ class PunchInOutBottomSheetController extends GetxController
           _getEmployPunchIn.value = response.data;
           print(getEmployPunchIn?.projectId);
           print(getEmployPunchIn?.taskId);
-          // print(getEmployPunchIn?.punchLocation);
+          print(getEmployPunchIn?.punchLocation);
         }
       }
     } catch (e) {
